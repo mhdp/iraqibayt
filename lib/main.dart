@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iraqibayt/widgets/welcome.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,12 +12,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'البيت العراقي',
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
-
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'البيت العراقي'),
+      // home: MyHomePage(title: 'البيت العراقي'),
+      routes: {
+        Welcome.routeName: (context) => Welcome(),
+      },
     );
   }
 }
@@ -31,8 +33,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -51,11 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
-
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-
-          ],
+          children: <Widget>[],
         ),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
