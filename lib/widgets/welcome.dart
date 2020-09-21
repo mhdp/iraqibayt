@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Welcome extends StatelessWidget {
@@ -27,7 +28,7 @@ class Welcome extends StatelessWidget {
                 child: Text(
                   'أهلا ً بك في البيت العراقي',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                   ),
                 ),
               ),
@@ -40,14 +41,17 @@ class Welcome extends StatelessWidget {
                 child: RaisedButton(
                   padding: const EdgeInsets.symmetric(
                       vertical: 5.0, horizontal: 15.0),
-                  child: Row(
+                  child: Stack(
                     children: <Widget>[
-                      Text(
-                        'تسجيل الدخول باستخدام جوجل',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'تسجيل الدخول باستخدام جوجل',
+                          style: TextStyle(fontSize: 17, color: Colors.white),
+                        ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 20.0),
+                      Align(
+                        alignment: Alignment.centerRight,
                         child: Image.asset('assets/images/google.png'),
                       ),
                     ],
@@ -65,13 +69,18 @@ class Welcome extends StatelessWidget {
                 child: RaisedButton(
                   padding: const EdgeInsets.symmetric(
                       vertical: 5.0, horizontal: 15.0),
-                  child: Row(
+                  child: Stack(
                     children: <Widget>[
-                      Text(
-                        'تسجيل الدخول باستخدام فيسبوك',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'تسجيل الدخول باستخدام فيسبوك',
+                          style: TextStyle(fontSize: 17, color: Colors.white),
+                        ),
                       ),
-                      Image.asset('assets/images/facebook.png'),
+                      Align(
+                          alignment: Alignment.centerRight,
+                          child: Image.asset('assets/images/facebook.png')),
                     ],
                   ),
                   onPressed: null,
@@ -87,15 +96,19 @@ class Welcome extends StatelessWidget {
                 child: RaisedButton(
                   padding: const EdgeInsets.symmetric(
                       vertical: 5.0, horizontal: 15.0),
-                  child: Row(
+                  child: Stack(
                     children: <Widget>[
-                      Text(
-                        'تسجيل الدخول باستخدام واتساب',
-                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'تسجيل الدخول باستخدام واتساب',
+                          style: TextStyle(fontSize: 17, color: Colors.white),
+                        ),
                       ),
-                      Container(
-                          margin: const EdgeInsets.only(left: 20.0),
-                          child: Image.asset('assets/images/whatsapp.png')),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Image.asset('assets/images/whatsapp.png'),
+                      ),
                     ],
                   ),
                   onPressed: null,
@@ -113,7 +126,7 @@ class Welcome extends StatelessWidget {
                     Text(
                       "  أو  ",
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                       ),
                     ),
                     Expanded(child: Divider()),
@@ -127,13 +140,24 @@ class Welcome extends StatelessWidget {
                   child: Text(
                     'إنشاء حساب / تسجيل الدخول',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20, color: Color(0xff345290)),
+                    style: TextStyle(fontSize: 18, color: Color(0xff345290)),
                   ),
                   onPressed: null,
                   shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(5.0),
                   ),
                   disabledBorderColor: Color(0xff345290),
+                ),
+              ),
+              Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5.0),
+                child: Text(
+                  'شروط الاستخدام',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
             ],
