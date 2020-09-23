@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'file:///E:/Android_Studio_Projects/iraqibayt/lib/widgets/home/home.dart';
 
 class Welcome extends StatelessWidget {
   static const routeName = '/';
+
+  void _selectHome(BuildContext context) {
+    Navigator.of(context).pushNamed(Home.routeName);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +147,7 @@ class Welcome extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 18, color: Color(0xff345290)),
                   ),
-                  onPressed: null,
+                  onPressed: () => _selectHome(context),
                   shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(5.0),
                   ),
