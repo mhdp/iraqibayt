@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
+import 'file:///E:/Android_Studio_Projects/iraqibayt/lib/widgets/home/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       // home: MyHomePage(title: 'البيت العراقي'),
       routes: {
         Welcome.routeName: (context) => Welcome(),
+        Home.routeName: (context) => Home(),
       },
     );
   }
