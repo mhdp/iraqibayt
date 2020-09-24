@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Welcome extends StatelessWidget {
   static const routeName = '/';
@@ -93,30 +94,50 @@ class Welcome extends StatelessWidget {
               Container(
                 margin:
                     const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-                child: RaisedButton(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 15.0),
-                  child: Stack(
+                child: InkWell(child: Container(
+                  height: 50,
+                  margin: EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+
+                  child: Row(
                     children: <Widget>[
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'تسجيل الدخول باستخدام واتساب',
-                          style: TextStyle(fontSize: 17, color: Colors.white),
+                      Expanded(
+                        flex: 1,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Color(0xff1959a9),
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(5),
+                                topLeft: Radius.circular(5)),
+                          ),
+                          alignment: Alignment.center,
+                          child: Icon(FontAwesomeIcons.facebook,color: Colors.white,),
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Image.asset('assets/images/whatsapp.png'),
+                      Expanded(
+                        flex: 5,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Color(0xff2872ba),
+                            borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(5),
+                                topRight: Radius.circular(5)),
+                          ),
+                          alignment: Alignment.center,
+                          child: Text(' الإستمرار بإستخدام فيسبوك',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontFamily: "CustomIcons",
+                                  fontWeight: FontWeight.w400)),
+                        ),
                       ),
                     ],
                   ),
-                  onPressed: null,
-                  color: Color.fromARGB(255, 86, 240, 116),
-                  disabledColor: Color(0xff25D366),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(5.0)),
                 ),
+              ),
               ),
               Container(
                   margin: const EdgeInsets.symmetric(
