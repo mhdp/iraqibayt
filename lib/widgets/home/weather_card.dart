@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-import 'file:///E:/Android_Studio_Projects/iraqibayt/lib/modules/city.dart';
+import 'package:iraqibayt/modules/City.dart';
+import 'package:iraqibayt/widgets/home/home.dart';
 
 class WeatherCard extends StatefulWidget {
   @override

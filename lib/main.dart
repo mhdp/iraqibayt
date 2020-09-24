@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
-import 'file:///E:/Android_Studio_Projects/iraqibayt/lib/widgets/home/home.dart';
+import 'package:iraqibayt/widgets/home/home.dart';
 
 void main() {
   runApp(MyApp());
