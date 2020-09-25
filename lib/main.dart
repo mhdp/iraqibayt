@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,6 +12,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('ar', 'AE'), // OR Locale('ar', 'AE') OR Other RTL locales
+      ],
+
       title: 'البيت العراقي',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -19,8 +28,8 @@ class MyApp extends StatelessWidget {
       ),
       // home: MyHomePage(title: 'البيت العراقي'),
       routes: {
-        Welcome.routeName: (context) => Welcome(),
-        Home.routeName: (context) => Home(),
+        '/welcome': (context) => Welcome(),
+        '/Home': (context) => Home(),
       },
     );
   }
