@@ -99,50 +99,53 @@ class Welcome extends StatelessWidget {
               Container(
                 margin:
                     const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-                child: InkWell(child: Container(
-                  height: 50,
-                  margin: EdgeInsets.symmetric(vertical: 5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xff1959a9),
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(5),
-                                topLeft: Radius.circular(5)),
+                child: InkWell(
+                  child: Container(
+                    height: 50,
+                    margin: EdgeInsets.symmetric(vertical: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xff1959a9),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(5),
+                                  topLeft: Radius.circular(5)),
+                            ),
+                            alignment: Alignment.center,
+                            child: Icon(
+                              FontAwesomeIcons.facebook,
+                              color: Colors.white,
+                            ),
                           ),
-                          alignment: Alignment.center,
-                          child: Icon(FontAwesomeIcons.facebook,color: Colors.white,),
                         ),
-                      ),
-                      Expanded(
-                        flex: 5,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Color(0xff2872ba),
-                            borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(5),
-                                topRight: Radius.circular(5)),
+                        Expanded(
+                          flex: 5,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xff2872ba),
+                              borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(5),
+                                  topRight: Radius.circular(5)),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(' الإستمرار بإستخدام فيسبوك',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontFamily: "CustomIcons",
+                                    fontWeight: FontWeight.w400)),
                           ),
-                          alignment: Alignment.center,
-                          child: Text(' الإستمرار بإستخدام فيسبوك',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontFamily: "CustomIcons",
-                                  fontWeight: FontWeight.w400)),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
               ),
               Container(
                   margin: const EdgeInsets.symmetric(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iraqibayt/widgets/home/exchange_card.dart';
 import 'package:iraqibayt/widgets/home/weather_card.dart';
 //import 'package:getwidget/getwidget.dart';
 
@@ -70,6 +71,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   WeatherCard(),
+                  ExchangeCard(),
                 ],
               ),
             ),

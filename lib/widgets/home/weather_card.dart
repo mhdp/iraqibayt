@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/City.dart';
-import 'package:iraqibayt/widgets/home/home.dart';
 
 class WeatherCard extends StatefulWidget {
   @override
@@ -55,30 +54,37 @@ class _WeatherCardState extends State<WeatherCard> {
                     onChanged: (_) {},
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        ':المدينة ',
-                        style: TextStyle(
-                          fontSize: 18,
+                Container(
+                  alignment: Alignment.centerRight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          child: Text(
+                            ':المدينة ',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        ':التاريخ',
-                        style: TextStyle(
-                          fontSize: 18,
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          child: Text(
+                            ':التاريخ',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Container(
                   padding: const EdgeInsets.all(10.0),
@@ -96,8 +102,8 @@ class _WeatherCardState extends State<WeatherCard> {
                         children: <Widget>[
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 30),
-                            height: 60,
+                                vertical: 5.0, horizontal: 30),
+                            height: 50,
                             alignment: Alignment.center,
                             child: Image.asset(
                               'assets/images/min_temp.png',
@@ -119,8 +125,8 @@ class _WeatherCardState extends State<WeatherCard> {
                         children: <Widget>[
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 30),
-                            height: 60,
+                                vertical: 5.0, horizontal: 30),
+                            height: 50,
                             child: Image.asset(
                               'assets/images/max_temp.png',
                               fit: BoxFit.cover,
