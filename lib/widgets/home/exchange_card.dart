@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-import 'file:///E:/Android_Studio_Projects/iraqibayt/lib/modules/city.dart';
 
 class WeatherCard extends StatefulWidget {
   @override
@@ -9,11 +8,11 @@ class WeatherCard extends StatefulWidget {
 }
 
 class _WeatherCardState extends State<WeatherCard> {
-  final List<City> cities = [
-    City(id: '1', name: 'بغداد'),
-    City(id: '2', name: 'الأنبار'),
-    City(id: '3', name: 'أربيل'),
-  ];
+//  final List<City> cities = [
+//    City(id: '1', name: 'بغداد'),
+//    City(id: '2', name: 'الأنبار'),
+//    City(id: '3', name: 'أربيل'),
+//  ];
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -25,7 +24,7 @@ class _WeatherCardState extends State<WeatherCard> {
               padding: const EdgeInsets.symmetric(horizontal: 70),
               color: Colors.blue,
               title: Text(
-                'أحوال الطقس',
+                'أسعار الصرف',
                 style: TextStyle(fontSize: 18, color: Colors.white),
                 textAlign: TextAlign.center,
               ),
@@ -36,22 +35,19 @@ class _WeatherCardState extends State<WeatherCard> {
                 Container(
                   alignment: Alignment.centerRight,
                   padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: DropdownButton<String>(
-                    elevation: 5,
-                    hint: Text(
-                      'اختر مدينة',
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    items: cities.map((City city) {
-                      return new DropdownMenuItem<String>(
-                        value: city.id,
-                        child: new Text(
-                          city.name,
-                          textAlign: TextAlign.right,
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (_) {},
+                  child: Text(
+                    'الدولار الأمريكي مقابل الدينار العراقي',
+                    style: TextStyle(fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Text(
+                    '(الحارثية)',
+                    style: TextStyle(fontSize: 15, color: Colors.blueGrey),
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 Row(

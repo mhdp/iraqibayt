@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///E:/Android_Studio_Projects/iraqibayt/lib/widgets/home/home.dart';
+import './home/home.dart';
 
 class Welcome extends StatelessWidget {
   static const routeName = '/';
