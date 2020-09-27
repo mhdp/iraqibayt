@@ -29,8 +29,8 @@ class MyApp extends StatelessWidget {
       ),
       // home: MyHomePage(title: 'البيت العراقي'),
       routes: {
-        '/welcome': (context) => Welcome(),
-        '/Home': (context) => Home(),
+        '/': (context) => Welcome(),
+        '/home': (context) => Home(),
       },
     );
   }

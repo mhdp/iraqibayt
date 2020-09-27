@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/City.dart';
-import 'package:iraqibayt/widgets/home/home.dart';
 
 class WeatherCard extends StatefulWidget {
   @override
@@ -36,53 +35,68 @@ class _WeatherCardState extends State<WeatherCard> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: DropdownButton<String>(
                     elevation: 5,
-                    hint: Text(
-                      'اختر مدينة',
-                      style: TextStyle(fontSize: 18),
+                    hint: Container(
+                      alignment: Alignment.centerRight,
+                      width: 150.0,
+                      child: Text(
+                        'اختر مدينة',
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
                     items: cities.map((City city) {
                       return new DropdownMenuItem<String>(
                         value: city.id,
-                        child: new Text(
-                          city.name,
-                          textAlign: TextAlign.right,
+                        child: Container(
+                          alignment: Alignment.centerRight,
+                          width: 150.0,
+                          child: new Text(
+                            city.name,
+                            textAlign: TextAlign.right,
+                          ),
                         ),
                       );
                     }).toList(),
                     onChanged: (_) {},
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        ':المدينة ',
-                        style: TextStyle(
-                          fontSize: 18,
+                Container(
+                  alignment: Alignment.centerRight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          child: Text(
+                            ':المدينة ',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        ':التاريخ',
-                        style: TextStyle(
-                          fontSize: 18,
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          child: Text(
+                            ':التاريخ',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 Container(
-                  padding: const EdgeInsets.all(20.0),
-                  height: 150,
+                  padding: const EdgeInsets.all(10.0),
+                  height: 100,
                   child: Image.asset(
                     'assets/images/weather.png',
                     fit: BoxFit.cover,
@@ -94,15 +108,10 @@ class _WeatherCardState extends State<WeatherCard> {
                     Container(
                       child: Column(
                         children: <Widget>[
-                          Text(
-                            'الدنيا',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
                           Container(
-                            padding: const EdgeInsets.all(20.0),
-                            height: 80,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5.0, horizontal: 30),
+                            height: 50,
                             alignment: Alignment.center,
                             child: Image.asset(
                               'assets/images/min_temp.png',
@@ -122,15 +131,10 @@ class _WeatherCardState extends State<WeatherCard> {
                       alignment: Alignment.center,
                       child: Column(
                         children: <Widget>[
-                          Text(
-                            'العليا',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
                           Container(
-                            padding: const EdgeInsets.all(20.0),
-                            height: 80,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 5.0, horizontal: 30),
+                            height: 50,
                             child: Image.asset(
                               'assets/images/max_temp.png',
                               fit: BoxFit.cover,
