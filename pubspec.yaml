@@ -31,6 +31,9 @@ dependencies:
   font_awesome_flutter:
   apple_sign_in: ^0.1.0
   flutter_facebook_login: ^3.0.0
+  http: ^0.12.1
+  shared_preferences:
+
 
 
   getwidget: ^1.1.0
