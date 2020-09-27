@@ -38,16 +38,24 @@ class _WeatherCardState extends State<WeatherCard> {
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: DropdownButton<String>(
                     elevation: 5,
-                    hint: Text(
-                      'اختر مدينة',
-                      style: TextStyle(fontSize: 18),
+                    hint: Container(
+                      alignment: Alignment.centerRight,
+                      width: 150.0,
+                      child: Text(
+                        'اختر مدينة',
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
                     items: cities.map((City city) {
                       return new DropdownMenuItem<String>(
                         value: city.id,
-                        child: new Text(
-                          city.name,
-                          textAlign: TextAlign.right,
+                        child: Container(
+                          alignment: Alignment.centerRight,
+                          width: 150.0,
+                          child: new Text(
+                            city.name,
+                            textAlign: TextAlign.right,
+                          ),
                         ),
                       );
                     }).toList(),

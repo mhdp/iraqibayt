@@ -105,8 +105,7 @@ class _ExchangeCardState extends State<ExchangeCard> {
             Container(
               child: Column(
                 children: <Widget>[
-                  Expanded(
-                    flex: 1,
+                  Container(
                     child: Text(
                       'من دولار أمريكي',
                       textAlign: TextAlign.center,
@@ -115,8 +114,7 @@ class _ExchangeCardState extends State<ExchangeCard> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
+                  Container(
                     child: TextFormField(
                       decoration: InputDecoration(
                         fillColor: Colors.white,
@@ -127,8 +125,7 @@ class _ExchangeCardState extends State<ExchangeCard> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
+                  Container(
                     child: Text(
                       'إلى دينار عراقي',
                       textAlign: TextAlign.center,
@@ -137,8 +134,7 @@ class _ExchangeCardState extends State<ExchangeCard> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
+                  Container(
                     child: TextFormField(
                       decoration: InputDecoration(
                         fillColor: Colors.white,
