@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => Welcome(),
         '/home': (context) => Home(),
+        '/posts': (context) => Posts_Home(),
       },
     );
   }

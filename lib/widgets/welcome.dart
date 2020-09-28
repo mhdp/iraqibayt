@@ -253,7 +253,27 @@ class Welcome extends StatelessWidget {
                         fontFamily: "CustomIcons",
                       ),
                     ),
-                  )
+                  ),
+
+                  FlatButton(
+                    color: Colors.white,
+                    textColor: Colors.black,
+                    disabledColor: Colors.grey,
+                    disabledTextColor: Colors.grey,
+                    padding: EdgeInsets.all(8.0),
+                    splashColor: Colors.orange,
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/posts');
+                    },
+                    child: Text(
+                      'العقارات',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey,
+                        fontFamily: "CustomIcons",
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
