@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-
+import 'package:iraqibayt/widgets/my_icons_icons.dart';
 
 class Posts_Home extends StatefulWidget {
   @override
@@ -15,7 +15,7 @@ class _Posts_Home extends State<Posts_Home> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-            backgroundColor: Colors.grey,
+            backgroundColor: Colors.blue,
             appBar: AppBar(
 
             backgroundColor: Colors.deepOrange,
@@ -32,6 +32,8 @@ class _Posts_Home extends State<Posts_Home> {
           children: [
             Card(
               clipBehavior: Clip.antiAlias,
+              margin: const EdgeInsets.all(10.0),
+
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
 
@@ -48,32 +50,196 @@ class _Posts_Home extends State<Posts_Home> {
 
                   ),
 
-                  ListTile(
-                    leading: Icon(Icons.arrow_drop_down_circle),
-                    title: const Text('Card title 1'),
-                    subtitle: Text(
-                      'Secondary Text',
-                      style: TextStyle(color: Colors.black.withOpacity(0.6)),
-                    ),
-                  ),
-
                   ButtonBar(
-                    alignment: MainAxisAlignment.start,
+                    alignment: MainAxisAlignment.center,
                     children: [
                       FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                            side: BorderSide(color: Colors.deepOrange)
+                        ),
+                        color: Colors.deepOrange,
                         onPressed: () {
                           // Perform some action
                         },
-                        child: const Text('ACTION 1'),
+                        child: const Text('السعر ٢٠٠٠٠ دولار أميركي',style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontFamily: "CustomIcons",
+                        ),softWrap: true,),
                       ),
                       FlatButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0),
+                            side: BorderSide(color: Colors.deepOrange)
+                        ),
+                        color: Colors.deepOrange,
                         onPressed: () {
                           // Perform some action
                         },
-                        child: const Text('ACTION 2'),
+                        child: const Text('شقق سكنية للبيع',style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontFamily: "CustomIcons",
+                        ),softWrap: true,),
                       ),
                     ],
                   ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+
+                    child: Text('شقة سكنية للبيع',textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.black,
+                        fontFamily: "CustomIcons",
+                      ),softWrap: true,),
+
+
+                  ),
+
+                  Padding(
+                          padding: const EdgeInsets.only(left: 16.0,
+                            right: 16.0,),
+
+                          child: Divider(
+                                          color: Colors.black,
+                                          thickness: 0.5,
+                                        ),),
+
+
+
+
+                  RaisedButton(
+                           onPressed: () {},
+                           color: Colors.white,
+                           elevation: 0,
+                           child: Row(
+                             mainAxisAlignment: MainAxisAlignment.start,
+                             children: <Widget>[
+                               Icon(Icons.location_on,color:Colors.deepOrange),
+                               Text("بغداد - الكرخ",style: TextStyle(
+                                 fontSize: 18,
+                                 color: Colors.black,
+                                 fontFamily: "CustomIcons",
+                                 fontWeight:FontWeight.w300,
+                               ),softWrap: true,),
+
+                             ],
+                           ),
+                        ),
+                  RaisedButton(
+                    onPressed: () {},
+                    color: Colors.white,
+                    elevation: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(Icons.format_line_spacing,color:Colors.deepOrange),
+                        Text("  200 متر مربع",style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontFamily: "CustomIcons",
+                          fontWeight:FontWeight.w300,
+                        ),softWrap: true,),
+
+                      ],
+                    ),
+                  ),
+                  RaisedButton(
+                    onPressed: () {},
+                    color: Colors.white,
+                    elevation: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(Icons.add_box,color: Colors.deepOrange,),
+                        Text(" أضيف: منذ شهرين",style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontFamily: "CustomIcons",
+                          fontWeight:FontWeight.w300,
+                        ),softWrap: true,),
+
+                      ],
+                    ),
+                  ),
+
+                  Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 3, // 20%
+                      child:Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+
+                      children: [
+                          Icon(MyIcons.car ,),
+                          Text('3'),
+                      ],),),
+
+                    Expanded(
+                      flex: 3, // 20%
+                      child:Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(MyIcons.bed,),
+                        Text('2'),
+                      ],),),
+
+                    Expanded(
+                      flex: 3, // 20%
+                      child:Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(MyIcons.bath),
+                        Text('2'),
+                      ],),),
+                ],),
+
+      Padding(
+        padding: const EdgeInsets.all(0),
+
+        child:Container(color: Colors.grey,
+            margin: const EdgeInsets.only( top: 20.0),
+            padding: const EdgeInsets.all(10.0),
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      RaisedButton(
+                      onPressed: () {},
+                      color: Colors.white,
+                      elevation: 0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(Icons.call,color: Colors.deepOrange,),
+                          Text("00963937830937",style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                            fontFamily: "CustomIcons",
+                            fontWeight:FontWeight.w300,
+                          ),softWrap: true,),
+
+                        ],
+                      ),
+                    ),
+                      RaisedButton(
+                        onPressed: () {},
+                        color: Colors.red,
+                        elevation: 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(Icons.favorite,color: Colors.white,),
+
+
+                          ],
+                        ),
+                      ),
+                    ],)
+
+                        ),
+      ),
 
 
 
