@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iraqibayt/modules/Depart.dart';
 import 'package:iraqibayt/widgets/home/depart_item.dart';
+import 'package:getwidget/getwidget.dart';
 
 class DepartsCard extends StatelessWidget {
   final List<Depart> departs = [
@@ -17,19 +18,39 @@ class DepartsCard extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return GridView(
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        crossAxisSpacing: 10, //row margin
-        mainAxisSpacing: 10, //column margin
-        maxCrossAxisExtent: 200, //max width for each tile
-        childAspectRatio: 3.5 / 3.0, //width / height ration for each tile
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+    //final double appBarHeight = appBar.preferredSize.height;
+    final double screenHeight =
+        MediaQuery.of(context).size.height - statusBarHeight - kToolbarHeight;
+    final double gridTileHeight = screenHeight / 6.0;
+
+    return GFCard(
+      title: GFListTile(
+        padding: const EdgeInsets.symmetric(horizontal: 70),
+        color: Colors.blue,
+        title: Text(
+          'أقسام الموقع',
+          style: TextStyle(fontSize: 18, color: Colors.white),
+          textAlign: TextAlign.center,
+        ),
       ),
-      children: departs.map((depart) {
-        return DepartItem(
-          depart.id,
-          depart.name,
-        );
-      }).toList(),
+      content: Container(
+        height: (departs.length / 2) * (gridTileHeight),
+        //padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        child: GridView.count(
+          physics: const NeverScrollableScrollPhysics(),
+          crossAxisCount: 2,
+          crossAxisSpacing: 10, //row margin
+          mainAxisSpacing: 10, //column margin
+          childAspectRatio: 1.5 / 1.0, //width / height ration for each tile
+          children: departs.map((depart) {
+            return DepartItem(
+              depart.id,
+              depart.name,
+            );
+          }).toList(),
+        ),
+      ),
     );
   }
 }

@@ -1,5 +1,5 @@
 class City {
-  final String id;
+  final int id;
   final String name;
   //final List<Region> regions;
 

@@ -11,8 +11,8 @@ class _ExchangeCardState extends State<ExchangeCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 10),
       child: GFCard(
+        boxFit: BoxFit.cover,
         title: GFListTile(
           padding: const EdgeInsets.symmetric(horizontal: 70),
           color: Colors.blue,
@@ -51,7 +51,7 @@ class _ExchangeCardState extends State<ExchangeCard> {
                     flex: 2,
                     child: Container(
                       child: Text(
-                        ':المدينة ',
+                        'المدينة : ',
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontSize: 18,
@@ -63,7 +63,7 @@ class _ExchangeCardState extends State<ExchangeCard> {
                     flex: 2,
                     child: Container(
                       child: Text(
-                        ':التاريخ',
+                        'التاريخ :',
                         textAlign: TextAlign.right,
                         style: TextStyle(
                           fontSize: 18,
@@ -75,14 +75,13 @@ class _ExchangeCardState extends State<ExchangeCard> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(10.0),
-              height: 100,
+              padding: const EdgeInsets.symmetric(vertical: 5),
               child: Row(
                 children: <Widget>[
                   Expanded(
                     flex: 2,
                     child: Text(
-                      ':سعر الصرف',
+                      'سعر الصرف :',
                       textAlign: TextAlign.right,
                       style: TextStyle(
                         fontSize: 18,
@@ -90,7 +89,7 @@ class _ExchangeCardState extends State<ExchangeCard> {
                     ),
                   ),
                   Expanded(
-                    flex: 2,
+                    flex: 1,
                     child: Text(
                       '1600',
                       textAlign: TextAlign.right,
@@ -117,6 +116,8 @@ class _ExchangeCardState extends State<ExchangeCard> {
                   Container(
                     child: TextFormField(
                       decoration: InputDecoration(
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 0.0),
                         fillColor: Colors.white,
                         border: new OutlineInputBorder(
                           borderRadius: new BorderRadius.circular(5.0),
@@ -137,6 +138,8 @@ class _ExchangeCardState extends State<ExchangeCard> {
                   Container(
                     child: TextFormField(
                       decoration: InputDecoration(
+                        contentPadding:
+                            const EdgeInsets.symmetric(vertical: 0.0),
                         fillColor: Colors.white,
                         border: new OutlineInputBorder(
                           borderRadius: new BorderRadius.circular(5.0),

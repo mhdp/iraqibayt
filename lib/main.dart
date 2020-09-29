@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:iraqibayt/widgets/main_board.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
-import 'package:iraqibayt/widgets/home/home.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       // home: MyHomePage(title: 'البيت العراقي'),
       routes: {
         '/': (context) => Welcome(),
-        '/home': (context) => Home(),
+        '/main_board': (context) => MainBoard(),
         '/posts': (context) => Posts_Home(),
       },
     );
@@ -48,7 +48,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   bool isAuth = false;
   @override
   void initState() {
@@ -56,10 +55,10 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-  void _checkIfLoggedIn() async{
+  void _checkIfLoggedIn() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var token = localStorage.getString('token');
-    if(token != null){
+    if (token != null) {
       setState(() {
         isAuth = true;
       });
