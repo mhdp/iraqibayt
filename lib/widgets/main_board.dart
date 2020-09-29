@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iraqibayt/widgets/currencies.dart';
+import 'package:iraqibayt/widgets/notes.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
 
 class MainBoard extends StatefulWidget {
@@ -52,13 +53,13 @@ class _MainBoardState extends State<MainBoard>
                   Tab(
                     //icon: Icon(Icons.search),
                     child: Text(
-                      "تجربة",
+                      "أسعار الصرف",
                     ),
                   ),
                   Tab(
                     //icon: Icon(Icons.restaurant),
                     child: Text(
-                      "تجربة",
+                      "هل تعلم",
                     ),
                   ),
                 ],
@@ -72,10 +73,7 @@ class _MainBoardState extends State<MainBoard>
           children: <Widget>[
             Home(),
             Currencies(),
-            Container(
-              child: Icon(Icons.directions_bus),
-              color: Colors.blue,
-            ),
+            Notes(),
           ],
         ),
       ),
