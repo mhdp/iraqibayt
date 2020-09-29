@@ -65,6 +65,7 @@ flutter:
     - assets/images/weather.png
     - assets/images/min_temp.png
     - assets/images/max_temp.png
+    - assets/images/note.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
