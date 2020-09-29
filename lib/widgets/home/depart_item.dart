@@ -13,20 +13,26 @@ class DepartItem extends StatelessWidget {
       onTap: () => {},
       child: Container(
           padding: const EdgeInsets.all(15),
-          child: Text(
-            name,
-            style: Theme.of(context).textTheme.headline6,
+          child: Center(
+            child: Column(
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(fontSize: 15),
+                ),
+              ],
+            ),
           ),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
                 Colors.white.withOpacity(0.7),
-                Colors.lightBlueAccent,
+                Colors.cyanAccent,
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(5.0),
           )),
     );
   }

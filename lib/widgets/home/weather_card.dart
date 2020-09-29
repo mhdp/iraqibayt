@@ -10,17 +10,17 @@ class WeatherCard extends StatefulWidget {
 
 class _WeatherCardState extends State<WeatherCard> {
   final List<City> cities = [
-    City(id: '1', name: 'بغداد'),
-    City(id: '2', name: 'الأنبار'),
-    City(id: '3', name: 'أربيل'),
+    City(id: 1, name: 'بغداد'),
+    City(id: 2, name: 'الأنبار'),
+    City(id: 3, name: 'أربيل'),
   ];
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (ctx, constraints) {
         return Container(
-          padding: const EdgeInsets.symmetric(vertical: 10),
           child: GFCard(
+            boxFit: BoxFit.cover,
             title: GFListTile(
               padding: const EdgeInsets.symmetric(horizontal: 70),
               color: Colors.blue,
@@ -36,7 +36,7 @@ class _WeatherCardState extends State<WeatherCard> {
                 Container(
                   alignment: Alignment.centerRight,
                   padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: DropdownButton<String>(
+                  child: DropdownButton<int>(
                     elevation: 5,
                     hint: Container(
                       alignment: Alignment.centerRight,
@@ -47,7 +47,7 @@ class _WeatherCardState extends State<WeatherCard> {
                       ),
                     ),
                     items: cities.map((City city) {
-                      return new DropdownMenuItem<String>(
+                      return new DropdownMenuItem<int>(
                         value: city.id,
                         child: Container(
                           alignment: Alignment.centerRight,
