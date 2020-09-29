@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iraqibayt/widgets/currencies.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
 
 class MainBoard extends StatefulWidget {
@@ -70,10 +71,7 @@ class _MainBoardState extends State<MainBoard>
           controller: _tabController,
           children: <Widget>[
             Home(),
-            Container(
-              child: Icon(Icons.directions_bike),
-              color: Colors.red,
-            ),
+            Currencies(),
             Container(
               child: Icon(Icons.directions_bus),
               color: Colors.blue,
