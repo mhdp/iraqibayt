@@ -26,33 +26,38 @@ class Notes extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 10.0),
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          return Card(
-            elevation: 5,
-            child: ListTile(
-              leading: CircleAvatar(
-                radius: 30,
-                child: Padding(
-                  padding: EdgeInsets.all(5),
-                  child: FittedBox(
-                    child: Image.asset('assets/images/note.png'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('هل تعلم'),
+      ),
+      body: Container(
+        padding: const EdgeInsets.only(top: 20.0),
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            return Card(
+              elevation: 5,
+              child: ListTile(
+                leading: CircleAvatar(
+                  radius: 30,
+                  child: Padding(
+                    padding: EdgeInsets.all(5),
+                    child: FittedBox(
+                      child: Image.asset('assets/images/note.png'),
+                    ),
+                  ),
+                ),
+                title: Text(
+                  myNotes[index].content,
+                  style: TextStyle(
+                    fontSize: 18,
+                    //fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              title: Text(
-                myNotes[index].content,
-                style: TextStyle(
-                  fontSize: 18,
-                  //fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          );
-        },
-        itemCount: myNotes.length,
+            );
+          },
+          itemCount: myNotes.length,
+        ),
       ),
     );
   }

@@ -5,6 +5,8 @@ import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:iraqibayt/widgets/notes.dart';
+import 'package:iraqibayt/widgets/currencies.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,6 +37,8 @@ class MyApp extends StatelessWidget {
         '/main_board': (context) => MainBoard(),
         '/posts': (context) => Posts_Home(),
         '/Posts_detalis': (context) => Posts_detalis(),
+        '/notes': (context) => Notes(),
+        '/currencies': (context) => Currencies(),
       },
     );
   }
