@@ -15,7 +15,7 @@ class _Posts_Home extends State<Posts_Home> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.white70,
             appBar: AppBar(
 
             backgroundColor: Colors.deepOrange,
@@ -30,10 +30,12 @@ class _Posts_Home extends State<Posts_Home> {
         ),
         body :  ListView(
           children: [
-            Card(
+            InkWell(onTap: (){
+              Navigator.pushReplacementNamed(context, '/Posts_detalis');
+            }, child: Card(
               clipBehavior: Clip.antiAlias,
               margin: const EdgeInsets.all(10.0),
-
+              color: Colors.white,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
 
@@ -87,7 +89,7 @@ class _Posts_Home extends State<Posts_Home> {
                   ),
 
                   Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(8.0),
 
                     child: Text('شقة سكنية للبيع',textAlign: TextAlign.center,
                       style: TextStyle(
@@ -100,35 +102,35 @@ class _Posts_Home extends State<Posts_Home> {
                   ),
 
                   Padding(
-                          padding: const EdgeInsets.only(left: 16.0,
-                            right: 16.0,),
+                    padding: const EdgeInsets.only(left: 16.0,
+                      right: 16.0,),
 
-                          child: Divider(
-                                          color: Colors.black,
-                                          thickness: 0.5,
-                                        ),),
+                    child: Divider(
+                      color: Colors.black,
+                      thickness: 0.5,
+                    ),),
 
 
 
 
                   RaisedButton(
-                           onPressed: () {},
-                           color: Colors.white,
-                           elevation: 0,
-                           child: Row(
-                             mainAxisAlignment: MainAxisAlignment.start,
-                             children: <Widget>[
-                               Icon(Icons.location_on,color:Colors.deepOrange),
-                               Text("بغداد - الكرخ",style: TextStyle(
-                                 fontSize: 18,
-                                 color: Colors.black,
-                                 fontFamily: "CustomIcons",
-                                 fontWeight:FontWeight.w300,
-                               ),softWrap: true,),
+                    onPressed: () {},
+                    color: Colors.white,
+                    elevation: 0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(Icons.location_on,color:Colors.deepOrange),
+                        Text("بغداد - الكرخ",style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontFamily: "CustomIcons",
+                          fontWeight:FontWeight.w300,
+                        ),softWrap: true,),
 
-                             ],
-                           ),
-                        ),
+                      ],
+                    ),
+                  ),
                   RaisedButton(
                     onPressed: () {},
                     color: Colors.white,
@@ -137,7 +139,7 @@ class _Posts_Home extends State<Posts_Home> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Icon(Icons.format_line_spacing,color:Colors.deepOrange),
-                        Text("  200 متر مربع",style: TextStyle(
+                        Text(" المساحة:  200 متر مربع",style: TextStyle(
                           fontSize: 18,
                           color: Colors.black,
                           fontFamily: "CustomIcons",
@@ -167,85 +169,85 @@ class _Posts_Home extends State<Posts_Home> {
                   ),
 
                   Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 3, // 20%
-                      child:Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 3, // 20%
+                        child:Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
 
-                      children: [
-                          Icon(MyIcons.car ,),
-                          Text('3'),
-                      ],),),
+                          children: [
+                            Icon(MyIcons.car ,),
+                            Text('3'),
+                          ],),),
 
-                    Expanded(
-                      flex: 3, // 20%
-                      child:Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(MyIcons.bed,),
-                        Text('2'),
-                      ],),),
-
-                    Expanded(
-                      flex: 3, // 20%
-                      child:Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(MyIcons.bath),
-                        Text('2'),
-                      ],),),
-                ],),
-
-      Padding(
-        padding: const EdgeInsets.all(0),
-
-        child:Container(color: Colors.grey,
-            margin: const EdgeInsets.only( top: 20.0),
-            padding: const EdgeInsets.all(10.0),
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      RaisedButton(
-                      onPressed: () {},
-                      color: Colors.white,
-                      elevation: 0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(Icons.call,color: Colors.deepOrange,),
-                          Text("00963937830937",style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                            fontFamily: "CustomIcons",
-                            fontWeight:FontWeight.w300,
-                          ),softWrap: true,),
-
-                        ],
-                      ),
-                    ),
-                      RaisedButton(
-                        onPressed: () {},
-                        color: Colors.red,
-                        elevation: 0,
-                        child: Row(
+                      Expanded(
+                        flex: 3, // 20%
+                        child:Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(Icons.favorite,color: Colors.white,),
+                          children: [
+                            Icon(MyIcons.bed,),
+                            Text('2'),
+                          ],),),
+
+                      Expanded(
+                        flex: 3, // 20%
+                        child:Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(MyIcons.bath),
+                            Text('2'),
+                          ],),),
+                    ],),
+
+                  Padding(
+                    padding: const EdgeInsets.all(0),
+
+                    child:Container(color: Colors.grey,
+                        margin: const EdgeInsets.only( top: 10.0),
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                          RaisedButton(
+                            onPressed: () {},
+                            color: Colors.white,
+                            elevation: 0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.call,color: Colors.deepOrange,),
+                                Text(" 00963937830937",style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontFamily: "CustomIcons",
+                                  fontWeight:FontWeight.w300,
+                                ),softWrap: true,),
+
+                              ],
+                            ),
+                          ),
+                          RaisedButton(
+                            onPressed: () {},
+                            color: Colors.red,
+                            elevation: 0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.favorite_border,color: Colors.white,),
 
 
-                          ],
-                        ),
-                      ),
-                    ],)
+                              ],
+                            ),
+                          ),
+                        ],)
 
-                        ),
-      ),
+                    ),
+                  ),
 
 
 
                 ],
               ),
-            ),
+            ),)
 
           ],
         ),

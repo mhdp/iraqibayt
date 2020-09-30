@@ -10,7 +10,10 @@ class DepartItem extends StatelessWidget {
     return InkWell(
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(5),
-      onTap: () => {},
+      onTap: () => { if(this.id == 1){
+        Navigator.pushReplacementNamed(context, '/posts')
+  }
+      },
       child: Container(
           padding: const EdgeInsets.all(15),
           child: Center(

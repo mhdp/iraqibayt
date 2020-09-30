@@ -32,7 +32,7 @@ dependencies:
   http: ^0.12.1
   shared_preferences: ^0.5.12
   getwidget: ^1.1.0
-
+  carousel_slider: ^2.3.1
 
 dev_dependencies:
   flutter_test:
