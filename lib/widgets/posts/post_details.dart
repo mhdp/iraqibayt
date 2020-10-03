@@ -31,7 +31,7 @@ class _Posts_detalis extends State<Posts_detalis> {
             "تفاصيل الإعلان",
             style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20.0
-              , fontFamily: "CustomIcons",),
+              , fontFamily: "CustomIcons", ),
           ),
 
         ),
@@ -71,7 +71,7 @@ class _Posts_detalis extends State<Posts_detalis> {
             child: Text('شقة سكنية للبيع',textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 28,
-                color: Colors.black,
+                color: Colors.indigo,
                 fontFamily: "CustomIcons",
               ),softWrap: true,),
 
@@ -79,8 +79,7 @@ class _Posts_detalis extends State<Posts_detalis> {
           ),
 
           Padding(
-            padding: const EdgeInsets.only(left: 16.0,
-              right: 16.0,),
+            padding: const EdgeInsets.all(10.0),
 
             child: Divider(
               color: Colors.black,
@@ -307,8 +306,7 @@ class _Posts_detalis extends State<Posts_detalis> {
 
 
           Padding(
-            padding: const EdgeInsets.only(left: 16.0,
-              right: 16.0,),
+            padding: EdgeInsets.all(16.0),
 
             child: Divider(
               color: Colors.black,
@@ -331,7 +329,7 @@ class _Posts_detalis extends State<Posts_detalis> {
 
                     Text("تفاصيل الإعلان",style: TextStyle(
                       fontSize: 25,
-                      color: Colors.black,
+                      color: Colors.indigo,
                       fontFamily: "CustomIcons",
                       fontWeight:FontWeight.w300,
 
@@ -352,11 +350,10 @@ class _Posts_detalis extends State<Posts_detalis> {
           ),),
 
           Padding(
-            padding: const EdgeInsets.only(left: 16.0,
-              right: 16.0,),
+            padding: EdgeInsets.all(16.0),
 
             child: Divider(
-              color: Colors.black,
+              color: Colors.indigo,
               thickness: 0.5,
             ),),
 
@@ -376,7 +373,7 @@ class _Posts_detalis extends State<Posts_detalis> {
 
                     Text(" طرق التواصل",style: TextStyle(
                       fontSize: 25,
-                      color: Colors.black,
+                      color: Colors.indigo,
                       fontFamily: "CustomIcons",
                       fontWeight:FontWeight.w300,
 
@@ -438,13 +435,47 @@ class _Posts_detalis extends State<Posts_detalis> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(Icons.favorite_border,color: Colors.white,),
+                        Text(" أضف إلى المفضلة",style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                          fontFamily: "CustomIcons",
+                          fontWeight:FontWeight.w300,
 
+                        ),)
 
                       ],
                     ),
                   ),
                 ],)
 
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+
+              child: Divider(
+                color: Colors.black,
+                thickness: 0.5,
+              ),),
+            RaisedButton(
+              onPressed: () {},
+              color: Colors.white,
+              elevation: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Icon(Icons.comment,color: Colors.deepOrange,),
+
+                  Text(" التعليقات ",style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.indigo,
+                    fontFamily: "CustomIcons",
+                    fontWeight:FontWeight.w300,
+
+                  ),),
+
+                ],
+              ),
             ),
 
           ],

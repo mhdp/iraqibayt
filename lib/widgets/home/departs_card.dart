@@ -4,6 +4,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:iraqibayt/modules/Depart.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:iraqibayt/widgets/posts/posts_home.dart';
+
+import '../currencies.dart';
+import '../notes.dart';
 
 class DepartsCard extends StatefulWidget {
   @override
@@ -12,6 +16,7 @@ class DepartsCard extends StatefulWidget {
 
 class _DepartsCardState extends State<DepartsCard> {
   List<Depart> departs = [];
+  var is_loading = true;
   int dl;
 
   @override
@@ -20,6 +25,7 @@ class _DepartsCardState extends State<DepartsCard> {
     this._getDeparts().then((value) {
       setState(() {
         dl = value.length;
+        is_loading = false;
       });
     });
   }
@@ -54,17 +60,30 @@ class _DepartsCardState extends State<DepartsCard> {
     switch (index) {
       case 1:
         {
-          Navigator.pushReplacementNamed(context, '/posts');
+          Navigator.of(context).push(
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Posts_Home() ),
+
+          );
+
         }
         break;
       case 2:
         {
-          Navigator.pushReplacementNamed(context, '/notes');
+          Navigator.of(context).push(
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Notes() ),
+
+          );
         }
         break;
       case 4:
         {
-          Navigator.pushReplacementNamed(context, '/currencies');
+          Navigator.of(context).push(
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Currencies() ),
+
+          );
         }
         break;
     }
@@ -87,7 +106,7 @@ class _DepartsCardState extends State<DepartsCard> {
           textAlign: TextAlign.center,
         ),
       ),
-      content: Container(
+      content: is_loading? Center(child: new GFLoader(type:GFLoaderType.circle),): Container(
         height: (dl / 2) * (gridTileHeight),
         child: FutureBuilder(
           future: _getDeparts(),
