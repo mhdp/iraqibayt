@@ -110,9 +110,6 @@ class _Posts_Home extends State<Posts_Home> {
                       thickness: 0.5,
                     ),),
 
-
-
-
                   RaisedButton(
                     onPressed: () {},
                     color: Colors.white,
