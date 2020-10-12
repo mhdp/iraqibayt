@@ -1,8 +1,8 @@
 class Exchange {
   final int id;
-  final String from;
+  final int from;
   final double fromVal;
-  final String to;
+  final int to;
   final double toVal;
   final String direction;
 
