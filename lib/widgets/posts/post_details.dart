@@ -12,6 +12,8 @@ class Posts_detalis extends StatefulWidget {
 
 class _Posts_detalis extends State<Posts_detalis> {
 
+  int _selectedIndex = 0;
+
   final List<String> imageList = [
     "https://cdn.pixabay.com/photo/2017/12/03/18/04/christmas-balls-2995437_960_720.jpg",
     "https://cdn.pixabay.com/photo/2017/12/13/00/23/christmas-3015776_960_720.jpg",
@@ -25,7 +27,7 @@ class _Posts_detalis extends State<Posts_detalis> {
         backgroundColor: Colors.white,
         appBar: AppBar(
 
-          backgroundColor: Colors.deepOrange,
+          backgroundColor: Colors.blue,
 
           title: Text(
             "تفاصيل الإعلان",
@@ -457,33 +459,49 @@ class _Posts_detalis extends State<Posts_detalis> {
                 color: Colors.black,
                 thickness: 0.5,
               ),),
-            RaisedButton(
-              onPressed: () {},
-              color: Colors.white,
-              elevation: 0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Icon(Icons.comment,color: Colors.deepOrange,),
-
-                  Text(" التعليقات ",style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.indigo,
-                    fontFamily: "CustomIcons",
-                    fontWeight:FontWeight.w300,
-
-                  ),),
-
-                ],
-              ),
-            ),
 
           ],
       ),
         ),
 
+      bottomNavigationBar:
+
+      BottomNavigationBar(
+        backgroundColor: Colors.blue,
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.deepOrange,
+
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+
+            icon: Icon(Icons.details),
+            title: Text('التفاصيل',style: TextStyle( fontSize: 16.0
+              ,      fontFamily: "CustomIcons"),),
+          ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.comment),
+            title: Text('التعليقات',style: TextStyle( fontSize: 16.0
+              ,      fontFamily: "CustomIcons"),),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.message),
+            title: Text('الرسائل',style: TextStyle( fontSize: 16.0
+              ,      fontFamily: "CustomIcons"),),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
 
 
     );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      print(_selectedIndex.toString());
+    });
   }
 }
