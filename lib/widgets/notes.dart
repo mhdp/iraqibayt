@@ -10,28 +10,7 @@ class Notes extends StatefulWidget {
 }
 
 class _NotesState extends State<Notes> {
-  List<Note> notes = [
-//    Note(
-//        id: 0,
-//        content:
-//            'هل تعلم انه يمكنك التخفيف من حدة غضب الأشخاص الغاضبين قبل التوجه بالحديث إليك! بوضع مرآة خلفك عند جلوسك على المكتب.'),
-//    Note(
-//        id: 1,
-//        content:
-//            'هل تعلم أن مرض الطاعون يسبب صعود الدم الى الجلد وظهور بقع سوداء على الجلد لذا سمي بالمرض الأسود!'),
-//    Note(
-//        id: 2,
-//        content:
-//            'هل تعلم أن الذهاب إلى رحلة الزفاف وقيادة جماعات النمل هي الأسباب التي تدفع ملكة النمل لمغادرة خليتها للقيام بها!'),
-//    Note(
-//        id: 3,
-//        content:
-//            'هل تعلم أن الأفعى تستخدم لسانها لالتقاط موجات الصوت والذبذبات!'),
-//    Note(
-//        id: 4,
-//        content:
-//            'هل تعلم أن هنالك حيوان وحيد يمكنه إخراج معدته خارج جسمه! وهو حيوان نجم البحر'),
-  ];
+  List<Note> notes = [];
 
   Future<List<Note>> _getNotes() async {
     var notesResponse = await http.get('https://iraqibayt.com/Info');
@@ -62,7 +41,7 @@ class _NotesState extends State<Notes> {
         title: Text('هل تعلم'),
       ),
       body: Container(
-        height: screenHeight,
+        height: screenHeight * 0.99,
         padding: const EdgeInsets.only(top: 20.0),
         child: FutureBuilder(
           future: _getNotes(),

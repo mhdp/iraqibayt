@@ -158,9 +158,9 @@ class Welcome extends StatelessWidget {
     ));
   }
 
-  Widget new_account_button() {
+  Widget new_account_button(BuildContext context) {
     return InkWell(
-      //onTap: initiateFacebookLogin,
+      onTap: () => {Navigator.pushReplacementNamed(context, '/register')},
       child: Container(
         height: 50,
         margin: EdgeInsets.symmetric(vertical: 5),
@@ -232,7 +232,7 @@ class Welcome extends StatelessWidget {
                           thickness: 1,
                         )),
                       ])),
-                  new_account_button(),
+                  new_account_button(context),
                   SizedBox(height: 20),
 
                   FlatButton(
@@ -254,8 +254,6 @@ class Welcome extends StatelessWidget {
                       ),
                     ),
                   ),
-
-
                 ],
               ),
             ),
