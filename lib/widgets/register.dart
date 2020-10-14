@@ -32,7 +32,9 @@ class _RegisterState extends State<Register> {
     var res = await CallApi().postData(data, 'api/auth/register');
     var body = json.decode(res.body);
     print(body);
-
+    setState(() {
+      _isLoading = false;
+    });
     // Navigator.pushReplacementNamed(context, '/main_board');
   }
 

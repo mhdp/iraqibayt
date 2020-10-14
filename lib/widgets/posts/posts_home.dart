@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:iraqibayt/widgets/my_icons_icons.dart';
+import 'package:iraqibayt/widgets/posts/post_details.dart';
 
 DatabaseHelper databaseHelper = new DatabaseHelper();
 
@@ -92,7 +93,10 @@ class BikeListItem extends StatelessWidget {
                 },child: InkWell(
                 borderRadius: BorderRadius.circular(4.0),
                 onTap: (){
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Posts_detalis()),
+                  );
                 },
                 child:Card(
                   clipBehavior: Clip.antiAlias,
