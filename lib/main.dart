@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iraqibayt/widgets/home/home.dart';
 import 'package:iraqibayt/widgets/main_board.dart';
 import 'package:iraqibayt/widgets/posts/post_details.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => Welcome(),
         '/register': (context) => Register(),
         '/main_board': (context) => MainBoard(),
+        '/home': (context) => Home(),
         '/posts': (context) => Posts_Home(),
         '/Posts_detalis': (context) => Posts_detalis(),
         '/notes': (context) => Notes(),

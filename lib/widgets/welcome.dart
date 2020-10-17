@@ -243,7 +243,7 @@ class Welcome extends StatelessWidget {
                     padding: EdgeInsets.all(8.0),
                     splashColor: Colors.orange,
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/main_board');
+                      Navigator.pushReplacementNamed(context, '/home');
                     },
                     child: Text(
                       'التسجيل لاحقاً',

@@ -34,12 +34,16 @@ dependencies:
   shared_preferences: ^0.5.12
   getwidget: ^1.1.0
   carousel_slider: ^2.3.1
+  json_annotation: ^3.1.0
+
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  json_serializable: ^3.5.0
+  build_runner: ^1.10.3
 
 
 # For information on the generic Dart part of this file, see the
