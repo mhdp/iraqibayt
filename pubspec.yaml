@@ -34,6 +34,8 @@ dependencies:
   shared_preferences: ^0.5.12
   getwidget: ^1.1.0
   carousel_slider: ^2.3.1
+  firebase_auth: ^0.18.1+2
+  google_sign_in: ^4.5.4
 
 dev_dependencies:
   flutter_test:
