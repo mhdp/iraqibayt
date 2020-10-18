@@ -1,7 +1,14 @@
 class City {
-  final int id;
-  final String name;
+  int id;
+  String name;
   //final List<Region> regions;
 
-  const City({this.id, this.name});
+  City({this.id, this.name});
+
+  factory City.fromJson(Map<String, dynamic> json) {
+    return City(
+      id: json['id'] as int,
+      name: json['name'] as String,
+    );
+  }
 }

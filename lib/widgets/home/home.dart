@@ -13,16 +13,21 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ListView(
-        //mainAxisSize: MainAxisSize.min,
-        scrollDirection: Axis.vertical,
-        children: <Widget>[
-          WeatherCard(),
-          ExchangeCard(),
-          DepartsCard(),
-          SearchCard(),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('الرئيسية'),
+      ),
+      body: Container(
+        child: ListView(
+          //mainAxisSize: MainAxisSize.min,
+          scrollDirection: Axis.vertical,
+          children: <Widget>[
+            WeatherCard(),
+            ExchangeCard(),
+            DepartsCard(),
+            SearchCard(),
+          ],
+        ),
       ),
     );
   }

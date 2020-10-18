@@ -51,7 +51,7 @@ class _DepartsCardState extends State<DepartsCard> {
             url: depart['url']);
 
       departs.add(tDepart);
-      print('depart length is : ' + departs.length.toString());
+      //print('depart length is : ' + departs.length.toString());
     }
     return departs;
   }
@@ -62,18 +62,15 @@ class _DepartsCardState extends State<DepartsCard> {
         {
           Navigator.of(context).push(
             new MaterialPageRoute(
-                builder: (BuildContext context) => new Posts_Home() ),
-
+                builder: (BuildContext context) => new Posts_Home()),
           );
-
         }
         break;
       case 2:
         {
           Navigator.of(context).push(
             new MaterialPageRoute(
-                builder: (BuildContext context) => new Notes() ),
-
+                builder: (BuildContext context) => new Notes()),
           );
         }
         break;
@@ -81,8 +78,7 @@ class _DepartsCardState extends State<DepartsCard> {
         {
           Navigator.of(context).push(
             new MaterialPageRoute(
-                builder: (BuildContext context) => new Currencies() ),
-
+                builder: (BuildContext context) => new Currencies()),
           );
         }
         break;
@@ -106,67 +102,72 @@ class _DepartsCardState extends State<DepartsCard> {
           textAlign: TextAlign.center,
         ),
       ),
-      content: is_loading? Center(child: new GFLoader(type:GFLoaderType.circle),): Container(
-        height: (dl / 2) * (gridTileHeight),
-        child: FutureBuilder(
-          future: _getDeparts(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.data == null) {
-              return Container(
-                height: 100,
-                child: Center(
-                  child: Text('جاري تحميل أقسام الموقع...'),
-                ),
-              );
-            } else
-              return GridView.builder(
-                  itemCount: snapshot.data.length,
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: 150,
-                    crossAxisSpacing: 10, //row margin
-                    mainAxisSpacing: 10, //column margin
-                    childAspectRatio:
-                        1.5 / 1.0, //width / height ration for each tile
-                  ),
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      splashColor: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(5),
-                      onTap: () => _setRoute(context, index + 1),
-                      child: Container(
-                          padding: const EdgeInsets.all(10),
-                          child: Center(
-                            child: Column(
-                              children: [
-                                Container(
-                                  height: gridTileHeight / 3,
-                                  width: gridTileHeight / 3,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            'https://iraqibayt.com/storage/app/public/images/' +
-                                                snapshot.data[index].image),
-                                        fit: BoxFit.fill),
+      content: is_loading
+          ? Center(
+              child: new GFLoader(type: GFLoaderType.circle),
+            )
+          : Container(
+              height: (dl / 2) * (gridTileHeight),
+              child: FutureBuilder(
+                future: _getDeparts(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.data == null) {
+                    return Container(
+                      height: 100,
+                      child: Center(
+                        child: Text('جاري تحميل أقسام الموقع...'),
+                      ),
+                    );
+                  } else
+                    return GridView.builder(
+                        itemCount: snapshot.data.length,
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 150,
+                          crossAxisSpacing: 10, //row margin
+                          mainAxisSpacing: 10, //column margin
+                          childAspectRatio:
+                              1.5 / 1.0, //width / height ration for each tile
+                        ),
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          return InkWell(
+                            splashColor: Theme.of(context).primaryColor,
+                            borderRadius: BorderRadius.circular(5),
+                            onTap: () => _setRoute(context, index + 1),
+                            child: Container(
+                                padding: const EdgeInsets.all(10),
+                                child: Center(
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: gridTileHeight / 3,
+                                        width: gridTileHeight / 3,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  'https://iraqibayt.com/storage/app/public/images/' +
+                                                      snapshot
+                                                          .data[index].image),
+                                              fit: BoxFit.fill),
+                                        ),
+                                      ),
+                                      Text(
+                                        snapshot.data[index].name,
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                Text(
-                                  snapshot.data[index].name,
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ],
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                            color: Color(0xfff2f2f2),
-                            borderRadius: BorderRadius.circular(5.0),
-                          )),
-                    );
-                  });
-          },
-        ),
-      ),
+                                decoration: BoxDecoration(
+                                  color: Color(0xfff2f2f2),
+                                  borderRadius: BorderRadius.circular(5.0),
+                                )),
+                          );
+                        });
+                },
+              ),
+            ),
     );
   }
 }

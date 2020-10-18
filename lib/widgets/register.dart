@@ -29,7 +29,7 @@ class _RegisterState extends State<Register> {
       'password_confirmation': _passwordConfirmController.text,
     };
 
-    var res = await CallApi().postData(data, 'api/auth/register');
+    var res = await CallApi().postData(data, '/register');
     var body = json.decode(res.body);
     print(body);
     setState(() {
