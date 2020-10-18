@@ -1,6 +1,5 @@
 import 'package:iraqibayt/modules/City.dart';
 import 'package:iraqibayt/modules/Currency.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 class Exchange {
   int id;
