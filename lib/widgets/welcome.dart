@@ -9,7 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
-Future<String> signInWithGoogle() async {
+/*Future<String> signInWithGoogle() async {
   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
   final GoogleSignInAuthentication googleSignInAuthentication =
   await googleSignInAccount.authentication;
@@ -27,7 +27,7 @@ Future<String> signInWithGoogle() async {
   assert(user.displayName != null);
   assert(user.photoUrl != null);
 
-  /*name = user.displayName;
+  *//*name = user.displayName;
     email = user.email;
     imageUrl = user.photoUrl;
     uid = user.uid;
@@ -35,7 +35,7 @@ Future<String> signInWithGoogle() async {
     // Only taking the first part of the name, i.e., First Name
     if (name.contains(" ")) {
       name = name.substring(0, name.indexOf(" "));
-    }*/
+    }*//*
 
   assert(!user.isAnonymous);
   assert(await user.getIdToken() != null);
@@ -43,12 +43,12 @@ Future<String> signInWithGoogle() async {
   final FirebaseUser currentUser = await _auth.currentUser();
   assert(user.uid == currentUser.uid);
 
-  /*if (uid != null){
+  *//*if (uid != null){
       _databaseHelper.registerG(name, email, uid);
-    }*/
+    }*//*
 
   return 'signInWithGoogle succeeded: $user';
-}
+}*/
 
 void signOutGoogle() async{
   await googleSignIn.signOut();
