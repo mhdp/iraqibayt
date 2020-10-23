@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">البيت العراقي</string>
+
+    <string name="facebook_app_id">756158765200928</string>
+
+    <string name="fb_login_protocol_scheme">fb756158765200928</string>
+</resources>

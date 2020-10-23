@@ -2,12 +2,12 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+/*import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-final GoogleSignIn googleSignIn = GoogleSignIn();
+final GoogleSignIn googleSignIn = GoogleSignIn();*/
 
 /*Future<String> signInWithGoogle() async {
   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
@@ -50,11 +50,11 @@ final GoogleSignIn googleSignIn = GoogleSignIn();
   return 'signInWithGoogle succeeded: $user';
 }*/
 
-void signOutGoogle() async{
+/*void signOutGoogle() async{
   await googleSignIn.signOut();
 
   print("User Sign Out");
-}
+}*/
 
 class Welcome extends StatelessWidget {
   static const routeName = '/';
