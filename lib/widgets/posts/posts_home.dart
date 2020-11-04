@@ -34,10 +34,10 @@ class _Posts_Home extends State<Posts_Home> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-            backgroundColor: Colors.white70,
+            backgroundColor: Color(0xFFe8e8e8),
             appBar: AppBar(
 
-            backgroundColor: Colors.deepOrange,
+            backgroundColor: Color(0xFF335876),
 
             title: Text(
             "العقارات",
@@ -99,8 +99,14 @@ class BikeListItem extends StatelessWidget {
                   );
                 },
                 child:Card(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.grey, width: 0.5),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   clipBehavior: Clip.antiAlias,
+                  elevation: 0,
                   margin: const EdgeInsets.all(10.0),
+
                   color: Colors.white,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -113,7 +119,7 @@ class BikeListItem extends StatelessWidget {
                         child: img == 'null'? Image.asset('assets/images/posts/default_post_img.jpeg',fit: BoxFit.fill,
                           height: MediaQuery.of(context).size.width/1.5,) :Image.network(
                           "https://iraqibayt.com/storage/app/public/posts/$img",
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                           height: MediaQuery.of(context).size.width/1.5,),
 
 
@@ -125,9 +131,9 @@ class BikeListItem extends StatelessWidget {
                           FlatButton(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.0),
-                                side: BorderSide(color: Colors.deepOrange)
+                                side: BorderSide(color: Color(0xFFdd685f))
                             ),
-                            color: Colors.deepOrange,
+                            color: Color(0xFFdd685f),
                             onPressed: () {
                               // Perform some action
                             },
@@ -140,9 +146,9 @@ class BikeListItem extends StatelessWidget {
                           FlatButton(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5.0),
-                                side: BorderSide(color: Colors.deepOrange)
+                                side: BorderSide(color: Color(0xFFdd685f))
                             ),
-                            color: Colors.deepOrange,
+                            color: Color(0xFFdd685f),
                             onPressed: () {
                               // Perform some action
                             },
@@ -268,9 +274,10 @@ class BikeListItem extends StatelessWidget {
                         padding: const EdgeInsets.all(0),
 
                         child:Container(color: Colors.grey,
-                            margin: const EdgeInsets.only( top: 10.0),
-                            padding: const EdgeInsets.all(10.0),
+                            margin: const EdgeInsets.only( top: 10.0,bottom: 0.0),
+                            padding: const EdgeInsets.all(0.0),
                             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+
                               RaisedButton(
                                 onPressed: () {},
                                 color: Colors.white,

@@ -22,8 +22,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           //mainAxisSize: MainAxisSize.min,
           scrollDirection: Axis.vertical,
           children: <Widget>[
-            WeatherCard(),
-            ExchangeCard(),
+            //WeatherCard(),
+            //ExchangeCard(),
             DepartsCard(),
             SearchCard(),
           ],
