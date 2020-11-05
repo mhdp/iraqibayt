@@ -36,9 +36,7 @@ class _Posts_Home extends State<Posts_Home> {
 
             backgroundColor: Color(0xFFe8e8e8),
             appBar: AppBar(
-
             backgroundColor: Color(0xFF335876),
-
             title: Text(
             "العقارات",
             style: TextStyle(
@@ -53,7 +51,6 @@ class _Posts_Home extends State<Posts_Home> {
                 child:  is_loading
                     ? new Center(child: new GFLoader(type:GFLoaderType.circle),)
                     : new BikeListItem(list1: databaseHelper.posts_list),)
-
 
             ]
         ),
