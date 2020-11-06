@@ -48,7 +48,7 @@ class _ExchangeCardState extends State<ExchangeCard> {
         boxFit: BoxFit.cover,
         title: GFListTile(
           padding: const EdgeInsets.symmetric(horizontal: 70),
-          color: Colors.blue,
+          color: Color(0xff275879),
           title: Text(
             'أسعار الصرف',
             style: TextStyle(fontSize: 18, color: Colors.white),
@@ -62,7 +62,7 @@ class _ExchangeCardState extends State<ExchangeCard> {
               return Container(
                 height: 100,
                 child: Center(
-                  child: Text('جاري التحميل ...'),
+                  child: new CircularProgressIndicator(),
                 ),
               );
             } else

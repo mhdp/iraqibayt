@@ -19,13 +19,11 @@ class _WeatherCardState extends State<WeatherCard> {
   String cityHint;
   int cityId;
 
-
-
   @override
   void initState() {
     super.initState();
     cityHint = 'اختر مدينة';
-    cityId = 2;
+    //cityId = 33;
   }
 
   @override
@@ -45,7 +43,7 @@ class _WeatherCardState extends State<WeatherCard> {
     for (var record in weatherData) {
       tWeather = Weather.fromJson(record);
       tCity = City.fromJson(record['city']);
-
+      //print(tWeather.day);
       _weathers.add(tWeather);
       _cities.add(tCity);
     }
@@ -73,7 +71,7 @@ class _WeatherCardState extends State<WeatherCard> {
             boxFit: BoxFit.cover,
             title: GFListTile(
               padding: const EdgeInsets.symmetric(horizontal: 70),
-              color: Colors.blue,
+              color: Color(0xff275879),
               title: Text(
                 'أحوال الطقس',
                 style: TextStyle(fontSize: 18, color: Colors.white),
@@ -97,99 +95,75 @@ class _WeatherCardState extends State<WeatherCard> {
                   var keysList = receivedMap.keys.toList();
                   _rWeather = receivedMap[keysList[0]];
                   _rCities = receivedMap[keysList[1]];
+                  cityId = _rCities[0].id;
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        alignment: Alignment.centerRight,
-                        //padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: DropdownButton<int>(
-                          elevation: 5,
-                          hint: Container(
-                            alignment: Alignment.centerRight,
-                            width: 200.0,
-                            child: Text(
-                              cityHint,
-                              style: TextStyle(fontSize: 18),
+                      Row(
+                        children: [
+                          Text(
+                            'المدينة : ',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          value: cityId,
-                          items: _rCities.map((City city) {
-                            return new DropdownMenuItem<int>(
-                              value: city.id,
-                              child: Container(
+                          Container(
+                            alignment: Alignment.centerRight,
+                            //padding: const EdgeInsets.symmetric(horizontal: 5),
+                            child: DropdownButton<int>(
+                              elevation: 5,
+                              hint: Container(
                                 alignment: Alignment.centerRight,
-                                width: 200.0,
-                                child: new Text(
-                                  city.name,
-                                  textAlign: TextAlign.right,
+                                width: 100.0,
+                                child: Text(
+                                  cityHint,
+                                  style: TextStyle(fontSize: 18),
                                 ),
                               ),
-                            );
-                          }).toList(),
-                          onChanged: (int cId) {
-                            setState(() {
-                              cityId = cId;
-                              print(cId);
-                            });
-                          },
-                        ),
+                              value: cityId,
+                              items: _rCities.map((City city) {
+                                return new DropdownMenuItem<int>(
+                                  value: city.id,
+                                  child: Container(
+                                    alignment: Alignment.centerRight,
+                                    width: 100.0,
+                                    child: new Text(
+                                      city.name,
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                              onChanged: (int cId) {
+                                setState(() {
+                                  cityId = cId;
+                                  print(cId);
+                                });
+                              },
+                            ),
+                          ),
+                        ],
                       ),
                       Container(
                         alignment: Alignment.centerRight,
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Expanded(
-                              flex: 40,
-                              child: Container(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'المدينة : ',
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      _getWeatherDataByCity(_rWeather, cityId)
-                                          .city
-                                          .name,
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                          children: [
+                            Text(
+                              'التاريخ : ',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Expanded(
-                              flex: 60,
-                              child: Container(
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'التاريخ : ',
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      _getWeatherDataByCity(_rWeather, cityId)
-                                          .day,
-                                      textAlign: TextAlign.right,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                            Text(
+                              _getWeatherDataByCity(_rWeather, cityId).day,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 18,
                               ),
                             ),
                           ],
@@ -199,10 +173,11 @@ class _WeatherCardState extends State<WeatherCard> {
                         padding: const EdgeInsets.all(10.0),
                         height: 100,
                         child: SvgPicture.network(
-                            'https://iraqibayt.com/storage/app/public/weather/' +
-                                _getWeatherDataByCity(_rWeather, cityId)
-                                    .wIcon
-                                    .toString()),
+                          'https://iraqibayt.com/storage/app/public/weather/' +
+                              _getWeatherDataByCity(_rWeather, cityId)
+                                  .wIcon
+                                  .toString(),
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -220,13 +195,22 @@ class _WeatherCardState extends State<WeatherCard> {
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-                                Text(
-                                  _getWeatherDataByCity(_rWeather, cityId)
-                                          .minTemperature +
-                                      ' C',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'C ',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    Text(
+                                      _getWeatherDataByCity(_rWeather, cityId)
+                                          .minTemperature,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -244,13 +228,22 @@ class _WeatherCardState extends State<WeatherCard> {
                                     fit: BoxFit.cover,
                                   ),
                                 ),
-                                Text(
-                                  _getWeatherDataByCity(_rWeather, cityId)
-                                          .maxTemperature +
-                                      ' C',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'C ',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    Text(
+                                      _getWeatherDataByCity(_rWeather, cityId)
+                                          .maxTemperature,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
