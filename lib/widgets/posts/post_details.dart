@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
+import 'package:getwidget/getwidget.dart';
+import 'package:iraqibayt/modules/db_helper.dart';
 
 import '../my_icons_icons.dart';
 
+DatabaseHelper databaseHelper = new DatabaseHelper();
 
 class Posts_detalis extends StatefulWidget {
+  String post_id;
+
+  Posts_detalis( {this.post_id});
   @override
   _Posts_detalis createState() => _Posts_detalis();
 }
@@ -14,20 +20,39 @@ class _Posts_detalis extends State<Posts_detalis> {
 
   int _selectedIndex = 0;
 
-  final List<String> imageList = [
-    "https://cdn.pixabay.com/photo/2017/12/03/18/04/christmas-balls-2995437_960_720.jpg",
-    "https://cdn.pixabay.com/photo/2017/12/13/00/23/christmas-3015776_960_720.jpg",
-    "https://cdn.pixabay.com/photo/2019/12/19/10/55/christmas-market-4705877_960_720.jpg",
-    "https://cdn.pixabay.com/photo/2019/12/20/00/03/road-4707345_960_720.jpg",
-  ];
+  List<String> imageList = new List<String>();
+
+  var is_loading = true;
+
+  void initState() {
+    super.initState();
+
+    databaseHelper.get_post_by_id(widget.post_id).whenComplete(() {
+
+      setState(() {
+        is_loading = false;
+        imageList.add(databaseHelper.get_post_by_id_list["data"][0]["img"].toString());
+        List<String> imgs = databaseHelper.get_post_by_id_list["data"][0]["imgs"].toString().replaceAll("[", "").replaceAll("]", "").replaceAll(" ", "").split(",");
+
+        imgs.forEach((element) => imageList.add(element));
+
+        print(imageList.length);
+         //imageList = Set.from(imgs);
+         //print(imgs);
+      });
+
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
 
-          backgroundColor: Colors.blue,
+          backgroundColor: Color(0xFF335876),
 
           title: Text(
             "تفاصيل الإعلان",
@@ -37,14 +62,16 @@ class _Posts_detalis extends State<Posts_detalis> {
           ),
 
         ),
-        body : SingleChildScrollView(
+        body :is_loading
+            ? new Center(child: new GFLoader(type:GFLoaderType.circle),)
+            : SingleChildScrollView(
           child: Column(children: [
           GFCarousel(
           enlargeMainPage: true,
             viewportFraction: 1.0,
           autoPlay: true,
             pagination: true,
-            activeIndicator: Colors.deepOrange,
+            activeIndicator: Color(0xFFdd685f),
           items: imageList.map(
                 (url) {
               return Container(
@@ -52,7 +79,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(5.0)),
                   child: Image.network(
-                      url,
+                      "https://iraqibayt.com/storage/app/public/posts/$url",
                       fit: BoxFit.cover,
                       width: 1000.0
                   ),
@@ -70,7 +97,7 @@ class _Posts_detalis extends State<Posts_detalis> {
           Padding(
             padding: const EdgeInsets.all(8.0),
 
-            child: Text('شقة سكنية للبيع',textAlign: TextAlign.center,
+            child: Text(databaseHelper.get_post_by_id_list["data"][0]["title"].toString(),textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 28,
                 color: Colors.indigo,
@@ -79,7 +106,7 @@ class _Posts_detalis extends State<Posts_detalis> {
 
 
           ),
-
+//divider
           Padding(
             padding: const EdgeInsets.all(10.0),
 
@@ -99,8 +126,8 @@ class _Posts_detalis extends State<Posts_detalis> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(Icons.location_city,color:Colors.deepOrange),
-                    Text(" بغداد",style: TextStyle(
+                    Icon(Icons.location_city,color:Color(0xFFdd685f)),
+                    Text(databaseHelper.get_post_by_id_list["data"][0]["city"]["name"].toString(),style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: "CustomIcons",
@@ -117,8 +144,8 @@ class _Posts_detalis extends State<Posts_detalis> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(Icons.location_on,color:Colors.deepOrange),
-                    Text(" الكرخ",style: TextStyle(
+                    Icon(Icons.location_on,color:Color(0xFFdd685f)),
+                    Text(databaseHelper.get_post_by_id_list["data"][0]["region"]["name"].toString(),style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: "CustomIcons",
@@ -135,8 +162,8 @@ class _Posts_detalis extends State<Posts_detalis> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(Icons.format_line_spacing,color:Colors.deepOrange),
-                    Text("  200 متر مربع",style: TextStyle(
+                    Icon(Icons.format_line_spacing,color:Color(0xFFdd685f)),
+                    Text(" ${databaseHelper.get_post_by_id_list["data"][0]["area"].toString()} ${databaseHelper.get_post_by_id_list["data"][0]["unit"]["name"].toString()}",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: "CustomIcons",
@@ -159,8 +186,8 @@ class _Posts_detalis extends State<Posts_detalis> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(MyIcons.money,color: Colors.deepOrange,),
-                    Text("  ٢٠٠٠٠ دينار عراقي",style: TextStyle(
+                    Icon(MyIcons.money,color: Color(0xFFdd685f),),
+                    Text(" ${databaseHelper.get_post_by_id_list["data"][0]["price"].toString()} ${databaseHelper.get_post_by_id_list["data"][0]["currancy"]["name"].toString()}",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: "CustomIcons",
@@ -177,7 +204,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(MyIcons.money_bill,color:Colors.deepOrange),
+                    Icon(MyIcons.money_bill,color:Color(0xFFdd685f)),
                     Text("   كاش وتقسيط",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
@@ -202,7 +229,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(Icons.date_range,color: Colors.deepOrange,),
+                    Icon(Icons.date_range,color: Color(0xFFdd685f),),
                     Text(" أضافه Mohammad منذ شهرين",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
@@ -227,7 +254,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(Icons.info,color: Colors.deepOrange,),
+                    Icon(Icons.info,color: Color(0xFFdd685f),),
                     Text(" عقارات للبيع-شقق للبيع",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
@@ -254,7 +281,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(MyIcons.bed,color: Colors.deepOrange,),
+                    Icon(MyIcons.bed,color: Color(0xFFdd685f),),
                     Text("  غرف النوم: +٣",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
@@ -273,7 +300,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(MyIcons.bath,color:Colors.deepOrange),
+                    Icon(MyIcons.bath,color:Color(0xFFdd685f)),
                     Text("  حمامات: ٢",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
@@ -292,7 +319,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(MyIcons.car_alt,color:Colors.deepOrange),
+                    Icon(MyIcons.car_alt,color:Color(0xFFdd685f)),
                     Text("  كراج: ٣",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
@@ -327,7 +354,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(MyIcons.info,color: Colors.deepOrange,),
+                    Icon(MyIcons.info,color: Color(0xFFdd685f),),
 
                     Text("تفاصيل الإعلان",style: TextStyle(
                       fontSize: 25,
@@ -371,7 +398,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Icon(Icons.call,color: Colors.deepOrange,),
+                    Icon(Icons.call,color: Color(0xFFdd685f),),
 
                     Text(" طرق التواصل",style: TextStyle(
                       fontSize: 25,
@@ -467,9 +494,9 @@ class _Posts_detalis extends State<Posts_detalis> {
       bottomNavigationBar:
 
       BottomNavigationBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xFF335876),
         unselectedItemColor: Colors.white,
-        selectedItemColor: Colors.deepOrange,
+        selectedItemColor: Color(0xFFdd685f),
 
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
