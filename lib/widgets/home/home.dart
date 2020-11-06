@@ -26,7 +26,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             WeatherCard(),
             ExchangeCard(),
             DepartsCard(),
-            //SearchCard(),
+            SearchCard(),
           ],
         ),
       ),
