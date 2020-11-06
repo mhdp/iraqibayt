@@ -39,9 +39,10 @@ class _NotesState extends State<Notes> {
     return Scaffold(
       appBar: AppBar(
         title: Text('هل تعلم'),
+        backgroundColor: Color(0xff275879),
       ),
       body: Container(
-        height: screenHeight * 0.99,
+        height: screenHeight,
         padding: const EdgeInsets.only(top: 20.0),
         child: FutureBuilder(
           future: _getNotes(),
@@ -50,35 +51,41 @@ class _NotesState extends State<Notes> {
               return Container(
                 height: 100,
                 child: Center(
-                  child: Text('جاري التحميل ...'),
+                  child: new CircularProgressIndicator(),
                 ),
               );
             } else
-              return ListView.builder(
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    elevation: 5,
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 30,
-                        child: Padding(
-                          padding: EdgeInsets.all(5),
-                          child: FittedBox(
-                            child: Image.asset('assets/images/note.png'),
-                          ),
-                        ),
-                      ),
-                      title: Text(
-                        snapshot.data[index].content,
-                        style: TextStyle(
-                          fontSize: 18,
-                          //fontWeight: FontWeight.bold,
-                        ),
+              return Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: screenHeight,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          return Card(
+                            elevation: 5,
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                radius: 30,
+                                backgroundImage:
+                                    AssetImage('assets/images/note.png'),
+                              ),
+                              title: Text(
+                                snapshot.data[index].content,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  //fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
-                  );
-                },
+                  ),
+                ],
               );
           },
         ),

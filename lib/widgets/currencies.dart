@@ -7,6 +7,7 @@ import 'package:getwidget/getwidget.dart';
 import 'package:http/http.dart' as http;
 import 'package:iraqibayt/modules/Exchange.dart';
 import 'package:iraqibayt/modules/Currency.dart';
+import 'package:iraqibayt/modules/ICurrency.dart';
 
 class Currencies extends StatefulWidget {
   @override
@@ -14,55 +15,39 @@ class Currencies extends StatefulWidget {
 }
 
 class _CurrenciesState extends State<Currencies> {
-  List<Currency> currencies = [];
-  List<Exchange> localExchanges = [
-//    Exchange(
-//        id: 0,
-//        from: 'دولار أمريكي',
-//        fromVal: 1.0,
-//        to: 'دينار عراقي',
-//        toVal: 1200.0,
-//        direction: 'مركزي العراق'),
-//    Exchange(
-//        id: 1,
-//        from: 'اليورو',
-//        fromVal: 1.0,
-//        to: 'دينار عراقي',
-//        toVal: 1500.0,
-//        direction: 'مركزي العراق'),
-//    Exchange(
-//        id: 2,
-//        from: 'جنيه إسترليني',
-//        fromVal: 1.0,
-//        to: 'دينار عراقي',
-//        toVal: 1000.0,
-//        direction: 'مركزي العراق'),
-//    Exchange(
-//        id: 3,
-//        from: 'دولار استرالي',
-//        fromVal: 1.0,
-//        to: 'دينار عراقي',
-//        toVal: 800.0,
-//        direction: 'مركزي العراق'),
-  ];
+  List<Currency> _currencies, _rCurs;
+  List<ICurrency> _icurrencies, _rICurs;
+  List<Exchange> _localExchanges = [];
 
-  Future<List<Currency>> _getCurrencies() async {
-    var curResponse = await http.get('https://iraqibayt.com/getCurrancies/all');
-    var curData = json.decode(curResponse.body);
+  Future<Map<String, List<Object>>> _getInterExc() async {
+    var iExcResponse = await http.get('https://iraqibayt.com/api/openExchange');
+    var iExcData = json.decode(iExcResponse.body);
+    Map<String, List<Object>> dataMap = new Map<String, List<Object>>();
     Currency tCurrency;
-    currencies = [];
+    ICurrency tiCurrency;
+    _icurrencies = [];
+    _currencies = [];
+    int index = 0;
 
-    for (var cur in curData) {
-      tCurrency = Currency(
-        id: cur['id'],
-        name: cur['name'],
-        shortName: cur['short_name'],
-      );
+    iExcData['result'].forEach((key, value) {
+      tiCurrency =
+          ICurrency(id: index, shortName: key, forOneDollar: value.toDouble());
+      //print(tiCurrency.forOneDollar);
+      _icurrencies.add(tiCurrency);
+    });
 
-      currencies.add(tCurrency);
+    for (var cur in iExcData['curs']) {
+      tCurrency = Currency.fromJson(cur);
+      //print(tCurrency.shortName);
+      _currencies.add(tCurrency);
     }
-    print('currencies length is : ' + currencies.length.toString());
-    return currencies;
+    //print('icurrencies length is : ' + _icurrencies.length.toString());
+    //print('currencies length is : ' + _currencies.length.toString());
+
+    dataMap.putIfAbsent('ic_list', () => _icurrencies);
+    dataMap.putIfAbsent('c_list', () => _currencies);
+
+    return dataMap;
   }
 
   Future<String> _getExcHeader() async {
@@ -74,7 +59,7 @@ class _CurrenciesState extends State<Currencies> {
     headerData = headerData.replaceAll('\\n', '');
     headerData = headerData.replaceAll('\"', '');
 
-    print('ExcH output : ' + headerData);
+    //print('ExcH output : ' + headerData);
 
     return headerData;
   }
@@ -84,77 +69,36 @@ class _CurrenciesState extends State<Currencies> {
     var excData = json.decode(excResponse.body);
 
     Exchange tExc;
-    localExchanges = [];
+    _localExchanges = [];
 
     for (var exchange in excData) {
-      tExc = Exchange(
-        id: exchange['id'],
-        from: exchange['from'],
-        fromVal: exchange['val_from'],
-        to: exchange['to'],
-        toVal: exchange['val_to'],
-        direction: exchange['direction'],
-      );
+      tExc = Exchange.fromJson(exchange);
 
-      localExchanges.add(tExc);
+      _localExchanges.add(tExc);
     }
 
-    print('localExchanges length is : ' + localExchanges.length.toString());
+    //print('localExchanges length is : ' + _localExchanges.length.toString());
 
-    return localExchanges;
+    return _localExchanges;
   }
 
-  final List<Exchange> internationalExchanges = [
-//    Exchange(
-//        id: 0,
-//        from: 'دولار أمريكي',
-//        fromVal: 1.0,
-//        to: 'دينار عراقي',
-//        toVal: 1200.0,
-//        direction: 'مركزي العراق'),
-//    Exchange(
-//        id: 1,
-//        from: 'دولار أمريكي',
-//        fromVal: 1.0,
-//        to: 'ليرة تركية ',
-//        toVal: 50.0,
-//        direction: 'مركزي العراق'),
-//    Exchange(
-//        id: 2,
-//        from: 'دولار أمريكي',
-//        fromVal: 1.0,
-//        to: 'ليرة سورية',
-//        toVal: 2500.0,
-//        direction: 'مركزي العراق'),
-//    Exchange(
-//        id: 3,
-//        from: 'دولار أمريكي',
-//        fromVal: 1.0,
-//        to: 'اليورو',
-//        toVal: 0.85,
-//        direction: 'مركزي العراق'),
-//    Exchange(
-//        id: 4,
-//        from: 'دولار أمريكي',
-//        fromVal: 1.0,
-//        to: 'دولار استرالي',
-//        toVal: 1.4,
-//        direction: 'مركزي العراق'),
-//    Exchange(
-//        id: 5,
-//        from: 'دولار أمريكي',
-//        fromVal: 1.0,
-//        to: 'روبل روسي',
-//        toVal: 80.0,
-//        direction: 'مركزي العراق'),
-//    Exchange(
-//        id: 6,
-//        from: 'دولار أمريكي',
-//        fromVal: 1.0,
-//        to: 'جنيه إسترليني',
-//        toVal: 0.8,
-//        direction: 'مركزي العراق'),
-  ];
+  bool _isInCurs(ICurrency icurrency, List<Currency> curList) {
+    for (Currency cur in curList) {
+      if (cur.shortName == icurrency.shortName) return true;
+    }
+
+    //return Currency(id: 0, name: '*', shortName: 'XXX', active: 0);
+    return false;
+  }
+
+  String _getCurName(ICurrency icurrency, List<Currency> curList) {
+    for (Currency cur in curList) {
+      if (cur.shortName == icurrency.shortName) return cur.name;
+    }
+
+    //return Currency(id: 0, name: '*', shortName: 'XXX', active: 0);
+    return '';
+  }
 
   @override
   void initState() {
@@ -164,10 +108,16 @@ class _CurrenciesState extends State<Currencies> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('أسعار العملات'),
+        backgroundColor: Color(0xff275879),
       ),
       body: Container(
         child: ListView(
@@ -178,7 +128,7 @@ class _CurrenciesState extends State<Currencies> {
                 boxFit: BoxFit.cover,
                 title: GFListTile(
                   //padding: const EdgeInsets.symmetric(horizontal: 70),
-                  color: Colors.blue,
+                  color: Color(0xff275879),
                   title: Text(
                     'نتائج نافذة بيع العملة الأجنبية لليوم',
                     style: TextStyle(fontSize: 18, color: Colors.white),
@@ -192,15 +142,18 @@ class _CurrenciesState extends State<Currencies> {
                       return Container(
                         height: 100,
                         child: Center(
-                          child: Text('جاري التحميل ...'),
+                          child: new CircularProgressIndicator(),
                         ),
                       );
                     } else
-                      return Container(
-                        height: 300,
-                        child: Html(
-                          data: snapshot.data,
-                        ),
+                      return Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Html(
+                              data: snapshot.data,
+                            ),
+                          ),
+                        ],
                       );
                   },
                 ),
@@ -211,7 +164,7 @@ class _CurrenciesState extends State<Currencies> {
                 boxFit: BoxFit.cover,
                 title: GFListTile(
                   //padding: const EdgeInsets.symmetric(horizontal: 10),
-                  color: Colors.blue,
+                  color: Color(0xff275879),
                   title: Text(
                     'جدول أسعار صرف العملات في العراق',
                     style: TextStyle(fontSize: 18, color: Colors.white),
@@ -225,15 +178,16 @@ class _CurrenciesState extends State<Currencies> {
                         return Container(
                           height: 100,
                           child: Center(
-                            child: Text('جاري التحميل ...'),
+                            child: new CircularProgressIndicator(),
                           ),
                         );
-                      } else
+                      } else {
+                        _localExchanges = snapshot.data;
                         return DataTable(
                           columns: <DataColumn>[
                             DataColumn(
                               label: Text(
-                                'كل 1.0',
+                                'كل 1',
                                 style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.lightBlue,
@@ -262,15 +216,15 @@ class _CurrenciesState extends State<Currencies> {
                               ),
                             ),
                           ],
-                          rows: snapshot.data
+                          rows: _localExchanges
                               .map(
                                 (exchange) => DataRow(
                                   cells: [
                                     DataCell(
                                       Text(
-                                        exchange.from.toString(),
+                                        exchange.from.name,
                                         style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 12,
                                         ),
                                         textAlign: TextAlign.right,
                                       ),
@@ -279,7 +233,7 @@ class _CurrenciesState extends State<Currencies> {
                                       Text(
                                         exchange.toVal.toString() + ' IQD',
                                         style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 12,
                                         ),
                                         textAlign: TextAlign.right,
                                       ),
@@ -288,7 +242,7 @@ class _CurrenciesState extends State<Currencies> {
                                       Text(
                                         exchange.direction,
                                         style: TextStyle(
-                                          fontSize: 14,
+                                          fontSize: 12,
                                         ),
                                         textAlign: TextAlign.right,
                                       ),
@@ -298,6 +252,7 @@ class _CurrenciesState extends State<Currencies> {
                               )
                               .toList(),
                         );
+                      }
                     }),
               ),
             ),
@@ -306,63 +261,98 @@ class _CurrenciesState extends State<Currencies> {
                 boxFit: BoxFit.cover,
                 title: GFListTile(
                   //padding: const EdgeInsets.symmetric(horizontal: 10),
-                  color: Colors.blue,
+                  color: Color(0xff275879),
                   title: Text(
                     'جدول أسعار صرف العملات العالمية مقابل الدولار',
                     style: TextStyle(fontSize: 18, color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
                 ),
-                content: DataTable(
-                  columns: <DataColumn>[
-                    DataColumn(
-                      label: Text(
-                        'العملة',
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.lightBlue,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                    DataColumn(
-                      label: Text(
-                        'لكل 1.0 دولار',
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.lightBlue,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                  ],
-                  rows: internationalExchanges
-                      .map(
-                        (exchange) => DataRow(
-                          cells: [
-                            DataCell(
-                              Text(
-                                exchange.to.toString(),
+                content: FutureBuilder(
+                    future: _getInterExc(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<Map<String, List<Object>>> snapshot) {
+                      if (snapshot.data == null) {
+                        return Container(
+                          height: 100,
+                          child: Center(
+                            child: new CircularProgressIndicator(),
+                          ),
+                        );
+                      } else {
+                        Map<String, List<Object>> receivedMap =
+                            Map.from(snapshot.data);
+                        var keysList = receivedMap.keys.toList();
+                        _rICurs = receivedMap[keysList[0]];
+                        _rCurs = receivedMap[keysList[1]];
+
+                        var toRemove = [];
+                        //Filtering _rICurs :
+                        _rICurs.forEach((icur) {
+                          if (!_isInCurs(icur, _rCurs)) toRemove.add(icur);
+                        });
+                        _rICurs.removeWhere(
+                            (element) => toRemove.contains(element));
+                        _rICurs.removeWhere(
+                            (element) => element.shortName == 'USD');
+
+                        //Replace shortName with fullName :
+                        _rICurs.forEach((icur) {
+                          icur.shortName = _getCurName(icur, _rCurs);
+                        });
+
+                        return DataTable(
+                          columns: <DataColumn>[
+                            DataColumn(
+                              label: Text(
+                                'العملة',
                                 style: TextStyle(
-                                  fontSize: 14,
-                                ),
+                                    fontSize: 16,
+                                    color: Colors.lightBlue,
+                                    fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.right,
                               ),
                             ),
-                            DataCell(
-                              Text(
-                                exchange.toVal.toString(),
+                            DataColumn(
+                              label: Text(
+                                'لكل 1 دولار',
                                 style: TextStyle(
-                                  fontSize: 14,
-                                ),
+                                    fontSize: 16,
+                                    color: Colors.lightBlue,
+                                    fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.right,
                               ),
                             ),
                           ],
-                        ),
-                      )
-                      .toList(),
-                ),
+                          rows: _rICurs.map(
+                            (icur) {
+                              return DataRow(
+                                cells: <DataCell>[
+                                  DataCell(
+                                    Text(
+                                      icur.shortName,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ),
+                                  DataCell(
+                                    Text(
+                                      icur.forOneDollar.toString(),
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ).toList(),
+                        );
+                      }
+                    }),
               ),
             )
           ],

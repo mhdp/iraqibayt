@@ -95,7 +95,7 @@ class _DepartsCardState extends State<DepartsCard> {
     return GFCard(
       title: GFListTile(
         padding: const EdgeInsets.symmetric(horizontal: 70),
-        color: Colors.blue,
+        color: Color(0xff275879),
         title: Text(
           'أقسام الموقع',
           style: TextStyle(fontSize: 18, color: Colors.white),

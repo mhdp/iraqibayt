@@ -16,16 +16,17 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         title: Text('الرئيسية'),
+        backgroundColor: Color(0xff275879),
       ),
       body: Container(
         child: ListView(
           //mainAxisSize: MainAxisSize.min,
           scrollDirection: Axis.vertical,
           children: <Widget>[
-            //WeatherCard(),
-            //ExchangeCard(),
+            WeatherCard(),
+            ExchangeCard(),
             DepartsCard(),
-            SearchCard(),
+            //SearchCard(),
           ],
         ),
       ),
