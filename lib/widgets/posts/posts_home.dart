@@ -44,6 +44,31 @@ class _Posts_Home extends State<Posts_Home> {
             , fontFamily: "CustomIcons",),
         ),
 
+              actions: [
+                Padding(padding: const EdgeInsets.all(10), child:
+                RaisedButton(
+                  onPressed: () {},
+                  color: Colors.white,
+                  elevation: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Icon(Icons.add_box,color: Color(0xFF335876),),
+
+                      Text(" أضف إعلان ",style: TextStyle(
+                        fontSize: 20,
+                        color: Color(0xFF335876),
+                        fontFamily: "CustomIcons",
+                        fontWeight:FontWeight.w300,
+
+                      ),),
+
+                    ],
+                  ),
+                ),
+                    ),
+              ],
+
         ),
         body :  Column(
             children: <Widget>[
@@ -78,7 +103,7 @@ class BikeListItem extends StatelessWidget {
 
       return new ListView.builder(
           shrinkWrap: true,
-          itemCount:list1.length,
+          itemCount:data.length,
           itemBuilder: (context,i){
             var img = data[i]['img'].toString();
             return new Container(
@@ -90,9 +115,12 @@ class BikeListItem extends StatelessWidget {
                 },child: InkWell(
                 borderRadius: BorderRadius.circular(4.0),
                 onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Posts_detalis()),
+
+
+                  Navigator.of(context).push(
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Posts_detalis(post_id: data[i]['id'].toString() ,) ),
+
                   );
                 },
                 child:Card(
@@ -117,7 +145,7 @@ class BikeListItem extends StatelessWidget {
                           height: MediaQuery.of(context).size.width/1.5,) :Image.network(
                           "https://iraqibayt.com/storage/app/public/posts/$img",
                           fit: BoxFit.cover,
-                          height: MediaQuery.of(context).size.width/1.5,),
+                          height: MediaQuery.of(context).size.width/2.5,),
 
 
                       ),
@@ -187,7 +215,7 @@ class BikeListItem extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Icon(Icons.location_on,color:Colors.deepOrange),
+                            Icon(Icons.location_on,color:Color(0xFFdd685f)),
                             Text("${data[i]['city']['name']} - ${data[i]['region']['name']}",style: TextStyle(
                               fontSize: 18,
                               color: Colors.black,
@@ -205,7 +233,7 @@ class BikeListItem extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Icon(Icons.format_line_spacing,color:Colors.deepOrange),
+                            Icon(Icons.format_line_spacing,color:Color(0xFFdd685f)),
                             Text(" المساحة:  ${data[i]['area']} ${data[i]['unit']['name']}",style: TextStyle(
                               fontSize: 18,
                               color: Colors.black,
@@ -223,7 +251,7 @@ class BikeListItem extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Icon(Icons.add_box,color: Colors.deepOrange,),
+                            Icon(Icons.add_box,color: Color(0xFFdd685f),),
                             Text(" أضيف: ${data[i]['created_at']}",style: TextStyle(
                               fontSize: 18,
                               color: Colors.black,
@@ -282,7 +310,7 @@ class BikeListItem extends StatelessWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Icon(Icons.call,color: Colors.deepOrange,),
+                                    Icon(Icons.call,color: Color(0xFFdd685f),),
                                     Text(data[i]['phone'],style: TextStyle(
                                       fontSize: 18,
                                       color: Colors.black,
