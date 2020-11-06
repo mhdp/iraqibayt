@@ -61,6 +61,16 @@ class _SearchCardState extends State<SearchCard> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     catHint = 'جميع الأقسام الرئيسية';
     subCatHint = 'جميع الأقسام الفرعية';

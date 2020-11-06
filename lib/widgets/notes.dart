@@ -25,7 +25,7 @@ class _NotesState extends State<Notes> {
       );
 
       notes.add(tNote);
-      print('depart length is : ' + notes.length.toString());
+      //print('depart length is : ' + notes.length.toString());
     }
     return notes;
   }

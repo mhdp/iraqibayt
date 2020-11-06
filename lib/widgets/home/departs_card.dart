@@ -30,6 +30,11 @@ class _DepartsCardState extends State<DepartsCard> {
     });
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   Future<List<Depart>> _getDeparts() async {
     var departsResponse = await http.get('https://iraqibayt.com/departs');
     var departsData = json.decode(departsResponse.body);
