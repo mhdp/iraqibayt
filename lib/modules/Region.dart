@@ -3,7 +3,7 @@ class Region {
   String name;
   int cityId;
   int countryId;
-  bool checked;
+  int checked;
 
   Region({this.id, this.name, this.cityId, this.countryId, this.checked});
 
@@ -13,7 +13,7 @@ class Region {
       name: json['name'] as String,
       cityId: json['city_id'] as int,
       countryId: json['country_id'] as int,
-      checked: json['checked'] as bool,
+      checked: json['checked'] as int,
     );
   }
 }
