@@ -98,229 +98,354 @@ class _SearchCardState extends State<SearchCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: GFCard(
-        title: GFListTile(
-          padding: const EdgeInsets.symmetric(horizontal: 60),
-          color: Color(0xff275879),
-          title: Text(
-            'محرك بحث العقارات',
-            style: TextStyle(fontSize: 18, color: Colors.white),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        content: FutureBuilder(
-          future: _getSearchData(),
-          builder: (BuildContext context,
-              AsyncSnapshot<Map<String, List<Object>>> snapshot) {
-//            if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-//            switch (snapshot.connectionState) {
-//              case ConnectionState.none:
-//                return Text('Select lot');
-//              case ConnectionState.waiting:
-//                return Text('Awaiting bids...');
-//              case ConnectionState.active:
-//                return Text('\$${snapshot.data}');
-//              case ConnectionState.done:
-//                return Text('\$${snapshot.data} (closed)');
-//            }
+    return LayoutBuilder(
+      builder: (ctx, constraints) {
+        return Row(
+          children: [
+            Expanded(
+              child: InkWell(
+                borderRadius: BorderRadius.circular(4.0),
+                onTap: () {},
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.grey, width: 0.5),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  margin: const EdgeInsets.all(10.0),
+                  //color: Colors.grey,
+                  elevation: 0,
 
-            if (snapshot.data == null) {
-              return Container(
-                height: 50,
-                child: Center(
-                  child: new CircularProgressIndicator(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: Container(
+                          padding: const EdgeInsets.all(3.0),
+                          color: Color(0xff275879),
+                          child: Text(
+                            'محرك بحث العقارات',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontFamily: "CustomIcons",
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                child: FutureBuilder(
+                                  future: _getSearchData(),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot snapshot) {
+//                if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+//                switch (snapshot.connectionState) {
+//                  case ConnectionState.none:
+//                    return Text('Select lot');
+//                  case ConnectionState.waiting:
+//                    return Text('Awaiting bids...');
+//                  case ConnectionState.active:
+//                    return Text('\$${snapshot.data}');
+//                  case ConnectionState.done:
+//                    return Text('\$${snapshot.data} (closed)');
+//                }
+                                    if (snapshot.data == null) {
+                                      return Container(
+                                        height: 50,
+                                        child: Center(
+                                          child:
+                                              new CircularProgressIndicator(),
+                                        ),
+                                      );
+                                    } else {
+                                      try {
+                                        Map<String, List<Object>> receivedMap =
+                                            Map.from(snapshot.data);
+                                        var keysList =
+                                            receivedMap.keys.toList();
+                                        _rCategories = receivedMap[keysList[0]];
+                                        _rCities = receivedMap[keysList[1]];
+
+                                        //catValue = _rCategories[0].id;
+                                        _subCategories =
+                                            _getSubCats(catValue, _rCategories);
+                                        //subCatValue = _subCategories[0].id;
+                                        //cityValue = _rCities[0].id;
+                                        _regions =
+                                            _getRegions(cityValue, _rCities);
+
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Container(
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    flex: 45,
+                                                    child:
+                                                        new DropdownButton<int>(
+                                                      elevation: 5,
+                                                      hint: Container(
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                        child: Text(
+                                                          catHint,
+                                                          style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontFamily:
+                                                                "CustomIcons",
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      value: catValue,
+                                                      items: _rCategories.map(
+                                                          (Category category) {
+                                                        return new DropdownMenuItem<
+                                                            int>(
+                                                          value: category.id,
+                                                          child: Container(
+                                                            alignment: Alignment
+                                                                .centerRight,
+                                                            child: new Text(
+                                                              category.name,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right,
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    "CustomIcons",
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged: (int catId) {
+                                                        setState(() {
+                                                          catValue = catId;
+                                                          //catHint = _getCatHint(catValue, _rCategories);
+
+                                                          _subCategories = List
+                                                              .from(_getSubCats(
+                                                                  catId,
+                                                                  _rCategories));
+                                                          subCatValue =
+                                                              _subCategories[0]
+                                                                  .id;
+
+                                                          //_subCategories = List.from(_rCategories[catId].subCatList);
+                                                          print(catValue
+                                                                  .toString() +
+                                                              ' ' +
+                                                              catHint);
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 55,
+                                                    child: DropdownButton<int>(
+                                                      elevation: 5,
+                                                      hint: Container(
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                        child: Text(
+                                                          subCatHint,
+                                                          style: TextStyle(
+                                                              fontSize: 18,
+                                                              fontFamily:
+                                                                  'CustomIcons'),
+                                                        ),
+                                                      ),
+                                                      value: subCatValue,
+                                                      items: _subCategories
+                                                          .map((subcategory) {
+                                                        return new DropdownMenuItem<
+                                                            int>(
+                                                          value: subcategory.id,
+                                                          child: Container(
+                                                            alignment: Alignment
+                                                                .centerRight,
+                                                            child: new Text(
+                                                              subcategory.name,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right,
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    "CustomIcons",
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged:
+                                                          (int subCatId) {
+                                                        setState(() {
+                                                          subCatValue =
+                                                              subCatId;
+                                                          //subCatHint = _subCategories[subCatId].name;
+                                                          print(subCatValue);
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    flex: 5,
+                                                    child: DropdownButton<int>(
+                                                      elevation: 5,
+                                                      hint: Container(
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                        child: Text(
+                                                          cityHint,
+                                                          style: TextStyle(
+                                                            fontSize: 18,
+                                                            fontFamily:
+                                                                'CustomIcons',
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      value: cityValue,
+                                                      items: _rCities
+                                                          .map((RCity city) {
+                                                        return new DropdownMenuItem<
+                                                            int>(
+                                                          value: city.id,
+                                                          child: Container(
+                                                            alignment: Alignment
+                                                                .centerRight,
+                                                            child: new Text(
+                                                              city.name,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right,
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    "CustomIcons",
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged: (int cityId) {
+                                                        setState(() {
+                                                          cityValue = cityId;
+
+                                                          _regions = List.from(
+                                                              _getRegions(
+                                                                  cityValue,
+                                                                  _rCities));
+                                                          regionValue =
+                                                              _regions[0].id;
+                                                          print(cityValue);
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 5,
+                                                    child: DropdownButton<int>(
+                                                      elevation: 5,
+                                                      hint: Container(
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                        child: Text(
+                                                          regionHint,
+                                                          style: TextStyle(
+                                                              fontSize: 18,
+                                                              fontFamily:
+                                                                  'CustomIcons'),
+                                                        ),
+                                                      ),
+                                                      value: regionValue,
+                                                      items: _regions
+                                                          .map((Region region) {
+                                                        return new DropdownMenuItem<
+                                                            int>(
+                                                          value: region.id,
+                                                          child: Container(
+                                                            alignment: Alignment
+                                                                .centerRight,
+                                                            child: new Text(
+                                                              region.name,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right,
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    "CustomIcons",
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged:
+                                                          (int regionId) {
+                                                        setState(() {
+                                                          regionValue =
+                                                              regionId;
+                                                          //regionHint = _regions[regionId].name;
+                                                          print(regionValue);
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20.0),
+                                              margin: const EdgeInsets.only(
+                                                  top: 5.0),
+                                              child: GFButton(
+                                                onPressed: () {},
+                                                text: "بحث",
+                                                blockButton: true,
+                                                color: Color(0xff65AECA),
+                                              ),
+                                            )
+                                          ],
+                                        );
+                                      } catch (e) {
+                                        return Container(
+                                          child: Center(
+                                            child: Text(
+                                                'لا يوجد معلومات عن محرك البحث حالياً'),
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              );
-            } else {
-              Map<String, List<Object>> receivedMap = Map.from(snapshot.data);
-              var keysList = receivedMap.keys.toList();
-              _rCategories = receivedMap[keysList[0]];
-              _rCities = receivedMap[keysList[1]];
-
-              //catValue = _rCategories[0].id;
-              _subCategories = _getSubCats(catValue, _rCategories);
-              //subCatValue = _subCategories[0].id;
-              //cityValue = _rCities[0].id;
-              _regions = _getRegions(cityValue, _rCities);
-              //regionValue = _regions[0].id;
-//              catHint = _rCategories[0].name;
-//              subCatHint = _subCategories[0].name;
-//              cityHint = _rCities[0].name;
-//              regionHint = _regions[0].name;
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 45,
-                          child: new DropdownButton<int>(
-                            elevation: 5,
-                            hint: Container(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                catHint,
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            ),
-                            value: catValue,
-                            items: _rCategories.map((Category category) {
-                              return new DropdownMenuItem<int>(
-                                value: category.id,
-                                child: Container(
-                                  alignment: Alignment.centerRight,
-                                  child: new Text(
-                                    category.name,
-                                    textAlign: TextAlign.right,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (int catId) {
-                              setState(() {
-                                catValue = catId;
-                                //catHint = _getCatHint(catValue, _rCategories);
-
-                                _subCategories =
-                                    List.from(_getSubCats(catId, _rCategories));
-                                subCatValue = _subCategories[0].id;
-
-                                //_subCategories = List.from(_rCategories[catId].subCatList);
-                                print(catValue.toString() + ' ' + catHint);
-                              });
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          flex: 55,
-                          child: DropdownButton<int>(
-                            elevation: 5,
-                            hint: Container(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                subCatHint,
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            ),
-                            value: subCatValue,
-                            items: _subCategories.map((subcategory) {
-                              return new DropdownMenuItem<int>(
-                                value: subcategory.id,
-                                child: Container(
-                                  alignment: Alignment.centerRight,
-                                  child: new Text(
-                                    subcategory.name,
-                                    textAlign: TextAlign.right,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (int subCatId) {
-                              setState(() {
-                                subCatValue = subCatId;
-                                //subCatHint = _subCategories[subCatId].name;
-                                print(subCatValue);
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          flex: 5,
-                          child: DropdownButton<int>(
-                            elevation: 5,
-                            hint: Container(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                cityHint,
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            ),
-                            value: cityValue,
-                            items: _rCities.map((RCity city) {
-                              return new DropdownMenuItem<int>(
-                                value: city.id,
-                                child: Container(
-                                  alignment: Alignment.centerRight,
-                                  child: new Text(
-                                    city.name,
-                                    textAlign: TextAlign.right,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (int cityId) {
-                              setState(() {
-                                cityValue = cityId;
-
-                                _regions =
-                                    List.from(_getRegions(cityValue, _rCities));
-                                regionValue = _regions[0].id;
-                                print(cityValue);
-                              });
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          flex: 5,
-                          child: DropdownButton<int>(
-                            elevation: 5,
-                            hint: Container(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                regionHint,
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            ),
-                            value: regionValue,
-                            items: _regions.map((Region region) {
-                              return new DropdownMenuItem<int>(
-                                value: region.id,
-                                child: Container(
-                                  alignment: Alignment.centerRight,
-                                  child: new Text(
-                                    region.name,
-                                    textAlign: TextAlign.right,
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                            onChanged: (int regionId) {
-                              setState(() {
-                                regionValue = regionId;
-                                //regionHint = _regions[regionId].name;
-                                print(regionValue);
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    margin: const EdgeInsets.only(top: 5.0),
-                    child: GFButton(
-                      onPressed: () {},
-                      text: "بحث",
-                      blockButton: true,
-                      color: Color(0xff65AECA),
-                    ),
-                  )
-                ],
-              );
-            }
-          },
-        ),
-      ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
