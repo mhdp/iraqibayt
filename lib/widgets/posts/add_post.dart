@@ -26,7 +26,7 @@ class _Add_Post extends State<Add_Post> {
   final title_Controller = TextEditingController();
   final details_Controller = TextEditingController();
 
-
+  var is_sub = false;
   Future<String> get_cats() async {
 
     String url = "https://iraqibayt.com/getCategories";
@@ -37,6 +37,23 @@ class _Add_Post extends State<Add_Post> {
 
     setState(() {
       cat_list = resBody;
+    });
+
+    //print(resBody);
+
+    return "Sucess";
+  }
+
+  Future<String> get_sub_cats(String cat_id) async {
+
+    String url = "subcategories/$cat_id/fromCat";
+
+    var res = await http
+        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+    var resBody = json.decode(res.body);
+
+    setState(() {
+      sub_cat_list = resBody;
     });
 
     //print(resBody);
@@ -60,6 +77,8 @@ class _Add_Post extends State<Add_Post> {
 
     return "Sucess";
   }
+
+
   void initState() {
     super.initState();
     get_cats();
@@ -106,16 +125,49 @@ class _Add_Post extends State<Add_Post> {
                       value: item['id'].toString(),
                     );
                   }).toList(),
+
                   onChanged: (newVal) {
                     setState(() {
                      cat_Selection = newVal;
-
+                     sub_cat_Selection = null;
+                     //print(_mycountrySelection);
+                     sub_cat_list.clear();
+                     sub_cat_list = List();
+                     is_sub = true;
                     });
+
+                    get_sub_cats(newVal);
                   },
                   value: cat_Selection,
 
                 ):Center(child: new GFLoader(type:GFLoaderType.circle)),
 
+                is_sub ? sub_cat_list.length>0 ? DropdownButton(
+                  hint: SizedBox(
+                      width: MediaQuery.of(context).size.width/2, // for example
+                      child: Text("اختر قسم فرعي",
+                        textAlign: TextAlign.right,textDirection: TextDirection.rtl,)
+                  ),
+                  items: sub_cat_list.map((item) {
+                    //_mycitySelection = item['city_id'].toString();
+                    return new DropdownMenuItem(
+                      child: new Text(item['name']),
+                      value: item['id'].toString(),
+                    );
+                  }).toList(),
+                  onChanged: (newVal) {
+                    setState(() {
+                      sub_cat_Selection = newVal;
+                      //print(_mycitySelection);
+                    });
+                  },
+                  value: sub_cat_Selection,
+
+                ):Center(child: new GFLoader(type:GFLoaderType.circle)):Container(),
+
+                SizedBox(
+                  height: 20,
+                ),
 
                 city_list.length >0 ? DropdownButton(
                   hint: SizedBox(
