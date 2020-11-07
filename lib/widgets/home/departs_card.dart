@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:iraqibayt/modules/Depart.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
+import 'package:iraqibayt/widgets/systems.dart';
 import 'package:iraqibayt/widgets/tips.dart';
 
 import '../currencies.dart';
@@ -96,6 +97,14 @@ class _DepartsCardState extends State<DepartsCard> {
           );
         }
         break;
+      case 5:
+        {
+          Navigator.of(context).push(
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Systems()),
+          );
+        }
+        break;
     }
   }
 
@@ -106,82 +115,185 @@ class _DepartsCardState extends State<DepartsCard> {
         MediaQuery.of(context).size.height - statusBarHeight - kToolbarHeight;
     final double gridTileHeight = screenHeight / 6.0;
 
-    return GFCard(
-      title: GFListTile(
-        padding: const EdgeInsets.symmetric(horizontal: 70),
-        color: Color(0xff275879),
-        title: Text(
-          'أقسام الموقع',
-          style: TextStyle(fontSize: 18, color: Colors.white),
-          textAlign: TextAlign.center,
-        ),
-      ),
-      content: is_loading
-          ? Center(
-              child: new GFLoader(type: GFLoaderType.circle),
-            )
-          : Container(
-              height: (dl / 2) * (gridTileHeight),
-              child: FutureBuilder(
-                future: _getDeparts(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.data == null) {
-                    return Container(
-                      height: 100,
-                      child: Center(
-                        child: Text('جاري تحميل أقسام الموقع...'),
-                      ),
-                    );
-                  } else
-                    return GridView.builder(
-                        itemCount: snapshot.data.length,
-                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 150,
-                          crossAxisSpacing: 10, //row margin
-                          mainAxisSpacing: 10, //column margin
-                          childAspectRatio:
-                              1.5 / 1.0, //width / height ration for each tile
+    return LayoutBuilder(
+      builder: (ctx, constraints) {
+        return Row(
+          children: [
+            Expanded(
+              child: InkWell(
+                borderRadius: BorderRadius.circular(4.0),
+                onTap: () {},
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.grey, width: 0.5),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  margin: const EdgeInsets.all(10.0),
+                  //color: Colors.grey,
+                  elevation: 0,
+
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: Container(
+                          padding: const EdgeInsets.all(3.0),
+                          color: Color(0xff275879),
+                          child: Text(
+                            'أقسام الموقع',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                              fontFamily: "CustomIcons",
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            splashColor: Theme.of(context).primaryColor,
-                            borderRadius: BorderRadius.circular(5),
-                            onTap: () => _setRoute(context, index + 1),
-                            child: Container(
-                                padding: const EdgeInsets.all(10),
-                                child: Center(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: gridTileHeight / 3,
-                                        width: gridTileHeight / 3,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                              image: NetworkImage(
-                                                  'https://iraqibayt.com/storage/app/public/images/' +
-                                                      snapshot
-                                                          .data[index].image),
-                                              fit: BoxFit.fill),
-                                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: is_loading
+                                  ? Center(
+                                      child: new GFLoader(
+                                          type: GFLoaderType.circle),
+                                    )
+                                  : Container(
+                                      height: (dl / 2) * (gridTileHeight + 9.0),
+                                      child: FutureBuilder(
+                                        future: _getDeparts(),
+                                        builder: (BuildContext context,
+                                            AsyncSnapshot snapshot) {
+//                if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+//                switch (snapshot.connectionState) {
+//                  case ConnectionState.none:
+//                    return Text('Select lot');
+//                  case ConnectionState.waiting:
+//                    return Text('Awaiting bids...');
+//                  case ConnectionState.active:
+//                    return Text('\$${snapshot.data}');
+//                  case ConnectionState.done:
+//                    return Text('\$${snapshot.data} (closed)');
+//                }
+                                          if (snapshot.data == null) {
+                                            return Container(
+                                              height: 50,
+                                              child: Center(
+                                                child:
+                                                    new CircularProgressIndicator(),
+                                              ),
+                                            );
+                                          } else {
+                                            try {
+                                              return GridView.builder(
+                                                  itemCount:
+                                                      snapshot.data.length,
+                                                  gridDelegate:
+                                                      SliverGridDelegateWithMaxCrossAxisExtent(
+                                                    maxCrossAxisExtent: 150,
+                                                    crossAxisSpacing:
+                                                        10, //row margin
+                                                    mainAxisSpacing:
+                                                        10, //column margin
+                                                    childAspectRatio: 1.5 /
+                                                        1.0, //width / height ration for each tile
+                                                  ),
+                                                  physics:
+                                                      const NeverScrollableScrollPhysics(),
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return InkWell(
+                                                      splashColor:
+                                                          Theme.of(context)
+                                                              .primaryColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5),
+                                                      onTap: () => _setRoute(
+                                                          context, index + 1),
+                                                      child: Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(10),
+                                                          child: Center(
+                                                            child: Column(
+                                                              children: [
+                                                                Container(
+                                                                  height:
+                                                                      gridTileHeight /
+                                                                          3,
+                                                                  width:
+                                                                      gridTileHeight /
+                                                                          3,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                    image: DecorationImage(
+                                                                        image: NetworkImage('https://iraqibayt.com/storage/app/public/images/' +
+                                                                            snapshot.data[index].image),
+                                                                        fit: BoxFit.fill),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 10.0,
+                                                                ),
+                                                                Text(
+                                                                  snapshot
+                                                                      .data[
+                                                                          index]
+                                                                      .name,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        15,
+                                                                    fontFamily:
+                                                                        "CustomIcons",
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Color(
+                                                                0xfff2f2f2),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5.0),
+                                                          )),
+                                                    );
+                                                  });
+                                            } catch (e) {
+                                              return Container(
+                                                child: Center(
+                                                  child: Text(
+                                                      'لا يوجد معلومات عن أقسام الموقع حالياً'),
+                                                ),
+                                              );
+                                            }
+                                          }
+                                        },
                                       ),
-                                      Text(
-                                        snapshot.data[index].name,
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Color(0xfff2f2f2),
-                                  borderRadius: BorderRadius.circular(5.0),
-                                )),
-                          );
-                        });
-                },
+                                    ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
+          ],
+        );
+      },
     );
   }
 }
