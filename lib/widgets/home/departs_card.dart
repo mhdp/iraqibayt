@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:iraqibayt/modules/Depart.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
+import 'package:iraqibayt/widgets/tips.dart';
 
 import '../currencies.dart';
 import '../notes.dart';
@@ -76,6 +77,14 @@ class _DepartsCardState extends State<DepartsCard> {
           Navigator.of(context).push(
             new MaterialPageRoute(
                 builder: (BuildContext context) => new Notes()),
+          );
+        }
+        break;
+      case 3:
+        {
+          Navigator.of(context).push(
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Tips()),
           );
         }
         break;
