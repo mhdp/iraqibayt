@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:iraqibayt/modules/City.dart';
+import 'package:iraqibayt/modules/RCity.dart';
 import 'package:iraqibayt/modules/Category.dart';
-import 'package:iraqibayt/modules/subCategory.dart';
+import 'package:iraqibayt/modules/SubCategory.dart';
 import 'package:iraqibayt/modules/Region.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
@@ -14,10 +14,14 @@ class SearchCard extends StatefulWidget {
 }
 
 class _SearchCardState extends State<SearchCard> {
-  List<City> _cities, _rCities;
+  List<RCity> _cities, _rCities;
   List<Region> _regions;
   List<Category> _categories, _rCategories;
   List<SubCategory> _subCategories;
+  Region initRegion;
+  RCity initCity;
+  SubCategory initSubCategory;
+  Category initCategory;
 
   int catValue;
   String catHint;
@@ -32,13 +36,14 @@ class _SearchCardState extends State<SearchCard> {
     //Fetching Cities Data
     var citiesResponse = await http.get('https://iraqibayt.com/getCities');
     var citiesData = json.decode(citiesResponse.body);
-    Map<String, List<Object>> dataMap = new Map<String, List<Object>>();
+    Map<String, List<Object>> dataMap2 = new Map<String, List<Object>>();
     _cities = [];
-    _regions = [];
-    City tCity;
+    RCity tCity;
 
     for (var record in citiesData) {
-      tCity = City.fromJson(record);
+      tCity = RCity.fromJson(record);
+      //print(tCity.name + '->');
+      //print(tCity.regions);
       _cities.add(tCity);
     }
 
@@ -51,22 +56,48 @@ class _SearchCardState extends State<SearchCard> {
 
     for (var record in categoriesData) {
       tCategory = Category.fromJson(record);
+      //print(tCategory.name);
       _categories.add(tCategory);
     }
 
-    dataMap.putIfAbsent('cat_list', () => _categories);
-    dataMap.putIfAbsent('cit_list', () => _cities);
+    dataMap2.putIfAbsent('cat_list', () => _categories);
+    dataMap2.putIfAbsent('cit_list', () => _cities);
 
-    return dataMap;
+    return dataMap2;
+  }
+
+  List<SubCategory> _getSubCats(int cat_id, List<Category> catList) {
+    for (Category cat in catList) if (cat.id == cat_id) return cat.subCatList;
+  }
+
+  List<Region> _getRegions(int cit_id, List<RCity> citList) {
+    for (RCity cit in citList) if (cit.id == cit_id) return cit.regions;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+//    _regions = List<Region>();
+//    _subCategories = List<SubCategory>();
+//    _finalCities = List<RCity>();
+//    _finalCategories = List<Category>();
+    catHint = '1';
+    subCatHint = '2';
+    cityHint = '3';
+    regionHint = '4';
+    catValue = 1;
+    subCatValue = 1;
+    cityValue = 33;
+    regionValue = 124;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    catHint = 'جميع الأقسام الرئيسية';
-    subCatHint = 'جميع الأقسام الفرعية';
-    cityHint = 'جميع المدن';
-    regionHint = 'جميع المناطق';
-
     return Container(
       child: GFCard(
         title: GFListTile(
@@ -82,6 +113,18 @@ class _SearchCardState extends State<SearchCard> {
           future: _getSearchData(),
           builder: (BuildContext context,
               AsyncSnapshot<Map<String, List<Object>>> snapshot) {
+//            if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+//            switch (snapshot.connectionState) {
+//              case ConnectionState.none:
+//                return Text('Select lot');
+//              case ConnectionState.waiting:
+//                return Text('Awaiting bids...');
+//              case ConnectionState.active:
+//                return Text('\$${snapshot.data}');
+//              case ConnectionState.done:
+//                return Text('\$${snapshot.data} (closed)');
+//            }
+
             if (snapshot.data == null) {
               return Container(
                 height: 50,
@@ -94,14 +137,17 @@ class _SearchCardState extends State<SearchCard> {
               var keysList = receivedMap.keys.toList();
               _rCategories = receivedMap[keysList[0]];
               _rCities = receivedMap[keysList[1]];
-              _subCategories = [];
-              _regions = [];
 
-              catValue = 0;
-              subCatValue = 0;
-              cityValue = 0;
-              regionValue = 0;
-              //cityId = _rCities[0].id;
+              //catValue = _rCategories[0].id;
+              _subCategories = _getSubCats(catValue, _rCategories);
+              //subCatValue = _subCategories[0].id;
+              //cityValue = _rCities[0].id;
+              _regions = _getRegions(cityValue, _rCities);
+              //regionValue = _regions[0].id;
+//              catHint = _rCategories[0].name;
+//              subCatHint = _subCategories[0].name;
+//              cityHint = _rCities[0].name;
+//              regionHint = _regions[0].name;
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -111,7 +157,7 @@ class _SearchCardState extends State<SearchCard> {
                       children: <Widget>[
                         Expanded(
                           flex: 45,
-                          child: DropdownButton<int>(
+                          child: new DropdownButton<int>(
                             elevation: 5,
                             hint: Container(
                               alignment: Alignment.centerRight,
@@ -136,10 +182,14 @@ class _SearchCardState extends State<SearchCard> {
                             onChanged: (int catId) {
                               setState(() {
                                 catValue = catId;
-                                catHint = _rCategories[catId].name;
+                                //catHint = _getCatHint(catValue, _rCategories);
+
                                 _subCategories =
-                                    List.from(_rCategories[catId].subCatList);
-                                print(catValue);
+                                    List.from(_getSubCats(catId, _rCategories));
+                                subCatValue = _subCategories[0].id;
+
+                                //_subCategories = List.from(_rCategories[catId].subCatList);
+                                print(catValue.toString() + ' ' + catHint);
                               });
                             },
                           ),
@@ -156,13 +206,13 @@ class _SearchCardState extends State<SearchCard> {
                               ),
                             ),
                             value: subCatValue,
-                            items: _subCategories.map((subategory) {
+                            items: _subCategories.map((subcategory) {
                               return new DropdownMenuItem<int>(
-                                value: subategory.id,
+                                value: subcategory.id,
                                 child: Container(
                                   alignment: Alignment.centerRight,
                                   child: new Text(
-                                    subategory.name,
+                                    subcategory.name,
                                     textAlign: TextAlign.right,
                                   ),
                                 ),
@@ -171,7 +221,7 @@ class _SearchCardState extends State<SearchCard> {
                             onChanged: (int subCatId) {
                               setState(() {
                                 subCatValue = subCatId;
-                                subCatHint = _subCategories[subCatId].name;
+                                //subCatHint = _subCategories[subCatId].name;
                                 print(subCatValue);
                               });
                             },
@@ -195,7 +245,7 @@ class _SearchCardState extends State<SearchCard> {
                               ),
                             ),
                             value: cityValue,
-                            items: _rCities.map((City city) {
+                            items: _rCities.map((RCity city) {
                               return new DropdownMenuItem<int>(
                                 value: city.id,
                                 child: Container(
@@ -210,8 +260,10 @@ class _SearchCardState extends State<SearchCard> {
                             onChanged: (int cityId) {
                               setState(() {
                                 cityValue = cityId;
-                                cityHint = _rCities[cityId].name;
-                                _regions = List.from(_rCities[cityId].regions);
+
+                                _regions =
+                                    List.from(_getRegions(cityValue, _rCities));
+                                regionValue = _regions[0].id;
                                 print(cityValue);
                               });
                             },
@@ -244,7 +296,7 @@ class _SearchCardState extends State<SearchCard> {
                             onChanged: (int regionId) {
                               setState(() {
                                 regionValue = regionId;
-                                regionHint = _regions[regionId].name;
+                                //regionHint = _regions[regionId].name;
                                 print(regionValue);
                               });
                             },

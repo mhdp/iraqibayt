@@ -3,7 +3,7 @@ class SubCategory {
   String name;
   String type;
   int categoryId;
-  bool checked;
+  int checked;
 
   SubCategory({this.id, this.name, this.categoryId, this.type, this.checked});
 
@@ -13,7 +13,7 @@ class SubCategory {
       name: json['name'] as String,
       categoryId: json['category_id'] as int,
       type: json['type'] as String,
-      checked: json['checked'] as bool,
+      checked: json['checked'] as int,
     );
   }
 }

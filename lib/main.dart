@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:iraqibayt/widgets/fullTip.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
 import 'package:iraqibayt/widgets/main_board.dart';
 import 'package:iraqibayt/widgets/posts/post_details.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/register.dart';
+import 'package:iraqibayt/widgets/tips.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,6 +45,8 @@ class MyApp extends StatelessWidget {
         '/Posts_detalis': (context) => Posts_detalis(),
         '/notes': (context) => Notes(),
         '/currencies': (context) => Currencies(),
+        '/tips': (context) => Tips(),
+        '/full_tip': (context) => FullTip(),
       },
     );
   }

@@ -23,7 +23,7 @@ class _WeatherCardState extends State<WeatherCard> {
   void initState() {
     super.initState();
     cityHint = 'اختر مدينة';
-    //cityId = 33;
+    cityId = 33;
   }
 
   @override
@@ -82,6 +82,17 @@ class _WeatherCardState extends State<WeatherCard> {
               future: _getWeatherData(),
               builder: (BuildContext context,
                   AsyncSnapshot<Map<String, List<Object>>> snapshot) {
+//                if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+//                switch (snapshot.connectionState) {
+//                  case ConnectionState.none:
+//                    return Text('Select lot');
+//                  case ConnectionState.waiting:
+//                    return Text('Awaiting bids...');
+//                  case ConnectionState.active:
+//                    return Text('\$${snapshot.data}');
+//                  case ConnectionState.done:
+//                    return Text('\$${snapshot.data} (closed)');
+//                }
                 if (snapshot.data == null) {
                   return Container(
                     height: 50,
@@ -95,7 +106,8 @@ class _WeatherCardState extends State<WeatherCard> {
                   var keysList = receivedMap.keys.toList();
                   _rWeather = receivedMap[keysList[0]];
                   _rCities = receivedMap[keysList[1]];
-                  cityId = _rCities[0].id;
+                  //when i set the cityId to first item , the dropdown cant  change output item
+                  //cityId = _rCities[0].id;
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -140,6 +152,7 @@ class _WeatherCardState extends State<WeatherCard> {
                               onChanged: (int cId) {
                                 setState(() {
                                   cityId = cId;
+                                  cityHint = 'X';
                                   print(cId);
                                 });
                               },

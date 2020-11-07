@@ -58,6 +58,18 @@ class _ExchangeCardState extends State<ExchangeCard> {
         content: FutureBuilder(
           future: _getExchange(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
+//
+//            if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+//            switch (snapshot.connectionState) {
+//              case ConnectionState.none:
+//                return Text('Select lot');
+//              case ConnectionState.waiting:
+//                return Text('Awaiting bids...');
+//              case ConnectionState.active:
+//                return Text('\$${snapshot.data}');
+//              case ConnectionState.done:
+//                return Text('\$${snapshot.data} (closed)');
+//            }
             if (snapshot.data == null) {
               return Container(
                 height: 100,
