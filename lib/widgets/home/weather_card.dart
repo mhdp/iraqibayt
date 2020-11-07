@@ -168,7 +168,9 @@ class _WeatherCardState extends State<WeatherCard> {
                                                       child: Text(
                                                         cityHint,
                                                         style: TextStyle(
-                                                            fontSize: 18),
+                                                            fontSize: 18,
+                                                            fontFamily:
+                                                                'CustomIcons'),
                                                       ),
                                                     ),
                                                     value: cityId,
@@ -185,6 +187,10 @@ class _WeatherCardState extends State<WeatherCard> {
                                                             city.name,
                                                             textAlign:
                                                                 TextAlign.right,
+                                                            style: TextStyle(
+                                                              fontFamily:
+                                                                  "CustomIcons",
+                                                            ),
                                                           ),
                                                         ),
                                                       );
