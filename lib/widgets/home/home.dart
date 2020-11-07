@@ -4,6 +4,7 @@ import 'package:iraqibayt/widgets/home/exchange_card.dart';
 import 'package:iraqibayt/widgets/home/search_card.dart';
 import 'package:iraqibayt/widgets/home/weather_card.dart';
 import 'package:iraqibayt/widgets/home/departs_card.dart';
+import 'package:iraqibayt/widgets/posts/add_post.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -25,15 +26,38 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'الرئيسية',
-          style: TextStyle(
+        title: Text('البيت العراقي'),
+        backgroundColor: Color(0xFF335876),
+
+        actions: [
+          Padding(padding: const EdgeInsets.all(10), child:
+          RaisedButton(
+            onPressed: () {
+
+              Navigator.of(context).push(
+                new MaterialPageRoute(
+                    builder: (BuildContext context) => new Add_Post() ),);
+            },
             color: Colors.white,
-            fontFamily: "CustomIcons",
+            elevation: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Icon(Icons.add_box,color: Color(0xFF335876),),
+
+                Text(" أضف إعلان ",style: TextStyle(
+                  fontSize: 20,
+                  color: Color(0xFF335876),
+                  fontFamily: "CustomIcons",
+                  fontWeight:FontWeight.w300,
+
+                ),),
+
+              ],
+            ),
           ),
-          textAlign: TextAlign.center,
-        ),
-        backgroundColor: Color(0xff275879),
+          ),
+        ],
       ),
       body: Container(
         child: ListView(

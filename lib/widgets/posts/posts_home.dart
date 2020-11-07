@@ -6,6 +6,8 @@ import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:iraqibayt/widgets/my_icons_icons.dart';
 import 'package:iraqibayt/widgets/posts/post_details.dart';
 
+import 'add_post.dart';
+
 DatabaseHelper databaseHelper = new DatabaseHelper();
 
 class Posts_Home extends StatefulWidget {
@@ -47,7 +49,11 @@ class _Posts_Home extends State<Posts_Home> {
               actions: [
                 Padding(padding: const EdgeInsets.all(10), child:
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                    new MaterialPageRoute(
+                        builder: (BuildContext context) => new Add_Post() ),);
+                  },
                   color: Colors.white,
                   elevation: 0,
                   child: Row(
