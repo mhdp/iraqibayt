@@ -8,21 +8,21 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
 Future<String> signInWithGoogle() async {
   final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
   final GoogleSignInAuthentication googleSignInAuthentication =
-  await googleSignInAccount.authentication;
+      await googleSignInAccount.authentication;
 
   final AuthCredential credential = GoogleAuthProvider.getCredential(
     accessToken: googleSignInAuthentication.accessToken,
     idToken: googleSignInAuthentication.idToken,
   );
 
-  final UserCredential authResult = await _auth.signInWithCredential(credential);
+  final UserCredential authResult =
+      await _auth.signInWithCredential(credential);
   final User user = authResult.user;
 
   // Checking if email and name is null
@@ -53,7 +53,7 @@ Future<String> signInWithGoogle() async {
   return 'signInWithGoogle succeeded: $user';
 }
 
-void signOutGoogle() async{
+void signOutGoogle() async {
   await googleSignIn.signOut();
 
   print("User Sign Out");
@@ -63,17 +63,17 @@ final fbLogin = FacebookLogin();
 
 Future signInFB() async {
   final FacebookLoginResult result = await fbLogin.logIn(["email"]);
+  print(result.accessToken);
   final String token = result.accessToken.token;
-  final response = await  http.get('https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
+  final response = await http.get(
+      'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
   final profile = jsonDecode(response.body);
   print(profile);
   return profile;
 }
 
-
 class Welcome extends StatelessWidget {
   static const routeName = '/';
-
 
   Widget _facebookButton() {
     return InkWell(
@@ -181,50 +181,50 @@ class Welcome extends StatelessWidget {
     return InkWell(
         onTap: signInWithGoogle,
         child: Container(
-      height: 50,
-      margin: EdgeInsets.symmetric(vertical: 5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 1,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color(0xffdc3400),
-                borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(5),
-                    topRight: Radius.circular(5)),
-              ),
-              alignment: Alignment.center,
-              child: Icon(
-                FontAwesomeIcons.google,
-                color: Colors.white,
-              ),
-            ),
+          height: 50,
+          margin: EdgeInsets.symmetric(vertical: 5),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
-          Expanded(
-            flex: 5,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Color(0xdddc3400),
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(5),
-                    topLeft: Radius.circular(5)),
+          child: Row(
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xffdc3400),
+                    borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(5),
+                        topRight: Radius.circular(5)),
+                  ),
+                  alignment: Alignment.center,
+                  child: Icon(
+                    FontAwesomeIcons.google,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-              alignment: Alignment.center,
-              child: Text('الاستمرار باستخدام جوجل',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: "CustomIcons",
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400)),
-            ),
+              Expanded(
+                flex: 5,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xdddc3400),
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(5),
+                        topLeft: Radius.circular(5)),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text('الاستمرار باستخدام جوجل',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "CustomIcons",
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400)),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    ));
+        ));
   }
 
   Widget new_account_button(BuildContext context) {

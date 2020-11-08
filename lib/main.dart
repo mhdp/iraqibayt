@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iraqibayt/widgets/abouts.dart';
+import 'package:iraqibayt/widgets/fullAbout.dart';
 import 'package:iraqibayt/widgets/fullTip.dart';
 import 'package:iraqibayt/widgets/fullSystem.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
@@ -51,6 +53,8 @@ class MyApp extends StatelessWidget {
         '/full_tip': (context) => FullTip(),
         '/systems': (context) => Systems(),
         '/full_system': (context) => FullSystem(),
+        '/abouts': (context) => Abouts(),
+        '/full_about': (context) => FullAbout(),
       },
     );
   }

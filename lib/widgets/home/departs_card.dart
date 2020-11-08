@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:iraqibayt/modules/Depart.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:iraqibayt/widgets/abouts.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/systems.dart';
 import 'package:iraqibayt/widgets/tips.dart';
@@ -102,6 +103,14 @@ class _DepartsCardState extends State<DepartsCard> {
           Navigator.of(context).push(
             new MaterialPageRoute(
                 builder: (BuildContext context) => new Systems()),
+          );
+        }
+        break;
+      case 7:
+        {
+          Navigator.of(context).push(
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Abouts()),
           );
         }
         break;
