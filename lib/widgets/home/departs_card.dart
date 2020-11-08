@@ -6,6 +6,7 @@ import 'package:iraqibayt/modules/Depart.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/widgets/abouts.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
+import 'package:iraqibayt/widgets/statistics.dart';
 import 'package:iraqibayt/widgets/systems.dart';
 import 'package:iraqibayt/widgets/tips.dart';
 
@@ -114,6 +115,14 @@ class _DepartsCardState extends State<DepartsCard> {
           );
         }
         break;
+      case 8:
+        {
+          Navigator.of(context).push(
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Statistics()),
+          );
+        }
+        break;
     }
   }
 
@@ -172,7 +181,7 @@ class _DepartsCardState extends State<DepartsCard> {
                                           type: GFLoaderType.circle),
                                     )
                                   : Container(
-                                      height: (dl / 2) * (gridTileHeight ),
+                                      height: (dl / 2) * (gridTileHeight + 10),
                                       child: FutureBuilder(
                                         future: _getDeparts(),
                                         builder: (BuildContext context,
@@ -208,8 +217,8 @@ class _DepartsCardState extends State<DepartsCard> {
                                                         10, //row margin
                                                     mainAxisSpacing:
                                                         10, //column margin
-                                                    childAspectRatio: 2 /
-                                                        2, //width / height ration for each tile
+                                                    childAspectRatio: 1.5 /
+                                                        1, //width / height ration for each tile
                                                   ),
                                                   physics:
                                                       const NeverScrollableScrollPhysics(),
