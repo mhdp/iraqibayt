@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:iraqibayt/modules/api/callApi.dart';
 
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -67,6 +68,15 @@ Future signInFB() async {
   final response = await  http.get('https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
   final profile = jsonDecode(response.body);
   print(profile);
+
+  var data = {
+    'name': profile["name"],
+    'email': profile["email"],
+  };
+
+  var res = await CallApi().postData(data, '/facebook_login');
+  var body = json.decode(res.body);
+  print(body);
   return profile;
 }
 
