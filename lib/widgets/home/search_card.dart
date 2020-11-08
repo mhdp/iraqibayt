@@ -86,7 +86,7 @@ class _SearchCardState extends State<SearchCard> {
     cityHint = '3';
     regionHint = '4';
     catValue = 1;
-    subCatValue = 1;
+    subCatValue = 10;
     cityValue = 33;
     regionValue = 124;
   }
@@ -423,6 +423,7 @@ class _SearchCardState extends State<SearchCard> {
                                           ],
                                         );
                                       } catch (e) {
+                                        print(e.toString());
                                         return Container(
                                           child: Center(
                                             child: Text(

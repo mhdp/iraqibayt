@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:iraqibayt/modules/Exchange.dart';
 import 'package:iraqibayt/modules/Currency.dart';
 import 'package:iraqibayt/modules/ICurrency.dart';
+import 'package:flutter_html/style.dart';
 
 class Currencies extends StatefulWidget {
   @override
@@ -116,7 +117,12 @@ class _CurrenciesState extends State<Currencies> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('أسعار العملات'),
+        title: Text(
+          'أسعار العملات',
+          style: TextStyle(
+            fontFamily: "CustomIcons",
+          ),
+        ),
         backgroundColor: Color(0xff275879),
       ),
       body: Container(
@@ -131,7 +137,11 @@ class _CurrenciesState extends State<Currencies> {
                   color: Color(0xff275879),
                   title: Text(
                     'نتائج نافذة بيع العملة الأجنبية لليوم',
-                    style: TextStyle(fontSize: 18, color: Colors.white),
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontFamily: "CustomIcons",
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -151,6 +161,12 @@ class _CurrenciesState extends State<Currencies> {
                           Expanded(
                             child: Html(
                               data: snapshot.data,
+                              style: {
+                                'body': Style(
+                                  fontSize: FontSize(16.0),
+                                  fontFamily: "CustomIcons",
+                                )
+                              },
                             ),
                           ),
                         ],
@@ -167,7 +183,11 @@ class _CurrenciesState extends State<Currencies> {
                   color: Color(0xff275879),
                   title: Text(
                     'جدول أسعار صرف العملات في العراق',
-                    style: TextStyle(fontSize: 18, color: Colors.white),
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontFamily: "CustomIcons",
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -189,9 +209,10 @@ class _CurrenciesState extends State<Currencies> {
                               label: Text(
                                 'كل 1',
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.lightBlue,
-                                    fontWeight: FontWeight.bold),
+                                  fontSize: 16,
+                                  color: Colors.lightBlue,
+                                  fontFamily: "CustomIcons",
+                                ),
                                 textAlign: TextAlign.right,
                               ),
                             ),
@@ -199,9 +220,10 @@ class _CurrenciesState extends State<Currencies> {
                               label: Text(
                                 'تساوي',
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.lightBlue,
-                                    fontWeight: FontWeight.bold),
+                                  fontSize: 16,
+                                  color: Colors.lightBlue,
+                                  fontFamily: "CustomIcons",
+                                ),
                                 textAlign: TextAlign.right,
                               ),
                             ),
@@ -209,9 +231,10 @@ class _CurrenciesState extends State<Currencies> {
                               label: Text(
                                 'الجهة',
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.lightBlue,
-                                    fontWeight: FontWeight.bold),
+                                  fontSize: 16,
+                                  color: Colors.lightBlue,
+                                  fontFamily: "CustomIcons",
+                                ),
                                 textAlign: TextAlign.right,
                               ),
                             ),
@@ -225,6 +248,7 @@ class _CurrenciesState extends State<Currencies> {
                                         exchange.from.name,
                                         style: TextStyle(
                                           fontSize: 12,
+                                          fontFamily: "CustomIcons",
                                         ),
                                         textAlign: TextAlign.right,
                                       ),
@@ -234,6 +258,7 @@ class _CurrenciesState extends State<Currencies> {
                                         exchange.toVal.toString() + ' IQD',
                                         style: TextStyle(
                                           fontSize: 12,
+                                          fontFamily: "CustomIcons",
                                         ),
                                         textAlign: TextAlign.right,
                                       ),
@@ -243,6 +268,7 @@ class _CurrenciesState extends State<Currencies> {
                                         exchange.direction,
                                         style: TextStyle(
                                           fontSize: 12,
+                                          fontFamily: "CustomIcons",
                                         ),
                                         textAlign: TextAlign.right,
                                       ),
@@ -264,7 +290,11 @@ class _CurrenciesState extends State<Currencies> {
                   color: Color(0xff275879),
                   title: Text(
                     'جدول أسعار صرف العملات العالمية مقابل الدولار',
-                    style: TextStyle(fontSize: 18, color: Colors.white),
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontFamily: "CustomIcons",
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -307,9 +337,10 @@ class _CurrenciesState extends State<Currencies> {
                               label: Text(
                                 'العملة',
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.lightBlue,
-                                    fontWeight: FontWeight.bold),
+                                  fontSize: 16,
+                                  color: Colors.lightBlue,
+                                  fontFamily: "CustomIcons",
+                                ),
                                 textAlign: TextAlign.right,
                               ),
                             ),
@@ -317,9 +348,10 @@ class _CurrenciesState extends State<Currencies> {
                               label: Text(
                                 'لكل 1 دولار',
                                 style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.lightBlue,
-                                    fontWeight: FontWeight.bold),
+                                  fontSize: 16,
+                                  color: Colors.lightBlue,
+                                  fontFamily: "CustomIcons",
+                                ),
                                 textAlign: TextAlign.right,
                               ),
                             ),
@@ -333,6 +365,7 @@ class _CurrenciesState extends State<Currencies> {
                                       icur.shortName,
                                       style: TextStyle(
                                         fontSize: 14,
+                                        fontFamily: "CustomIcons",
                                       ),
                                       textAlign: TextAlign.right,
                                     ),
@@ -342,6 +375,7 @@ class _CurrenciesState extends State<Currencies> {
                                       icur.forOneDollar.toString(),
                                       style: TextStyle(
                                         fontSize: 14,
+                                        fontFamily: "CustomIcons",
                                       ),
                                       textAlign: TextAlign.right,
                                     ),

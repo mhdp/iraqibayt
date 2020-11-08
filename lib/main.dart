@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iraqibayt/widgets/abouts.dart';
+import 'package:iraqibayt/widgets/fullAbout.dart';
 import 'package:iraqibayt/widgets/fullTip.dart';
 import 'package:iraqibayt/widgets/fullSystem.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
@@ -6,6 +8,7 @@ import 'package:iraqibayt/widgets/main_board.dart';
 import 'package:iraqibayt/widgets/posts/post_details.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/register.dart';
+import 'package:iraqibayt/widgets/statistics.dart';
 import 'package:iraqibayt/widgets/systems.dart';
 import 'package:iraqibayt/widgets/tips.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
@@ -51,6 +54,9 @@ class MyApp extends StatelessWidget {
         '/full_tip': (context) => FullTip(),
         '/systems': (context) => Systems(),
         '/full_system': (context) => FullSystem(),
+        '/abouts': (context) => Abouts(),
+        '/full_about': (context) => FullAbout(),
+        '/statistics': (context) => Statistics(),
       },
     );
   }

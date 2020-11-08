@@ -38,7 +38,12 @@ class _NotesState extends State<Notes> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('هل تعلم'),
+        title: Text(
+          'هل تعلم',
+          style: TextStyle(
+            fontFamily: "CustomIcons",
+          ),
+        ),
         backgroundColor: Color(0xff275879),
       ),
       body: Container(
@@ -75,9 +80,9 @@ class _NotesState extends State<Notes> {
                               title: Text(
                                 snapshot.data[index].content,
                                 style: TextStyle(
-                                  fontSize: 18,
-                                  //fontWeight: FontWeight.bold,
-                                ),
+                                    fontSize: 18, fontFamily: 'CustomIcons'
+                                    //fontWeight: FontWeight.bold,
+                                    ),
                               ),
                             ),
                           );
