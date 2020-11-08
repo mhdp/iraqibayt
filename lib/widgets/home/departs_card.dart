@@ -172,7 +172,7 @@ class _DepartsCardState extends State<DepartsCard> {
                                           type: GFLoaderType.circle),
                                     )
                                   : Container(
-                                      height: (dl / 2) * (gridTileHeight + 9.0),
+                                      height: (dl / 2) * (gridTileHeight ),
                                       child: FutureBuilder(
                                         future: _getDeparts(),
                                         builder: (BuildContext context,
@@ -208,8 +208,8 @@ class _DepartsCardState extends State<DepartsCard> {
                                                         10, //row margin
                                                     mainAxisSpacing:
                                                         10, //column margin
-                                                    childAspectRatio: 1.5 /
-                                                        1.0, //width / height ration for each tile
+                                                    childAspectRatio: 2 /
+                                                        2, //width / height ration for each tile
                                                   ),
                                                   physics:
                                                       const NeverScrollableScrollPhysics(),
@@ -246,7 +246,7 @@ class _DepartsCardState extends State<DepartsCard> {
                                                                     image: DecorationImage(
                                                                         image: NetworkImage('https://iraqibayt.com/storage/app/public/images/' +
                                                                             snapshot.data[index].image),
-                                                                        fit: BoxFit.fill),
+                                                                        fit: BoxFit.cover),
                                                                   ),
                                                                 ),
                                                                 SizedBox(
