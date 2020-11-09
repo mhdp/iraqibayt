@@ -333,7 +333,33 @@ class _DepartsCardState extends State<DepartsCard> {
     height: 100,
     alignment: Alignment(0, 0),
     //color: Colors.grey,
-    child: Text(departs[i].name),
+    child: InkWell(onTap: () => _setRoute(
+        context, i + 1),child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [Container(
+        height:
+        gridTileHeight /
+            3,
+        width:
+        gridTileHeight /
+            3,
+        decoration:
+        BoxDecoration(
+          shape: BoxShape
+              .circle,
+          image: DecorationImage(
+              image: NetworkImage('https://iraqibayt.com/storage/app/public/images/' +
+                  departs[i].image),
+              fit: BoxFit.cover),
+        ),
+      ),
+        SizedBox(
+          height: 10.0,
+        ),Text(departs[i].name,style:
+    TextStyle(
+      fontSize: 18,
+      fontFamily: "CustomIcons",),)],),)
     ),
     ),],),
 

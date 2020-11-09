@@ -97,12 +97,8 @@ class _Posts_Home extends State<Posts_Home> {
 
             ]
         ),
-
-
         );
       }
-
-
 }
 
 class BikeListItem extends StatelessWidget {
