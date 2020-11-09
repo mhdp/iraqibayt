@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class DatabaseHelper {
-
+  String default_post_image = "";
   String serverUrl = "https://iraqibayt.com/api";
   Map<String, dynamic> posts_list ;
   Map<String, dynamic> get_post_by_id_list ;
@@ -31,4 +31,14 @@ class DatabaseHelper {
       //print(posts_list.toString());
     }
   }
+
+  Future<List> get_default_post_image() async {
+    String myUrl = "$serverUrl/get_default_post_image";
+    http.Response response = await http.post(myUrl);
+    if(response.body.length > 0){
+      default_post_image = response.body;
+      //print(posts_list.toString());
+    }
+  }
+
 }

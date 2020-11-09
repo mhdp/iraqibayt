@@ -373,8 +373,8 @@ class _Add_Post extends State<Add_Post> {
                           ),
 
                           Padding(
-    padding: const EdgeInsets.all(10),
-    child:TextFormField(
+                          padding: const EdgeInsets.all(10),
+                          child:TextFormField(
                             controller: title_Controller,
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
@@ -392,8 +392,8 @@ class _Add_Post extends State<Add_Post> {
                             height: 5,
                           ),
                           Padding(
-    padding: const EdgeInsets.all(10),
-    child:TextFormField(
+                            padding: const EdgeInsets.all(10),
+                            child:TextFormField(
                             controller: details_Controller,
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
@@ -407,28 +407,7 @@ class _Add_Post extends State<Add_Post> {
                                 hintText: "تفاصيل الإعلان"),
                           ),),
 
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child:TextFormField(
-                                  controller: details_Controller,
-                                  keyboardType: TextInputType.multiline,
-                                  maxLines: null,
-                                  textAlign: TextAlign.right,
-                                  decoration: InputDecoration(
-                                      border: new OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(
-                                          const Radius.circular(5.0),
-                                        ),
-                                      ),
-                                      hintText: "السعر"),
-                                ),),
 
-                            ],
-                          )
                 ])),
 
 

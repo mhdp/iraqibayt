@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -8,82 +9,138 @@ import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
+import 'package:iraqibayt/modules/db_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'home/home.dart';
+
+DatabaseHelper databaseHelper = new DatabaseHelper();
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
-Future<String> signInWithGoogle() async {
-  final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-  final GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount.authentication;
 
-  final AuthCredential credential = GoogleAuthProvider.getCredential(
-    accessToken: googleSignInAuthentication.accessToken,
-    idToken: googleSignInAuthentication.idToken,
-  );
 
-  final UserCredential authResult =
-      await _auth.signInWithCredential(credential);
-  final User user = authResult.user;
 
-  // Checking if email and name is null
-  assert(user.email != null);
-  assert(user.displayName != null);
-  assert(user.photoUrl != null);
-
-  /*name = user.displayName;
-    email = user.email;
-    imageUrl = user.photoUrl;
-    uid = user.uid;
-
-    // Only taking the first part of the name, i.e., First Name
-    if (name.contains(" ")) {
-      name = name.substring(0, name.indexOf(" "));
-    }*/
-
-  assert(!user.isAnonymous);
-  assert(await user.getIdToken() != null);
-
-  final User currentUser = _auth.currentUser;
-  assert(user.uid == currentUser.uid);
-
-  /*if (uid != null){
-      _databaseHelper.registerG(name, email, uid);
-    }*/
-
-  return 'signInWithGoogle succeeded: $user';
-}
-
-void signOutGoogle() async {
-  await googleSignIn.signOut();
-
-  print("User Sign Out");
-}
 
 final fbLogin = FacebookLogin();
 
-Future signInFB() async {
-  final FacebookLoginResult result = await fbLogin.logIn(["email"]);
-  print(result.accessToken);
-  final String token = result.accessToken.token;
-  final response = await http.get(
-      'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
-  final profile = jsonDecode(response.body);
-  print(profile);
 
-  var data = {
-    'name': profile["name"],
-    'email': profile["email"],
-  };
 
-  var res = await CallApi().postData(data, '/facebook_login');
-  var body = json.decode(res.body);
-  print(body);
-  return profile;
+class Welcome extends StatefulWidget {
+
+  @override
+  _Welcome createState() => _Welcome();
 }
 
-class Welcome extends StatelessWidget {
+class _Welcome extends State<Welcome> {
   static const routeName = '/';
+
+  Future<String> signInWithGoogle() async {
+    await Firebase.initializeApp();
+
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    final UserCredential authResult = await _auth.signInWithCredential(credential);
+    final User user = authResult.user;
+
+    if (user != null) {
+      assert(!user.isAnonymous);
+      assert(await user.getIdToken() != null);
+
+      final User currentUser = _auth.currentUser;
+      assert(user.uid == currentUser.uid);
+
+      print('signInWithGoogle succeeded: $user');
+
+      var data = {
+        'name': user.displayName,
+        'email': user.email,
+      };
+
+      var res = await CallApi().postData(data, '/facebook_login');
+      var body = json.decode(res.body);
+      print(body);
+
+      _save_login_info(user.uid,user.displayName);
+
+      Navigator.pushReplacementNamed(context, '/home');
+
+      //return '$user';
+    }
+
+    return null;
+  }
+
+  _save_login_info(String pass,String name) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'is_login';
+    final value = "1";
+    prefs.setString(key, value);
+
+    final key2 = 'name';
+    final value2 = name;
+    prefs.setString(key2, value2);
+
+    final key3 = 'pass';
+    final value3 = pass;
+    prefs.setString(key3, value3);
+
+
+  }
+
+
+  void signOutGoogle() async {
+    await googleSignIn.signOut();
+
+    print("User Sign Out");
+  }
+
+  Future signInFB() async {
+    final FacebookLoginResult result = await fbLogin.logIn(["email"]);
+    print(result.accessToken);
+    final String token = result.accessToken.token;
+    final response = await http.get(
+        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
+    final profile = jsonDecode(response.body);
+    print(profile);
+
+    var data = {
+      'name': profile["name"],
+      'email': profile["email"],
+    };
+
+    var res = await CallApi().postData(data, '/facebook_login');
+    var body = json.decode(res.body);
+    print(body);
+
+    _save_login_info(profile["id"],profile["name"]);
+
+    Navigator.pushReplacementNamed(context, '/home');
+
+  }
+
+  check_login() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'is_login';
+    final is_login_value = prefs.get(key) ?? 0;
+
+    if(is_login_value == "1"){
+      /*Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Home()),
+      );*/
+      Navigator.pushReplacementNamed(context, '/home');
+
+    }
+    print("is_login value: $is_login_value");
+  }
 
   Widget _facebookButton() {
     return InkWell(
@@ -268,6 +325,13 @@ class Welcome extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  initState() {
+    super.initState();
+    // read();
+    check_login();
   }
 
   @override

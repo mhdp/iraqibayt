@@ -5,6 +5,9 @@ import 'package:iraqibayt/widgets/home/search_card.dart';
 import 'package:iraqibayt/widgets/home/weather_card.dart';
 import 'package:iraqibayt/widgets/home/departs_card.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
+import 'package:responsive_grid/responsive_grid.dart';
+
+import '../NavDrawer.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -25,6 +28,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavDrawer(),
       appBar: AppBar(
         title: Text(
           'البيت العراقي',
@@ -75,6 +79,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             WeatherCard(),
             ExchangeCard(),
             DepartsCard(),
+
+
+
             SearchCard(),
           ],
         ),

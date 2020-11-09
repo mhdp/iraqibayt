@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "374562821443-u3rnhsg8pehmegrf0rragdt74itf32h1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.iraqibayt",
+            "certificate_hash": "a75702f6c095a59dd733dcf85fd59f477616cbaa"
+          }
+        },
+        {
           "client_id": "374562821443-cef5fje51t7pgmk1lh5vu1pi0smu4aqt.apps.googleusercontent.com",
           "client_type": 3
         }

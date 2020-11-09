@@ -10,6 +10,8 @@ import 'add_post.dart';
 
 DatabaseHelper databaseHelper = new DatabaseHelper();
 
+String default_image = "";
+
 class Posts_Home extends StatefulWidget {
   @override
   _Posts_Home createState() => _Posts_Home();
@@ -22,6 +24,12 @@ class _Posts_Home extends State<Posts_Home> {
   void initState() {
     super.initState();
 
+    databaseHelper.get_default_post_image().whenComplete(() {
+      setState(() {
+        default_image = databaseHelper.default_post_image;
+      });
+    });
+
     databaseHelper.get_posts().whenComplete(() {
 
       setState(() {
@@ -29,6 +37,10 @@ class _Posts_Home extends State<Posts_Home> {
       });
 
     });
+
+
+
+
 
   }
 
@@ -108,10 +120,37 @@ class BikeListItem extends StatelessWidget {
       List<dynamic> data = list1["data"];
 
       return new ListView.builder(
+
           shrinkWrap: true,
           itemCount:data.length,
           itemBuilder: (context,i){
+
+            var show_icons = true;
+
             var img = data[i]['img'].toString();
+            print("img: $img");
+            if(img == ""){
+              img = default_image;
+              print("img: $img");
+            }
+
+            var bath = data[i]['bathroom'];
+            if(bath == null){
+              show_icons = false;
+              bath = "0";
+            }
+
+            var bed = data[i]['bedroom'];
+            if(bed == null){
+              show_icons = false;
+              bed = "0";
+            }
+
+            var car_num = data[i]['num_car'];
+            if(car_num == null){
+              car_num = "0";
+            }
+
             return new Container(
 
               padding: const EdgeInsets.all(10.0),
@@ -269,7 +308,7 @@ class BikeListItem extends StatelessWidget {
                         ),
                       ),
 
-                      Row(
+                      show_icons ? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
@@ -279,7 +318,7 @@ class BikeListItem extends StatelessWidget {
 
                               children: [
                                 Icon(MyIcons.car ,),
-                                Text('3'),
+                                Text(car_num.toString()),
                               ],),),
 
                           Expanded(
@@ -288,7 +327,7 @@ class BikeListItem extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(MyIcons.bed,),
-                                Text('2'),
+                                Text(bed.toString()),
                               ],),),
 
                           Expanded(
@@ -297,9 +336,9 @@ class BikeListItem extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Icon(MyIcons.bath),
-                                Text('2'),
+                                Text(bath.toString()),
                               ],),),
-                        ],),
+                        ],):Container(),
 
                       Padding(
                         padding: const EdgeInsets.all(0),

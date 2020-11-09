@@ -9,6 +9,7 @@ import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/statistics.dart';
 import 'package:iraqibayt/widgets/systems.dart';
 import 'package:iraqibayt/widgets/tips.dart';
+import 'package:responsive_grid/responsive_grid.dart';
 
 import '../currencies.dart';
 import '../notes.dart';
@@ -133,7 +134,7 @@ class _DepartsCardState extends State<DepartsCard> {
         MediaQuery.of(context).size.height - statusBarHeight - kToolbarHeight;
     final double gridTileHeight = screenHeight / 6.0;
 
-    return LayoutBuilder(
+     /*LayoutBuilder(
       builder: (ctx, constraints) {
         return Row(
           children: [
@@ -312,6 +313,49 @@ class _DepartsCardState extends State<DepartsCard> {
           ],
         );
       },
+    );*/
+
+    return Column(
+        children: <Widget>[
+           is_loading
+                ? new Center(child: new GFLoader(type:GFLoaderType.circle),)
+                : ResponsiveGridRow(
+    children: [for(var i = 0; i < departs.length; i++)ResponsiveGridCol(
+    xs: 6,
+    md: 4,
+    child: Container(
+      margin: const EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Color(0xFFebebeb),
+
+      ),
+    height: 100,
+    alignment: Alignment(0, 0),
+    //color: Colors.grey,
+    child: Text(departs[i].name),
+    ),
+    ),],),
+
+        ]
     );
+
+    /*return ResponsiveGridRow(
+        children: [
+          ResponsiveGridCol(
+
+            xs: 6,
+            md: 4,
+            child: Container(
+              margin: const EdgeInsets.all(10.0),
+              height: 100,
+              alignment: Alignment(0, 0),
+              color: Colors.red,
+              child: Text("xs : 6 \r\nmd : 3"),
+            ),
+          ),
+        ]);*/
   }
 }
+
+
