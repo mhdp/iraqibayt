@@ -6,7 +6,7 @@ class DatabaseHelper {
   String default_post_image = "";
   String serverUrl = "https://iraqibayt.com/api";
   Map<String, dynamic> posts_list ;
-  Map<String, dynamic> get_post_by_id_list ;
+  List<dynamic> get_post_by_id_list ;
 
   Future<List> get_posts() async {
     String myUrl = "$serverUrl/allposts_api";
@@ -26,9 +26,13 @@ class DatabaseHelper {
 
 
     if(response.body.length > 0){
+
       //print(response.body.toString());
       get_post_by_id_list = json.decode(response.body);
       //print(posts_list.toString());
+
+      //print("response ${get_post_by_id_list.length.toString()}");
+
     }
   }
 

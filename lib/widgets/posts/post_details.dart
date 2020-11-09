@@ -26,17 +26,33 @@ class _Posts_detalis extends State<Posts_detalis> {
 
   void initState() {
     super.initState();
-
+    imageList.clear();
+    print("widget.post_id: ${widget.post_id}");
     databaseHelper.get_post_by_id(widget.post_id).whenComplete(() {
-
+      //print(databaseHelper.get_post_by_id_list.length.toString());
       setState(() {
+      print("img: ${databaseHelper.get_post_by_id_list[0]["img"].toString()}");
+
+        if(databaseHelper.get_post_by_id_list[0]["img"].toString() == ""){
+          databaseHelper.get_default_post_image().whenComplete(() {
+            setState(() {
+              String default_image = databaseHelper.default_post_image;
+              imageList.add(default_image);
+
+            });
+          });
+        }else{
+          imageList.add(databaseHelper.get_post_by_id_list[0]["img"].toString());
+        }
+
         is_loading = false;
-        imageList.add(databaseHelper.get_post_by_id_list["data"][0]["img"].toString());
-        List<String> imgs = databaseHelper.get_post_by_id_list["data"][0]["imgs"].toString().replaceAll("[", "").replaceAll("]", "").replaceAll(" ", "").split(",");
 
-        imgs.forEach((element) => imageList.add(element));
+        //print(databaseHelper.get_post_by_id_list[0]["imgs"].toString());
+        //List<String> imgs = databaseHelper.get_post_by_id_list["data"][0]["imgs"].toString().replaceAll("[", "").replaceAll("]", "").replaceAll(" ", "").split(",");
 
-        print(imageList.length);
+        //imgs.forEach((element) => imageList.add(element));
+
+        //print(imageList.length);
          //imageList = Set.from(imgs);
          //print(imgs);
       });
@@ -48,6 +64,24 @@ class _Posts_detalis extends State<Posts_detalis> {
   @override
   Widget build(BuildContext context) {
 
+    var show_icons = true;
+
+      var bath = databaseHelper.get_post_by_id_list[0]["bathroom"];
+      if(bath == null){
+        show_icons = false;
+        bath = "0";
+      }
+
+      var bed = databaseHelper.get_post_by_id_list[0]["bedroom"];
+      if(bed == null){
+        show_icons = false;
+        bed = "0";
+      }
+
+      var car_num = databaseHelper.get_post_by_id_list[0]["num_car"];
+      if(car_num == null){
+        car_num = "0";
+      }
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -97,7 +131,7 @@ class _Posts_detalis extends State<Posts_detalis> {
           Padding(
             padding: const EdgeInsets.all(8.0),
 
-            child: Text(databaseHelper.get_post_by_id_list["data"][0]["title"].toString(),textAlign: TextAlign.center,
+            child: Text(databaseHelper.get_post_by_id_list[0]["title"].toString(),textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 28,
                 color: Colors.indigo,
@@ -118,7 +152,7 @@ class _Posts_detalis extends State<Posts_detalis> {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-
+//city
               RaisedButton(
                 onPressed: () {},
                 color: Colors.white,
@@ -127,7 +161,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Icon(Icons.location_city,color:Color(0xFFdd685f)),
-                    Text(databaseHelper.get_post_by_id_list["data"][0]["city"]["name"].toString(),style: TextStyle(
+                    Text(databaseHelper.get_post_by_id_list[0]["city"]["name"].toString(),style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: "CustomIcons",
@@ -137,6 +171,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                   ],
                 ),
               ),
+              //region
               RaisedButton(
                 onPressed: () {},
                 color: Colors.white,
@@ -145,7 +180,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Icon(Icons.location_on,color:Color(0xFFdd685f)),
-                    Text(databaseHelper.get_post_by_id_list["data"][0]["region"]["name"].toString(),style: TextStyle(
+                    Text(databaseHelper.get_post_by_id_list[0]["region"]["name"].toString(),style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: "CustomIcons",
@@ -155,6 +190,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                   ],
                 ),
               ),
+              //area
               RaisedButton(
                 onPressed: () {},
                 color: Colors.white,
@@ -163,7 +199,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Icon(Icons.format_line_spacing,color:Color(0xFFdd685f)),
-                    Text(" ${databaseHelper.get_post_by_id_list["data"][0]["area"].toString()} ${databaseHelper.get_post_by_id_list["data"][0]["unit"]["name"].toString()}",style: TextStyle(
+                    Text(" ${databaseHelper.get_post_by_id_list[0]["area"].toString()} ${databaseHelper.get_post_by_id_list[0]["unit"]["name"].toString()}",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: "CustomIcons",
@@ -178,7 +214,7 @@ class _Posts_detalis extends State<Posts_detalis> {
             mainAxisAlignment: MainAxisAlignment.start,
 
             children: [
-
+//price
               RaisedButton(
                 onPressed: () {},
                 color: Colors.white,
@@ -187,7 +223,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Icon(MyIcons.money,color: Color(0xFFdd685f),),
-                    Text(" ${databaseHelper.get_post_by_id_list["data"][0]["price"].toString()} ${databaseHelper.get_post_by_id_list["data"][0]["currancy"]["name"].toString()}",style: TextStyle(
+                    Text(" ${databaseHelper.get_post_by_id_list[0]["price"].toString()} ${databaseHelper.get_post_by_id_list[0]["currancy"]["name"].toString()}",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: "CustomIcons",
@@ -197,6 +233,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                   ],
                 ),
               ),
+              //payment method
               RaisedButton(
                 onPressed: () {},
                 color: Colors.white,
@@ -205,7 +242,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Icon(MyIcons.money_bill,color:Color(0xFFdd685f)),
-                    Text("   كاش وتقسيط",style: TextStyle(
+                    Text("   ${databaseHelper.get_post_by_id_list[0]["payment"].toString()}",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: "CustomIcons",
@@ -221,7 +258,7 @@ class _Posts_detalis extends State<Posts_detalis> {
             mainAxisAlignment: MainAxisAlignment.start,
 
             children: [
-
+//user and created_at
               RaisedButton(
                 onPressed: () {},
                 color: Colors.white,
@@ -230,7 +267,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Icon(Icons.date_range,color: Color(0xFFdd685f),),
-                    Text(" أضافه Mohammad منذ شهرين",style: TextStyle(
+                    Text(" أضافه ${databaseHelper.get_post_by_id_list[0]["name"].toString()} ${databaseHelper.get_post_by_id_list[0]["created_at"].toString()}",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: "CustomIcons",
@@ -246,7 +283,7 @@ class _Posts_detalis extends State<Posts_detalis> {
             mainAxisAlignment: MainAxisAlignment.start,
 
             children: [
-
+//category and sub
               RaisedButton(
                 onPressed: () {},
                 color: Colors.white,
@@ -255,7 +292,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Icon(Icons.info,color: Color(0xFFdd685f),),
-                    Text(" عقارات للبيع-شقق للبيع",style: TextStyle(
+                    Text(" ${databaseHelper.get_post_by_id_list[0]["category"]["name"].toString()} - ${databaseHelper.get_post_by_id_list[0]["sub"]["name"].toString()}",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: "CustomIcons",
@@ -269,11 +306,11 @@ class _Posts_detalis extends State<Posts_detalis> {
 
             ],),
 
-          Row(
+            show_icons?Row(
             mainAxisAlignment: MainAxisAlignment.start,
 
             children: [
-
+//beedroom
               RaisedButton(
                 onPressed: () {},
                 color: Colors.white,
@@ -282,7 +319,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Icon(MyIcons.bed,color: Color(0xFFdd685f),),
-                    Text("  غرف النوم: +٣",style: TextStyle(
+                    Text("  غرف النوم: ${bed.toString()}",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: "CustomIcons",
@@ -293,6 +330,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                   ],
                 ),
               ),
+              //bathroom
               RaisedButton(
                 onPressed: () {},
                 color: Colors.white,
@@ -301,7 +339,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Icon(MyIcons.bath,color:Color(0xFFdd685f)),
-                    Text("  حمامات: ٢",style: TextStyle(
+                    Text("  حمامات: ${bath.toString()}",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: "CustomIcons",
@@ -311,7 +349,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                   ],
                 ),
               ),
-
+//car
               RaisedButton(
                 onPressed: () {},
                 color: Colors.white,
@@ -320,7 +358,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Icon(MyIcons.car_alt,color:Color(0xFFdd685f)),
-                    Text("  كراج: ٣",style: TextStyle(
+                    Text("  كراج: ${car_num.toString()}",style: TextStyle(
                       fontSize: 18,
                       color: Colors.black,
                       fontFamily: "CustomIcons",
@@ -331,9 +369,9 @@ class _Posts_detalis extends State<Posts_detalis> {
                 ),
               ),
 
-            ],),
+            ],):Container(),
 
-
+//Divider
           Padding(
             padding: EdgeInsets.all(16.0),
 
@@ -370,13 +408,16 @@ class _Posts_detalis extends State<Posts_detalis> {
 
             ],),
 
-          Text('عمارة كاملة المرافق للبيع بسعر مغري ومكان مميز',style: TextStyle(
+          Padding(
+            padding: EdgeInsets.all(16.0),
+
+            child:Text(databaseHelper.get_post_by_id_list[0]["description"].toString(),style: TextStyle(
             fontSize: 18,
             color: Colors.black,
             fontFamily: "CustomIcons",
             fontWeight:FontWeight.w300,
 
-          ),),
+          ),),),
 
           Padding(
             padding: EdgeInsets.all(16.0),
@@ -414,7 +455,7 @@ class _Posts_detalis extends State<Posts_detalis> {
 
             ],),
 
-          Text('يمكنك التواصل معي على الرقم 00201000783921',style: TextStyle(
+          Text('يمكنك التواصل معي على الرقم ${databaseHelper.get_post_by_id_list[0]["phone"].toString()}',style: TextStyle(
             fontSize: 18,
             color: Colors.black,
             fontFamily: "CustomIcons",
