@@ -65,23 +65,29 @@ class _Posts_detalis extends State<Posts_detalis> {
   Widget build(BuildContext context) {
 
     var show_icons = true;
-
-      var bath = databaseHelper.get_post_by_id_list[0]["bathroom"];
+    var bath;
+    var bed;
+    var car_num;
+    if(is_loading == false){
+       bath = databaseHelper.get_post_by_id_list[0]["bathroom"];
       if(bath == null){
         show_icons = false;
         bath = "0";
       }
 
-      var bed = databaseHelper.get_post_by_id_list[0]["bedroom"];
+       bed = databaseHelper.get_post_by_id_list[0]["bedroom"];
       if(bed == null){
         show_icons = false;
         bed = "0";
       }
 
-      var car_num = databaseHelper.get_post_by_id_list[0]["num_car"];
+       car_num = databaseHelper.get_post_by_id_list[0]["num_car"];
       if(car_num == null){
         car_num = "0";
       }
+    }
+
+
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
