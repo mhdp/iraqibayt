@@ -2,11 +2,16 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+import 'api/callApi.dart';
+
 class DatabaseHelper {
   String default_post_image = "";
   String serverUrl = "https://iraqibayt.com/api";
   Map<String, dynamic> posts_list ;
   List<dynamic> get_post_by_id_list ;
+
+  var login_status = false;
+  var register_status = false;
 
   Future<List> get_posts() async {
     String myUrl = "$serverUrl/allposts_api";
@@ -45,4 +50,55 @@ class DatabaseHelper {
     }
   }
 
+   loginData(String pass,String email,) async {
+
+     String myUrl = "$serverUrl/login";
+     http.Response response = await http.post(myUrl,
+         body: {
+           'email': email,
+           'password': pass,
+         });
+
+    /*var data = {
+      'email': email,
+      'password': pass,
+    };*/
+
+    //var res = await CallApi().postData(data, '/login');
+    //var body = json.decode(res.body);
+    print("reuselt: ${response.body}");
+
+    if (response.body.toString().contains("true")) {
+      login_status = true;
+    }else{
+      login_status = false;
+    }
+  }
+
+  registerData(String pass, String name, String email) async {
+    print('ok');
+    String myUrl = "$serverUrl/register";
+    http.Response response = await http.post(myUrl,
+        body: {
+          'email': email,
+          'password': pass,
+          'name': name,
+          'password_confirmation': pass,
+        });
+
+    /*var data = {
+      'email': email,
+      'password': pass,
+    };*/
+
+    //var res = await CallApi().postData(data, '/login');
+    //var body = json.decode(res.body);
+    print("reuselt: ${response.body}");
+
+    if (response.body.toString().contains("true")) {
+      register_status = true;
+    }else{
+      register_status = false;
+    }
+  }
 }

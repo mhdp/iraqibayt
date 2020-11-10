@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -26,6 +28,7 @@ class Welcome extends StatefulWidget {
 
 class _Welcome extends State<Welcome> {
   static const routeName = '/';
+  int form = 0;
 
   Future<String> signInWithGoogle() async {
     await Firebase.initializeApp();
@@ -142,22 +145,27 @@ class _Welcome extends State<Welcome> {
         margin: EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
+
         ),
+
+
         child: Row(
           children: <Widget>[
             Expanded(
               flex: 1,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xff1959a9),
+                  //color: Color(0xff1959a9),
+                  color: Colors.white,
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(5),
                       topRight: Radius.circular(5)),
+
                 ),
                 alignment: Alignment.center,
                 child: Icon(
                   FontAwesomeIcons.facebook,
-                  color: Colors.white,
+                  color: Color(0xff1959a9),
                 ),
               ),
             ),
@@ -165,7 +173,8 @@ class _Welcome extends State<Welcome> {
               flex: 5,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xdd1959a9),
+                  //color: Color(0xdd1959a9),
+                  color:Colors.white,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(5),
                       topLeft: Radius.circular(5)),
@@ -173,10 +182,10 @@ class _Welcome extends State<Welcome> {
                 alignment: Alignment.center,
                 child: Text(' الإستمرار بإستخدام فيسبوك',
                     style: TextStyle(
-                        color: Colors.white,
+                        color: Color(0xff1959a9),
                         fontSize: 18,
                         fontFamily: "CustomIcons",
-                        fontWeight: FontWeight.w400)),
+                        fontWeight: FontWeight.bold)),
               ),
             ),
           ],
@@ -332,6 +341,7 @@ class _Welcome extends State<Welcome> {
       builder: (ctx, constraints) {
         final height = MediaQuery.of(context).size.height;
         return Scaffold(
+          backgroundColor: Color(0xFF335876),
           body: Container(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: SingleChildScrollView(
@@ -339,10 +349,10 @@ class _Welcome extends State<Welcome> {
                 children: <Widget>[
                   SizedBox(height: height * 0.1),
                   //_title(),
-                  Image.asset("assets/images/logo.png"),
+                  Image.asset("assets/images/logo_white.png"),
                   SizedBox(height: 40.0),
-                  _facebookButton(),
-                  _googleButton(),
+                  choose_form(),
+
                   //android_or_ios(),
                   Container(
                       margin: const EdgeInsets.symmetric(
@@ -350,29 +360,31 @@ class _Welcome extends State<Welcome> {
                       child: Row(children: <Widget>[
                         Expanded(
                             child: Divider(
-                          color: Colors.black,
+                          color: Colors.white,
                           thickness: 1,
                         )),
                         Text(
                           "  أو  ",
                           style: TextStyle(
                             fontSize: 22,
-                            color: Colors.black,
+                            color: Colors.white,
                             fontFamily: "CustomIcons",
                           ),
                         ),
                         Expanded(
                             child: Divider(
-                          color: Colors.black,
+                          color: Colors.white,
                           thickness: 1,
                         )),
                       ])),
-                  new_account_button(context),
+                  _facebookButton(),
+                  _googleButton(),
+                  //new_account_button(context),
                   SizedBox(height: 20),
 
                   FlatButton(
-                    color: Colors.white,
-                    textColor: Colors.black,
+                    color: Color(0xFF335876),
+                    textColor: Colors.white,
                     disabledColor: Colors.grey,
                     disabledTextColor: Colors.grey,
                     padding: EdgeInsets.all(8.0),
@@ -384,7 +396,7 @@ class _Welcome extends State<Welcome> {
                       'التسجيل لاحقاً',
                       style: TextStyle(
                         fontSize: 18,
-                        color: Colors.grey,
+                        color: Colors.white,
                         fontFamily: "CustomIcons",
                       ),
                     ),
@@ -405,4 +417,460 @@ class _Welcome extends State<Welcome> {
       return null;
     }
   }
+
+  ///////////////////welcome form start/////////////////////
+
+  Widget _signupButton(String text) {
+    return InkWell(onTap: ()=>{ setState(() {form = 2;})},child:Container(
+      //width: MediaQuery.of(context).size.width/1.9,
+      padding: EdgeInsets.symmetric(vertical: 10),
+      margin: EdgeInsets.only(right: 5),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          boxShadow: <BoxShadow>[
+            /*BoxShadow(
+                color: Colors.grey.shade200,
+                offset: Offset(2, 4),
+                blurRadius: 5,
+                spreadRadius: 2)*/
+          ],
+          gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [Color(0xffdd685f), Color(0xffac3729)]
+          )
+      ),
+      child: Text(
+        text,
+
+        style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: "CustomIcons"),
+      ),
+    ),
+    );
+  }
+  Widget _loginButton(String text) {
+    return InkWell(onTap: ()=>{ setState(() {form = 1;})},child: Container(
+      //width: MediaQuery.of(context).size.width/1.9,
+      padding: EdgeInsets.symmetric(vertical: 10),
+      margin: EdgeInsets.only(left: 5),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Colors.grey.shade200,
+              //offset: Offset(1, 1),
+              //blurRadius: 2,
+              //spreadRadius: 2,
+            )
+          ],
+          gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [Color(0xffffffff), Color(0xffeeeeee)])),
+      child: Text(
+        text,
+
+        style: TextStyle(fontSize: 20, color: Colors.black,fontFamily: "CustomIcons"),
+      ),
+    ),
+    );
+  }
+
+
+  Widget welcome_form(){
+    return ListTile(
+      title: Row(
+        children: <Widget>[
+          Expanded(child:_loginButton('تسجيل دخول')),
+          Expanded(child:_signupButton('حساب جديد')),
+
+        ],
+      ),
+    );
+  }
+
+  //////////////////welcome form end///////////////////////
+
+
+  Widget choose_form(){
+    if(form == 0){
+      return welcome_form();
+    }else if(form == 1){
+      return singin_form();
+    }else if(form == 2){
+      return singup_form();
+    }
+  }
+
+  ///////////////////sign in form start/////////////////////
+
+  final TextEditingController _emailController = new TextEditingController();
+  final TextEditingController _passwordController = new TextEditingController();
+
+  Widget _emailField(String title) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextField(
+              keyboardType: TextInputType.emailAddress,
+              controller: _emailController,
+              style: TextStyle(color: Colors.white,fontSize: 16,fontFamily: "CustomIcons"),
+              textDirection: TextDirection.rtl,
+              textAlign: TextAlign.right,
+              decoration: InputDecoration(
+                  hintText: "الايميل",
+
+                  hintStyle: TextStyle(fontSize: 14.0, color: Colors.white,fontFamily: "CustomIcons"),
+
+                  prefixIcon: const Icon(
+                    Icons.email,
+                    color: Colors.white,
+                  ),
+                  border: InputBorder.none,
+                  fillColor: Color(0xff51637b),
+                  filled: true))
+        ],
+      ),
+    );
+  }
+
+  Widget _passwordField(String title) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+
+          TextField(
+              controller: _passwordController,
+              style: TextStyle(color: Colors.white,fontSize: 16,fontFamily: "CustomIcons"),
+              obscureText: true,
+              textDirection: TextDirection.rtl,
+              textAlign: TextAlign.right,
+
+              decoration: InputDecoration(
+
+                  hintText: "كلمة المرور",
+
+                  hintStyle: TextStyle(fontSize: 14.0, color: Colors.white,fontFamily: "CustomIcons"),
+
+                  prefixIcon: const Icon(
+                    Icons.security,
+                    color: Colors.white,
+                  ),
+                  border: InputBorder.none,
+                  fillColor: Color(0xff51637b),
+                  filled: true))
+        ],
+      ),
+    );
+  }
+
+  Widget _submitButton() {
+    return InkWell(onTap:(){login_btn_tap(); } , child: Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.symmetric(vertical: 15),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          /*boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.grey.shade200,
+                offset: Offset(2, 4),
+                blurRadius: 5,
+                spreadRadius: 2)
+          ],*/
+          /*gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [Color(0xfffbb448), Color(0xfff7892b)])*/
+
+        color: Color(0xFFdd685f),
+      ),
+      child: login_button_child(),
+    ),
+    );
+  }
+
+  int login_btn_child_index = 0;
+  login_button_child(){
+    if (login_btn_child_index == 0){
+      return Text(
+        'تسجيل الدخول',
+        style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: "CustomIcons"),
+      );
+    } else{
+      return CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+      );
+    }
+  }
+
+  login_btn_tap(){
+    if(login_btn_child_index == 0){
+      setState(() {
+        login_btn_child_index = 1;
+      });
+      if(_emailController.text.trim().isEmpty){
+        alert_dialog('يرجى كتابة الإيميل ',1,'بيانات ناقصة');
+        setState(() {
+          login_btn_child_index = 0;
+        });
+      }else if(_passwordController.text.isEmpty){
+        alert_dialog('يرجى كتابة كلمةالمرور',1,'بيانات ناقصة');
+        setState(() {
+          login_btn_child_index = 0;
+        });
+      }else{
+        print('ok');
+        databaseHelper.loginData(_passwordController.text.toString(),_emailController.text.trim().toLowerCase().toString()
+            ).whenComplete(() {
+          if (databaseHelper.login_status == false) {
+            alert_dialog('تأكد من صحة الإيميل أو كلمة المرور',1,'بيانات خاطئة');
+            setState(() {
+              login_btn_child_index = 0;
+            });
+          } else {
+            //_save_login_info(_passwordController.text.toString(), profile["name"], _emailController.text.trim().toLowerCase().toString());
+            Navigator.pushReplacementNamed(context, '/home');
+
+          }
+        });
+      }
+    }
+  }
+
+  Widget _backButton() {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          form = 0;
+        });
+      },
+      child: Container(
+        //padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(right: 0, top: 0, bottom: 10),
+              child: Icon(Icons.keyboard_arrow_left, color: Colors.white),
+            ),
+            Text('عودة',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500,color: Colors.white,fontFamily: "CustomIcons"))
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget singin_form(){
+    return Column(
+      children: <Widget>[
+        _backButton(),
+        _emailField("Email id"),
+        _passwordField("Password",),
+        SizedBox(height: 15),
+        _submitButton(),
+        /*SizedBox(height: 10,),
+        InkWell(onTap: (){},child: Text('هل نسيت كلمة المرور؟',
+    style: TextStyle(
+    fontSize: 16, fontWeight: FontWeight.w500,color: Colors.orange,fontFamily: "CustomIcons")),
+    ),*/
+      ],
+    );
+  }
+
+///////////////////sign in form end///////////////////////
+
+  alert_dialog(String text, int image_index,String title){
+    String image_name;
+    if(image_index == 1){
+      //alert image
+      image_name = "assets/alert.png";
+    }
+    showDialog(
+
+        context: context,builder: (_) => AssetGiffyDialog(
+      onlyOkButton: true,
+      buttonCancelText: Text('إلغاء',style:TextStyle(fontFamily: "CustomIcons",fontSize: 16)),
+      buttonOkText: Text('موافق',style:TextStyle(fontFamily: "CustomIcons",fontSize: 16,color: Colors.white)),
+      buttonOkColor: Colors.orange,
+      image: Image.asset(image_name,fit: BoxFit.cover),
+      title: Text(title,
+        style: TextStyle(
+            fontSize: 18.0, fontFamily: "CustomIcons",color: Colors.orange),
+      ),
+      description: Text(text,
+        textAlign: TextAlign.center,
+        style: TextStyle(fontFamily: "CustomIcons",fontSize: 16),
+      ),
+      onOkButtonPressed: () {
+        Navigator.pop(context);
+      },
+    ) );
+  }
+
+  //////////////////signup form start///////////////////////
+  final TextEditingController _nameController = new TextEditingController();
+  final TextEditingController _phoneController = new TextEditingController();
+
+  Widget _nameField(String title) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextField(
+              controller: _nameController,
+              style: TextStyle(color: Colors.white,fontSize: 16,fontFamily: "CustomIcons"),
+              textDirection: TextDirection.rtl,
+              textAlign: TextAlign.right,
+              decoration: InputDecoration(
+                  hintText: "الاسم الكامل",
+
+                  hintStyle: TextStyle(fontSize: 14.0, color: Colors.white,fontFamily: "CustomIcons"),
+
+                  prefixIcon: const Icon(
+                    Icons.person,
+                    color: Colors.white,
+                  ),
+                  border: InputBorder.none,
+                  fillColor: Color(0xff51637b),
+                  filled: true))
+        ],
+      ),
+    );
+  }
+  Widget _phoneField(String title) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextField(
+              keyboardType: TextInputType.phone,
+              controller: _phoneController,
+              style: TextStyle(color: Colors.white,fontSize: 16,fontFamily: "CustomIcons"),
+              textDirection: TextDirection.rtl,
+              textAlign: TextAlign.right,
+
+              decoration: InputDecoration(
+                  hintText: "رقم الهاتف",
+
+                  hintStyle: TextStyle(fontSize: 14.0, color: Colors.white,fontFamily: "CustomIcons"),
+
+                  prefixIcon: const Icon(
+                    Icons.phone,
+                    color: Colors.white,
+                  ),
+                  border: InputBorder.none,
+                  fillColor: Color(0xff51637b),
+                  filled: true))
+        ],
+      ),
+    );
+  }
+
+  Widget _submit_signup_Button() {
+    return InkWell(onTap:(){signup_btn_tap(); } , child: Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.symmetric(vertical: 15),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          /*boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.grey.shade200,
+                offset: Offset(2, 4),
+                blurRadius: 5,
+                spreadRadius: 2)
+          ],*/
+          /*gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [Color(0xfffbb448), Color(0xfff7892b)])*/
+        color: Color(0xFFdd685f),
+      ),
+      child: signup_button_child(),
+    ),
+    );
+  }
+
+  int signup_btn_child_index = 0;
+  signup_button_child(){
+    if (signup_btn_child_index == 0){
+      return Text(
+        'إنشاء حساب جديد',
+        style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: "CustomIcons"),
+      );
+    } else{
+      return CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+      );
+    }
+  }
+
+  signup_btn_tap(){
+    if(signup_btn_child_index == 0){
+      setState(() {
+        signup_btn_child_index = 1;
+      });
+      if(_emailController.text.trim().isEmpty){
+        alert_dialog('يرجى كتابة الإيميل',1,'بيانات ناقصة');
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+      }else if(_passwordController.text.isEmpty){
+        alert_dialog('يرجى كتابة كلمةالمرور',1,'بيانات ناقصة');
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+      }else if(_passwordController.text.length < 6){
+        alert_dialog('كلمة المرور قصيرة جداً',1,'بيانات ناقصة');
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+      }else if(_nameController.text.isEmpty || _nameController.text.length <6){
+        alert_dialog('يرجى كتابة الاسم الكامل',1,'بيانات ناقصة');
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+      }else{
+        databaseHelper.registerData(_passwordController.text.trim(),_nameController.text.trim(),
+            _emailController.text.trim().toLowerCase(),
+            )
+            .whenComplete(() {
+          if (databaseHelper.register_status == false) {
+            alert_dialog('حدثت مشكلة يرجى المحاولة لاحقاً',1,'رسالة خطأ');
+            signup_btn_child_index = 0;
+          } else {
+            _save_login_info(_passwordController.text.toString(), _nameController.text.trim(), _emailController.text.trim().toLowerCase().toString());
+
+            Navigator.pushReplacementNamed(context, '/home');
+
+          }
+        });
+      }
+    }
+  }
+
+  Widget singup_form(){
+    return Column(
+      children: <Widget>[
+        _backButton(),
+        _nameField("Email id"),
+        //_phoneField("Email id"),
+        _emailField("Email id"),
+        _passwordField("Password",),
+        SizedBox(height: 15),
+        _submit_signup_Button(),
+
+      ],
+    );
+  }
+//////////////////signup form end/////////////////////////
 }

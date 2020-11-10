@@ -42,6 +42,9 @@ dependencies:
   google_sign_in: ^4.5.5
   flutter_launcher_icons: ^0.7.5
   responsive_grid: ^1.2.1+1
+  giffy_dialog: ^1.8.0
+  email_validator: ^1.0.5
+
 
 dev_dependencies:
   flutter_test:
