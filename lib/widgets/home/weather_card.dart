@@ -111,17 +111,19 @@ class _WeatherCardState extends State<WeatherCard> {
                                   builder: (BuildContext context,
                                       AsyncSnapshot<Map<String, List<Object>>>
                                           snapshot) {
-//                if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-//                switch (snapshot.connectionState) {
-//                  case ConnectionState.none:
-//                    return Text('Select lot');
-//                  case ConnectionState.waiting:
-//                    return Text('Awaiting bids...');
-//                  case ConnectionState.active:
-//                    return Text('\$${snapshot.data}');
-//                  case ConnectionState.done:
-//                    return Text('\$${snapshot.data} (closed)');
-//                }
+                                    if (snapshot.hasError)
+                                      print(snapshot.error);
+                                    switch (snapshot.connectionState) {
+                                      case ConnectionState.none:
+                                        return Text('Select lot');
+                                      case ConnectionState.waiting:
+                                        return Text('Awaiting bids...');
+                                      case ConnectionState.active:
+                                        return Text('\$${snapshot.data}');
+                                      case ConnectionState.done:
+                                        return Text(
+                                            '\$${snapshot.data} (closed)');
+                                    }
                                     if (snapshot.data == null) {
                                       return Container(
                                         height: 50,
@@ -131,8 +133,10 @@ class _WeatherCardState extends State<WeatherCard> {
                                         ),
                                       );
                                     } else {
-                                      Map<String, List<Object>> receivedMap =
-                                          Map.from(snapshot.data);
+                                      var receivedMap =
+                                          new Map<String, List<Object>>.from(
+                                                  snapshot.data)
+                                              .cast<String, List<Object>>();
                                       var keysList = receivedMap.keys.toList();
                                       _rWeather = receivedMap[keysList[0]];
                                       _rCities = receivedMap[keysList[1]];
@@ -333,7 +337,11 @@ class _WeatherCardState extends State<WeatherCard> {
                                         return Container(
                                           child: Center(
                                             child: Text(
-                                                'لا يوجد معلومات عن الطقس حالياً'),
+                                              'لا يوجد معلومات عن الطقس حالياً',
+                                              style: TextStyle(
+                                                fontFamily: "CustomIcons",
+                                              ),
+                                            ),
                                           ),
                                         );
                                       }

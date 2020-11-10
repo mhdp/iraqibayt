@@ -371,7 +371,11 @@ class _ExchangeCardState extends State<ExchangeCard> {
                                         return Container(
                                           child: Center(
                                             child: Text(
-                                                'لا يوجد معلومات عن أسعار الصرف حالياً'),
+                                              'لا يوجد معلومات عن أسعار الصرف حالياً',
+                                              style: TextStyle(
+                                                fontFamily: "CustomIcons",
+                                              ),
+                                            ),
                                           ),
                                         );
                                       }

@@ -17,7 +17,7 @@ class _SearchCardState extends State<SearchCard> {
   List<RCity> _cities, _rCities;
   List<Region> _regions;
   List<Category> _categories, _rCategories;
-  List<SubCategory> _subCategories, _checkedSubcats;
+  List<SubCategory> _subCategories;
   Region initRegion;
   RCity initCity;
   SubCategory initSubCategory;
@@ -72,49 +72,6 @@ class _SearchCardState extends State<SearchCard> {
 
   List<Region> _getRegions(int cit_id, List<RCity> citList) {
     for (RCity cit in citList) if (cit.id == cit_id) return cit.regions;
-  }
-
-  void _showSubcatsModal(context, List<SubCategory> subs) {
-    _checkedSubcats = [];
-    _checkedSubcats = List.from(subs);
-
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return Container(
-            height: MediaQuery.of(context).size.height * 0.6,
-            child: Row(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: subs.length,
-                    itemBuilder: (context, index) {
-                      return CheckboxListTile(
-                        title: Text(
-                          subs[index].name,
-                          style: TextStyle(fontFamily: 'CustomIcons'),
-                        ),
-                        value: _checkedSubcats.contains(subs[index]),
-                        onChanged: (bool value) {
-                          print(value);
-
-                          if (value)
-                            setState(() {
-                              _checkedSubcats.add(subs[index]);
-                            });
-                          else
-                            setState(() {
-                              _checkedSubcats.remove(subs[index]);
-                            });
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          );
-        });
   }
 
   @override
@@ -279,9 +236,9 @@ class _SearchCardState extends State<SearchCard> {
                                                               .from(_getSubCats(
                                                                   catId,
                                                                   _rCategories));
-//                                                          subCatValue =
-//                                                              _subCategories[0]
-//                                                                  .id;
+                                                          subCatValue =
+                                                              _subCategories[0]
+                                                                  .id;
 
                                                           //_subCategories = List.from(_rCategories[catId].subCatList);
                                                           print(catValue
@@ -294,21 +251,50 @@ class _SearchCardState extends State<SearchCard> {
                                                   ),
                                                   Expanded(
                                                     flex: 55,
-                                                    child: FlatButton(
-                                                      onPressed: () {
-                                                        _showSubcatsModal(
-                                                            context,
-                                                            _subCategories);
-                                                      },
-                                                      child: Text(
-                                                        'اختر المناطق',
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.blue,
-                                                          fontFamily:
-                                                              "CustomIcons",
+                                                    child: DropdownButton<int>(
+                                                      elevation: 5,
+                                                      hint: Container(
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                        child: Text(
+                                                          subCatHint,
+                                                          style: TextStyle(
+                                                              fontSize: 18,
+                                                              fontFamily:
+                                                                  'CustomIcons'),
                                                         ),
                                                       ),
+                                                      value: subCatValue,
+                                                      items: _subCategories
+                                                          .map((subcategory) {
+                                                        return new DropdownMenuItem<
+                                                            int>(
+                                                          value: subcategory.id,
+                                                          child: Container(
+                                                            alignment: Alignment
+                                                                .centerRight,
+                                                            child: new Text(
+                                                              subcategory.name,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right,
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    "CustomIcons",
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged:
+                                                          (int subCatId) {
+                                                        setState(() {
+                                                          subCatValue =
+                                                              subCatId;
+                                                          //subCatHint = _subCategories[subCatId].name;
+                                                          print(subCatValue);
+                                                        });
+                                                      },
                                                     ),
                                                   ),
                                                 ],
@@ -441,11 +427,7 @@ class _SearchCardState extends State<SearchCard> {
                                         return Container(
                                           child: Center(
                                             child: Text(
-                                              'لا يوجد معلومات عن محرك البحث حالياً',
-                                              style: TextStyle(
-                                                fontFamily: "CustomIcons",
-                                              ),
-                                            ),
+                                                'لا يوجد معلومات عن محرك البحث حالياً'),
                                           ),
                                         );
                                       }

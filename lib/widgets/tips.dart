@@ -131,32 +131,30 @@ class _TipsState extends State<Tips> {
                                                   },
                                                 ),
                                                 FlatButton(
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .push(
-                                                        new MaterialPageRoute(
-                                                          builder: (BuildContext
-                                                                  context) =>
-                                                              new FullTip(
-                                                            title: snapshot
-                                                                .data[index]
-                                                                .name,
-                                                            description: snapshot
-                                                                .data[index]
-                                                                .description,
-                                                          ),
+                                                  onPressed: () {
+                                                    Navigator.of(context).push(
+                                                      new MaterialPageRoute(
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            new FullTip(
+                                                          title: snapshot
+                                                              .data[index].name,
+                                                          description: snapshot
+                                                              .data[index]
+                                                              .description,
                                                         ),
-                                                      );
-                                                    },
-                                                    child: Text(
-                                                      'إقرأ المزيد',
-                                                      style: TextStyle(
-                                                        fontSize: 16,
-                                                        color: Colors.blue,
-                                                        fontFamily:
-                                                            "CustomIcons",
                                                       ),
-                                                    ))
+                                                    );
+                                                  },
+                                                  child: Text(
+                                                    'إقرأ المزيد',
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.blue,
+                                                      fontFamily: "CustomIcons",
+                                                    ),
+                                                  ),
+                                                ),
                                               ],
                                             ),
                                           ),

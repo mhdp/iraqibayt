@@ -12,23 +12,14 @@ import 'package:iraqibayt/modules/api/callApi.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'home/home.dart';
-
 DatabaseHelper databaseHelper = new DatabaseHelper();
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
-
-
-
-
 final fbLogin = FacebookLogin();
 
-
-
 class Welcome extends StatefulWidget {
-
   @override
   _Welcome createState() => _Welcome();
 }
@@ -40,14 +31,16 @@ class _Welcome extends State<Welcome> {
     await Firebase.initializeApp();
 
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
 
-    final UserCredential authResult = await _auth.signInWithCredential(credential);
+    final UserCredential authResult =
+        await _auth.signInWithCredential(credential);
     final User user = authResult.user;
 
     if (user != null) {
@@ -68,7 +61,7 @@ class _Welcome extends State<Welcome> {
       var body = json.decode(res.body);
       print(body);
 
-      _save_login_info(user.uid,user.displayName);
+      _save_login_info(user.uid, user.displayName, user.email);
 
       Navigator.pushReplacementNamed(context, '/home');
 
@@ -78,7 +71,7 @@ class _Welcome extends State<Welcome> {
     return null;
   }
 
-  _save_login_info(String pass,String name) async {
+  _save_login_info(String pass, String name, String email) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'is_login';
     final value = "1";
@@ -92,9 +85,10 @@ class _Welcome extends State<Welcome> {
     final value3 = pass;
     prefs.setString(key3, value3);
 
-
+    final key4 = 'email';
+    final value4 = email;
+    prefs.setString(key4, value4);
   }
-
 
   void signOutGoogle() async {
     await googleSignIn.signOut();
@@ -120,10 +114,9 @@ class _Welcome extends State<Welcome> {
     var body = json.decode(res.body);
     print(body);
 
-    _save_login_info(profile["id"],profile["name"]);
+    _save_login_info(profile["id"], profile["name"], profile["email"]);
 
     Navigator.pushReplacementNamed(context, '/home');
-
   }
 
   check_login() async {
@@ -131,13 +124,12 @@ class _Welcome extends State<Welcome> {
     final key = 'is_login';
     final is_login_value = prefs.get(key) ?? 0;
 
-    if(is_login_value == "1"){
+    if (is_login_value == "1") {
       /*Navigator.of(context).push(
         new MaterialPageRoute(
             builder: (BuildContext context) => new Home()),
       );*/
       Navigator.pushReplacementNamed(context, '/home');
-
     }
     print("is_login value: $is_login_value");
   }

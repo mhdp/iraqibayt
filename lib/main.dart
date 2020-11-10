@@ -4,9 +4,11 @@ import 'package:iraqibayt/widgets/fullAbout.dart';
 import 'package:iraqibayt/widgets/fullTip.dart';
 import 'package:iraqibayt/widgets/fullSystem.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
+import 'package:iraqibayt/widgets/login.dart';
 import 'package:iraqibayt/widgets/main_board.dart';
 import 'package:iraqibayt/widgets/posts/post_details.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
+import 'package:iraqibayt/widgets/profile.dart';
 import 'package:iraqibayt/widgets/register.dart';
 import 'package:iraqibayt/widgets/statistics.dart';
 import 'package:iraqibayt/widgets/systems.dart';
@@ -44,6 +46,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => Welcome(),
         '/register': (context) => Register(),
+        '/login': (context) => Login(),
         '/main_board': (context) => MainBoard(),
         '/home': (context) => Home(),
         '/posts': (context) => Posts_Home(),
@@ -57,6 +60,7 @@ class MyApp extends StatelessWidget {
         '/abouts': (context) => Abouts(),
         '/full_about': (context) => FullAbout(),
         '/statistics': (context) => Statistics(),
+        '/profile': (context) => Profile(),
       },
     );
   }

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Register extends StatefulWidget {
   static const routeName = '/register';
@@ -17,6 +18,25 @@ class _RegisterState extends State<Register> {
   final _passwordConfirmController = TextEditingController();
 
   bool _isLoading = false;
+
+  _saveUserData(String pass, String name, String email) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'is_login';
+    final value = "1";
+    prefs.setString(key, value);
+
+    final key2 = 'name';
+    final value2 = name;
+    prefs.setString(key2, value2);
+
+    final key3 = 'pass';
+    final value3 = pass;
+    prefs.setString(key3, value3);
+
+    final key4 = 'email';
+    final value4 = email;
+    prefs.setString(key4, value4);
+  }
 
   void _handleRegister() async {
     setState(() {
@@ -35,7 +55,11 @@ class _RegisterState extends State<Register> {
     setState(() {
       _isLoading = false;
     });
-    // Navigator.pushReplacementNamed(context, '/main_board');
+    if (body['success'] == true) {
+      _saveUserData(_passwordController.text, _usernameController.text,
+          _emailController.text);
+      Navigator.pushReplacementNamed(context, '/home');
+    }
   }
 
   Widget new_account_button() {
@@ -113,7 +137,33 @@ class _RegisterState extends State<Register> {
                     disabledTextColor: Colors.grey,
                     padding: EdgeInsets.all(8.0),
                     splashColor: Colors.orange,
-                    onPressed: _isLoading ? null : _handleRegister,
+                    onPressed: _isLoading
+                        ? null
+                        : () {
+                            Navigator.pushReplacementNamed(context, '/login');
+                          },
+                    child: Text(
+                      'تسجيل الدخول',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey,
+                        fontFamily: "CustomIcons",
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  FlatButton(
+                    color: Colors.white,
+                    textColor: Colors.black,
+                    disabledColor: Colors.grey,
+                    disabledTextColor: Colors.grey,
+                    padding: EdgeInsets.all(8.0),
+                    splashColor: Colors.orange,
+                    onPressed: _isLoading
+                        ? null
+                        : () {
+                            Navigator.pushReplacementNamed(context, '/home');
+                          },
                     child: Text(
                       'التسجيل لاحقاً',
                       style: TextStyle(

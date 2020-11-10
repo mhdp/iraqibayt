@@ -1,33 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
+import 'package:iraqibayt/widgets/profile.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NavDrawer extends StatefulWidget {
   @override
   NavDrawerState createState() => NavDrawerState();
-
 }
 
 class NavDrawerState extends State<NavDrawer> {
-
   String user_name;
   var gust = false;
-  check_if_gust() async{
+  check_if_gust() async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'is_login';
     final value = prefs.get(key);
     print('$value');
-    if(value != '1'){
-      setState(()  {
+    if (value != '1') {
+      setState(() {
         gust = true;
-        user_name = 'زائر';
       });
-    }else{
+    } else {
       final key = 'name';
       final value = prefs.get(key);
-      setState(()  {
+      setState(() {
         user_name = value;
       });
     }
@@ -35,13 +33,13 @@ class NavDrawerState extends State<NavDrawer> {
 
   void initState() {
     super.initState();
+
+    user_name = 'زائر';
     check_if_gust();
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -50,11 +48,12 @@ class NavDrawerState extends State<NavDrawer> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-
               children: <Widget>[
-
-
-                Image.asset('assets/images/logo_white.png',width: 125.0,height: 50.0,),
+                Image.asset(
+                  'assets/images/logo_white.png',
+                  width: 125.0,
+                  height: 50.0,
+                ),
                 SizedBox(
                   height: 10,
                 ),
@@ -67,9 +66,6 @@ class NavDrawerState extends State<NavDrawer> {
                       fontSize: 20),
                   textAlign: TextAlign.center,
                 ),
-
-
-
               ],
             ),
             decoration: BoxDecoration(
@@ -77,21 +73,31 @@ class NavDrawerState extends State<NavDrawer> {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.verified_user, color: Color(0xFF335876),),
-            title: Text('الملف الشخصي'),
+            leading: Icon(
+              Icons.verified_user,
+              color: Color(0xFF335876),
+            ),
+            title: Text(
+              'الملف الشخصي',
+              style: TextStyle(fontFamily: 'CustomIcons'),
+            ),
             onTap: () => {
-              /*Navigator.of(context).push(
-                new MaterialPageRoute(
-                    builder: (BuildContext context) => new MyCompanies()))*/
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new Profile()))
             },
           ),
           ListTile(
-            leading: Icon(Icons.add_box, color: Color(0xFF335876),),
-            title: Text('أضف إعلان'),
+            leading: Icon(
+              Icons.add_box,
+              color: Color(0xFF335876),
+            ),
+            title: Text(
+              'أضف إعلان',
+              style: TextStyle(fontFamily: 'CustomIcons'),
+            ),
             onTap: () => {
-              Navigator.of(context).push(
-                new MaterialPageRoute(
-                    builder: (BuildContext context) => new Add_Post()))
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new Add_Post()))
             },
           ),
           /*ListTile(
@@ -100,8 +106,14 @@ class NavDrawerState extends State<NavDrawer> {
             onTap: () => {Navigator.of(context).pop()},
           ),*/
           ListTile(
-            leading: Icon(Icons.post_add, color: Color(0xFF335876),),
-            title: Text('إعلاناتي'),
+            leading: Icon(
+              Icons.post_add,
+              color: Color(0xFF335876),
+            ),
+            title: Text(
+              'إعلاناتي',
+              style: TextStyle(fontFamily: 'CustomIcons'),
+            ),
             onTap: () => {
               /*Navigator.of(context).push(
                 new MaterialPageRoute(
@@ -109,43 +121,64 @@ class NavDrawerState extends State<NavDrawer> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.favorite, color: Color(0xFF335876),),
-            title: Text('المفضلة'),
+            leading: Icon(
+              Icons.favorite,
+              color: Color(0xFF335876),
+            ),
+            title: Text(
+              'المفضلة',
+              style: TextStyle(fontFamily: 'CustomIcons'),
+            ),
             onTap: () => {
               /*Navigator.of(context).push(
                 new MaterialPageRoute(
                     builder: (BuildContext context) => new favouritetab()))*/
             },
           ),
-
           ListTile(
-            leading: Icon(Icons.message, color: Color(0xFF335876),),
-            title: Text('الرسائل'),
+            leading: Icon(
+              Icons.message,
+              color: Color(0xFF335876),
+            ),
+            title: Text(
+              'الرسائل',
+              style: TextStyle(fontFamily: 'CustomIcons'),
+            ),
             onTap: () => {
               /*Navigator.of(context).push(
                 new MaterialPageRoute(
                     builder: (BuildContext context) => new feedbacks()))*/
             },
           ),
-
           ListTile(
-            leading: Icon(Icons.exit_to_app, color: Color(0xFF335876),),
-            title: gust ? Text('تسجيل الدخول'):Text('تسجيل خروج'),
-            onTap: ()async{
+            leading: Icon(
+              Icons.exit_to_app,
+              color: Color(0xFF335876),
+            ),
+            title: gust
+                ? Text(
+                    'تسجيل الدخول',
+                    style: TextStyle(fontFamily: 'CustomIcons'),
+                  )
+                : Text(
+                    'تسجيل خروج',
+                    style: TextStyle(fontFamily: 'CustomIcons'),
+                  ),
+            onTap: () async {
               final prefs = await SharedPreferences.getInstance();
               final key = 'is_login';
               final value = "0";
               prefs.setString(key, value);
-              Navigator.of(context).push(
-                  new MaterialPageRoute(
-                      builder: (BuildContext context) => new Welcome()));},
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new Welcome()));
+            },
           ),
         ],
       ),
     );
   }
 
-  Widget login_text(){
+  Widget login_text() {
     return Text(
       "تسجيل الدخول",
       style: TextStyle(
