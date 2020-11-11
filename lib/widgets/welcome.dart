@@ -635,7 +635,7 @@ class _Welcome extends State<Welcome> {
               login_btn_child_index = 0;
             });
           } else {
-            //_save_login_info(_passwordController.text.toString(), profile["name"], _emailController.text.trim().toLowerCase().toString());
+            _save_login_info(_passwordController.text.toString(), databaseHelper.user_name, _emailController.text.trim().toLowerCase().toString());
             Navigator.pushReplacementNamed(context, '/home');
 
           }

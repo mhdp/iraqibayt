@@ -12,6 +12,7 @@ class DatabaseHelper {
 
   var login_status = false;
   var register_status = false;
+  String user_name = "";
 
   Future<List> get_posts() async {
     String myUrl = "$serverUrl/allposts_api";
@@ -70,6 +71,8 @@ class DatabaseHelper {
 
     if (response.body.toString().contains("true")) {
       login_status = true;
+      var data = json.decode(response.body);
+      user_name = data["user"]["name"];
     }else{
       login_status = false;
     }
