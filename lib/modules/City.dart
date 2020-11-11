@@ -1,5 +1,3 @@
-import 'package:iraqibayt/modules/Region.dart';
-
 class City {
   int id;
   String name;

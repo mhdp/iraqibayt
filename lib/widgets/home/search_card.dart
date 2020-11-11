@@ -15,7 +15,7 @@ class SearchCard extends StatefulWidget {
 
 class _SearchCardState extends State<SearchCard> {
   List<RCity> _cities, _rCities;
-  List<Region> _regions;
+  List<Region> _regions, _checkedRegions;
   List<Category> _categories, _rCategories;
   List<SubCategory> _subCategories, _checkedSubcats;
   Region initRegion;
@@ -36,7 +36,7 @@ class _SearchCardState extends State<SearchCard> {
     //Fetching Cities Data
     var citiesResponse = await http.get('https://iraqibayt.com/getCities');
     var citiesData = json.decode(citiesResponse.body);
-    Map<String, List<Object>> dataMap2 = new Map<String, List<Object>>();
+    Map<String, List<Object>> searchDataMap = new Map<String, List<Object>>();
     _cities = [];
     RCity tCity;
 
@@ -60,10 +60,10 @@ class _SearchCardState extends State<SearchCard> {
       _categories.add(tCategory);
     }
 
-    dataMap2.putIfAbsent('cat_list', () => _categories);
-    dataMap2.putIfAbsent('cit_list', () => _cities);
+    searchDataMap.putIfAbsent('cat_list', () => _categories);
+    searchDataMap.putIfAbsent('cit_list', () => _cities);
 
-    return dataMap2;
+    return searchDataMap;
   }
 
   List<SubCategory> _getSubCats(int cat_id, List<Category> catList) {
@@ -105,6 +105,49 @@ class _SearchCardState extends State<SearchCard> {
                           else
                             setState(() {
                               _checkedSubcats.remove(subs[index]);
+                            });
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  void _showRegionsModal(context, List<Region> regions) {
+    _checkedRegions = [];
+    _checkedRegions = List.from(regions);
+
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: Row(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: regions.length,
+                    itemBuilder: (context, index) {
+                      return CheckboxListTile(
+                        title: Text(
+                          regions[index].name,
+                          style: TextStyle(fontFamily: 'CustomIcons'),
+                        ),
+                        value: _checkedRegions.contains(regions[index]),
+                        onChanged: (bool value) {
+                          print(value);
+
+                          if (value)
+                            setState(() {
+                              _checkedRegions.add(regions[index]);
+                            });
+                          else
+                            setState(() {
+                              _checkedRegions.remove(regions[index]);
                             });
                         },
                       );
@@ -301,10 +344,10 @@ class _SearchCardState extends State<SearchCard> {
                                                             _subCategories);
                                                       },
                                                       child: Text(
-                                                        'اختر المناطق',
+                                                        'اختر الأقسام الفرعية',
                                                         style: TextStyle(
                                                           fontSize: 16,
-                                                          color: Colors.blue,
+                                                          color: Colors.black54,
                                                           fontFamily:
                                                               "CustomIcons",
                                                         ),
@@ -363,61 +406,31 @@ class _SearchCardState extends State<SearchCard> {
                                                               _getRegions(
                                                                   cityValue,
                                                                   _rCities));
-                                                          regionValue =
-                                                              _regions[0].id;
+                                                          //regionValue = _regions[0].id;
                                                           print(cityValue);
                                                         });
                                                       },
                                                     ),
                                                   ),
                                                   Expanded(
-                                                    flex: 5,
-                                                    child: DropdownButton<int>(
-                                                      elevation: 5,
-                                                      hint: Container(
-                                                        alignment: Alignment
-                                                            .centerRight,
+                                                      flex: 5,
+                                                      child: FlatButton(
+                                                        onPressed: () {
+                                                          _showRegionsModal(
+                                                              context,
+                                                              _regions);
+                                                        },
                                                         child: Text(
-                                                          regionHint,
+                                                          'اختر المناطق',
                                                           style: TextStyle(
-                                                              fontSize: 18,
-                                                              fontFamily:
-                                                                  'CustomIcons'),
-                                                        ),
-                                                      ),
-                                                      value: regionValue,
-                                                      items: _regions
-                                                          .map((Region region) {
-                                                        return new DropdownMenuItem<
-                                                            int>(
-                                                          value: region.id,
-                                                          child: Container(
-                                                            alignment: Alignment
-                                                                .centerRight,
-                                                            child: new Text(
-                                                              region.name,
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .right,
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    "CustomIcons",
-                                                              ),
-                                                            ),
+                                                            fontSize: 16,
+                                                            color:
+                                                                Colors.black54,
+                                                            fontFamily:
+                                                                "CustomIcons",
                                                           ),
-                                                        );
-                                                      }).toList(),
-                                                      onChanged:
-                                                          (int regionId) {
-                                                        setState(() {
-                                                          regionValue =
-                                                              regionId;
-                                                          //regionHint = _regions[regionId].name;
-                                                          print(regionValue);
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
+                                                        ),
+                                                      )),
                                                 ],
                                               ),
                                             ),

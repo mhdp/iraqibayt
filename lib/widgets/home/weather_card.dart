@@ -30,27 +30,29 @@ class _WeatherCardState extends State<WeatherCard> {
     super.dispose();
   }
 
-  Future<Map<String, List<Object>>> _getWeatherData() async {
+  Future<List<Weather>> _getWeatherData() async {
     var weatherResponse = await http.get('https://iraqibayt.com/getWeather');
     var weatherData = json.decode(weatherResponse.body);
-    Map<String, List<Object>> dataMap = new Map<String, List<Object>>();
-    _cities = [];
+    //Map<String, List<Weather>> dataMap = new Map<String, List<Weather>>();
+    //_cities = [];
     _weathers = [];
     Weather tWeather;
-    City tCity;
+    //City tCity;
 
-    for (var record in weatherData) {
-      tWeather = Weather.fromJson(record);
-      tCity = City.fromJson(record['city']);
-      //print(tWeather.day);
-      _weathers.add(tWeather);
-      _cities.add(tCity);
+    for (var weather in weatherData) {
+      tWeather = Weather.fromJson(weather);
+//      //tCity = City.fromJson(record['city']);
+//      print(tWeather.day);
+//      _weathers.add(tWeather);
+//      //_cities.add(tCity);
+
     }
+    print(_weathers.length);
 
-    dataMap.putIfAbsent('w_list', () => _weathers);
-    dataMap.putIfAbsent('c_list', () => _cities);
+//    dataMap.putIfAbsent('w_list', () => _weathers);
+//    dataMap.putIfAbsent('c_list', () => _cities);
 
-    return dataMap;
+    return _weathers;
   }
 
   Weather _getWeatherDataByCity(List<Weather> wList, int cid) {
@@ -109,21 +111,20 @@ class _WeatherCardState extends State<WeatherCard> {
                                 child: FutureBuilder(
                                   future: _getWeatherData(),
                                   builder: (BuildContext context,
-                                      AsyncSnapshot<Map<String, List<Object>>>
-                                          snapshot) {
-                                    if (snapshot.hasError)
-                                      print(snapshot.error);
-                                    switch (snapshot.connectionState) {
-                                      case ConnectionState.none:
-                                        return Text('Select lot');
-                                      case ConnectionState.waiting:
-                                        return Text('Awaiting bids...');
-                                      case ConnectionState.active:
-                                        return Text('\$${snapshot.data}');
-                                      case ConnectionState.done:
-                                        return Text(
-                                            '\$${snapshot.data} (closed)');
-                                    }
+                                      AsyncSnapshot snapshot) {
+//                                    if (snapshot.hasError)
+//                                      print(snapshot.error);
+//                                    switch (snapshot.connectionState) {
+//                                      case ConnectionState.none:
+//                                        return Text('Select lot');
+//                                      case ConnectionState.waiting:
+//                                        return Text('Awaiting bids...');
+//                                      case ConnectionState.active:
+//                                        return Text('\$${snapshot.data}');
+//                                      case ConnectionState.done:
+//                                        return Text(
+//                                            '\$${snapshot.data} (closed)');
+//                                    }
                                     if (snapshot.data == null) {
                                       return Container(
                                         height: 50,
@@ -133,13 +134,10 @@ class _WeatherCardState extends State<WeatherCard> {
                                         ),
                                       );
                                     } else {
-                                      var receivedMap =
-                                          new Map<String, List<Object>>.from(
-                                                  snapshot.data)
-                                              .cast<String, List<Object>>();
-                                      var keysList = receivedMap.keys.toList();
-                                      _rWeather = receivedMap[keysList[0]];
-                                      _rCities = receivedMap[keysList[1]];
+                                      _rWeather = (snapshot.data).toList();
+//                                      var keysList = receivedMap.keys.toList();
+//                                      _rWeather = receivedMap[keysList[0]];
+//                                      _rCities = receivedMap[keysList[1]];
                                       //when i set the cityId to first item , the dropdown cant  change output item
                                       //cityId = _rCities[0].id;
 
@@ -178,17 +176,17 @@ class _WeatherCardState extends State<WeatherCard> {
                                                       ),
                                                     ),
                                                     value: cityId,
-                                                    items: _rCities
-                                                        .map((City city) {
+                                                    items: _rWeather
+                                                        .map((Weather weather) {
                                                       return new DropdownMenuItem<
                                                           int>(
-                                                        value: city.id,
+                                                        value: weather.city.id,
                                                         child: Container(
                                                           alignment: Alignment
                                                               .centerRight,
                                                           width: 100.0,
                                                           child: new Text(
-                                                            city.name,
+                                                            weather.city.name,
                                                             textAlign:
                                                                 TextAlign.right,
                                                             style: TextStyle(

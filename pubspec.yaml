@@ -101,6 +101,12 @@ flutter:
       fonts:
         - asset: assets/fonts/MyIcons.ttf
 
+    - family: digital_counter_7
+      fonts:
+        - asset: assets/fonts/digital_counter_7.ttf
+        - asset: assets/fonts/digital_counter_7_italic.ttf
+          weight: 700
+
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

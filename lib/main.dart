@@ -9,6 +9,8 @@ import 'package:iraqibayt/widgets/main_board.dart';
 import 'package:iraqibayt/widgets/posts/post_details.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/profile.dart';
+import 'package:iraqibayt/widgets/quizMain.dart';
+import 'package:iraqibayt/widgets/quizs.dart';
 import 'package:iraqibayt/widgets/register.dart';
 import 'package:iraqibayt/widgets/statistics.dart';
 import 'package:iraqibayt/widgets/systems.dart';
@@ -61,6 +63,8 @@ class MyApp extends StatelessWidget {
         '/full_about': (context) => FullAbout(),
         '/statistics': (context) => Statistics(),
         '/profile': (context) => Profile(),
+        '/quizs': (context) => Quizs(),
+        '/quiz_main': (context) => QuizMain(),
       },
     );
   }

@@ -111,20 +111,32 @@ class _RegisterState extends State<Register> {
                   SizedBox(height: 40.0),
                   TextField(
                     decoration: InputDecoration(labelText: 'اسم المستخدم'),
+                    style: TextStyle(
+                      fontFamily: 'CustomIcons',
+                    ),
                     controller: _usernameController,
                   ),
                   TextField(
                     decoration: InputDecoration(labelText: 'البريد الالكتروني'),
+                    style: TextStyle(
+                      fontFamily: 'CustomIcons',
+                    ),
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                   ),
                   TextField(
                     decoration: InputDecoration(labelText: 'كلمة المرور'),
+                    style: TextStyle(
+                      fontFamily: 'CustomIcons',
+                    ),
                     controller: _passwordController,
                     keyboardType: TextInputType.visiblePassword,
                   ),
                   TextField(
                     decoration: InputDecoration(labelText: 'تأكيد كلمة المرور'),
+                    style: TextStyle(
+                      fontFamily: 'CustomIcons',
+                    ),
                     controller: _passwordConfirmController,
                     keyboardType: TextInputType.visiblePassword,
                   ),
