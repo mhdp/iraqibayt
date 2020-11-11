@@ -107,11 +107,17 @@ class _LoginState extends State<Login> {
                   SizedBox(height: 40.0),
                   TextField(
                     decoration: InputDecoration(labelText: 'البريد الالكتروني'),
+                    style: TextStyle(
+                      fontFamily: 'CustomIcons',
+                    ),
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
                   ),
                   TextField(
                     decoration: InputDecoration(labelText: 'كلمة المرور'),
+                    style: TextStyle(
+                      fontFamily: 'CustomIcons',
+                    ),
                     controller: _passwordController,
                     keyboardType: TextInputType.visiblePassword,
                   ),

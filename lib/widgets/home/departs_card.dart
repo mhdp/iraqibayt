@@ -6,6 +6,7 @@ import 'package:iraqibayt/modules/Depart.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/widgets/abouts.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
+import 'package:iraqibayt/widgets/quizs.dart';
 import 'package:iraqibayt/widgets/statistics.dart';
 import 'package:iraqibayt/widgets/systems.dart';
 import 'package:iraqibayt/widgets/tips.dart';
@@ -108,6 +109,14 @@ class _DepartsCardState extends State<DepartsCard> {
           );
         }
         break;
+      case 6:
+        {
+          Navigator.of(context).push(
+            new MaterialPageRoute(
+                builder: (BuildContext context) => new Quizs()),
+          );
+        }
+        break;
       case 7:
         {
           Navigator.of(context).push(
@@ -134,7 +143,7 @@ class _DepartsCardState extends State<DepartsCard> {
         MediaQuery.of(context).size.height - statusBarHeight - kToolbarHeight;
     final double gridTileHeight = screenHeight / 6.0;
 
-     /*LayoutBuilder(
+    /*LayoutBuilder(
       builder: (ctx, constraints) {
         return Row(
           children: [
@@ -315,56 +324,61 @@ class _DepartsCardState extends State<DepartsCard> {
       },
     );*/
 
-    return Column(
-        children: <Widget>[
-           is_loading
-                ? new Center(child: new GFLoader(type:GFLoaderType.circle),)
-                : ResponsiveGridRow(
-    children: [for(var i = 0; i < departs.length; i++)ResponsiveGridCol(
-    xs: 6,
-    md: 4,
-    child: Container(
-      margin: const EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Color(0xFFebebeb),
-
-      ),
-    height: 100,
-    alignment: Alignment(0, 0),
-    //color: Colors.grey,
-    child: InkWell(onTap: () => _setRoute(
-        context, i + 1),child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [Container(
-        height:
-        gridTileHeight /
-            3,
-        width:
-        gridTileHeight /
-            3,
-        decoration:
-        BoxDecoration(
-          shape: BoxShape
-              .circle,
-          image: DecorationImage(
-              image: NetworkImage('https://iraqibayt.com/storage/app/public/images/' +
-                  departs[i].image),
-              fit: BoxFit.cover),
-        ),
-      ),
-        SizedBox(
-          height: 10.0,
-        ),Text(departs[i].name,style:
-    TextStyle(
-      fontSize: 18,
-      fontFamily: "CustomIcons",),)],),)
-    ),
-    ),],),
-
-        ]
-    );
+    return Column(children: <Widget>[
+      is_loading
+          ? new Center(
+              child: new GFLoader(type: GFLoaderType.circle),
+            )
+          : ResponsiveGridRow(
+              children: [
+                for (var i = 0; i < departs.length; i++)
+                  ResponsiveGridCol(
+                    xs: 6,
+                    md: 4,
+                    child: Container(
+                        margin: const EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color(0xFFebebeb),
+                        ),
+                        height: 100,
+                        alignment: Alignment(0, 0),
+                        //color: Colors.grey,
+                        child: InkWell(
+                          onTap: () => _setRoute(context, i + 1),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: gridTileHeight / 3,
+                                width: gridTileHeight / 3,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                      image: NetworkImage(
+                                          'https://iraqibayt.com/storage/app/public/images/' +
+                                              departs[i].image),
+                                      fit: BoxFit.cover),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                              Text(
+                                departs[i].name,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontFamily: "CustomIcons",
+                                ),
+                              )
+                            ],
+                          ),
+                        )),
+                  ),
+              ],
+            ),
+    ]);
 
     /*return ResponsiveGridRow(
         children: [
@@ -383,5 +397,3 @@ class _DepartsCardState extends State<DepartsCard> {
         ]);*/
   }
 }
-
-
