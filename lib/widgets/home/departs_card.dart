@@ -341,25 +341,28 @@ class _DepartsCardState extends State<DepartsCard> {
                           borderRadius: BorderRadius.circular(10),
                           color: Color(0xFFebebeb),
                         ),
-                        height: 100,
+                        height: MediaQuery.of(context).size.width/3 + 40,
                         alignment: Alignment(0, 0),
                         //color: Colors.grey,
                         child: InkWell(
                           onTap: () => _setRoute(context, i + 1),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                height: gridTileHeight / 3,
-                                width: gridTileHeight / 3,
+                                height: MediaQuery.of(context).size.width/3 ,
+                                width: MediaQuery.of(context).size.width/2 - 20,
                                 decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
+                                  shape: BoxShape.rectangle,
                                   image: DecorationImage(
                                       image: NetworkImage(
                                           'https://iraqibayt.com/storage/app/public/images/' +
                                               departs[i].image),
+
                                       fit: BoxFit.cover),
+                                  borderRadius: BorderRadius.circular(10.0),
+
                                 ),
                               ),
                               SizedBox(

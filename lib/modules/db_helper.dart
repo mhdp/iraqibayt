@@ -8,6 +8,8 @@ class DatabaseHelper {
   String default_post_image = "";
   String serverUrl = "https://iraqibayt.com/api";
   Map<String, dynamic> posts_list ;
+  Map<String, dynamic> my_posts_list ;
+  Map<String, dynamic> my_posts_favorits_list ;
   List<dynamic> get_post_by_id_list ;
 
   var login_status = false;
@@ -19,6 +21,33 @@ class DatabaseHelper {
     http.Response response = await http.post(myUrl);
     if(response.body.length > 0){
       posts_list = json.decode(response.body);
+      //print(posts_list.toString());
+    }
+  }
+
+  Future<List> get_my_posts(String email,String pass) async {
+    String myUrl = "$serverUrl/get_my_posts_api";
+    http.Response response = await http.post(myUrl,
+        body: {
+          'email': email,
+          'password': pass,
+        });
+    if(response.body.length > 0){
+      my_posts_list = json.decode(response.body);
+      //print(posts_list.toString());
+    }
+  }
+
+  Future<List> get_my_posts_favorits(String email,String pass) async {
+    String myUrl = "$serverUrl/users/favorit";
+    http.Response response = await http.post(myUrl,
+        body: {
+          'email': email,
+          'password': pass,
+        });
+    if(response.body.length > 0){
+      print(response.body.toString());
+      my_posts_favorits_list = json.decode(response.body);
       //print(posts_list.toString());
     }
   }

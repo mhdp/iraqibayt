@@ -160,8 +160,7 @@ class _Add_Post extends State<Add_Post> {
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-        home: new Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
 
@@ -624,26 +623,59 @@ class _Add_Post extends State<Add_Post> {
                                   ])),
                           ])),
 
-                Column(
-                  children: <Widget>[
-                    //Center(child: Text('Error: $_error')),
-                    RaisedButton(
-                      child: Text("Pick images"),
-                      onPressed: loadAssets,
+
+
+
+                Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.grey, width: 0.5),
+                      borderRadius: BorderRadius.circular(10),
                     ),
+                    clipBehavior: Clip.antiAlias,
+                    margin: const EdgeInsets.all(10.0),
+                    //color: Colors.grey,
+                    elevation: 0,
 
-                     buildGridView(),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(0),
+                            child: Container(
+                              padding: const EdgeInsets.all(3.0),
+                              color: Color(0xff275879),
+                              child: Text(
+                                'اختر صور العقار',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontFamily: "CustomIcons",
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
 
-                  ],
-                ),
+                          Column(
+
+                            children: <Widget>[
+                              //Center(child: Text('Error: $_error')),
+                              image_button(),
+
+                              buildGridView(),
+
+                            ],
+                          ),
+
+                        ])),
 
               ])
         )
       ]
         )
       ),
-        )
-    );
+        );
+
 
     /*return new MaterialApp(
       home: new Scaffold(
@@ -672,21 +704,43 @@ class _Add_Post extends State<Add_Post> {
   List<Asset> images = List<Asset>();
   String _error;
 
+  Widget image_button() {
+    return InkWell(onTap:(){ loadAssets();} , child: Container(
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.only(top:10.0,right: 10.0,left: 10.0,bottom: 10),
+      padding: EdgeInsets.symmetric(vertical: 5),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+
+
+        color: Color(0xFFdd685f),
+      ),
+      child: Text(
+        'انقر لاختيار الصور',
+        style: TextStyle(fontSize: 18, color: Colors.white,fontFamily: "CustomIcons"),
+      ),
+    ),
+    );
+  }
+
   Widget buildGridView() {
+
     if (images != null)
       return ResponsiveGridRow(
+
         children: [for(var i = 0; i < images.length; i++) ResponsiveGridCol(
           xs: 6,
           md: 4,
           child: Container(
-              margin: const EdgeInsets.all(10.0),
+              margin: const EdgeInsets.all(3.0),
               padding: const EdgeInsets.all(0),
               /*decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Color(0xFFebebeb),
 
               ),*/
-              height: 300,
+              height: 190,
               alignment: Alignment(0, 0),
               //color: Colors.grey,
               child: AssetThumb(
