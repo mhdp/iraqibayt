@@ -18,27 +18,35 @@ class _WeatherCardState extends State<WeatherCard> {
   String cityHint;
   int cityId;
 
-  Future _getBaghdadId() async {
-    var response =
-        await http.get('https://iraqibayt.com/api/cities/Baghdad/get_id');
-    var data = json.decode(response.body);
-
-    City baghdad;
-    for (var record in data) baghdad = City.fromJson(record);
-
-    return baghdad.id;
-  }
+//  Future _getBaghdadId() async {
+//    var response =
+//        await http.get('https://iraqibayt.com/api/cities/Baghdad/get_id');
+//    var data = json.decode(response.body);
+//
+//    City baghdad;
+//    for (var record in data) baghdad = City.fromJson(record);
+//
+//    return baghdad.id;
+//  }
 
   @override
   void initState() {
     super.initState();
     cityHint = 'اختر مدينة';
 
-    _getBaghdadId().then((value) {
+    _getWeatherData().then((value) {
+      List<Weather> initList = List.from(value);
+
       setState(() {
-        cityId = value;
+        cityId = initList[0].city.id;
       });
     });
+
+//    _getBaghdadId().then((value) {
+//      setState(() {
+//        cityId = value;
+//      });
+//    });
   }
 
   @override
@@ -55,7 +63,7 @@ class _WeatherCardState extends State<WeatherCard> {
     Weather tWeather;
     //City tCity;
 
-    print(weatherData);
+    //print(weatherData);
 
     for (var weather in weatherData) {
       tWeather = Weather.fromJson(weather);

@@ -1,23 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
-import 'package:iraqibayt/widgets/home/search_card.dart';
+import 'package:iraqibayt/widgets/adv_search_card.dart';
 import 'package:iraqibayt/widgets/my_icons_icons.dart';
+import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/post_details.dart';
-
-import 'add_post.dart';
 
 DatabaseHelper databaseHelper = new DatabaseHelper();
 
 String default_image = "";
 bool _isVisible;
 
-class Posts_Home extends StatefulWidget {
+class AdvancedSearch extends StatefulWidget {
+  final int categoryId;
+  final List<int> subCategories;
+  final int cityId;
+  final List<int> regions;
+  final int sortBy;
+
+  AdvancedSearch(
+      {this.categoryId,
+      this.subCategories,
+      this.cityId,
+      this.regions,
+      this.sortBy});
+
   @override
-  _Posts_Home createState() => _Posts_Home();
+  _AdvancedSearchState createState() => _AdvancedSearchState();
 }
 
-class _Posts_Home extends State<Posts_Home> {
+class _AdvancedSearchState extends State<AdvancedSearch> {
   var is_loading = true;
 
   void initState() {
@@ -32,7 +46,10 @@ class _Posts_Home extends State<Posts_Home> {
       });
     });
 
-    databaseHelper.get_posts().whenComplete(() {
+    databaseHelper
+        .getAdvSearchResults(widget.categoryId, widget.subCategories,
+            widget.cityId, widget.regions, widget.sortBy)
+        .whenComplete(() {
       setState(() {
         is_loading = false;
       });
@@ -109,16 +126,30 @@ class _Posts_Home extends State<Posts_Home> {
             ? new Center(
                 child: new GFLoader(type: GFLoaderType.circle),
               )
-            : BikeListItem(list1: databaseHelper.posts_list),
+            : ResultListItem(
+                catId: widget.categoryId,
+                subCats: widget.subCategories,
+                citId: widget.cityId,
+                regions: widget.regions,
+                list1: databaseHelper.posts_list,
+              ),
       ),
     );
   }
 }
 
-class BikeListItem extends StatelessWidget {
+class ResultListItem extends StatelessWidget {
   Map<String, dynamic> list1;
+  int catId, citId, sortById;
+  List<int> subCats, regions;
 
-  BikeListItem({this.list1});
+  ResultListItem(
+      {this.catId,
+      this.subCats,
+      this.citId,
+      this.regions,
+      this.sortById,
+      this.list1});
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +160,15 @@ class BikeListItem extends StatelessWidget {
         child: Column(
           //scrollDirection: Axis.vertical,
           children: <Widget>[
-            Visibility(visible: _isVisible, child: SearchCard()),
+            Visibility(
+                visible: _isVisible,
+                child: AdvancedSearchCard(
+                  categoryId: catId,
+                  subCategories: subCats,
+                  cityId: citId,
+                  regions: regions,
+                  sortById: sortById,
+                )),
             Container(
               height: MediaQuery.of(context).size.height * 0.06,
               child: Padding(
@@ -470,15 +509,17 @@ class BikeListItem extends StatelessWidget {
         ),
       );
     } else {
-      return Text(
-        'لا يوجد إعلانات',
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 20.0,
-          fontFamily: "CustomIcons",
+      return Center(
+        child: Text(
+          'لا يوجد إعلانات',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 20.0,
+            fontFamily: "CustomIcons",
+          ),
+          softWrap: true,
         ),
-        softWrap: true,
       );
     }
   }
