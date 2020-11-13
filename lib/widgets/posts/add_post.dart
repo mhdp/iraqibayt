@@ -409,35 +409,65 @@ class _Add_Post extends State<Add_Post> {
                                 ),
                                 hintText: "تفاصيل الإعلان"),
                           ),),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Padding(
+                          padding: const EdgeInsets.all(5),
+                          child:Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment:MainAxisAlignment.spaceBetween,
 
+                            children: [
+                              Expanded( child:TextFormField(
+                                controller: title_Controller,
+                                keyboardType: TextInputType.number,
+                                textAlign: TextAlign.right,
 
+                                  style: TextStyle(height: 2,backgroundColor: Colors.grey, color: Colors.red, fontWeight: FontWeight.w300),
+
+                                decoration: InputDecoration(
+                                 isDense: true,
+                                  contentPadding: EdgeInsets.all(5),  // Added this
+
+                                  border: new OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                        const Radius.circular(5.0),
+                                      ),
+
+                                    ),
+                                    hintText: "المساحة",hintStyle: TextStyle(color: Colors.red, fontWeight: FontWeight.w300),),
+                              ) ,),
+                              Expanded(child:units_list.length >0 ? DropdownButton(
+                                hint: SizedBox(
+                                    //width: MediaQuery.of(context).size.width/2, // for example
+                                    child: Text("اختر وحدة قياس",
+                                      textAlign: TextAlign.right,textDirection: TextDirection.rtl,)
+                                ),
+                                items: units_list.map((item) {
+                                  return new DropdownMenuItem(
+                                    child: new Text(item['name']),
+                                    value: item['id'].toString(),
+                                  );
+                                }).toList(),
+
+                                onChanged: (newVal) {
+                                  setState(() {
+                                    units_Selection = newVal;
+                                  });
+
+                                  get_sub_cats(newVal);
+                                },
+                                value: units_Selection,
+
+                              ):Center(child: new GFLoader(type:GFLoaderType.circle)),)
+
+                          ],)
+                          ),
                 ])),
 
 
 
-                units_list.length >0 ? DropdownButton(
-                  hint: SizedBox(
-                      width: MediaQuery.of(context).size.width/2, // for example
-                      child: Text("اختر وحدة قياس",
-                        textAlign: TextAlign.right,textDirection: TextDirection.rtl,)
-                  ),
-                  items: units_list.map((item) {
-                    return new DropdownMenuItem(
-                      child: new Text(item['name']),
-                      value: item['id'].toString(),
-                    );
-                  }).toList(),
-
-                  onChanged: (newVal) {
-                    setState(() {
-                      units_Selection = newVal;
-                    });
-
-                    get_sub_cats(newVal);
-                  },
-                  value: units_Selection,
-
-                ):Center(child: new GFLoader(type:GFLoaderType.circle)),
 
                 Currancies_list.length >0 ? DropdownButton(
                   hint: SizedBox(
@@ -494,6 +524,53 @@ class _Add_Post extends State<Add_Post> {
 
 
 
+
+
+
+
+
+                Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.grey, width: 0.5),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    margin: const EdgeInsets.all(10.0),
+                    //color: Colors.grey,
+                    elevation: 0,
+
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(0),
+                            child: Container(
+                              padding: const EdgeInsets.all(3.0),
+                              color: Color(0xff275879),
+                              child: Text(
+                                'اختر صور العقار',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontFamily: "CustomIcons",
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+
+                          Column(
+
+                            children: <Widget>[
+                              //Center(child: Text('Error: $_error')),
+                              image_button(),
+
+                              buildGridView(),
+
+                            ],
+                          ),
+
+                        ])),
                 Card(
                     shape: RoundedRectangleBorder(
                       side: BorderSide(color: Colors.grey, width: 0.5),
@@ -526,21 +603,21 @@ class _Add_Post extends State<Add_Post> {
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child:TextFormField(
-                            controller: phone_Controller,
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                            textAlign: TextAlign.right,
-                            decoration: InputDecoration(
-                                border: new OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    const Radius.circular(5.0),
+                              controller: phone_Controller,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              textAlign: TextAlign.right,
+                              decoration: InputDecoration(
+                                  border: new OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                      const Radius.circular(5.0),
+                                    ),
                                   ),
-                                ),
-                                hintText: "رقم الاتصال"),
-                          ),),
+                                  hintText: "رقم الاتصال"),
+                            ),),
                           Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text('يمكن التواصل عن طريق'),
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text('يمكن التواصل عن طريق'),
                           ),
                           Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -621,54 +698,7 @@ class _Add_Post extends State<Add_Post> {
                                       ),
                                     ),
                                   ])),
-                          ])),
-
-
-
-
-                Card(
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.grey, width: 0.5),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    margin: const EdgeInsets.all(10.0),
-                    //color: Colors.grey,
-                    elevation: 0,
-
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(0),
-                            child: Container(
-                              padding: const EdgeInsets.all(3.0),
-                              color: Color(0xff275879),
-                              child: Text(
-                                'اختر صور العقار',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontFamily: "CustomIcons",
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-
-                          Column(
-
-                            children: <Widget>[
-                              //Center(child: Text('Error: $_error')),
-                              image_button(),
-
-                              buildGridView(),
-
-                            ],
-                          ),
-
                         ])),
-
               ])
         )
       ]
