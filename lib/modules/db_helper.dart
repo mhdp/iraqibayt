@@ -10,17 +10,17 @@ import 'api/callApi.dart';
 class DatabaseHelper {
   String default_post_image = "";
   String serverUrl = "https://iraqibayt.com/api";
-  Map<String, dynamic> posts_list;
-  List<dynamic> get_post_by_id_list;
-  List<dynamic> searchResults;
+  Map<String, dynamic> posts_list ;
+  List<dynamic> get_post_by_id_list ;
 
   var login_status = false;
   var register_status = false;
+  String user_name = "";
 
   Future<List> get_posts() async {
     String myUrl = "$serverUrl/allposts_api";
     http.Response response = await http.post(myUrl);
-    if (response.body.length > 0) {
+    if(response.body.length > 0){
       posts_list = json.decode(response.body);
       //print(posts_list.toString());
     }
@@ -64,7 +64,9 @@ class DatabaseHelper {
       "id": "$id",
     });
 
-    if (response.body.length > 0) {
+
+    if(response.body.length > 0){
+
       //print(response.body.toString());
       get_post_by_id_list = json.decode(response.body);
       //print(posts_list.toString());
@@ -77,7 +79,7 @@ class DatabaseHelper {
   Future<List> get_default_post_image() async {
     String myUrl = "$serverUrl/get_default_post_image";
     http.Response response = await http.post(myUrl);
-    if (response.body.length > 0) {
+    if(response.body.length > 0){
       default_post_image = response.body;
       //print(posts_list.toString());
     }
@@ -104,7 +106,9 @@ class DatabaseHelper {
 
     if (response.body.toString().contains("true")) {
       login_status = true;
-    } else {
+      var data = json.decode(response.body);
+      user_name = data["user"]["name"];
+    }else {
       login_status = false;
     }
   }
