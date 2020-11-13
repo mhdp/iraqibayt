@@ -64,9 +64,12 @@ class _Welcome extends State<Welcome> {
       var body = json.decode(res.body);
       print(body);
 
-      _save_login_info(user.uid, user.displayName, user.email);
+      if (body['success'] == true) {
+        _save_login_info(
+            body['user'].id, user.uid, user.displayName, user.email);
 
-      Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context, '/home');
+      }
 
       //return '$user';
     }
@@ -74,11 +77,15 @@ class _Welcome extends State<Welcome> {
     return null;
   }
 
-  _save_login_info(String pass, String name, String email) async {
+  _save_login_info(int userId, String pass, String name, String email) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'is_login';
     final value = "1";
     prefs.setString(key, value);
+
+    final key1 = 'user_id';
+    final value1 = userId;
+    prefs.setInt(key1, value1);
 
     final key2 = 'name';
     final value2 = name;
@@ -117,9 +124,12 @@ class _Welcome extends State<Welcome> {
     var body = json.decode(res.body);
     print(body);
 
-    _save_login_info(profile["id"], profile["name"], profile["email"]);
+    if (body['success'] == true) {
+      _save_login_info(
+          body['user'].id, profile["id"], profile["name"], profile["email"]);
 
-    Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/home');
+    }
   }
 
   check_login() async {
@@ -145,10 +155,7 @@ class _Welcome extends State<Welcome> {
         margin: EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-
         ),
-
-
         child: Row(
           children: <Widget>[
             Expanded(
@@ -160,7 +167,6 @@ class _Welcome extends State<Welcome> {
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(5),
                       topRight: Radius.circular(5)),
-
                 ),
                 alignment: Alignment.center,
                 child: Icon(
@@ -174,7 +180,7 @@ class _Welcome extends State<Welcome> {
               child: Container(
                 decoration: BoxDecoration(
                   //color: Color(0xdd1959a9),
-                  color:Colors.white,
+                  color: Colors.white,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(5),
                       topLeft: Radius.circular(5)),
@@ -421,71 +427,80 @@ class _Welcome extends State<Welcome> {
   ///////////////////welcome form start/////////////////////
 
   Widget _signupButton(String text) {
-    return InkWell(onTap: ()=>{ setState(() {form = 2;})},child:Container(
-      //width: MediaQuery.of(context).size.width/1.9,
-      padding: EdgeInsets.symmetric(vertical: 10),
-      margin: EdgeInsets.only(right: 5),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          boxShadow: <BoxShadow>[
-            /*BoxShadow(
+    return InkWell(
+      onTap: () => {
+        setState(() {
+          form = 2;
+        })
+      },
+      child: Container(
+        //width: MediaQuery.of(context).size.width/1.9,
+        padding: EdgeInsets.symmetric(vertical: 10),
+        margin: EdgeInsets.only(right: 5),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+            boxShadow: <BoxShadow>[
+              /*BoxShadow(
                 color: Colors.grey.shade200,
                 offset: Offset(2, 4),
                 blurRadius: 5,
                 spreadRadius: 2)*/
-          ],
-          gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color(0xffdd685f), Color(0xffac3729)]
-          )
+            ],
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [Color(0xffdd685f), Color(0xffac3729)])),
+        child: Text(
+          text,
+          style: TextStyle(
+              fontSize: 20, color: Colors.white, fontFamily: "CustomIcons"),
+        ),
       ),
-      child: Text(
-        text,
-
-        style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: "CustomIcons"),
-      ),
-    ),
     );
   }
+
   Widget _loginButton(String text) {
-    return InkWell(onTap: ()=>{ setState(() {form = 1;})},child: Container(
-      //width: MediaQuery.of(context).size.width/1.9,
-      padding: EdgeInsets.symmetric(vertical: 10),
-      margin: EdgeInsets.only(left: 5),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.grey.shade200,
-              //offset: Offset(1, 1),
-              //blurRadius: 2,
-              //spreadRadius: 2,
-            )
-          ],
-          gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color(0xffffffff), Color(0xffeeeeee)])),
-      child: Text(
-        text,
-
-        style: TextStyle(fontSize: 20, color: Colors.black,fontFamily: "CustomIcons"),
+    return InkWell(
+      onTap: () => {
+        setState(() {
+          form = 1;
+        })
+      },
+      child: Container(
+        //width: MediaQuery.of(context).size.width/1.9,
+        padding: EdgeInsets.symmetric(vertical: 10),
+        margin: EdgeInsets.only(left: 5),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: Colors.grey.shade200,
+                //offset: Offset(1, 1),
+                //blurRadius: 2,
+                //spreadRadius: 2,
+              )
+            ],
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [Color(0xffffffff), Color(0xffeeeeee)])),
+        child: Text(
+          text,
+          style: TextStyle(
+              fontSize: 20, color: Colors.black, fontFamily: "CustomIcons"),
+        ),
       ),
-    ),
     );
   }
 
-
-  Widget welcome_form(){
+  Widget welcome_form() {
     return ListTile(
       title: Row(
         children: <Widget>[
-          Expanded(child:_loginButton('تسجيل دخول')),
-          Expanded(child:_signupButton('حساب جديد')),
-
+          Expanded(child: _loginButton('تسجيل دخول')),
+          Expanded(child: _signupButton('حساب جديد')),
         ],
       ),
     );
@@ -493,13 +508,12 @@ class _Welcome extends State<Welcome> {
 
   //////////////////welcome form end///////////////////////
 
-
-  Widget choose_form(){
-    if(form == 0){
+  Widget choose_form() {
+    if (form == 0) {
       return welcome_form();
-    }else if(form == 1){
+    } else if (form == 1) {
       return singin_form();
-    }else if(form == 2){
+    } else if (form == 2) {
       return singup_form();
     }
   }
@@ -518,14 +532,16 @@ class _Welcome extends State<Welcome> {
           TextField(
               keyboardType: TextInputType.emailAddress,
               controller: _emailController,
-              style: TextStyle(color: Colors.white,fontSize: 16,fontFamily: "CustomIcons"),
+              style: TextStyle(
+                  color: Colors.white, fontSize: 16, fontFamily: "CustomIcons"),
               textDirection: TextDirection.rtl,
               textAlign: TextAlign.right,
               decoration: InputDecoration(
                   hintText: "الايميل",
-
-                  hintStyle: TextStyle(fontSize: 14.0, color: Colors.white,fontFamily: "CustomIcons"),
-
+                  hintStyle: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.white,
+                      fontFamily: "CustomIcons"),
                   prefixIcon: const Icon(
                     Icons.email,
                     color: Colors.white,
@@ -544,20 +560,19 @@ class _Welcome extends State<Welcome> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-
           TextField(
               controller: _passwordController,
-              style: TextStyle(color: Colors.white,fontSize: 16,fontFamily: "CustomIcons"),
+              style: TextStyle(
+                  color: Colors.white, fontSize: 16, fontFamily: "CustomIcons"),
               obscureText: true,
               textDirection: TextDirection.rtl,
               textAlign: TextAlign.right,
-
               decoration: InputDecoration(
-
                   hintText: "كلمة المرور",
-
-                  hintStyle: TextStyle(fontSize: 14.0, color: Colors.white,fontFamily: "CustomIcons"),
-
+                  hintStyle: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.white,
+                      fontFamily: "CustomIcons"),
                   prefixIcon: const Icon(
                     Icons.security,
                     color: Colors.white,
@@ -571,11 +586,15 @@ class _Welcome extends State<Welcome> {
   }
 
   Widget _submitButton() {
-    return InkWell(onTap:(){login_btn_tap(); } , child: Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 15),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
+    return InkWell(
+      onTap: () {
+        login_btn_tap();
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(vertical: 15),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           /*boxShadow: <BoxShadow>[
             BoxShadow(
@@ -589,55 +608,62 @@ class _Welcome extends State<Welcome> {
               end: Alignment.centerRight,
               colors: [Color(0xfffbb448), Color(0xfff7892b)])*/
 
-        color: Color(0xFFdd685f),
+          color: Color(0xFFdd685f),
+        ),
+        child: login_button_child(),
       ),
-      child: login_button_child(),
-    ),
     );
   }
 
   int login_btn_child_index = 0;
-  login_button_child(){
-    if (login_btn_child_index == 0){
+  login_button_child() {
+    if (login_btn_child_index == 0) {
       return Text(
         'تسجيل الدخول',
-        style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: "CustomIcons"),
+        style: TextStyle(
+            fontSize: 20, color: Colors.white, fontFamily: "CustomIcons"),
       );
-    } else{
+    } else {
       return CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
       );
     }
   }
 
-  login_btn_tap(){
-    if(login_btn_child_index == 0){
+  login_btn_tap() {
+    if (login_btn_child_index == 0) {
       setState(() {
         login_btn_child_index = 1;
       });
-      if(_emailController.text.trim().isEmpty){
-        alert_dialog('يرجى كتابة الإيميل ',1,'بيانات ناقصة');
+      if (_emailController.text.trim().isEmpty) {
+        alert_dialog('يرجى كتابة الإيميل ', 1, 'بيانات ناقصة');
         setState(() {
           login_btn_child_index = 0;
         });
-      }else if(_passwordController.text.isEmpty){
-        alert_dialog('يرجى كتابة كلمةالمرور',1,'بيانات ناقصة');
+      } else if (_passwordController.text.isEmpty) {
+        alert_dialog('يرجى كتابة كلمةالمرور', 1, 'بيانات ناقصة');
         setState(() {
           login_btn_child_index = 0;
         });
-      }else{
+      } else {
         print('ok');
-        databaseHelper.loginData(_passwordController.text.toString(),_emailController.text.trim().toLowerCase().toString()
-            ).whenComplete(() {
+        databaseHelper
+            .loginData(_passwordController.text.toString(),
+                _emailController.text.trim().toLowerCase().toString())
+            .whenComplete(() {
           if (databaseHelper.login_status == false) {
-            alert_dialog('تأكد من صحة الإيميل أو كلمة المرور',1,'بيانات خاطئة');
+            alert_dialog(
+                'تأكد من صحة الإيميل أو كلمة المرور', 1, 'بيانات خاطئة');
             setState(() {
               login_btn_child_index = 0;
             });
           } else {
-            _save_login_info(_passwordController.text.toString(), databaseHelper.user_name, _emailController.text.trim().toLowerCase().toString());
+            _save_login_info(
+                databaseHelper.user_id,
+                _passwordController.text.toString(),
+                databaseHelper.user_name,
+                _emailController.text.trim().toLowerCase().toString());
             Navigator.pushReplacementNamed(context, '/home');
-
           }
         });
       }
@@ -660,19 +686,25 @@ class _Welcome extends State<Welcome> {
               child: Icon(Icons.keyboard_arrow_left, color: Colors.white),
             ),
             Text('عودة',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500,color: Colors.white,fontFamily: "CustomIcons"))
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                    fontFamily: "CustomIcons"))
           ],
         ),
       ),
     );
   }
 
-  Widget singin_form(){
+  Widget singin_form() {
     return Column(
       children: <Widget>[
         _backButton(),
         _emailField("Email id"),
-        _passwordField("Password",),
+        _passwordField(
+          "Password",
+        ),
         SizedBox(height: 15),
         _submitButton(),
         /*SizedBox(height: 10,),
@@ -686,32 +718,41 @@ class _Welcome extends State<Welcome> {
 
 ///////////////////sign in form end///////////////////////
 
-  alert_dialog(String text, int image_index,String title){
+  alert_dialog(String text, int image_index, String title) {
     String image_name;
-    if(image_index == 1){
+    if (image_index == 1) {
       //alert image
       image_name = "assets/alert.png";
     }
     showDialog(
-
-        context: context,builder: (_) => AssetGiffyDialog(
-      onlyOkButton: true,
-      buttonCancelText: Text('إلغاء',style:TextStyle(fontFamily: "CustomIcons",fontSize: 16)),
-      buttonOkText: Text('موافق',style:TextStyle(fontFamily: "CustomIcons",fontSize: 16,color: Colors.white)),
-      buttonOkColor: Colors.orange,
-      image: Image.asset(image_name,fit: BoxFit.cover),
-      title: Text(title,
-        style: TextStyle(
-            fontSize: 18.0, fontFamily: "CustomIcons",color: Colors.orange),
-      ),
-      description: Text(text,
-        textAlign: TextAlign.center,
-        style: TextStyle(fontFamily: "CustomIcons",fontSize: 16),
-      ),
-      onOkButtonPressed: () {
-        Navigator.pop(context);
-      },
-    ) );
+        context: context,
+        builder: (_) => AssetGiffyDialog(
+              onlyOkButton: true,
+              buttonCancelText: Text('إلغاء',
+                  style: TextStyle(fontFamily: "CustomIcons", fontSize: 16)),
+              buttonOkText: Text('موافق',
+                  style: TextStyle(
+                      fontFamily: "CustomIcons",
+                      fontSize: 16,
+                      color: Colors.white)),
+              buttonOkColor: Colors.orange,
+              image: Image.asset(image_name, fit: BoxFit.cover),
+              title: Text(
+                title,
+                style: TextStyle(
+                    fontSize: 18.0,
+                    fontFamily: "CustomIcons",
+                    color: Colors.orange),
+              ),
+              description: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontFamily: "CustomIcons", fontSize: 16),
+              ),
+              onOkButtonPressed: () {
+                Navigator.pop(context);
+              },
+            ));
   }
 
   //////////////////signup form start///////////////////////
@@ -726,14 +767,16 @@ class _Welcome extends State<Welcome> {
         children: <Widget>[
           TextField(
               controller: _nameController,
-              style: TextStyle(color: Colors.white,fontSize: 16,fontFamily: "CustomIcons"),
+              style: TextStyle(
+                  color: Colors.white, fontSize: 16, fontFamily: "CustomIcons"),
               textDirection: TextDirection.rtl,
               textAlign: TextAlign.right,
               decoration: InputDecoration(
                   hintText: "الاسم الكامل",
-
-                  hintStyle: TextStyle(fontSize: 14.0, color: Colors.white,fontFamily: "CustomIcons"),
-
+                  hintStyle: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.white,
+                      fontFamily: "CustomIcons"),
                   prefixIcon: const Icon(
                     Icons.person,
                     color: Colors.white,
@@ -745,6 +788,7 @@ class _Welcome extends State<Welcome> {
       ),
     );
   }
+
   Widget _phoneField(String title) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
@@ -754,15 +798,16 @@ class _Welcome extends State<Welcome> {
           TextField(
               keyboardType: TextInputType.phone,
               controller: _phoneController,
-              style: TextStyle(color: Colors.white,fontSize: 16,fontFamily: "CustomIcons"),
+              style: TextStyle(
+                  color: Colors.white, fontSize: 16, fontFamily: "CustomIcons"),
               textDirection: TextDirection.rtl,
               textAlign: TextAlign.right,
-
               decoration: InputDecoration(
                   hintText: "رقم الهاتف",
-
-                  hintStyle: TextStyle(fontSize: 14.0, color: Colors.white,fontFamily: "CustomIcons"),
-
+                  hintStyle: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.white,
+                      fontFamily: "CustomIcons"),
                   prefixIcon: const Icon(
                     Icons.phone,
                     color: Colors.white,
@@ -776,11 +821,15 @@ class _Welcome extends State<Welcome> {
   }
 
   Widget _submit_signup_Button() {
-    return InkWell(onTap:(){signup_btn_tap(); } , child: Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(vertical: 15),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
+    return InkWell(
+      onTap: () {
+        signup_btn_tap();
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(vertical: 15),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           /*boxShadow: <BoxShadow>[
             BoxShadow(
@@ -793,82 +842,91 @@ class _Welcome extends State<Welcome> {
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
               colors: [Color(0xfffbb448), Color(0xfff7892b)])*/
-        color: Color(0xFFdd685f),
+          color: Color(0xFFdd685f),
+        ),
+        child: signup_button_child(),
       ),
-      child: signup_button_child(),
-    ),
     );
   }
 
   int signup_btn_child_index = 0;
-  signup_button_child(){
-    if (signup_btn_child_index == 0){
+  signup_button_child() {
+    if (signup_btn_child_index == 0) {
       return Text(
         'إنشاء حساب جديد',
-        style: TextStyle(fontSize: 20, color: Colors.white,fontFamily: "CustomIcons"),
+        style: TextStyle(
+            fontSize: 20, color: Colors.white, fontFamily: "CustomIcons"),
       );
-    } else{
+    } else {
       return CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
       );
     }
   }
 
-  signup_btn_tap(){
-    if(signup_btn_child_index == 0){
+  signup_btn_tap() {
+    if (signup_btn_child_index == 0) {
       setState(() {
         signup_btn_child_index = 1;
       });
-      if(_emailController.text.trim().isEmpty){
-        alert_dialog('يرجى كتابة الإيميل',1,'بيانات ناقصة');
+      if (_emailController.text.trim().isEmpty) {
+        alert_dialog('يرجى كتابة الإيميل', 1, 'بيانات ناقصة');
         setState(() {
           signup_btn_child_index = 0;
         });
-      }else if(_passwordController.text.isEmpty){
-        alert_dialog('يرجى كتابة كلمةالمرور',1,'بيانات ناقصة');
+      } else if (_passwordController.text.isEmpty) {
+        alert_dialog('يرجى كتابة كلمةالمرور', 1, 'بيانات ناقصة');
         setState(() {
           signup_btn_child_index = 0;
         });
-      }else if(_passwordController.text.length < 6){
-        alert_dialog('كلمة المرور قصيرة جداً',1,'بيانات ناقصة');
+      } else if (_passwordController.text.length < 6) {
+        alert_dialog('كلمة المرور قصيرة جداً', 1, 'بيانات ناقصة');
         setState(() {
           signup_btn_child_index = 0;
         });
-      }else if(_nameController.text.isEmpty || _nameController.text.length <6){
-        alert_dialog('يرجى كتابة الاسم الكامل',1,'بيانات ناقصة');
+      } else if (_nameController.text.isEmpty ||
+          _nameController.text.length < 6) {
+        alert_dialog('يرجى كتابة الاسم الكامل', 1, 'بيانات ناقصة');
         setState(() {
           signup_btn_child_index = 0;
         });
-      }else{
-        databaseHelper.registerData(_passwordController.text.trim(),_nameController.text.trim(),
-            _emailController.text.trim().toLowerCase(),
-            )
+      } else {
+        databaseHelper
+            .registerData(
+          _passwordController.text.trim(),
+          _nameController.text.trim(),
+          _emailController.text.trim().toLowerCase(),
+        )
             .whenComplete(() {
           if (databaseHelper.register_status == false) {
-            alert_dialog('حدثت مشكلة يرجى المحاولة لاحقاً',1,'رسالة خطأ');
+            alert_dialog('حدثت مشكلة يرجى المحاولة لاحقاً', 1, 'رسالة خطأ');
             signup_btn_child_index = 0;
           } else {
-            _save_login_info(_passwordController.text.toString(), _nameController.text.trim(), _emailController.text.trim().toLowerCase().toString());
+            _save_login_info(
+                databaseHelper.user_id,
+                _passwordController.text.toString(),
+                _nameController.text.trim(),
+                _emailController.text.trim().toLowerCase().toString());
 
             Navigator.pushReplacementNamed(context, '/home');
-
           }
         });
       }
     }
   }
 
-  Widget singup_form(){
+  Widget singup_form() {
     return Column(
       children: <Widget>[
         _backButton(),
         _nameField("Email id"),
         //_phoneField("Email id"),
         _emailField("Email id"),
-        _passwordField("Password",),
+        _passwordField(
+          "Password",
+        ),
         SizedBox(height: 15),
         _submit_signup_Button(),
-
       ],
     );
   }

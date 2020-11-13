@@ -16,6 +16,7 @@ class DatabaseHelper {
   var login_status = false;
   var register_status = false;
   String user_name = "";
+  int user_id = 0;
 
   Future<List> get_posts() async {
     String myUrl = "$serverUrl/allposts_api";
@@ -133,6 +134,7 @@ class DatabaseHelper {
       login_status = true;
       var data = json.decode(response.body);
       user_name = data["user"]["name"];
+      user_id = data["user"]["id"];
     } else {
       login_status = false;
     }
@@ -159,6 +161,8 @@ class DatabaseHelper {
 
     if (response.body.toString().contains("true")) {
       register_status = true;
+      var data = json.decode(response.body);
+      user_id = data["user"]["id"];
     } else {
       register_status = false;
     }

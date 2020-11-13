@@ -17,11 +17,15 @@ class _LoginState extends State<Login> {
 
   bool _isLoading = false;
 
-  _saveUserData(String pass, String name, String email) async {
+  _saveUserData(int userId, String pass, String name, String email) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'is_login';
     final value = "1";
     prefs.setString(key, value);
+
+    final key1 = 'user_id';
+    final value1 = userId;
+    prefs.setInt(key1, value1);
 
     final key2 = 'name';
     final value2 = name;
@@ -52,8 +56,8 @@ class _LoginState extends State<Login> {
       _isLoading = false;
     });
     if (body['success'] == true) {
-      _saveUserData(
-          _passwordController.text, body['user'].name, _emailController.text);
+      _saveUserData(body['user'].id, _passwordController.text,
+          body['user'].name, _emailController.text);
       Navigator.pushReplacementNamed(context, '/home');
     }
   }
