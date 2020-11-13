@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:iraqibayt/modules/City.dart';
 import 'package:iraqibayt/modules/RCity.dart';
 import 'package:iraqibayt/modules/Category.dart';
 import 'package:iraqibayt/modules/SubCategory.dart';
@@ -8,6 +9,8 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:iraqibayt/widgets/advanced_search.dart';
+
 class SearchCard extends StatefulWidget {
   @override
   _SearchCardState createState() => _SearchCardState();
@@ -15,22 +18,16 @@ class SearchCard extends StatefulWidget {
 
 class _SearchCardState extends State<SearchCard> {
   List<RCity> _cities, _rCities;
-  List<Region> _regions, _checkedRegions;
+  List<Region> _regions;
   List<Category> _categories, _rCategories;
-  List<SubCategory> _subCategories, _checkedSubcats;
-  Region initRegion;
-  RCity initCity;
-  SubCategory initSubCategory;
-  Category initCategory;
+  List<SubCategory> _subCategories;
 
   int catValue;
   String catHint;
-  int subCatValue;
-  String subCatHint;
   int cityValue;
   String cityHint;
-  int regionValue;
-  String regionHint;
+
+  List<int> _subsIds, _regionsIds;
 
   Future<Map<String, List<Object>>> _getSearchData() async {
     //Fetching Cities Data
@@ -74,107 +71,180 @@ class _SearchCardState extends State<SearchCard> {
     for (RCity cit in citList) if (cit.id == cit_id) return cit.regions;
   }
 
-  void _showSubcatsModal(context, List<SubCategory> subs) {
-    _checkedSubcats = [];
-    _checkedSubcats = List.from(subs);
-
-    showModalBottomSheet(
+  void _showSubcatsDialog(context, List<SubCategory> subs) {
+    showDialog(
         context: context,
         builder: (BuildContext bc) {
-          return Container(
-            height: MediaQuery.of(context).size.height * 0.6,
-            child: Row(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: subs.length,
-                    itemBuilder: (context, index) {
-                      return CheckboxListTile(
-                        title: Text(
-                          subs[index].name,
-                          style: TextStyle(fontFamily: 'CustomIcons'),
+          return Dialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+            elevation: 16,
+            child: StatefulBuilder(builder: (context, setState) {
+              return Container(
+                height: subs.length <= 4
+                    ? MediaQuery.of(context).size.height * 0.1 * subs.length
+                    : MediaQuery.of(context).size.height * 0.6,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Center(
+                        child: Text(
+                          'اختر الأقسام الفرعية',
+                          style: TextStyle(
+                            fontFamily: 'CustomIcons',
+                            fontSize: 20.0,
+                            color: Color(0xff275879),
+                          ),
                         ),
-                        value: _checkedSubcats.contains(subs[index]),
-                        onChanged: (bool value) {
-                          print(value);
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Divider(
+                        thickness: 1.0,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: subs.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CheckboxListTile(
+                              title: Text(
+                                subs[index].name,
+                                style: TextStyle(fontFamily: 'CustomIcons'),
+                              ),
+                              value: subs[index].checked == 1 ? true : false,
+                              onChanged: (bool value) {
+                                //print(value);
 
-                          if (value)
-                            setState(() {
-                              _checkedSubcats.add(subs[index]);
-                            });
-                          else
-                            setState(() {
-                              _checkedSubcats.remove(subs[index]);
-                            });
+                                if (value)
+                                  setState(() {
+                                    subs[index].checked = 1;
+                                    _subCategories[index].checked = 1;
+                                  });
+                                else
+                                  setState(() {
+                                    subs[index].checked = 0;
+                                    _subCategories[index].checked = 0;
+                                  });
+                              },
+                            ),
+                          );
                         },
-                      );
-                    },
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            }),
           );
         });
   }
 
-  void _showRegionsModal(context, List<Region> regions) {
-    _checkedRegions = [];
-    _checkedRegions = List.from(regions);
-
-    showModalBottomSheet(
+  void _showRegionsDialog(context, List<Region> regions) {
+    showDialog(
         context: context,
         builder: (BuildContext bc) {
-          return Container(
-            height: MediaQuery.of(context).size.height * 0.8,
-            child: Row(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: regions.length,
-                    itemBuilder: (context, index) {
-                      return CheckboxListTile(
-                        title: Text(
-                          regions[index].name,
-                          style: TextStyle(fontFamily: 'CustomIcons'),
+          return Dialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+            elevation: 16,
+            child: StatefulBuilder(builder: (context, setState) {
+              return Container(
+                height: regions.length <= 4
+                    ? MediaQuery.of(context).size.height * 0.1 * regions.length
+                    : MediaQuery.of(context).size.height * 0.6,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Center(
+                        child: Text(
+                          'اختر المناطق',
+                          style: TextStyle(
+                            fontFamily: 'CustomIcons',
+                            fontSize: 20.0,
+                            color: Color(0xff275879),
+                          ),
                         ),
-                        value: _checkedRegions.contains(regions[index]),
-                        onChanged: (bool value) {
-                          print(value);
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Divider(
+                        thickness: 1.0,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: regions.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CheckboxListTile(
+                              title: Text(
+                                regions[index].name,
+                                style: TextStyle(fontFamily: 'CustomIcons'),
+                              ),
+                              value: regions[index].checked == 1 ? true : false,
+                              onChanged: (bool value) {
+                                //print(value);
 
-                          if (value)
-                            setState(() {
-                              _checkedRegions.add(regions[index]);
-                            });
-                          else
-                            setState(() {
-                              _checkedRegions.remove(regions[index]);
-                            });
+                                if (value)
+                                  setState(() {
+                                    regions[index].checked = 1;
+                                    _regions[index].checked = 1;
+                                  });
+                                else
+                                  setState(() {
+                                    regions[index].checked = 0;
+                                    _regions[index].checked = 0;
+                                  });
+                              },
+                            ),
+                          );
                         },
-                      );
-                    },
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            }),
           );
         });
+  }
+
+  Future _getBaghdadId() async {
+    var response =
+        await http.get('https://iraqibayt.com/api/cities/Baghdad/get_id');
+    var data = json.decode(response.body);
+
+    City baghdad;
+    for (var record in data) baghdad = City.fromJson(record);
+
+    return baghdad.id;
   }
 
   @override
   void initState() {
     super.initState();
-//    _regions = List<Region>();
-//    _subCategories = List<SubCategory>();
-//    _finalCities = List<RCity>();
-//    _finalCategories = List<Category>();
-    catHint = '1';
-    subCatHint = '2';
-    cityHint = '3';
-    regionHint = '4';
+    catHint = 'جميع الأقسام الرئيسية';
+    cityHint = 'جميع المدن';
+
     catValue = 1;
-    subCatValue = 10;
-    cityValue = 33;
-    regionValue = 124;
+    _getBaghdadId().then((value) {
+      setState(() {
+        cityValue = value;
+      });
+    });
+
+    _subsIds = new List<int>();
+    _regionsIds = new List<int>();
   }
 
   @override
@@ -275,71 +345,74 @@ class _SearchCardState extends State<SearchCard> {
                                               child: Row(
                                                 children: <Widget>[
                                                   Expanded(
-                                                    flex: 45,
-                                                    child:
-                                                        new DropdownButton<int>(
-                                                      elevation: 5,
-                                                      hint: Container(
-                                                        alignment: Alignment
-                                                            .centerRight,
-                                                        child: Text(
-                                                          catHint,
-                                                          style: TextStyle(
-                                                            fontSize: 18,
-                                                            fontFamily:
-                                                                "CustomIcons",
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      value: catValue,
-                                                      items: _rCategories.map(
-                                                          (Category category) {
-                                                        return new DropdownMenuItem<
-                                                            int>(
-                                                          value: category.id,
-                                                          child: Container(
-                                                            alignment: Alignment
-                                                                .centerRight,
-                                                            child: new Text(
-                                                              category.name,
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .right,
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    "CustomIcons",
-                                                              ),
+                                                    flex: 50,
+                                                    child: FittedBox(
+                                                      child: new DropdownButton<
+                                                          int>(
+                                                        elevation: 5,
+                                                        hint: Container(
+                                                          alignment: Alignment
+                                                              .centerRight,
+                                                          child: Text(
+                                                            catHint,
+                                                            style: TextStyle(
+                                                              fontSize: 18,
+                                                              fontFamily:
+                                                                  "CustomIcons",
                                                             ),
                                                           ),
-                                                        );
-                                                      }).toList(),
-                                                      onChanged: (int catId) {
-                                                        setState(() {
-                                                          catValue = catId;
-                                                          //catHint = _getCatHint(catValue, _rCategories);
+                                                        ),
+                                                        value: catValue,
+                                                        items: _rCategories.map(
+                                                            (Category
+                                                                category) {
+                                                          return new DropdownMenuItem<
+                                                              int>(
+                                                            value: category.id,
+                                                            child: Container(
+                                                              alignment: Alignment
+                                                                  .centerRight,
+                                                              child: new Text(
+                                                                category.name,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontFamily:
+                                                                      "CustomIcons",
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        }).toList(),
+                                                        onChanged: (int catId) {
+                                                          setState(() {
+                                                            catValue = catId;
+                                                            //catHint = _getCatHint(catValue, _rCategories);
 
-                                                          _subCategories = List
-                                                              .from(_getSubCats(
-                                                                  catId,
-                                                                  _rCategories));
+                                                            _subCategories = List
+                                                                .from(_getSubCats(
+                                                                    catId,
+                                                                    _rCategories));
 //                                                          subCatValue =
 //                                                              _subCategories[0]
 //                                                                  .id;
-
-                                                          //_subCategories = List.from(_rCategories[catId].subCatList);
-                                                          print(catValue
-                                                                  .toString() +
-                                                              ' ' +
-                                                              catHint);
-                                                        });
-                                                      },
+                                                            //_subCategories = List.from(_rCategories[catId].subCatList);
+                                                            print(catValue
+                                                                    .toString() +
+                                                                ' ' +
+                                                                catHint);
+                                                          });
+                                                        },
+                                                      ),
                                                     ),
                                                   ),
                                                   Expanded(
-                                                    flex: 55,
+                                                    flex: 50,
                                                     child: FlatButton(
                                                       onPressed: () {
-                                                        _showSubcatsModal(
+                                                        _showSubcatsDialog(
                                                             context,
                                                             _subCategories);
                                                       },
@@ -416,7 +489,7 @@ class _SearchCardState extends State<SearchCard> {
                                                       flex: 5,
                                                       child: FlatButton(
                                                         onPressed: () {
-                                                          _showRegionsModal(
+                                                          _showRegionsDialog(
                                                               context,
                                                               _regions);
                                                         },
@@ -441,7 +514,36 @@ class _SearchCardState extends State<SearchCard> {
                                               margin: const EdgeInsets.only(
                                                   top: 5.0),
                                               child: GFButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  //print('cat:' +catValue.toString());
+                                                  _subCategories
+                                                      .forEach((element) {
+                                                    if (element.checked == 1)
+                                                      _subsIds.add(element.id);
+                                                    //print('scat:' +element.toString());
+                                                  });
+                                                  //print('cit:' + cityValue.toString());
+                                                  _regions.forEach((element) {
+                                                    if (element.checked == 1)
+                                                      _regionsIds
+                                                          .add(element.id);
+                                                    //print('reg:' +element.toString());
+                                                  });
+
+                                                  Navigator.of(context).push(
+                                                    new MaterialPageRoute(
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          new AdvancedSearch(
+                                                        categoryId: catValue,
+                                                        subCategories: _subsIds,
+                                                        cityId: cityValue,
+                                                        regions: _regionsIds,
+                                                        sortBy: 1,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
                                                 text: "بحث",
                                                 blockButton: true,
                                                 color: Color(0xff65AECA),

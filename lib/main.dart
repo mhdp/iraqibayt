@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iraqibayt/widgets/abouts.dart';
+import 'package:iraqibayt/widgets/advanced_search.dart';
 import 'package:iraqibayt/widgets/fullAbout.dart';
 import 'package:iraqibayt/widgets/fullTip.dart';
 import 'package:iraqibayt/widgets/fullSystem.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => Profile(),
         '/quizs': (context) => Quizs(),
         '/quiz_main': (context) => QuizMain(),
+        '/adv_search': (context) => AdvancedSearch(),
       },
     );
   }
