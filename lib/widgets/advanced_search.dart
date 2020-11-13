@@ -6,6 +6,7 @@ import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:iraqibayt/widgets/adv_search_card.dart';
 import 'package:iraqibayt/widgets/my_icons_icons.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
+import 'package:iraqibayt/widgets/posts/full_post.dart';
 import 'package:iraqibayt/widgets/posts/post_details.dart';
 
 DatabaseHelper databaseHelper = new DatabaseHelper();
@@ -225,7 +226,7 @@ class ResultListItem extends StatelessWidget {
                             Navigator.of(context).push(
                               new MaterialPageRoute(
                                   builder: (BuildContext context) =>
-                                      new Posts_detalis(
+                                      new FullPost(
                                         post_id: data[i]['id'].toString(),
                                       )),
                             );
