@@ -30,14 +30,24 @@ class _Add_Post extends State<Add_Post> {
   String region_Selection;
   String units_Selection;
   String Currancies_Selection;
+  String bath_Selection;
+  String beed_Selection;
+  String car_Selection;
+  String car_number_Selection;
   String payment_method;
 
   final title_Controller = TextEditingController();
   final details_Controller = TextEditingController();
   final phone_Controller = TextEditingController();
+  final area_Controller = TextEditingController();
+  final price_Controller = TextEditingController();
+  final floor_Controller = TextEditingController();
+  final floor_num_Controller = TextEditingController();
+  final car_num_Controller = TextEditingController();
 
   var is_sub = false;
   var is_region = false;
+  var is_home = false;
 
   bool phone = false;
   bool whatsapp = false;
@@ -71,6 +81,7 @@ class _Add_Post extends State<Add_Post> {
 
     setState(() {
       sub_cat_list = resBody;
+      print(sub_cat_list.toString());
     });
 
     //print(resBody);
@@ -146,6 +157,36 @@ class _Add_Post extends State<Add_Post> {
     return "Sucess";
   }
 
+  Widget _submit_signup_Button() {
+    return InkWell(onTap:(){ send_post();} , child: Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.symmetric(vertical: 15),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        /*boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: Colors.grey.shade200,
+                offset: Offset(2, 4),
+                blurRadius: 5,
+                spreadRadius: 2)
+          ],*/
+        /*gradient: LinearGradient(
+              begin: Alignment.centerLeft,
+              end: Alignment.centerRight,
+              colors: [Color(0xfffbb448), Color(0xfff7892b)])*/
+        color: Color(0xff65AECA),
+      ),
+      child: Text('أضف الإعلان',
+        style: TextStyle(
+          fontSize: 18,
+          color: Colors.white,
+          fontFamily: "CustomIcons",
+        ),
+        textAlign: TextAlign.center,),
+    ),
+    );
+  }
 
   void initState() {
     super.initState();
@@ -161,7 +202,7 @@ class _Add_Post extends State<Add_Post> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFe8e8e8),
       appBar: AppBar(
 
         backgroundColor: Color(0xFF335876),
@@ -186,6 +227,7 @@ class _Add_Post extends State<Add_Post> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
 
+                //choos dropdowns
                 Card(
                     shape: RoundedRectangleBorder(
                       side: BorderSide(color: Colors.grey, width: 0.5),
@@ -218,7 +260,18 @@ class _Add_Post extends State<Add_Post> {
 
                           Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child: cat_list.length >0 ? DropdownButton(
+                            child: cat_list.length >0 ? DropdownButtonFormField(
+
+                              decoration: const InputDecoration(
+                                isDense: true,
+                                contentPadding: EdgeInsets.all(7),
+                                filled: true,
+                                fillColor: Color(0xFFe8e8e8),
+                                border: const OutlineInputBorder(
+                                  borderRadius: const BorderRadius.all(
+                                    const Radius.circular(5.0),
+                                  ),
+                                ),),
                               isExpanded: true,
                               hint: SizedBox(
                                   width: MediaQuery.of(context).size.width/2, // for example
@@ -250,9 +303,20 @@ class _Add_Post extends State<Add_Post> {
 
                           ),
 
-                          Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: is_sub? sub_cat_list.length>0 ? DropdownButton(
+                          is_sub? sub_cat_list.length>0 ? Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: DropdownButtonFormField(
+
+                                decoration: const InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.all(7),
+                                  filled: true,
+                                  fillColor: Color(0xFFe8e8e8),
+                                  border: const OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                      const Radius.circular(5.0),
+                                    ),
+                                  ),),
                                 isExpanded: true,
                                 hint: SizedBox(
                                     width: MediaQuery.of(context).size.width/2, // for example
@@ -269,18 +333,42 @@ class _Add_Post extends State<Add_Post> {
                                 onChanged: (newVal) {
                                   setState(() {
                                     sub_cat_Selection = newVal;
+
+                                    for(var sub_type in sub_cat_list){
+                                      if(sub_type["id"].toString() == newVal.toString()){
+                                        print(sub_type["type"].toString());
+
+                                        if(sub_type["type"].toString() == "سكني"){
+                                          is_home = true;
+                                        }else{
+                                          is_home = false;
+                                        }
+                                      }
+
+                                    }
                                     //print(_mycitySelection);
                                   });
                                 },
                                 value: sub_cat_Selection,
 
-                              ):Center(child: new GFLoader(type:GFLoaderType.circle)):Container(),
+                              )):Center(child: new GFLoader(type:GFLoaderType.circle)):Container(),
 
-                          ),
+
 
                           Padding(
                               padding: const EdgeInsets.all(10),
-                              child: city_list.length >0 ? DropdownButton(
+                              child: city_list.length >0 ? DropdownButtonFormField(
+
+                                decoration: const InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.all(7),
+                                  filled: true,
+                                  fillColor: Color(0xFFe8e8e8),
+                                  border: const OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                      const Radius.circular(5.0),
+                                    ),
+                                  ),),
                                 isExpanded: true,
                                 hint: SizedBox(
                                     width: MediaQuery.of(context).size.width/2, // for example
@@ -312,7 +400,18 @@ class _Add_Post extends State<Add_Post> {
 
                           Padding(
                               padding: const EdgeInsets.all(10),
-                              child: is_region ? regions_list.length>0 ? DropdownButton(
+                              child: is_region ? regions_list.length>0 ? DropdownButtonFormField(
+
+                                decoration: const InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.all(7),
+                                  filled: true,
+                                  fillColor: Color(0xFFe8e8e8),
+                                  border: const OutlineInputBorder(
+                                    borderRadius: const BorderRadius.all(
+                                      const Radius.circular(5.0),
+                                    ),
+                                  ),),
                                 isExpanded: true,
                                 hint: SizedBox(
                                     width: MediaQuery.of(context).size.width/2, // for example
@@ -339,9 +438,298 @@ class _Add_Post extends State<Add_Post> {
                           ),
 
                         ])),
+                //home details
+                is_home?Card(
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.grey, width: 0.5),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    margin: const EdgeInsets.all(10.0),
+                    //color: Colors.grey,
+                    elevation: 0,
+
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(0),
+                            child: Container(
+                              padding: const EdgeInsets.all(3.0),
+                              color: Color(0xff275879),
+                              child: Text(
+                                'تفاصيل المسكن',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                  fontFamily: "CustomIcons",
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                              padding: const EdgeInsets.all(5),
+                              child:Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:MainAxisAlignment.spaceBetween,
+
+                                children: [
+                                  Expanded(child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: DropdownButtonFormField(
+
+                                        decoration: const InputDecoration(
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.all(7),
+                                          filled: true,
+                                          fillColor: Color(0xFFe8e8e8),
+                                          border: const OutlineInputBorder(
+                                            borderRadius: const BorderRadius.all(
+                                              const Radius.circular(5.0),
+                                            ),
+                                          ),),
+                                        isExpanded: true,
+                                        hint: SizedBox(
+                                          //width: MediaQuery.of(context).size.width/2, // for example
+                                            child: Text("عدد غرف النوم",
+                                              textAlign: TextAlign.right,textDirection: TextDirection.rtl,)
+                                        ),
 
 
+                                        items: [
+                                          DropdownMenuItem(
+                                            value: "1",
+                                            child: Text(
+                                              "1",
+                                            ),
+                                          ),
+                                          DropdownMenuItem(
+                                            value: "2",
+                                            child: Text(
+                                              "2",
+                                            ),
+                                          ),
+                                          DropdownMenuItem(
+                                            value: "3",
+                                            child: Text(
+                                              "3",
+                                            ),
+                                          ),
+                                          DropdownMenuItem(
+                                            value: "أكثر من 3",
+                                            child: Text(
+                                              "أكثر من 3",
+                                            ),
+                                          ),
+                                        ],
 
+
+                                        onChanged: (value) {
+                                          setState(() {
+                                            beed_Selection = value;
+                                          });
+
+
+                                        },
+                                        value: beed_Selection,
+
+                                      )),),
+                                  Expanded(child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: DropdownButtonFormField(
+
+                                        decoration: const InputDecoration(
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.all(7),
+                                          filled: true,
+                                          fillColor: Color(0xFFe8e8e8),
+                                          border: const OutlineInputBorder(
+                                            borderRadius: const BorderRadius.all(
+                                              const Radius.circular(5.0),
+                                            ),
+                                          ),),
+                                        isExpanded: true,
+                                        hint: SizedBox(
+                                          //width: MediaQuery.of(context).size.width/2, // for example
+                                            child: Text("عدد الحمامات",
+                                              textAlign: TextAlign.right,textDirection: TextDirection.rtl,)
+                                        ),
+
+
+                                        items: [
+                                          DropdownMenuItem(
+                                            value: "1",
+                                            child: Text(
+                                              "1",
+                                            ),
+                                          ),
+                                          DropdownMenuItem(
+                                            value: "2",
+                                            child: Text(
+                                              "2",
+                                            ),
+                                          ),
+                                          DropdownMenuItem(
+                                            value: "3",
+                                            child: Text(
+                                              "3",
+                                            ),
+                                          ),
+                                          DropdownMenuItem(
+                                            value: "أكثر من 3",
+                                            child: Text(
+                                              "أكثر من 3",
+                                            ),
+                                          ),
+                                        ],
+
+
+                                        onChanged: (value) {
+                                          setState(() {
+                                            bath_Selection = value;
+                                          });
+
+
+                                        },
+                                        value: bath_Selection,
+
+                                      )),)
+
+                                ],)
+                          ),
+
+                          //carage
+                          Padding(
+                              padding: const EdgeInsets.all(5),
+                              child:Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:MainAxisAlignment.spaceBetween,
+
+                                children: [
+                                  Expanded(child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: DropdownButtonFormField(
+
+                                        decoration: const InputDecoration(
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.all(7),
+                                          filled: true,
+                                          fillColor: Color(0xFFe8e8e8),
+                                          border: const OutlineInputBorder(
+                                            borderRadius: const BorderRadius.all(
+                                              const Radius.circular(5.0),
+                                            ),
+                                          ),),
+                                        isExpanded: true,
+                                        hint: SizedBox(
+                                          //width: MediaQuery.of(context).size.width/2, // for example
+                                            child: Text("الكراج",
+                                              textAlign: TextAlign.right,textDirection: TextDirection.rtl,)
+                                        ),
+
+
+                                        items: [
+                                          DropdownMenuItem(
+                                            value: "تحتوي كراج",
+                                            child: Text(
+                                              "تحتوي كراج",
+                                            ),
+                                          ),
+                                          DropdownMenuItem(
+                                            value: "لا تحتوي كراج",
+                                            child: Text(
+                                              "لا تحتوي كراج",
+                                            ),
+                                          ),
+
+                                        ],
+
+
+                                        onChanged: (value) {
+                                          setState(() {
+                                            car_Selection = value;
+                                          });
+
+
+                                        },
+                                        value: car_Selection,
+
+                                      )),),
+                                  Expanded(child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: TextFormField(
+                                      controller: car_num_Controller,
+                                      keyboardType: TextInputType.number,
+                                      maxLines: null,
+                                      textAlign: TextAlign.right,
+                                      decoration: InputDecoration(
+                                      isDense: true,
+                                      contentPadding: EdgeInsets.all(7),
+                                      filled: true,
+                                      fillColor: Color(0xFFe8e8e8),
+                                      border: new OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                      const Radius.circular(5.0),
+                                      ),
+                                      ),
+                                      hintText: "عدد السيارات"),
+                                      ),))
+
+                                ],)
+                          ),
+
+                          Padding(
+                              padding: const EdgeInsets.all(5),
+                              child:Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:MainAxisAlignment.spaceBetween,
+
+                                children: [
+                                  Expanded(child: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: TextFormField(
+                                      controller: floor_Controller,
+                                      keyboardType: TextInputType.number,
+                                      maxLines: null,
+                                      textAlign: TextAlign.right,
+                                      decoration: InputDecoration(
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.all(7),
+                                          filled: true,
+                                          fillColor: Color(0xFFe8e8e8),
+                                          border: new OutlineInputBorder(
+                                            borderRadius: const BorderRadius.all(
+                                              const Radius.circular(5.0),
+                                            ),
+                                          ),
+                                          hintText: "الطابق"),
+                                    ),)),
+                                  Expanded(child: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: TextFormField(
+                                      controller: floor_num_Controller,
+                                      keyboardType: TextInputType.number,
+                                      maxLines: null,
+                                      textAlign: TextAlign.right,
+                                      decoration: InputDecoration(
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.all(7),
+                                          filled: true,
+                                          fillColor: Color(0xFFe8e8e8),
+                                          border: new OutlineInputBorder(
+                                            borderRadius: const BorderRadius.all(
+                                              const Radius.circular(5.0),
+                                            ),
+                                          ),
+                                          hintText: "عدد الطوابق"),
+                                    ),))
+
+                                ],)
+                          ),
+                        ])):Container(),
+
+                //post details
                 Card(
                     shape: RoundedRectangleBorder(
                       side: BorderSide(color: Colors.grey, width: 0.5),
@@ -383,6 +771,10 @@ class _Add_Post extends State<Add_Post> {
                             maxLines: null,
                             textAlign: TextAlign.right,
                             decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: EdgeInsets.all(7),
+                                filled: true,
+                                fillColor: Color(0xFFe8e8e8),
                                 border: new OutlineInputBorder(
                                   borderRadius: const BorderRadius.all(
                                     const Radius.circular(5.0),
@@ -402,6 +794,10 @@ class _Add_Post extends State<Add_Post> {
                             maxLines: null,
                             textAlign: TextAlign.right,
                             decoration: InputDecoration(
+                                isDense: true,
+                                contentPadding: EdgeInsets.all(7),
+                                filled: true,
+                                fillColor: Color(0xFFe8e8e8),
                                 border: new OutlineInputBorder(
                                   borderRadius: const BorderRadius.all(
                                     const Radius.circular(5.0),
@@ -409,9 +805,9 @@ class _Add_Post extends State<Add_Post> {
                                 ),
                                 hintText: "تفاصيل الإعلان"),
                           ),),
-                          SizedBox(
+                          /*SizedBox(
                             height: 5,
-                          ),
+                          ),*/
                           Padding(
                           padding: const EdgeInsets.all(5),
                           child:Row(
@@ -419,14 +815,17 @@ class _Add_Post extends State<Add_Post> {
                           mainAxisAlignment:MainAxisAlignment.spaceBetween,
 
                             children: [
-                              Expanded( child:TextFormField(
-                                controller: title_Controller,
+                              Expanded( child:Padding(
+                          padding: const EdgeInsets.all(5),
+                            child:TextFormField(
+                                controller: area_Controller,
                                 keyboardType: TextInputType.number,
                                 textAlign: TextAlign.right,
-
-                                  style: TextStyle(height: 2,backgroundColor: Colors.grey, color: Colors.red, fontWeight: FontWeight.w300),
+                                style: TextStyle( color: Colors.black, fontWeight: FontWeight.w300),
 
                                 decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Color(0xFFe8e8e8),
                                  isDense: true,
                                   contentPadding: EdgeInsets.all(5),  // Added this
 
@@ -436,14 +835,30 @@ class _Add_Post extends State<Add_Post> {
                                       ),
 
                                     ),
-                                    hintText: "المساحة",hintStyle: TextStyle(color: Colors.red, fontWeight: FontWeight.w300),),
-                              ) ,),
-                              Expanded(child:units_list.length >0 ? DropdownButton(
+                                    hintText: "المساحة",hintStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.w300),),
+                              )) ,),
+                              Expanded(child:units_list.length >0 ? Padding(
+    padding: const EdgeInsets.all(5),
+    child: DropdownButtonFormField(
+
+      decoration: const InputDecoration(
+        isDense: true,
+        contentPadding: EdgeInsets.all(7),
+        filled: true,
+        fillColor: Color(0xFFe8e8e8),
+        border: const OutlineInputBorder(
+    borderRadius: const BorderRadius.all(
+    const Radius.circular(5.0),
+        ),
+      ),),
+                                isExpanded: true,
                                 hint: SizedBox(
                                     //width: MediaQuery.of(context).size.width/2, // for example
                                     child: Text("اختر وحدة قياس",
                                       textAlign: TextAlign.right,textDirection: TextDirection.rtl,)
                                 ),
+
+
                                 items: units_list.map((item) {
                                   return new DropdownMenuItem(
                                     child: new Text(item['name']),
@@ -460,75 +875,126 @@ class _Add_Post extends State<Add_Post> {
                                 },
                                 value: units_Selection,
 
-                              ):Center(child: new GFLoader(type:GFLoaderType.circle)),)
+                              )):Center(child: new GFLoader(type:GFLoaderType.circle)),)
 
                           ],)
                           ),
+
+                          Padding(
+                              padding: const EdgeInsets.all(5),
+                              child:Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:MainAxisAlignment.spaceBetween,
+
+                                children: [
+                                  Expanded( child:Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child:TextFormField(
+                                        controller: price_Controller,
+                                        keyboardType: TextInputType.text,
+                                        textAlign: TextAlign.right,
+                                        style: TextStyle( color: Colors.black, fontWeight: FontWeight.w300),
+
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Color(0xFFe8e8e8),
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.all(5),  // Added this
+
+                                          border: new OutlineInputBorder(
+                                            borderRadius: const BorderRadius.all(
+                                              const Radius.circular(5.0),
+                                            ),
+
+                                          ),
+                                          hintText: "سعر العقار",hintStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.w300),),
+                                      )) ,),
+                                  Expanded(child:Currancies_list.length >0 ? Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: DropdownButtonFormField(
+
+                                        decoration: const InputDecoration(
+                                          isDense: true,
+                                          contentPadding: EdgeInsets.all(7),
+                                          filled: true,
+                                          fillColor: Color(0xFFe8e8e8),
+                                          border: const OutlineInputBorder(
+                                            borderRadius: const BorderRadius.all(
+                                              const Radius.circular(5.0),
+                                            ),
+                                          ),),
+                                        isExpanded: true,
+                                        hint: SizedBox(
+                                          //width: MediaQuery.of(context).size.width/2, // for example
+                                            child: Text("اختر العملة",
+                                              textAlign: TextAlign.right,textDirection: TextDirection.rtl,)
+                                        ),
+
+
+                                        items: Currancies_list.map((item) {
+                                          return new DropdownMenuItem(
+                                            child: new Text(item['name']),
+                                            value: item['id'].toString(),
+                                          );
+                                        }).toList(),
+
+                                        onChanged: (newVal) {
+                                          setState(() {
+                                            Currancies_Selection = newVal;
+                                          });
+
+                                          get_sub_cats(newVal);
+                                        },
+                                        value: Currancies_Selection,
+
+                                      )):Center(child: new GFLoader(type:GFLoaderType.circle)),)
+
+                                ],)
+                          ),
+
+                          Padding(
+    padding: const EdgeInsets.all(10),
+    child:DropdownButtonFormField(
+
+        decoration: const InputDecoration(
+          isDense: true,
+          contentPadding: EdgeInsets.all(7),
+          filled: true,
+          fillColor: Color(0xFFe8e8e8),
+          border: const OutlineInputBorder(
+            borderRadius: const BorderRadius.all(
+              const Radius.circular(5.0),
+            ),
+          ),),
+        value: payment_method,
+        hint: SizedBox(
+            width: MediaQuery.of(context).size.width/2, // for example
+            child: Text("اختر طريقة الدفع",
+              textAlign: TextAlign.right,textDirection: TextDirection.rtl,)
+        ),
+        items: [
+          DropdownMenuItem(
+            child: Text("كاش"),
+            value: "كاش",
+          ),
+          DropdownMenuItem(
+            child: Text("تقسيط"),
+            value: "تقسيط",
+          ),
+          DropdownMenuItem(
+              child: Text("كاش وتقسيط"),
+              value: "كاش وتقسيط"
+          ),
+
+        ],
+        onChanged: (value) {
+          setState(() {
+            payment_method = value;
+          });
+        }),)
                 ])),
 
-
-
-
-                Currancies_list.length >0 ? DropdownButton(
-                  hint: SizedBox(
-                      width: MediaQuery.of(context).size.width/2, // for example
-                      child: Text("اختر العملة",
-                        textAlign: TextAlign.right,textDirection: TextDirection.rtl,)
-                  ),
-                  items: Currancies_list.map((item) {
-                    return new DropdownMenuItem(
-                      child: new Text(item['name']),
-                      value: item['id'].toString(),
-                    );
-                  }).toList(),
-
-                  onChanged: (newVal) {
-                    setState(() {
-                      Currancies_Selection = newVal;
-                    });
-
-                    get_sub_cats(newVal);
-                  },
-                  value: Currancies_Selection,
-
-                ):Center(child: new GFLoader(type:GFLoaderType.circle)),
-
-                DropdownButton(
-                    value: payment_method,
-                    hint: SizedBox(
-                        width: MediaQuery.of(context).size.width/2, // for example
-                        child: Text("اختر طريقة الدفع",
-                          textAlign: TextAlign.right,textDirection: TextDirection.rtl,)
-                    ),
-                    items: [
-                      DropdownMenuItem(
-                        child: Text("كاش"),
-                        value: "كاش",
-                      ),
-                      DropdownMenuItem(
-                        child: Text("تقسيط"),
-                        value: "تقسيط",
-                      ),
-                      DropdownMenuItem(
-                          child: Text("كاش وتقسيط"),
-                          value: "كاش وتقسيط"
-                      ),
-
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        payment_method = value;
-                      });
-                    }),
-
-
-
-
-
-
-
-
-
+                //choose images
                 Card(
                     shape: RoundedRectangleBorder(
                       side: BorderSide(color: Colors.grey, width: 0.5),
@@ -571,6 +1037,8 @@ class _Add_Post extends State<Add_Post> {
                           ),
 
                         ])),
+
+                //contact information
                 Card(
                     shape: RoundedRectangleBorder(
                       side: BorderSide(color: Colors.grey, width: 0.5),
@@ -608,6 +1076,10 @@ class _Add_Post extends State<Add_Post> {
                               maxLines: null,
                               textAlign: TextAlign.right,
                               decoration: InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.all(7),
+                                  filled: true,
+                                  fillColor: Color(0xFFe8e8e8),
                                   border: new OutlineInputBorder(
                                     borderRadius: const BorderRadius.all(
                                       const Radius.circular(5.0),
@@ -699,6 +1171,8 @@ class _Add_Post extends State<Add_Post> {
                                     ),
                                   ])),
                         ])),
+
+                _submit_signup_Button(),
               ])
         )
       ]
@@ -811,6 +1285,102 @@ class _Add_Post extends State<Add_Post> {
       images = resultList;
       if (error == null) _error = 'No Error Dectected';
     });
+  }
+
+  send_post(){
+
+    /////////form validation/////////////
+
+    //category and sub
+    if (cat_Selection == "" || cat_Selection == null) {
+      _showDialog("يرجى اختيار القسم الرئيسي.");
+      return;
+      /*setState(() {
+        lsubmit_btn_child_index = 0;
+      }); */       return;
+    }
+
+    if (sub_cat_Selection == "" || sub_cat_Selection == null) {
+      _showDialog("يرجى اختيار القسم الفرعي.");
+      /*setState(() {
+        lsubmit_btn_child_index = 0;
+      }); */
+
+      return;
+    }
+
+    //check home details
+    for(var sub_type in sub_cat_list){
+      if(sub_type["id"].toString() == sub_cat_Selection.toString()){
+        print(sub_type["type"].toString());
+
+        if(sub_type["type"].toString() == "سكني"){
+
+
+          //beedroom check
+          if (beed_Selection == "" || beed_Selection == null) {
+            _showDialog("يرجى اختيار عدد غرف النوم.");
+            return;
+          }
+
+          //bathroom check
+          if (bath_Selection == "" || bath_Selection == null) {
+            _showDialog("يرجى اختيار عدد الحمامات.");
+            return;
+          }
+
+          //carage check
+          if (car_Selection == "" || car_Selection == null) {
+            _showDialog("يرجى اختيار الكراج.");
+            return;
+          }
+
+          if(car_Selection == "تحتوي كراج"){
+            //check cars number
+            //carage check
+            if (car_num_Controller.text == "" || car_num_Controller.text == null) {
+              _showDialog("يرجى اختيار عدد السيارات في الكراج");
+              /*setState(() {
+                lsubmit_btn_child_index = 0;
+              });  */
+              return;
+            }
+          }
+
+
+
+        }
+      }
+
+    }
+
+
+
+  }
+
+  void _showDialog(String msg) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text('تنبيه'),
+            content: new Text(msg),
+            actions: <Widget>[
+              new RaisedButton(
+
+                child: new Text(
+                  'موافق',
+                ),
+
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+
+              ),
+            ],
+          );
+        }
+    );
   }
 
 }
