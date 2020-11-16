@@ -1,13 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:getwidget/components/loader/gf_loader.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:iraqibayt/modules/Favorite.dart';
+import 'package:iraqibayt/modules/api/callApi.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:iraqibayt/widgets/adv_search_card.dart';
 import 'package:iraqibayt/widgets/my_icons_icons.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/full_post.dart';
 import 'package:iraqibayt/widgets/posts/post_details.dart';
+import 'package:iraqibayt/widgets/welcome.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 DatabaseHelper databaseHelper = new DatabaseHelper();
 
@@ -139,7 +145,7 @@ class _AdvancedSearchState extends State<AdvancedSearch> {
   }
 }
 
-class ResultListItem extends StatelessWidget {
+class ResultListItem extends StatefulWidget {
   Map<String, dynamic> list1;
   int catId, citId, sortById;
   List<int> subCats, regions;
@@ -153,9 +159,205 @@ class ResultListItem extends StatelessWidget {
       this.list1});
 
   @override
+  _ResultListItemState createState() => _ResultListItemState();
+}
+
+class _ResultListItemState extends State<ResultListItem> {
+  String _email, _password;
+  List<Favorite> _favorites, _rFavorites;
+
+  Future _getUserFavorites() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'is_login';
+    final value = prefs.get(key);
+    print('$value');
+    if (value == '1') {
+      final key2 = 'email';
+      final key3 = 'pass';
+      final value2 = prefs.get(key2);
+      print(value2);
+      final value3 = prefs.get(key3);
+      print(value3);
+
+      setState(() {
+        _email = value2;
+        _password = value3;
+      });
+    }
+
+    var data = {
+      'email': _email,
+      'password': _password,
+    };
+
+    Favorite tFav;
+    _favorites = [];
+
+    var res = await CallApi().postData(data, '/users/favorit');
+    var body = json.decode(res.body);
+    print(body);
+
+    if (body['success'] == true && body['favorites'] != null) {
+      for (var fav in body['favorites']) {
+        tFav = Favorite.fromJson(fav);
+        _favorites.add(tFav);
+        //_favsIds.add(tFav.postId);
+      }
+
+      return _favorites;
+    }
+  }
+
+  int _checkIfInFavs(int pid, List<Favorite> favsPosts) {
+    try {
+      for (Favorite fav in favsPosts) if (pid == fav.postId) return fav.id;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  _addFavorite(int pid) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'is_login';
+    final value = prefs.get(key);
+    print('$value');
+    if (value == '1') {
+      final key2 = 'email';
+      final key3 = 'pass';
+      final value2 = prefs.get(key2);
+      print(value2);
+      final value3 = prefs.get(key3);
+      print(value3);
+
+      setState(() {
+        _email = value2;
+        _password = value3;
+      });
+
+      var data = {
+        'id': pid,
+        'email': _email,
+        'password': _password,
+      };
+
+      var res = await CallApi().postData(data, '/favorites/add');
+      var body = json.decode(res.body);
+      print(body);
+
+      _getUserFavorites().then((value) {
+        setState(() {
+          _rFavorites = List.from(value);
+        });
+      });
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Dialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40)),
+                elevation: 16,
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.38,
+                  width: MediaQuery.of(context).size.height * 0.4,
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Center(
+                          child: Text(
+                            'تنبيه',
+                            style: TextStyle(
+                              fontFamily: 'CustomIcons',
+                              fontSize: 30.0,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Divider(
+                          thickness: 1.0,
+                          color: Colors.black54,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Center(
+                          child: Text(
+                            'يجب عليك تسجيل الدخول أولاً لكي تتمكن من المتابعة',
+                            style: TextStyle(
+                                fontFamily: 'CustomIcons', fontSize: 20.0),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        //padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          child: GFButton(
+                              color: GFColors.LIGHT,
+                              //blockButton: true,
+                              child: Center(
+                                child: Text(
+                                  'تسجيل الدخول',
+                                  style: TextStyle(
+                                      fontFamily: 'CustomIcons',
+                                      fontSize: 20.0),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Welcome()),
+                                  (Route<dynamic> route) => false,
+                                );
+                              }),
+                        ),
+                      ),
+                    ],
+                  ),
+                ));
+          });
+    }
+  }
+
+  _deleteFavorite(int fid) async {
+    var data = {
+      'id': fid,
+      'email': _email,
+      'password': _password,
+    };
+
+    var res = await CallApi().postData(data, '/favorites/delete');
+    var body = json.decode(res.body);
+    print(body);
+
+    if (body['success'] == true) {
+      _getUserFavorites().then((value) {
+        setState(() {
+          _rFavorites = List.from(value);
+        });
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getUserFavorites().then((value) {
+      setState(() {
+        _rFavorites = List.from(value);
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (list1.length > 0) {
-      List<dynamic> data = list1["data"];
+    if (widget.list1.length > 0) {
+      List<dynamic> data = widget.list1["data"];
 
       return Container(
         child: Column(
@@ -164,11 +366,11 @@ class ResultListItem extends StatelessWidget {
             Visibility(
                 visible: _isVisible,
                 child: AdvancedSearchCard(
-                  categoryId: catId,
-                  subCategories: subCats,
-                  cityId: citId,
-                  regions: regions,
-                  sortById: sortById,
+                  categoryId: widget.catId,
+                  subCategories: widget.subCats,
+                  cityId: widget.citId,
+                  regions: widget.regions,
+                  sortById: widget.sortById,
                 )),
             Container(
               height: MediaQuery.of(context).size.height * 0.06,
@@ -480,21 +682,48 @@ class ResultListItem extends StatelessWidget {
                                               ],
                                             ),
                                           ),
-                                          RaisedButton(
-                                            onPressed: () {},
-                                            color: Colors.red,
-                                            elevation: 0,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                Icon(
-                                                  Icons.favorite_border,
-                                                  color: Colors.white,
+                                          _checkIfInFavs(data[i]['id'],
+                                                      _rFavorites) ==
+                                                  null
+                                              ? RaisedButton(
+                                                  onPressed: () {
+                                                    _addFavorite(data[i]['id']);
+                                                  },
+                                                  color: Colors.red,
+                                                  elevation: 0,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Icon(
+                                                        Icons.favorite,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              : RaisedButton(
+                                                  onPressed: () {
+                                                    _deleteFavorite(
+                                                        _checkIfInFavs(
+                                                            data[i]['id'],
+                                                            _rFavorites));
+                                                  },
+                                                  color: Color(0xffdfe4ea),
+                                                  elevation: 0,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Icon(
+                                                        Icons.favorite,
+                                                        color: Colors.red,
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ],
-                                            ),
-                                          ),
                                         ],
                                       )),
                                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iraqibayt/widgets/favorites.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/my_favorits.dart';
 import 'package:iraqibayt/widgets/posts/my_post.dart';
@@ -117,9 +118,8 @@ class NavDrawerState extends State<NavDrawer> {
               style: TextStyle(fontFamily: 'CustomIcons'),
             ),
             onTap: () => {
-              Navigator.of(context).push(
-                new MaterialPageRoute(
-                    builder: (BuildContext context) => new My_Posts_Home()))
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new My_Posts_Home()))
             },
           ),
           ListTile(
@@ -132,9 +132,8 @@ class NavDrawerState extends State<NavDrawer> {
               style: TextStyle(fontFamily: 'CustomIcons'),
             ),
             onTap: () => {
-              Navigator.of(context).push(
-                new MaterialPageRoute(
-                    builder: (BuildContext context) => new My_Posts_favorits()))
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new Favorites()))
             },
           ),
           ListTile(
