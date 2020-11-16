@@ -45,6 +45,8 @@ dependencies:
   giffy_dialog: ^1.8.0
   email_validator: ^1.0.5
   multi_image_picker: ^4.7.14
+  http_parser: ^3.1.4
+  flutter_absolute_path: ^1.0.6
 
 
 dev_dependencies:

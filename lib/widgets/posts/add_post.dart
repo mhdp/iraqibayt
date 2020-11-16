@@ -1,12 +1,17 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
 import 'dart:async';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:responsive_grid/responsive_grid.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class Add_Post extends StatefulWidget {
@@ -23,6 +28,7 @@ class _Add_Post extends State<Add_Post> {
   List regions_list = List(); //edited line
   List units_list = List(); //edited line
   List Currancies_list = List(); //edited line
+  List<File> listFile = List<File>();
 
   String cat_Selection;
   String sub_cat_Selection;
@@ -48,11 +54,13 @@ class _Add_Post extends State<Add_Post> {
   var is_sub = false;
   var is_region = false;
   var is_home = false;
-
   bool phone = false;
   bool whatsapp = false;
   bool telegram = false;
   bool viber = false;
+  int signup_btn_child_index = 0;
+  var _guest = false;
+
 
   Future<String> get_cats() async {
 
@@ -177,19 +185,47 @@ class _Add_Post extends State<Add_Post> {
               colors: [Color(0xfffbb448), Color(0xfff7892b)])*/
         color: Color(0xff65AECA),
       ),
-      child: Text('أضف الإعلان',
-        style: TextStyle(
-          fontSize: 18,
-          color: Colors.white,
-          fontFamily: "CustomIcons",
-        ),
-        textAlign: TextAlign.center,),
+      child: signup_button_child(),
     ),
     );
   }
 
+  signup_button_child() {
+    if (signup_btn_child_index == 0) {
+      return Text(
+        'أضف الإعلان',
+        style: TextStyle(
+            fontSize: 20, color: Colors.white, fontFamily: "CustomIcons"),
+      );
+    } else {
+      return CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+      );
+    }
+  }
+
+  _checkIfGuest() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'is_login';
+    final value = prefs.get(key);
+    print('$value');
+    if (value != '1') {
+      setState(() {
+        _guest = true;
+        //_username = 'زائر';
+      });
+    } else {
+      final key = 'name';
+      final value = prefs.get(key);
+      setState(() {
+        _guest = false;
+      });
+    }
+  }
+
   void initState() {
     super.initState();
+    _checkIfGuest();
     get_cats();
     get_cities();
     get_Units();
@@ -215,7 +251,92 @@ class _Add_Post extends State<Add_Post> {
         ),
 
       ),
-      body :SingleChildScrollView(
+      body :_guest?Row(
+        children: [
+          Expanded(
+            child: InkWell(
+              borderRadius: BorderRadius.circular(4.0),
+              onTap: () {},
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(color: Colors.grey, width: 0.5),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                clipBehavior: Clip.antiAlias,
+                margin: const EdgeInsets.all(10.0),
+                //color: Colors.grey,
+                elevation: 0,
+
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Container(
+                        padding: const EdgeInsets.all(3.0),
+                        color: Color(0xff275879),
+                        child: Text(
+                          'تسجيل الدخول',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            fontFamily: "CustomIcons",
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Container(
+                              child: Center(
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'الرجاء تسجيل الدخول لتتمكن من إضافة إعلان',
+                                      style: TextStyle(
+                                        fontFamily: 'CustomIcons',
+                                      ),
+                                    ),
+                                    FlatButton(
+                                      color: Colors.white,
+                                      textColor: Colors.black,
+                                      disabledColor: Colors.grey,
+                                      disabledTextColor: Colors.grey,
+                                      padding: EdgeInsets.all(8.0),
+                                      splashColor: Colors.orange,
+                                      onPressed:  () {
+                                        Navigator
+                                            .pushReplacementNamed(
+                                            context, '/');
+                                      },
+                                      child: Text(
+                                        'تسجيل الدخول',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.grey,
+                                          fontFamily: "CustomIcons",
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ):SingleChildScrollView(
         child: Column(
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -1072,7 +1193,7 @@ class _Add_Post extends State<Add_Post> {
                             padding: const EdgeInsets.all(10.0),
                             child:TextFormField(
                               controller: phone_Controller,
-                              keyboardType: TextInputType.multiline,
+                              keyboardType: TextInputType.number,
                               maxLines: null,
                               textAlign: TextAlign.right,
                               decoration: InputDecoration(
@@ -1271,6 +1392,8 @@ class _Add_Post extends State<Add_Post> {
       resultList = await MultiImagePicker.pickImages(
         maxImages: 30,
         enableCamera: true,
+        selectedAssets: images,
+
       );
     } on Exception catch (e) {
       error = e.toString();
@@ -1287,75 +1410,266 @@ class _Add_Post extends State<Add_Post> {
     });
   }
 
-  send_post(){
+  send_post() async{
 
-    /////////form validation/////////////
+    if (signup_btn_child_index == 0) {
+      setState(() {
+        signup_btn_child_index = 1;
+      });
 
-    //category and sub
-    if (cat_Selection == "" || cat_Selection == null) {
-      _showDialog("يرجى اختيار القسم الرئيسي.");
-      return;
-      /*setState(() {
-        lsubmit_btn_child_index = 0;
-      }); */       return;
-    }
+      /////////form validation/////////////
 
-    if (sub_cat_Selection == "" || sub_cat_Selection == null) {
-      _showDialog("يرجى اختيار القسم الفرعي.");
-      /*setState(() {
-        lsubmit_btn_child_index = 0;
-      }); */
+      //category and sub
+      if (cat_Selection == "" || cat_Selection == null) {
+        _showDialog("يرجى اختيار القسم الرئيسي.");
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+        return;
+      }
 
-      return;
-    }
+      //check sub
+      if (sub_cat_Selection == "" || sub_cat_Selection == null) {
+        _showDialog("يرجى اختيار القسم الفرعي.");
+        setState(() {
+          signup_btn_child_index = 0;
+        });
 
-    //check home details
-    for(var sub_type in sub_cat_list){
-      if(sub_type["id"].toString() == sub_cat_Selection.toString()){
-        print(sub_type["type"].toString());
+        return;
+      }
 
-        if(sub_type["type"].toString() == "سكني"){
+      //check home details
+      for (var sub_type in sub_cat_list) {
+        if (sub_type["id"].toString() == sub_cat_Selection.toString()) {
+          print(sub_type["type"].toString());
 
-
-          //beedroom check
-          if (beed_Selection == "" || beed_Selection == null) {
-            _showDialog("يرجى اختيار عدد غرف النوم.");
-            return;
-          }
-
-          //bathroom check
-          if (bath_Selection == "" || bath_Selection == null) {
-            _showDialog("يرجى اختيار عدد الحمامات.");
-            return;
-          }
-
-          //carage check
-          if (car_Selection == "" || car_Selection == null) {
-            _showDialog("يرجى اختيار الكراج.");
-            return;
-          }
-
-          if(car_Selection == "تحتوي كراج"){
-            //check cars number
-            //carage check
-            if (car_num_Controller.text == "" || car_num_Controller.text == null) {
-              _showDialog("يرجى اختيار عدد السيارات في الكراج");
-              /*setState(() {
-                lsubmit_btn_child_index = 0;
-              });  */
+          if (sub_type["type"].toString() == "سكني") {
+            //beedroom check
+            if (beed_Selection == "" || beed_Selection == null) {
+              _showDialog("يرجى اختيار عدد غرف النوم.");
+              setState(() {
+                signup_btn_child_index = 0;
+              });
               return;
             }
+
+            //bathroom check
+            if (bath_Selection == "" || bath_Selection == null) {
+              _showDialog("يرجى اختيار عدد الحمامات.");
+              setState(() {
+                signup_btn_child_index = 0;
+              });
+              return;
+            }
+
+            //carage check
+            if (car_Selection == "" || car_Selection == null) {
+              _showDialog("يرجى اختيار الكراج.");
+              setState(() {
+                signup_btn_child_index = 0;
+              });
+              return;
+            }
+
+            if (car_Selection == "تحتوي كراج") {
+              //check cars number
+              //carage check
+              if (car_num_Controller.text == "" ||
+                  car_num_Controller.text == null) {
+                _showDialog("يرجى اختيار عدد السيارات في الكراج");
+                setState(() {
+                  signup_btn_child_index = 0;
+                });
+                return;
+              }
+            }
           }
-
-
-
         }
       }
 
+      //check city
+      if (city_Selection == "" || city_Selection == null) {
+        _showDialog("يرجى اختيار المدينة.");
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+        return;
+      }
+
+      //check region
+      if (region_Selection == "" || region_Selection == null) {
+        _showDialog("يرجى اختيار المنطقة.");
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+        return;
+      }
+
+      //check post title
+      if (title_Controller.text == "" || title_Controller.text == null) {
+        _showDialog("يرجى إدخال عنوان الإعلان.");
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+        return;
+      }
+
+      //check post details
+      if (details_Controller.text == "" || details_Controller.text == null) {
+        _showDialog("يرجى إدخال تفاصيل الإعلان.");
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+        return;
+      }
+
+      //check area
+      if (area_Controller.text == "" || area_Controller.text == null) {
+        _showDialog("يرجى إدخال مساحة العقار.");
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+        return;
+      }
+
+      //check unite
+      if (units_Selection == "" || units_Selection == null) {
+        _showDialog("يرجى اختيار وحدة قياس.");
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+        return;
+      }
+
+      //check price
+      if (price_Controller.text == "" || price_Controller.text == null) {
+        _showDialog("يرجى إدخال سعر العقار.");
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+        return;
+      }
+
+      //check currancy
+      if (Currancies_Selection == "" || Currancies_Selection == null) {
+        _showDialog("يرجى اختيار العملة.");
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+        return;
+      }
+
+      //check payment
+      if (payment_method == "" || payment_method == null) {
+        _showDialog("يرجى اختيار طريقة الدفع.");
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+        return;
+      }
+
+      //check contact information
+      if (phone_Controller.text == "" || phone_Controller.text == null) {
+        _showDialog("يرجى إدخال رقم التواصل.");
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+        return;
+      }
+
+      //check contact method
+      if (phone == false && whatsapp == false && telegram == false &&
+          viber == false) {
+        _showDialog("يرجى اختيار طريقة تواصل واحدة على الأقل.");
+        setState(() {
+          signup_btn_child_index = 0;
+        });
+        return;
+      }
+
+
+      /////////end form valdation/////////
+
+
+      ////////get user parameter///////
+      final prefs = await SharedPreferences.getInstance();
+      final key = 'email';
+      final user_email = prefs.get(key) ?? 0;
+
+      final key2 = 'pass';
+      final user_pass = prefs.get(key2) ?? 0;
+
+      ////////// send data to api
+      print('user ${user_email.toString()}');
+      print('pass ${user_pass.toString()}');
+      Map<String, String> postBody = new Map<String, String>();
+
+      postBody.putIfAbsent('email', () => user_email.toString());
+      postBody.putIfAbsent('password', () => user_pass.toString());
+      postBody.putIfAbsent('id', () => '');
+      postBody.putIfAbsent('title', () => '${title_Controller.text.toString()}');
+      postBody.putIfAbsent('description', () => '${details_Controller.text.toString()}');
+      postBody.putIfAbsent('price', () => '${price_Controller.text.toString()}');
+      postBody.putIfAbsent('currancy_id', () => '${Currancies_Selection}');
+      postBody.putIfAbsent('area', () => '${area_Controller.text.toString()}');
+      postBody.putIfAbsent('rooms', () => '');
+      postBody.putIfAbsent('bedroom', () => '${beed_Selection}');
+      postBody.putIfAbsent('bathroom', () => '${bath_Selection}');
+      postBody.putIfAbsent('payment', () => '${payment_method}');
+      postBody.putIfAbsent('furniture', () => '');
+      postBody.putIfAbsent('carage', () => '${car_Selection}');
+      postBody.putIfAbsent('num_car', () => '${car_num_Controller.text.toString()}');
+      postBody.putIfAbsent('floor', () => '${floor_Controller.text.toString()}');
+      postBody.putIfAbsent('age', () => '');
+      postBody.putIfAbsent('num_floor', () => '${floor_num_Controller.text.toString()}');
+      postBody.putIfAbsent('name', () => '');
+      postBody.putIfAbsent('phone', () => '${phone_Controller.text.toString()}');
+      postBody.putIfAbsent('category_id', () => '${cat_Selection}');
+      postBody.putIfAbsent('subcat_id', () => '${sub_cat_Selection}');
+      postBody.putIfAbsent('unit_id', () => '${units_Selection}');
+      postBody.putIfAbsent('city_id', () => '${city_Selection}');
+      postBody.putIfAbsent('region_id', () => '${region_Selection}');
+      postBody.putIfAbsent('level', () => '0');
+      postBody.putIfAbsent('type', () => 'سكني');
+      postBody.putIfAbsent('img', () => '');
+      postBody.putIfAbsent('call', () => '${phone.toString()}');
+      postBody.putIfAbsent('whatsapp', () => '${whatsapp.toString()}');
+      postBody.putIfAbsent('telegram', () => '${telegram.toString()}');
+      postBody.putIfAbsent('viber', () => '${viber.toString()}');
+
+      Uri uri = Uri.parse('https://iraqibayt.com/api/save_post_api');
+      http.MultipartRequest request = http.MultipartRequest("POST", uri);
+
+
+      for (var i = 0; i < images.length; i++) {
+        var path = await FlutterAbsolutePath.getAbsolutePath(
+            images[i].identifier);
+
+        request.files.add(await http.MultipartFile.fromPath('imgs_file$i', path,
+            contentType: new MediaType('application', 'x-tar')));
+
+        final file = File(path);
+      };
+      request.fields.addAll(postBody);
+
+      print("start send");
+      http.Response response2 = await http.Response.fromStream(
+          await request.send());
+
+      var res = json.decode(response2.body);
+
+      if(res["success"] == true){
+        Navigator.pushReplacementNamed(context, '/my_posts');
+      }else{
+        _showDialog("حدث خطأ! يرجى المحاولة لاحقاً.");
+      }
+      print("Result: ${response2.statusCode}");
+      print("Result: ${response2.body}");
+
+      setState(() {
+        signup_btn_child_index = 0;
+      });
     }
-
-
-
   }
 
   void _showDialog(String msg) {
@@ -1382,5 +1696,6 @@ class _Add_Post extends State<Add_Post> {
         }
     );
   }
+
 
 }

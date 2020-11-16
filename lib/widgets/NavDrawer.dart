@@ -136,7 +136,7 @@ class NavDrawerState extends State<NavDrawer> {
                   builder: (BuildContext context) => new Favorites()))
             },
           ),
-          ListTile(
+          /*ListTile(
             leading: Icon(
               Icons.message,
               color: Color(0xFF335876),
@@ -146,11 +146,11 @@ class NavDrawerState extends State<NavDrawer> {
               style: TextStyle(fontFamily: 'CustomIcons'),
             ),
             onTap: () => {
-              /*Navigator.of(context).push(
+              *//*Navigator.of(context).push(
                 new MaterialPageRoute(
-                    builder: (BuildContext context) => new feedbacks()))*/
+                    builder: (BuildContext context) => new feedbacks()))*//*
             },
-          ),
+          ),*/
           ListTile(
             leading: Icon(
               Icons.exit_to_app,
