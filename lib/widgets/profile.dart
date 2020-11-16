@@ -177,7 +177,7 @@ class _ProfileState extends State<Profile> {
                               padding: const EdgeInsets.all(3.0),
                               color: Color(0xff275879),
                               child: Text(
-                                'معلومات المستخدم',
+                                'تسجيل الدخول',
                                 style: TextStyle(
                                   fontSize: 18,
                                   color: Colors.white,

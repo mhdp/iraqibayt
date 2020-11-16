@@ -7,6 +7,7 @@ import 'package:iraqibayt/widgets/fullSystem.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
 import 'package:iraqibayt/widgets/login.dart';
 import 'package:iraqibayt/widgets/main_board.dart';
+import 'package:iraqibayt/widgets/posts/my_post.dart';
 import 'package:iraqibayt/widgets/posts/post_details.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/profile.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
         '/main_board': (context) => MainBoard(),
         '/home': (context) => Home(),
         '/posts': (context) => Posts_Home(),
+        '/my_posts': (context) => My_Posts_Home(),
         '/Posts_detalis': (context) => Posts_detalis(),
         '/notes': (context) => Notes(),
         '/currencies': (context) => Currencies(),

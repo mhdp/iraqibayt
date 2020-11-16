@@ -97,7 +97,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                     viewportFraction: 1.0,
                     autoPlay: true,
                     pagination: true,
-                    activeIndicator: Color(0xFFdd685f),
+                    activeIndicator: Color(0xff275879),
                     items: imageList.map(
                       (url) {
                         return Container(
@@ -153,7 +153,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Icon(Icons.location_city, color: Color(0xFFdd685f)),
+                            Icon(Icons.location_city, color: Color(0xff275879)),
                             Text(
                               databaseHelper.get_post_by_id_list[0]["city"]
                                       ["name"]
@@ -177,7 +177,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Icon(Icons.location_on, color: Color(0xFFdd685f)),
+                            Icon(Icons.location_on, color: Color(0xff275879)),
                             Text(
                               databaseHelper.get_post_by_id_list[0]["region"]
                                       ["name"]
@@ -202,7 +202,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Icon(Icons.format_line_spacing,
-                                color: Color(0xFFdd685f)),
+                                color: Color(0xff275879)),
                             Text(
                               " ${databaseHelper.get_post_by_id_list[0]["area"].toString()} ${databaseHelper.get_post_by_id_list[0]["unit"]["name"].toString()}",
                               style: TextStyle(
@@ -230,7 +230,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                           children: <Widget>[
                             Icon(
                               MyIcons.money,
-                              color: Color(0xFFdd685f),
+                              color: Color(0xff275879),
                             ),
                             Text(
                               " ${databaseHelper.get_post_by_id_list[0]["price"].toString()} ${databaseHelper.get_post_by_id_list[0]["currancy"]["name"].toString()}",
@@ -253,7 +253,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Icon(MyIcons.money_bill, color: Color(0xFFdd685f)),
+                            Icon(MyIcons.money_bill, color: Color(0xff275879)),
                             Text(
                               "   ${databaseHelper.get_post_by_id_list[0]["payment"].toString()}",
                               style: TextStyle(
@@ -283,7 +283,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                           children: <Widget>[
                             Icon(
                               Icons.date_range,
-                              color: Color(0xFFdd685f),
+                              color: Color(0xff275879),
                             ),
                             Text(
                               " أضافه ${databaseHelper.get_post_by_id_list[0]["name"].toString()} ${databaseHelper.get_post_by_id_list[0]["created_at"].toString()}",
@@ -314,7 +314,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                           children: <Widget>[
                             Icon(
                               Icons.info,
-                              color: Color(0xFFdd685f),
+                              color: Color(0xff275879),
                             ),
                             Text(
                               " ${databaseHelper.get_post_by_id_list[0]["category"]["name"].toString()} - ${databaseHelper.get_post_by_id_list[0]["sub"]["name"].toString()}",
@@ -347,7 +347,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                                 children: <Widget>[
                                   Icon(
                                     MyIcons.bed,
-                                    color: Color(0xFFdd685f),
+                                    color: Color(0xff275879),
                                   ),
                                   Text(
                                     "  غرف النوم: ${bed.toString()}",
@@ -371,7 +371,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  Icon(MyIcons.bath, color: Color(0xFFdd685f)),
+                                  Icon(MyIcons.bath, color: Color(0xff275879)),
                                   Text(
                                     "  حمامات: ${bath.toString()}",
                                     style: TextStyle(
@@ -395,7 +395,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Icon(MyIcons.car_alt,
-                                      color: Color(0xFFdd685f)),
+                                      color: Color(0xff275879)),
                                   Text(
                                     "  كراج: ${car_num.toString()}",
                                     style: TextStyle(
@@ -436,7 +436,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                           children: <Widget>[
                             Icon(
                               MyIcons.info,
-                              color: Color(0xFFdd685f),
+                              color: Color(0xff275879),
                             ),
                             Text(
                               "تفاصيل الإعلان",
@@ -487,7 +487,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                           children: <Widget>[
                             Icon(
                               Icons.call,
-                              color: Color(0xFFdd685f),
+                              color: Color(0xff275879),
                             ),
                             Text(
                               " طرق التواصل",

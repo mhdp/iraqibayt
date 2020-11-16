@@ -58,6 +58,7 @@ class _Welcome extends State<Welcome> {
       var data = {
         'name': user.displayName,
         'email': user.email,
+        'id': user.uid,
       };
 
       var res = await CallApi().postData(data, '/facebook_login');
@@ -66,7 +67,7 @@ class _Welcome extends State<Welcome> {
 
       if (body['success'] == true) {
         _save_login_info(
-            body['user'].id, user.uid, user.displayName, user.email);
+            body['user']["id"], user.uid, user.displayName, user.email);
 
         Navigator.pushReplacementNamed(context, '/home');
       }
@@ -75,6 +76,30 @@ class _Welcome extends State<Welcome> {
     }
 
     return null;
+  }
+  void _showDialog(String msg) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text('تنبيه'),
+            content: new Text(msg),
+            actions: <Widget>[
+              new RaisedButton(
+
+                child: new Text(
+                  'موافق',
+                ),
+
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+
+              ),
+            ],
+          );
+        }
+    );
   }
 
   _save_login_info(int userId, String pass, String name, String email) async {
@@ -118,6 +143,7 @@ class _Welcome extends State<Welcome> {
     var data = {
       'name': profile["name"],
       'email': profile["email"],
+      'id': profile["id"],
     };
 
     var res = await CallApi().postData(data, '/facebook_login');
@@ -126,7 +152,7 @@ class _Welcome extends State<Welcome> {
 
     if (body['success'] == true) {
       _save_login_info(
-          body['user'].id, profile["id"], profile["name"], profile["email"]);
+          body['user']['id'], profile["id"], profile["name"], profile["email"]);
 
       Navigator.pushReplacementNamed(context, '/home');
     }

@@ -300,7 +300,7 @@ class BikeListItem extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       Icon(Icons.location_on,
-                                          color: Color(0xFFdd685f)),
+                                          color: Color(0xff275879)),
                                       Text(
                                         "${data[i]['city']['name']} - ${data[i]['region']['name']}",
                                         style: TextStyle(
@@ -322,7 +322,7 @@ class BikeListItem extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       Icon(Icons.format_line_spacing,
-                                          color: Color(0xFFdd685f)),
+                                          color: Color(0xff275879)),
                                       Text(
                                         " المساحة:  ${data[i]['area']} ${data[i]['unit']['name']}",
                                         style: TextStyle(
@@ -345,7 +345,7 @@ class BikeListItem extends StatelessWidget {
                                     children: <Widget>[
                                       Icon(
                                         Icons.add_box,
-                                        color: Color(0xFFdd685f),
+                                        color: Color(0xff275879),
                                       ),
                                       Text(
                                         " أضيف: ${data[i]['created_at']}",
