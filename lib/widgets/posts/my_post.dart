@@ -395,3 +395,4 @@ class BikeListItem extends StatelessWidget {
 
 
 }
+

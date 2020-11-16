@@ -337,11 +337,12 @@ class _DepartsCardState extends State<DepartsCard> {
                     md: 4,
                     child: Container(
                         margin: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(6.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Color(0xFFebebeb),
                         ),
-                        height: MediaQuery.of(context).size.width/3 + 40,
+                        height: MediaQuery.of(context).size.width/3 + 50,
                         alignment: Alignment(0, 0),
                         //color: Colors.grey,
                         child: InkWell(
