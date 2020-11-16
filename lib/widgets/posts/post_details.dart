@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:iraqibayt/modules/Favorite.dart';
+import 'package:iraqibayt/modules/api/callApi.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
+import 'package:iraqibayt/widgets/welcome.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../my_icons_icons.dart';
 
@@ -18,6 +24,185 @@ class Posts_detalis extends StatefulWidget {
 
 class _Posts_detalis extends State<Posts_detalis> {
   int _selectedIndex = 0;
+  String _email, _password;
+  List<Favorite> _favorites, _rFavorites;
+
+  Future _getUserFavorites() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'is_login';
+    final value = prefs.get(key);
+    print('$value');
+    if (value == '1') {
+      final key2 = 'email';
+      final key3 = 'pass';
+      final value2 = prefs.get(key2);
+      print(value2);
+      final value3 = prefs.get(key3);
+      print(value3);
+
+      setState(() {
+        _email = value2;
+        _password = value3;
+      });
+    }
+
+    var data = {
+      'email': _email,
+      'password': _password,
+    };
+
+    Favorite tFav;
+    _favorites = [];
+
+    var res = await CallApi().postData(data, '/users/favorit');
+    var body = json.decode(res.body);
+    print(body);
+
+    if (body['success'] == true && body['favorites'] != null) {
+      for (var fav in body['favorites']) {
+        tFav = Favorite.fromJson(fav);
+        _favorites.add(tFav);
+        //_favsIds.add(tFav.postId);
+      }
+
+      return _favorites;
+    }
+  }
+
+  int _checkIfInFavs(int pid, List<Favorite> favsPosts) {
+    try {
+      for (Favorite fav in favsPosts) if (pid == fav.postId) return fav.id;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  _addFavorite(int pid) async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'is_login';
+    final value = prefs.get(key);
+    print('$value');
+    if (value == '1') {
+      final key2 = 'email';
+      final key3 = 'pass';
+      final value2 = prefs.get(key2);
+      print(value2);
+      final value3 = prefs.get(key3);
+      print(value3);
+
+      setState(() {
+        _email = value2;
+        _password = value3;
+      });
+
+      var data = {
+        'id': pid,
+        'email': _email,
+        'password': _password,
+      };
+
+      var res = await CallApi().postData(data, '/favorites/add');
+      var body = json.decode(res.body);
+      print(body);
+
+      _getUserFavorites().then((value) {
+        setState(() {
+          _rFavorites = List.from(value);
+        });
+      });
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Dialog(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40)),
+                elevation: 16,
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.38,
+                  width: MediaQuery.of(context).size.height * 0.4,
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Center(
+                          child: Text(
+                            'تنبيه',
+                            style: TextStyle(
+                              fontFamily: 'CustomIcons',
+                              fontSize: 30.0,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Divider(
+                          thickness: 1.0,
+                          color: Colors.black54,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Center(
+                          child: Text(
+                            'يجب عليك تسجيل الدخول أولاً لكي تتمكن من المتابعة',
+                            style: TextStyle(
+                                fontFamily: 'CustomIcons', fontSize: 20.0),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        //padding: const EdgeInsets.all(10.0),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                          child: GFButton(
+                              color: GFColors.LIGHT,
+                              //blockButton: true,
+                              child: Center(
+                                child: Text(
+                                  'تسجيل الدخول',
+                                  style: TextStyle(
+                                      fontFamily: 'CustomIcons',
+                                      fontSize: 20.0),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Welcome()),
+                                  (Route<dynamic> route) => false,
+                                );
+                              }),
+                        ),
+                      ),
+                    ],
+                  ),
+                ));
+          });
+    }
+  }
+
+  _deleteFavorite(int fid) async {
+    var data = {
+      'id': fid,
+      'email': _email,
+      'password': _password,
+    };
+
+    var res = await CallApi().postData(data, '/favorites/delete');
+    var body = json.decode(res.body);
+    print(body);
+
+    if (body['success'] == true) {
+      _getUserFavorites().then((value) {
+        setState(() {
+          _rFavorites = List.from(value);
+        });
+      });
+    }
+  }
 
   List<String> imageList = new List<String>();
 
@@ -27,6 +212,13 @@ class _Posts_detalis extends State<Posts_detalis> {
     super.initState();
     imageList.clear();
     print("widget.post_id: ${widget.post_id}");
+
+    _getUserFavorites().then((value) {
+      setState(() {
+        _rFavorites = List.from(value);
+      });
+    });
+
     databaseHelper.get_post_by_id(widget.post_id).whenComplete(() {
       //print(databaseHelper.get_post_by_id_list.length.toString());
       setState(() {
@@ -550,29 +742,65 @@ class _Posts_detalis extends State<Posts_detalis> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          RaisedButton(
-                            onPressed: () {},
-                            color: Colors.red,
-                            elevation: 0,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.favorite_border,
-                                  color: Colors.white,
-                                ),
-                                Text(
-                                  " أضف إلى المفضلة",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                    fontFamily: "CustomIcons",
-                                    fontWeight: FontWeight.w300,
+                          _checkIfInFavs(
+                                      databaseHelper.get_post_by_id_list[0]
+                                          ["id"],
+                                      _rFavorites) ==
+                                  null
+                              ? RaisedButton(
+                                  onPressed: () {
+                                    _addFavorite(databaseHelper
+                                        .get_post_by_id_list[0]["id"]);
+                                  },
+                                  color: Colors.red,
+                                  elevation: 0,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.favorite_border,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        " أضف إلى المفضلة",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                          fontFamily: "CustomIcons",
+                                          fontWeight: FontWeight.w300,
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 )
-                              ],
-                            ),
-                          ),
+                              : RaisedButton(
+                                  onPressed: () {
+                                    _deleteFavorite(_checkIfInFavs(
+                                        databaseHelper.get_post_by_id_list[0]
+                                            ["id"],
+                                        _rFavorites));
+                                  },
+                                  color: Colors.blue,
+                                  elevation: 0,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.favorite_border,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        " ضمن المفضلة",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                          fontFamily: "CustomIcons",
+                                          fontWeight: FontWeight.w300,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
                         ],
                       )),
 
