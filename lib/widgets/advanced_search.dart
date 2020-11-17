@@ -447,69 +447,134 @@ class _ResultListItemState extends State<ResultListItem> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(0),
-                                  child: img == 'null'
-                                      ? Image.asset(
-                                          'assets/images/posts/default_post_img.jpeg',
-                                          fit: BoxFit.fill,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              1.5,
-                                        )
-                                      : Image.network(
-                                          "https://iraqibayt.com/storage/app/public/posts/$img",
-                                          fit: BoxFit.cover,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2.5,
-                                        ),
-                                ),
-                                ButtonBar(
-                                  alignment: MainAxisAlignment.center,
-                                  children: [
-                                    FlatButton(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          side: BorderSide(
-                                              color: Color(0xFFdd685f))),
-                                      color: Color(0xFFdd685f),
-                                      onPressed: () {
-                                        // Perform some action
-                                      },
-                                      child: Text(
-                                        "${data[i]['price']} ${data[i]['currancy']['name']}",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontFamily: "CustomIcons",
-                                        ),
-                                        softWrap: true,
+                                  child: Stack(
+                                    fit: StackFit.passthrough,
+                                    children: <Widget>[
+                                      img == 'null'
+                                          ? Image.asset(
+                                              'assets/images/posts/default_post_img.jpeg',
+                                              fit: BoxFit.fill,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  1.5,
+                                            )
+                                          : Image.network(
+                                              "https://iraqibayt.com/storage/app/public/posts/$img",
+                                              fit: BoxFit.cover,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2.5,
+                                            ),
+                                      Flex(
+                                        direction: Axis.horizontal,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
+                                            padding: const EdgeInsets.all(3.0),
+                                            margin: const EdgeInsets.only(
+                                                top: 50.0),
+                                            constraints: BoxConstraints(),
+                                            decoration: BoxDecoration(
+                                              color: Colors.redAccent,
+                                              border: Border.all(
+                                                color: Colors.redAccent,
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              "${data[i]['category']['name']}",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white,
+                                                fontFamily: "CustomIcons",
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                    FlatButton(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5.0),
-                                          side: BorderSide(
-                                              color: Color(0xFFdd685f))),
-                                      color: Color(0xFFdd685f),
-                                      onPressed: () {
-                                        // Perform some action
-                                      },
-                                      child: Text(
-                                        "${data[i]['category']['name']}",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontFamily: "CustomIcons",
-                                        ),
-                                        softWrap: true,
+                                      Flex(
+                                        direction: Axis.horizontal,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
+                                            padding: const EdgeInsets.all(3.0),
+                                            margin: const EdgeInsets.only(
+                                                top: 90.0),
+                                            constraints: BoxConstraints(),
+                                            decoration: BoxDecoration(
+                                              color: Colors.redAccent,
+                                              border: Border.all(
+                                                color: Colors.redAccent,
+                                              ),
+                                              borderRadius: BorderRadius.all(
+                                                Radius.circular(10.0),
+                                              ),
+                                            ),
+                                            child: Text(
+                                              "${data[i]['price']} ${data[i]['currancy']['name']}",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white,
+                                                fontFamily: "CustomIcons",
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
+//                                ButtonBar(
+//                                  alignment: MainAxisAlignment.center,
+//                                  children: [
+//                                    FlatButton(
+//                                      shape: RoundedRectangleBorder(
+//                                          borderRadius:
+//                                              BorderRadius.circular(5.0),
+//                                          side: BorderSide(
+//                                              color: Color(0xFFdd685f))),
+//                                      color: Color(0xFFdd685f),
+//                                      onPressed: () {
+//                                        // Perform some action
+//                                      },
+//                                      child: Text(
+//                                        "${data[i]['price']} ${data[i]['currancy']['name']}",
+//                                        style: TextStyle(
+//                                          fontSize: 18,
+//                                          color: Colors.white,
+//                                          fontFamily: "CustomIcons",
+//                                        ),
+//                                        softWrap: true,
+//                                      ),
+//                                    ),
+//                                    FlatButton(
+//                                      shape: RoundedRectangleBorder(
+//                                          borderRadius:
+//                                              BorderRadius.circular(5.0),
+//                                          side: BorderSide(
+//                                              color: Color(0xFFdd685f))),
+//                                      color: Color(0xFFdd685f),
+//                                      onPressed: () {
+//                                        // Perform some action
+//                                      },
+//                                      child: Text(
+//                                        "${data[i]['category']['name']}",
+//                                        style: TextStyle(
+//                                          fontSize: 18,
+//                                          color: Colors.white,
+//                                          fontFamily: "CustomIcons",
+//                                        ),
+//                                        softWrap: true,
+//                                      ),
+//                                    ),
+//                                  ],
+//                                ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
