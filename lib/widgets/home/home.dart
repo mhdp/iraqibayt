@@ -48,20 +48,22 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       builder: (BuildContext context) => new Add_Post()),
                 );
               },
-              color: Colors.white,
+              color: Color(0xFFdd685f),
               elevation: 0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Icon(
                     Icons.add_box,
-                    color: Color(0xFF335876),
+                    //color: Color(0xFF335876),
+                    color: Colors.white,
                   ),
                   Text(
                     " أضف إعلان ",
                     style: TextStyle(
                       fontSize: 20,
-                      color: Color(0xFF335876),
+                      //color: Color(0xFF335876),
+                      color: Colors.white,
                       fontFamily: "CustomIcons",
                       fontWeight: FontWeight.w300,
                     ),

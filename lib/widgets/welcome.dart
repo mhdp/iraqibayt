@@ -77,30 +77,6 @@ class _Welcome extends State<Welcome> {
 
     return null;
   }
-  void _showDialog(String msg) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: new Text('تنبيه'),
-            content: new Text(msg),
-            actions: <Widget>[
-              new RaisedButton(
-
-                child: new Text(
-                  'موافق',
-                ),
-
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-
-              ),
-            ],
-          );
-        }
-    );
-  }
 
   _save_login_info(int userId, String pass, String name, String email) async {
     final prefs = await SharedPreferences.getInstance();
@@ -381,7 +357,7 @@ class _Welcome extends State<Welcome> {
                 children: <Widget>[
                   SizedBox(height: height * 0.1),
                   //_title(),
-                  Image.asset("assets/images/logo_white.png"),
+                  Image.asset("assets/images/logo_white-old.png"),
                   SizedBox(height: 40.0),
                   choose_form(),
 

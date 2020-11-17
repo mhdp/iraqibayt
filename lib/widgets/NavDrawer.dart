@@ -53,7 +53,7 @@ class NavDrawerState extends State<NavDrawer> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Image.asset(
-                  'assets/images/logo_white.png',
+                  'assets/images/logo_white-old.png',
                   width: 125.0,
                   height: 50.0,
                 ),

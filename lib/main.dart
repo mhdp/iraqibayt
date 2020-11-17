@@ -15,6 +15,7 @@ import 'package:iraqibayt/widgets/profile.dart';
 import 'package:iraqibayt/widgets/quizMain.dart';
 import 'package:iraqibayt/widgets/quizs.dart';
 import 'package:iraqibayt/widgets/register.dart';
+import 'package:iraqibayt/widgets/splash.dart';
 import 'package:iraqibayt/widgets/statistics.dart';
 import 'package:iraqibayt/widgets/systems.dart';
 import 'package:iraqibayt/widgets/tips.dart';
@@ -49,7 +50,8 @@ class MyApp extends StatelessWidget {
       ),
       // home: MyHomePage(title: 'البيت العراقي'),
       routes: {
-        '/': (context) => Welcome(),
+        '/': (context) => Splash(),
+        '/Welcome': (context) => Welcome(),
         '/register': (context) => Register(),
         '/login': (context) => Login(),
         '/main_board': (context) => MainBoard(),

@@ -83,7 +83,7 @@ flutter:
     - assets/images/min_temp.png
     - assets/images/max_temp.png
     - assets/images/note.png
-    - assets/images/logo_white.png
+    - assets/images/logo_white-old.png
     - assets/images/user_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see

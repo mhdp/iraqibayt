@@ -130,7 +130,7 @@ class _ExchangeCardState extends State<ExchangeCard> {
                                               child: Row(
                                                 children: [
                                                   Text(
-                                                    'الجهة : ',
+                                                    'جهة الصيرفة : ',
                                                     textAlign: TextAlign.right,
                                                     style: TextStyle(
                                                       fontSize: 20,
@@ -223,9 +223,10 @@ class _ExchangeCardState extends State<ExchangeCard> {
                                               child: Row(
                                                 children: <Widget>[
                                                   Expanded(
-                                                    flex: 2,
+                                                    flex: 1,
                                                     child: Text(
-                                                      'سعر الصرف :',
+                                                      'سعر الصرف : ${snapshot.data.toVal
+                                                          .toString()}',
                                                       textAlign:
                                                           TextAlign.right,
                                                       style: TextStyle(
@@ -238,23 +239,29 @@ class _ExchangeCardState extends State<ExchangeCard> {
                                                   Expanded(
                                                     flex: 1,
                                                     child: Text(
-                                                      snapshot.data.toVal
-                                                          .toString(),
+                                                      '',
                                                       textAlign:
                                                           TextAlign.right,
                                                       style: TextStyle(
                                                         fontSize: 20,
                                                         color: Colors.blue,
+
                                                         fontFamily:
                                                             "CustomIcons",
                                                       ),
+                                                      textDirection: TextDirection.rtl,
                                                     ),
                                                   ),
                                                 ],
                                               ),
                                             ),
+                                            SizedBox(
+                                              height: 5,
+                                            ),
                                             Container(
+
                                               child: Column(
+
                                                 children: <Widget>[
                                                   Container(
                                                     child: Text(
