@@ -9,6 +9,8 @@ class DatabaseHelper {
   String default_post_image = "";
   String serverUrl = "https://iraqibayt.com/api";
   Map<String, dynamic> posts_list;
+  var spicial_posts_list;
+  var latest_posts_list;
   Map<String, dynamic> my_posts_list ;
   Map<String, dynamic> my_posts_favorits_list;
   List<dynamic> get_post_by_id_list;
@@ -23,6 +25,26 @@ class DatabaseHelper {
     http.Response response = await http.post(myUrl);
     if (response.body.length > 0) {
       posts_list = json.decode(response.body);
+      //print(posts_list.toString());
+    }
+  }
+
+  Future<List> get_spicial_posts() async {
+    String myUrl = "$serverUrl/get_spical_posts_api";
+    http.Response response = await http.post(myUrl);
+    if (response.body.length > 0) {
+      //print(response.body.toString());
+      spicial_posts_list = json.decode(response.body);
+      //print(posts_list.toString());
+    }
+  }
+
+  Future<List> get_latest_posts() async {
+    String myUrl = "$serverUrl/get_latest_posts_api";
+    http.Response response = await http.post(myUrl);
+    if (response.body.length > 0) {
+      //print(response.body.toString());
+      latest_posts_list = json.decode(response.body);
       //print(posts_list.toString());
     }
   }
@@ -54,13 +76,7 @@ class DatabaseHelper {
     }
   }
 
-  Future<List> getAdvSearchResults(
-    int categoryId,
-    List<int> subCategories,
-    int cityId,
-    List<int> regions,
-    int sortBy,
-  ) async {
+  Future<List> getAdvSearchResults(int categoryId, List<int> subCategories, int cityId, List<int> regions, int sortBy,) async {
     String myUrl = "$serverUrl/posts_search_adv";
 
     //Define post request body

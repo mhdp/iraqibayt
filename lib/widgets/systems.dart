@@ -38,6 +38,7 @@ class _SystemsState extends State<Systems> {
     int brIndex;
 
     return Scaffold(
+      backgroundColor: Color(0XFF8e8d8d),
       appBar: AppBar(
         title: Text(
           'قوانين العراق',
@@ -103,7 +104,7 @@ class _SystemsState extends State<Systems> {
                                       child: Text(
                                         snapshot.data[index].name,
                                         style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: 22,
                                           color: Colors.white,
                                           fontFamily: "CustomIcons",
                                         ),
@@ -118,7 +119,7 @@ class _SystemsState extends State<Systems> {
                                         Expanded(
                                           child: Container(
                                             padding: const EdgeInsets.all(3.0),
-                                            color: Color(0xffEBEBEB),
+                                            color: Colors.white,
                                             child: Column(
                                               children: [
                                                 Html(

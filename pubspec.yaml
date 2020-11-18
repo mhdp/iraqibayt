@@ -47,6 +47,7 @@ dependencies:
   multi_image_picker: ^4.7.14
   http_parser: ^3.1.4
   flutter_absolute_path: ^1.0.6
+  image_viewer: ^1.0.0
 
 
 dev_dependencies:

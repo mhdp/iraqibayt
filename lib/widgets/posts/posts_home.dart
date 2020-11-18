@@ -53,7 +53,7 @@ class _Posts_Home extends State<Posts_Home> {
     final double screenHeight =
         MediaQuery.of(context).size.height - statusBarHeight - kToolbarHeight;
     return Scaffold(
-      backgroundColor: Color(0xFFe8e8e8),
+      backgroundColor: Color(0XFF8e8d8d),
       appBar: AppBar(
         backgroundColor: Color(0xFF335876),
         title: Text(
@@ -346,7 +346,8 @@ class _BikeListItemState extends State<BikeListItem> {
                   'عدد النتائج :' + data.length.toString(),
                   style: TextStyle(
                     fontSize: 18,
-                    color: Color(0xFF335876),
+                    color: Colors.white,
+                    //backgroundColor: Color(0xFF335876)
                     fontFamily: "CustomIcons",
                   ),
                 ),
@@ -416,83 +417,93 @@ class _BikeListItemState extends State<BikeListItem> {
                                   child: Stack(
                                     fit: StackFit.passthrough,
                                     children: <Widget>[
-                                      img == 'null'
-                                          ? Image.asset(
-                                              'assets/images/posts/default_post_img.jpeg',
-                                              fit: BoxFit.fill,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  1.5,
-                                            )
-                                          : Image.network(
-                                              "https://iraqibayt.com/storage/app/public/posts/$img",
-                                              fit: BoxFit.cover,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2.5,
-                                            ),
-                                      Flex(
-                                        direction: Axis.horizontal,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            padding: const EdgeInsets.all(3.0),
-                                            margin: const EdgeInsets.only(
-                                                top: 50.0),
-                                            constraints: BoxConstraints(),
-                                            decoration: BoxDecoration(
-                                              color: Colors.redAccent,
-                                              border: Border.all(
+                                      Padding(
+                                          padding: const EdgeInsets.all(6),
+                                          child:img == 'null'
+                                              ? Image.asset(
+                                            'assets/images/posts/default_post_img.jpeg',
+                                            fit: BoxFit.fill,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .width /
+                                                1.5,
+                                          )
+                                              : Image.network(
+                                            "https://iraqibayt.com/storage/app/public/posts/$img",
+                                            fit: BoxFit.cover,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .width /
+                                                2.5,
+                                          )),
+                                      Padding(
+                                        padding: const EdgeInsets.all(6),
+                                        child:Flex(
+                                          direction: Axis.horizontal,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            Container(
+                                              padding: const EdgeInsets.all(3.0),
+                                              margin: const EdgeInsets.only(
+                                                  top: 50.0),
+                                              constraints: BoxConstraints(),
+                                              decoration: BoxDecoration(
                                                 color: Colors.redAccent,
+                                                border: Border.all(
+                                                  color: Colors.redAccent,
+                                                ),
+                                                borderRadius: BorderRadius.only(
+
+                                                  topRight:Radius.circular(10.0),
+                                                  bottomRight:Radius.circular(10.0),
+                                                ),
                                               ),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0),
+                                              child: Text(
+                                                "${data[i]['category']['name']}",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.white,
+                                                  fontFamily: "CustomIcons",
+                                                ),
                                               ),
                                             ),
-                                            child: Text(
-                                              "${data[i]['category']['name']}",
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white,
-                                                fontFamily: "CustomIcons",
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Flex(
-                                        direction: Axis.horizontal,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          Container(
-                                            padding: const EdgeInsets.all(3.0),
-                                            margin: const EdgeInsets.only(
-                                                top: 90.0),
-                                            constraints: BoxConstraints(),
-                                            decoration: BoxDecoration(
-                                              color: Colors.redAccent,
-                                              border: Border.all(
+                                          ],
+                                        ),),
+                                      Padding(
+                                        padding: const EdgeInsets.all(6),
+                                        child:Flex(
+                                          direction: Axis.horizontal,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.end,
+                                          children: <Widget>[
+                                            Container(
+                                              padding: const EdgeInsets.all(3.0),
+                                              margin: const EdgeInsets.only(
+                                                  top: 90.0),
+                                              constraints: BoxConstraints(),
+                                              decoration: BoxDecoration(
                                                 color: Colors.redAccent,
+                                                border: Border.all(
+                                                  color: Colors.redAccent,
+                                                ),
+                                                borderRadius: BorderRadius.only(
+
+                                                  topRight:Radius.circular(10.0),
+                                                  bottomRight:Radius.circular(10.0),
+                                                ),
                                               ),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(10.0),
+                                              child: Text(
+                                                "${data[i]['price']} ${data[i]['currancy']['name']}",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.white,
+                                                  fontFamily: "CustomIcons",
+                                                ),
                                               ),
                                             ),
-                                            child: Text(
-                                              "${data[i]['price']} ${data[i]['currancy']['name']}",
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.white,
-                                                fontFamily: "CustomIcons",
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                          ],
+                                        ),)
                                     ],
                                   ),
                                 ),
@@ -645,6 +656,7 @@ class _BikeListItemState extends State<BikeListItem> {
                                               children: [
                                                 Icon(
                                                   MyIcons.car,
+                                                   color: Color(0xff275879),
                                                 ),
                                                 Text(car_num.toString()),
                                               ],
@@ -658,6 +670,7 @@ class _BikeListItemState extends State<BikeListItem> {
                                               children: [
                                                 Icon(
                                                   MyIcons.bed,
+                                                  color: Color(0xff275879),
                                                 ),
                                                 Text(bed.toString()),
                                               ],
@@ -669,7 +682,7 @@ class _BikeListItemState extends State<BikeListItem> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
-                                                Icon(MyIcons.bath),
+                                                Icon(MyIcons.bath,color: Color(0xff275879),),
                                                 Text(bath.toString()),
                                               ],
                                             ),

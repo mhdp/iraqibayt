@@ -57,6 +57,7 @@ class _QuizsState extends State<Quizs> {
     final double gridTileHeight = screenHeight / 6.0;
 
     return Scaffold(
+      backgroundColor: Color(0XFF8e8d8d),
       appBar: AppBar(
         title: Text(
           'مسابقات',
@@ -83,11 +84,12 @@ class _QuizsState extends State<Quizs> {
                         md: 4,
                         child: Container(
                             margin: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(6.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFFebebeb),
+                              color: Colors.white,
                             ),
-                            height: MediaQuery.of(context).size.width/3 + 40,
+                            height: MediaQuery.of(context).size.width/3 + 50,
                             alignment: Alignment(0, 0),
                             //color: Colors.grey,
                             child: InkWell(

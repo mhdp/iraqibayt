@@ -115,6 +115,7 @@ class _CurrenciesState extends State<Currencies> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0XFF8e8d8d),
       appBar: AppBar(
         title: Text(
           'أسعار العملات',

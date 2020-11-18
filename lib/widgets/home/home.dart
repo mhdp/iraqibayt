@@ -5,6 +5,8 @@ import 'package:iraqibayt/widgets/home/search_card.dart';
 import 'package:iraqibayt/widgets/home/weather_card.dart';
 import 'package:iraqibayt/widgets/home/departs_card.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
+import 'package:iraqibayt/widgets/posts/latest_posts.dart';
+import 'package:iraqibayt/widgets/posts/spicail_posts.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
 import '../NavDrawer.dart';
@@ -75,17 +77,84 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         ],
       ),
       body: Container(
-        child: ListView(
+        child: SingleChildScrollView(
+      child:Column(
           //mainAxisSize: MainAxisSize.min,
-          scrollDirection: Axis.vertical,
+          //scrollDirection: Axis.vertical,
           children: <Widget>[
             WeatherCard(),
             ExchangeCard(),
+            RaisedButton(
+              onPressed: () {},
+              color: Color(0XFF8e8d8d),
+              elevation: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  //Icon(Icons.list,color: Colors.white,),
+
+                  Text(" أقسام الموقع ",style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.black,
+                    fontFamily: "CustomIcons",
+                    fontWeight:FontWeight.w300,
+
+                  ),),
+
+                ],
+              ),
+            ),
             DepartsCard(),
             SearchCard(),
+            RaisedButton(
+              onPressed: () {},
+              color: Color(0XFF8e8d8d),
+              elevation: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  //Icon(Icons.list,color: Colors.white,),
+
+                  Text(" العروض المميزة ",style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.black,
+                    fontFamily: "CustomIcons",
+                    fontWeight:FontWeight.w300,
+
+                  ),),
+
+                ],
+              ),
+            ),
+            Spicial_posts(),
+            RaisedButton(
+              onPressed: () {},
+              color: Color(0XFF8e8d8d),
+              elevation: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  //Icon(Icons.list,color: Colors.white,),
+
+                  Text(" العروض المضافة حديثاً ",style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.black,
+                    fontFamily: "CustomIcons",
+                    fontWeight:FontWeight.w300,
+
+                  ),),
+
+                ],
+              ),
+            ),
+            latest_posts(),
+
           ],
         ),
       ),
+      )
     );
   }
 }
+
+

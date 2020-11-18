@@ -38,6 +38,7 @@ class _TipsState extends State<Tips> {
     int brIndex;
 
     return Scaffold(
+      backgroundColor: Color(0XFF8e8d8d),
       appBar: AppBar(
         title: Text(
           'نصائح عن العقارات',
@@ -98,7 +99,7 @@ class _TipsState extends State<Tips> {
                                       child: Text(
                                         snapshot.data[index].name,
                                         style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: 22,
                                           color: Colors.white,
                                           fontFamily: "CustomIcons",
                                         ),
@@ -113,7 +114,7 @@ class _TipsState extends State<Tips> {
                                         Expanded(
                                           child: Container(
                                             padding: const EdgeInsets.all(3.0),
-                                            color: Color(0xffEBEBEB),
+                                            color: Colors.white,
                                             child: Column(
                                               children: [
                                                 Html(

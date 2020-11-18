@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/style.dart';
 import 'package:iraqibayt/modules/Statistic.dart';
@@ -38,6 +39,7 @@ class _StatisticsState extends State<Statistics> {
     int brIndex;
 
     return Scaffold(
+      backgroundColor: Color(0XFF8e8d8d),
       appBar: AppBar(
         title: Text(
           'إحصائيات عالمية',
@@ -111,8 +113,9 @@ class _StatisticsState extends State<Statistics> {
                                         Expanded(
                                           child: Container(
                                             padding: const EdgeInsets.all(3.0),
-                                            color: Color(0xffEBEBEB),
+                                            color: Colors.white,
                                             child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
                                                 Html(
                                                   data:
@@ -121,6 +124,7 @@ class _StatisticsState extends State<Statistics> {
                                                     'body': Style(
                                                       fontSize: FontSize(16.0),
                                                       fontFamily: "CustomIcons",
+                                                      textAlign: TextAlign.center,
                                                     )
                                                   },
                                                 ),

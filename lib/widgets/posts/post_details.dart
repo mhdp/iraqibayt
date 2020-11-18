@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/Favorite.dart';
@@ -9,8 +7,9 @@ import 'package:iraqibayt/modules/api/callApi.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../my_icons_icons.dart';
+import 'package:image_viewer/image_viewer.dart';
+
 
 DatabaseHelper databaseHelper = new DatabaseHelper();
 
@@ -31,14 +30,14 @@ class _Posts_detalis extends State<Posts_detalis> {
     final prefs = await SharedPreferences.getInstance();
     final key = 'is_login';
     final value = prefs.get(key);
-    print('$value');
+    //print('$value');
     if (value == '1') {
       final key2 = 'email';
       final key3 = 'pass';
       final value2 = prefs.get(key2);
-      print(value2);
+      //print(value2);
       final value3 = prefs.get(key3);
-      print(value3);
+      //print(value3);
 
       setState(() {
         _email = value2;
@@ -56,7 +55,7 @@ class _Posts_detalis extends State<Posts_detalis> {
 
     var res = await CallApi().postData(data, '/users/favorit');
     var body = json.decode(res.body);
-    print(body);
+    //print(body);
 
     if (body['success'] == true && body['favorites'] != null) {
       for (var fav in body['favorites']) {
@@ -81,14 +80,14 @@ class _Posts_detalis extends State<Posts_detalis> {
     final prefs = await SharedPreferences.getInstance();
     final key = 'is_login';
     final value = prefs.get(key);
-    print('$value');
+    //print('$value');
     if (value == '1') {
       final key2 = 'email';
       final key3 = 'pass';
       final value2 = prefs.get(key2);
-      print(value2);
+      //print(value2);
       final value3 = prefs.get(key3);
-      print(value3);
+      //print(value3);
 
       setState(() {
         _email = value2;
@@ -103,7 +102,7 @@ class _Posts_detalis extends State<Posts_detalis> {
 
       var res = await CallApi().postData(data, '/favorites/add');
       var body = json.decode(res.body);
-      print(body);
+      //print(body);
 
       _getUserFavorites().then((value) {
         setState(() {
@@ -222,29 +221,32 @@ class _Posts_detalis extends State<Posts_detalis> {
     databaseHelper.get_post_by_id(widget.post_id).whenComplete(() {
       //print(databaseHelper.get_post_by_id_list.length.toString());
       setState(() {
-        print(
-            "img: ${databaseHelper.get_post_by_id_list[0]["img"].toString()}");
+        //print("img: ${databaseHelper.get_post_by_id_list[0]["img"].toString()}");
 
         if (databaseHelper.get_post_by_id_list[0]["img"].toString() == "") {
           databaseHelper.get_default_post_image().whenComplete(() {
             setState(() {
               String default_image = databaseHelper.default_post_image;
-              imageList.add(default_image);
+              imageList.add("https://iraqibayt.com/storage/app/public/posts/$default_image");
             });
           });
         } else {
           imageList
-              .add(databaseHelper.get_post_by_id_list[0]["img"].toString());
+              .add('https://iraqibayt.com/storage/app/public/posts/${databaseHelper.get_post_by_id_list[0]["img"].toString()}');
         }
 
         is_loading = false;
 
-        //print(databaseHelper.get_post_by_id_list[0]["imgs"].toString());
-        //List<String> imgs = databaseHelper.get_post_by_id_list["data"][0]["imgs"].toString().replaceAll("[", "").replaceAll("]", "").replaceAll(" ", "").split(",");
+        print(databaseHelper.get_post_by_id_list[0]["imgs"].toString());
+        String imgs_list1 = databaseHelper.get_post_by_id_list[0]["imgs"].toString().replaceAll("[", "");
+        imgs_list1 = imgs_list1.replaceAll("]", "");
+        imgs_list1 = imgs_list1.replaceAll(" ", "");
+        //print(imgs_list1);
+        List<String> imgs = imgs_list1.split(",");
 
-        //imgs.forEach((element) => imageList.add(element));
+        imgs.forEach((element) => imageList.add('https://iraqibayt.com/storage/app/public/posts/$element'));
 
-        //print(imageList.length);
+        print(imageList.length);
         //imageList = Set.from(imgs);
         //print(imgs);
       });
@@ -276,6 +278,8 @@ class _Posts_detalis extends State<Posts_detalis> {
       }
     }
 
+    int carsoul_counter = 0;
+
     return Container(
       child: is_loading
           ? new Center(
@@ -292,15 +296,25 @@ class _Posts_detalis extends State<Posts_detalis> {
                     activeIndicator: Color(0xff275879),
                     items: imageList.map(
                       (url) {
+                        carsoul_counter++;
                         return Container(
                           margin: EdgeInsets.all(0.0),
                           child: ClipRRect(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(5.0)),
-                            child: Image.network(
-                                "https://iraqibayt.com/storage/app/public/posts/$url",
+                            child: InkWell(
+                              onTap: () {
+                                /*ImageViewer.showImageSlider(
+                                  images: imageList,
+                                  startingPosition: carsoul_counter,*/
+                                print(carsoul_counter.toString());
+                                //);
+                              },
+                              child: Image.network(
+                                url,
                                 fit: BoxFit.cover,
                                 width: 1000.0),
+                            ),
                           ),
                         );
                       },
@@ -816,4 +830,7 @@ class _Posts_detalis extends State<Posts_detalis> {
             ),
     );
   }
+
+
+
 }

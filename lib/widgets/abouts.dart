@@ -38,6 +38,7 @@ class _AboutsState extends State<Abouts> {
     int brIndex;
 
     return Scaffold(
+      backgroundColor: Color(0XFF8e8d8d),
       appBar: AppBar(
         title: Text(
           'عراقنا',
@@ -112,7 +113,7 @@ class _AboutsState extends State<Abouts> {
                                         Expanded(
                                           child: Container(
                                             padding: const EdgeInsets.all(3.0),
-                                            color: Color(0xffEBEBEB),
+                                            color: Colors.white,
                                             child: Column(
                                               children: [
                                                 Html(

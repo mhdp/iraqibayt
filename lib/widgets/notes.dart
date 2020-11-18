@@ -37,6 +37,7 @@ class _NotesState extends State<Notes> {
         MediaQuery.of(context).size.height - statusBarHeight - kToolbarHeight;
 
     return Scaffold(
+      backgroundColor: Color(0XFF8e8d8d),
       appBar: AppBar(
         title: Text(
           'هل تعلم',
