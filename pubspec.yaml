@@ -49,7 +49,6 @@ dependencies:
   flutter_absolute_path: ^1.0.6
   image_viewer: ^1.0.0
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -111,6 +110,11 @@ flutter:
         - asset: assets/fonts/digital_counter_7.ttf
         - asset: assets/fonts/digital_counter_7_italic.ttf
           weight: 700
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/3.jpg"
 
   #   - family: Schyler
   #     fonts:

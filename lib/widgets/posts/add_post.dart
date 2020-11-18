@@ -238,7 +238,7 @@ class _Add_Post extends State<Add_Post> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFe8e8e8),
+      backgroundColor: Color(0XFF8e8d8d),
       appBar: AppBar(
 
         backgroundColor: Color(0xFF335876),
@@ -655,7 +655,8 @@ class _Add_Post extends State<Add_Post> {
                                         },
                                         value: beed_Selection,
 
-                                      )),),
+                                      )
+                                  ),),
                                   Expanded(child: Padding(
                                       padding: const EdgeInsets.all(5),
                                       child: DropdownButtonFormField(
@@ -991,9 +992,7 @@ class _Add_Post extends State<Add_Post> {
                                   setState(() {
                                     units_Selection = newVal;
                                   });
-
-                                  get_sub_cats(newVal);
-                                },
+                                  },
                                 value: units_Selection,
 
                               )):Center(child: new GFLoader(type:GFLoaderType.circle)),)
@@ -1064,7 +1063,6 @@ class _Add_Post extends State<Add_Post> {
                                             Currancies_Selection = newVal;
                                           });
 
-                                          get_sub_cats(newVal);
                                         },
                                         value: Currancies_Selection,
 

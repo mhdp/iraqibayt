@@ -188,8 +188,10 @@ class _WeatherCardState extends State<WeatherCard> {
                                                       Alignment.centerRight,
                                                   //padding: const EdgeInsets.symmetric(horizontal: 5),
                                                   child: DropdownButton<int>(
+
                                                     elevation: 5,
                                                     hint: Container(
+                                                      
                                                       alignment:
                                                           Alignment.centerRight,
                                                       width: 100.0,
@@ -235,7 +237,7 @@ class _WeatherCardState extends State<WeatherCard> {
                                               ],
                                             ),
                                             Container(
-                                              alignment: Alignment.centerRight,
+                                              alignment: Alignment.center,
                                               child: Row(
                                                 children: [
                                                   Text(
@@ -256,30 +258,63 @@ class _WeatherCardState extends State<WeatherCard> {
                                                       fontSize: 18,
                                                     ),
                                                   ),
+                                                  Container(
+
+                                                    padding: const EdgeInsets.all(
+                                                        10.0),
+                                                    height: 100,
+                                                    child:Center( child: SvgPicture.network(
+                                                      'https://iraqibayt.com/storage/app/public/weather/' +
+                                                          _getWeatherDataByCity(
+                                                              _rWeather,
+                                                              cityId)
+                                                              .wIcon
+                                                              .toString(),
+                                                      alignment: Alignment.center,
+                                                    ),)
+                                                  ),
                                                 ],
                                               ),
                                             ),
                                             Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                                  MainAxisAlignment.start,
                                               children: <Widget>[
+                                                Text(
+                                                  'درجة الحرارة : ',
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontFamily: "CustomIcons",
+                                                    //fontWeight:FontWeight.bold,
+                                                  ),
+                                                ),
                                                 Container(
                                                   child: Column(
                                                     children: <Widget>[
-                                                      Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                vertical: 5.0,
-                                                                horizontal: 30),
-                                                        height: 50,
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Image.asset(
-                                                          'assets/images/min_temp.png',
-                                                          fit: BoxFit.cover,
+
+
+                                                        Container(
+                                                          padding:
+                                                          const EdgeInsets
+                                                              .symmetric(
+                                                              vertical: 5.0,
+                                                              horizontal: 30),
+                                                          height: 50,
+                                                          alignment:
+                                                          Alignment.center,
+                                                          child: Image.asset(
+                                                            'assets/images/min_temp.png',
+                                                            fit: BoxFit.cover,
+                                                          ),
                                                         ),
-                                                      ),
+                                                        Text('الدنيا',style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontFamily: "CustomIcons",
+                                                          //fontWeight:FontWeight.bold,
+                                                        ),),
+
+
                                                       Row(
                                                         children: [
                                                           Text(
@@ -318,6 +353,11 @@ class _WeatherCardState extends State<WeatherCard> {
                                                           fit: BoxFit.cover,
                                                         ),
                                                       ),
+                                                      Text(' العليا',style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontFamily: "CustomIcons",
+                                                        //fontWeight:FontWeight.bold,
+                                                      ),),
                                                       Row(
                                                         children: [
                                                           Text(
@@ -340,19 +380,7 @@ class _WeatherCardState extends State<WeatherCard> {
                                                     ],
                                                   ),
                                                 ),
-                                                Container(
-                                                  padding: const EdgeInsets.all(
-                                                      10.0),
-                                                  height: 100,
-                                                  child: SvgPicture.network(
-                                                    'https://iraqibayt.com/storage/app/public/weather/' +
-                                                        _getWeatherDataByCity(
-                                                                _rWeather,
-                                                                cityId)
-                                                            .wIcon
-                                                            .toString(),
-                                                  ),
-                                                ),
+
                                               ],
                                             ),
                                           ],

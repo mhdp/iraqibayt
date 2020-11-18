@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/Favorite.dart';
+import 'package:iraqibayt/widgets/posts/full_post.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 
@@ -148,6 +149,7 @@ class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0XFF8e8d8d),
       appBar: AppBar(
         title: Text(
           'االمفضلة',
@@ -310,7 +312,7 @@ class _FavoritesState extends State<Favorites> {
                                                             label: Text(
                                                               'العنوان',
                                                               style: TextStyle(
-                                                                fontSize: 16,
+                                                                fontSize: 18,
                                                                 color: Colors
                                                                     .lightBlue,
                                                                 fontFamily:
@@ -325,7 +327,7 @@ class _FavoritesState extends State<Favorites> {
                                                             label: Text(
                                                               'التحكم',
                                                               style: TextStyle(
-                                                                fontSize: 16,
+                                                                fontSize: 18,
                                                                 color: Colors
                                                                     .lightBlue,
                                                                 fontFamily:
@@ -344,20 +346,30 @@ class _FavoritesState extends State<Favorites> {
                                                                 cells: [
                                                                   DataCell(
                                                                     FittedBox(
-                                                                      child:
+                                                                      child: InkWell(
+                                                                          onTap: () {
+                                                                            Navigator.of(context).push(
+                                                                            new MaterialPageRoute(
+                                                                                builder: (BuildContext context) =>
+                                                                                new FullPost(
+                                                                                  post_id: favorite.postId.toString(),
+                                                                                ),),);
+
+                                                                            },
+                                                                          child:
                                                                           Text(
                                                                         favorite
                                                                             .postTitle,
                                                                         style:
                                                                             TextStyle(
                                                                           fontSize:
-                                                                              12,
+                                                                              18,
                                                                           fontFamily:
                                                                               "CustomIcons",
                                                                         ),
                                                                         textAlign:
                                                                             TextAlign.right,
-                                                                      ),
+                                                                      )),
                                                                     ),
                                                                   ),
                                                                   DataCell(

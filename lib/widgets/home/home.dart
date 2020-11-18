@@ -6,10 +6,14 @@ import 'package:iraqibayt/widgets/home/weather_card.dart';
 import 'package:iraqibayt/widgets/home/departs_card.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/latest_posts.dart';
+import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/posts/spicail_posts.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
 import '../NavDrawer.dart';
+import '../my_icons_icons.dart';
+import '../profile.dart';
+import 'contact_us.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -17,6 +21,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+
+  var _currentIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -148,12 +155,67 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ),
             latest_posts(),
-
+            Contact_us_card(),
           ],
         ),
       ),
-      )
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFF335876),
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Color(0xFFdd685f),
+        onTap: onTabTapped, // new
+        currentIndex: 0,
+        type: BottomNavigationBarType.fixed, // new
+        items: [
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'الرئيسية',
+          ),
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book),
+            label: 'الإعلانات',
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.post_add),
+              label: 'أضف إعلان'
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(MyIcons.user),
+              label: 'حسابي'
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.mail),
+              label: 'ملاحظات'
+          ),
+        ],
+      ),
     );
+  }
+
+  void onTabTapped(int index)
+  {
+    if(index == 1){
+      Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Posts_Home()),
+      );
+    }else if(index == 2){
+      Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Add_Post()),
+      );
+    }else if(index == 3){
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Profile()));
+    }else if(index == 4){
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Profile()));
+    }
+    /*setState(() {
+      _currentIndex = index;
+      print(index.toString());
+    });*/
   }
 }
 

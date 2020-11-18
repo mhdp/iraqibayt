@@ -9,11 +9,14 @@ import 'package:iraqibayt/widgets/welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../my_icons_icons.dart';
 import 'package:image_viewer/image_viewer.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
 
 
 DatabaseHelper databaseHelper = new DatabaseHelper();
 
 class Posts_detalis extends StatefulWidget {
+
   String post_id;
 
   Posts_detalis({Key key, this.post_id}) : super(key: key);
@@ -22,6 +25,7 @@ class Posts_detalis extends StatefulWidget {
 }
 
 class _Posts_detalis extends State<Posts_detalis> {
+  int carsoul_index;
   int _selectedIndex = 0;
   String _email, _password;
   List<Favorite> _favorites, _rFavorites;
@@ -223,7 +227,7 @@ class _Posts_detalis extends State<Posts_detalis> {
       setState(() {
         //print("img: ${databaseHelper.get_post_by_id_list[0]["img"].toString()}");
 
-        if (databaseHelper.get_post_by_id_list[0]["img"].toString() == "") {
+        if (databaseHelper.get_post_by_id_list[0]["img"].toString().isEmpty) {
           databaseHelper.get_default_post_image().whenComplete(() {
             setState(() {
               String default_image = databaseHelper.default_post_image;
@@ -237,16 +241,23 @@ class _Posts_detalis extends State<Posts_detalis> {
 
         is_loading = false;
 
-        print(databaseHelper.get_post_by_id_list[0]["imgs"].toString());
+        //print(databaseHelper.get_post_by_id_list[0]["imgs"].toString());
         String imgs_list1 = databaseHelper.get_post_by_id_list[0]["imgs"].toString().replaceAll("[", "");
         imgs_list1 = imgs_list1.replaceAll("]", "");
         imgs_list1 = imgs_list1.replaceAll(" ", "");
-        //print(imgs_list1);
+
         List<String> imgs = imgs_list1.split(",");
+        //print(imgs.length.toString());
+          imgs.forEach((element) {
+            //print(element.toString());
+            if(!element.isEmpty){
+              print ("enter $element");
+              imageList.add('https://iraqibayt.com/storage/app/public/posts/$element');
+            }
+          } );
 
-        imgs.forEach((element) => imageList.add('https://iraqibayt.com/storage/app/public/posts/$element'));
 
-        print(imageList.length);
+        //print(imageList.length);
         //imageList = Set.from(imgs);
         //print(imgs);
       });
@@ -296,7 +307,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                     activeIndicator: Color(0xff275879),
                     items: imageList.map(
                       (url) {
-                        carsoul_counter++;
+                        //carsoul_counter++;
                         return Container(
                           margin: EdgeInsets.all(0.0),
                           child: ClipRRect(
@@ -304,11 +315,11 @@ class _Posts_detalis extends State<Posts_detalis> {
                                 BorderRadius.all(Radius.circular(5.0)),
                             child: InkWell(
                               onTap: () {
-                                /*ImageViewer.showImageSlider(
+                                ImageViewer.showImageSlider(
                                   images: imageList,
-                                  startingPosition: carsoul_counter,*/
-                                print(carsoul_counter.toString());
-                                //);
+                                  startingPosition: carsoul_index,
+                                //print(carsoul_counter.toString());
+                                );
                               },
                               child: Image.network(
                                 url,
@@ -321,10 +332,12 @@ class _Posts_detalis extends State<Posts_detalis> {
                     ).toList(),
                     onPageChanged: (index) {
                       setState(() {
-                        index;
+                        carsoul_index = index;
                       });
                     },
                   ),
+
+
 //title
                   Padding(
                     padding: const EdgeInsets.all(8.0),

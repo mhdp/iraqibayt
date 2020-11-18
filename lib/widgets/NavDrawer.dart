@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iraqibayt/widgets/favorites.dart';
+import 'package:iraqibayt/widgets/my_icons_icons.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/my_favorits.dart';
 import 'package:iraqibayt/widgets/posts/my_post.dart';
@@ -77,7 +78,7 @@ class NavDrawerState extends State<NavDrawer> {
           ),
           ListTile(
             leading: Icon(
-              Icons.verified_user,
+              MyIcons.user,
               color: Color(0xFF335876),
             ),
             title: Text(
@@ -110,7 +111,7 @@ class NavDrawerState extends State<NavDrawer> {
           ),*/
           ListTile(
             leading: Icon(
-              Icons.post_add,
+              Icons.menu_book,
               color: Color(0xFF335876),
             ),
             title: Text(
