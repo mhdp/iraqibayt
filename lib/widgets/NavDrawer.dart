@@ -120,7 +120,7 @@ class NavDrawerState extends State<NavDrawer> {
             ),
             onTap: () => {
               Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new My_Posts_Home()))
+                  builder: (BuildContext context) => new MyPosts()))
             },
           ),
           ListTile(
@@ -147,9 +147,9 @@ class NavDrawerState extends State<NavDrawer> {
               style: TextStyle(fontFamily: 'CustomIcons'),
             ),
             onTap: () => {
-              *//*Navigator.of(context).push(
+              */ /*Navigator.of(context).push(
                 new MaterialPageRoute(
-                    builder: (BuildContext context) => new feedbacks()))*//*
+                    builder: (BuildContext context) => new feedbacks()))*/ /*
             },
           ),*/
           ListTile(

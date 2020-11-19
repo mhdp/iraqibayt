@@ -1,398 +1,413 @@
-
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:getwidget/getwidget.dart';
-import 'package:iraqibayt/modules/db_helper.dart';
-import 'package:iraqibayt/widgets/my_icons_icons.dart';
-import 'package:iraqibayt/widgets/posts/post_details.dart';
+import 'package:iraqibayt/modules/Favorite.dart';
+import 'package:iraqibayt/modules/Post.dart';
+import 'package:iraqibayt/widgets/posts/full_post.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:iraqibayt/modules/api/callApi.dart';
 
-import 'add_post.dart';
-
-DatabaseHelper databaseHelper = new DatabaseHelper();
-
-String default_image = "";
-
-class My_Posts_Home extends StatefulWidget {
+class MyPosts extends StatefulWidget {
   @override
-  _my_Posts_Home createState() => _my_Posts_Home();
+  _MyPostsState createState() => _MyPostsState();
 }
 
-class _my_Posts_Home extends State<My_Posts_Home> {
+class _MyPostsState extends State<MyPosts> {
+  List<Post> _posts, _rPosts;
 
-  var is_loading = true;
+  String _password;
+  String _email;
 
-  get_data() async {
+  var _guest = false;
+  bool _isPostLoading;
+
+  _checkIfGuest() async {
     final prefs = await SharedPreferences.getInstance();
-    final key = 'email';
-    final user_email = prefs.get(key) ?? 0;
-
-    final key2 = 'pass';
-    final user_pass = prefs.get(key2) ?? 0;
-
-    databaseHelper.get_default_post_image().whenComplete(() {
+    final key = 'is_login';
+    final value = prefs.get(key);
+    print('$value');
+    if (value != '1') {
       setState(() {
-        default_image = databaseHelper.default_post_image;
+        _guest = true;
       });
+    } else {
+      final key = 'name';
+      final value = prefs.get(key);
+      setState(() {});
+    }
+  }
+
+  _getUserdata() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'is_login';
+    final value = prefs.get(key);
+    print('$value');
+    if (value == '1') {
+      final key2 = 'email';
+      final key3 = 'pass';
+      final value2 = prefs.get(key2);
+      print(value2);
+      final value3 = prefs.get(key3);
+      print(value3);
+      setState(() {
+        _email = value2;
+        _password = value3;
+      });
+    }
+  }
+
+  Future _getUserPosts() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'is_login';
+    final value = prefs.get(key);
+    print('$value');
+    if (value == '1') {
+      final key2 = 'email';
+      final key3 = 'pass';
+      final value2 = prefs.get(key2);
+      print(value2);
+      final value3 = prefs.get(key3);
+      print(value3);
+
+      setState(() {
+        _email = value2;
+        _password = value3;
+      });
+    }
+
+    setState(() {
+      _isPostLoading = true;
     });
+    var data = {
+      'email': _email,
+      'password': _password,
+    };
 
-    databaseHelper.get_my_posts(user_email,user_pass).whenComplete(() {
+    Post tPost;
+    _posts = [];
 
+    var res = await CallApi().postData(data, '/get_my_posts_api');
+    var body = json.decode(res.body);
+    print(body);
+
+    if (body['success'] == true) {
+      for (var post in body['posts']['data']) {
+        tPost = Post.fromJson(post);
+        _posts.add(tPost);
+      }
+      print('posts length is : ' + _posts.length.toString());
       setState(() {
-        is_loading = false;
+        _isPostLoading = false;
       });
+      return _posts;
+    }
+  }
 
+  _deletePost(int pid) async {
+    var data = {
+      'id': pid,
+      'email': _email,
+      'password': _password,
+    };
+
+    var res = await CallApi().postData(data, '/posts/delete');
+    var body = json.decode(res.body);
+    print(body);
+
+    if (body['success'] == true) {
+      _getUserPosts().then((value) {
+        setState(() {
+          _rPosts = List.from(value);
+        });
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _rPosts = new List<Post>();
+
+    _checkIfGuest();
+    _getUserdata();
+    setState(() {
+      _isPostLoading = true;
+    });
+    _getUserPosts().then((value) {
+      setState(() {
+        _rPosts = List.from(value);
+        _isPostLoading = false;
+      });
     });
   }
 
-  Future<void> initState()  {
-    super.initState();
-
-    get_data();
-
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      backgroundColor: Color(0xFFe8e8e8),
+      backgroundColor: Color(0XFF8e8d8d),
       appBar: AppBar(
-        backgroundColor: Color(0xFF335876),
         title: Text(
-          "إعلاناتي",
+          'إعلاناتي',
           style: TextStyle(
-            fontWeight: FontWeight.bold, fontSize: 20.0
-            , fontFamily: "CustomIcons",),
+            fontFamily: "CustomIcons",
+          ),
         ),
-
-
-
+        backgroundColor: Color(0xff275879),
       ),
-      body :  Column(
-          children: <Widget>[
-            Expanded(
-              child:  is_loading
-                  ? new Center(child: new GFLoader(type:GFLoaderType.circle),)
-                  : new BikeListItem(list1: databaseHelper.my_posts_list),)
+      body: SingleChildScrollView(
+        child: LayoutBuilder(
+          builder: (ctx, constraints) {
+            if (_guest) {
+              return Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(4.0),
+                      onTap: () {},
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.grey, width: 0.5),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        margin: const EdgeInsets.all(10.0),
+                        //color: Colors.grey,
+                        elevation: 0,
 
-          ]
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(0),
+                              child: Container(
+                                padding: const EdgeInsets.all(3.0),
+                                color: Color(0xff275879),
+                                child: Text(
+                                  'الإعلانات',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontFamily: "CustomIcons",
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
+                                    child: Container(
+                                      child: Center(
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                              'الرجاء تسجيل الدخول لعرض الإعلانات التي قمت بإضافتها',
+                                              style: TextStyle(
+                                                fontFamily: 'CustomIcons',
+                                              ),
+                                            ),
+                                            FlatButton(
+                                              color: Colors.white,
+                                              textColor: Colors.black,
+                                              disabledColor: Colors.grey,
+                                              disabledTextColor: Colors.grey,
+                                              padding: EdgeInsets.all(8.0),
+                                              splashColor: Colors.orange,
+                                              onPressed: () {
+                                                Navigator.pushReplacementNamed(
+                                                    context, '/');
+                                              },
+                                              child: Text(
+                                                'تسجيل الدخول',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.grey,
+                                                  fontFamily: "CustomIcons",
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              return Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(4.0),
+                          onTap: () {},
+                          child: SingleChildScrollView(
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                side:
+                                    BorderSide(color: Colors.grey, width: 0.5),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              clipBehavior: Clip.antiAlias,
+                              margin: const EdgeInsets.all(10.0),
+                              //color: Colors.grey,
+                              elevation: 0,
+
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.all(0),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(3.0),
+                                      color: Color(0xff275879),
+                                      child: Text(
+                                        'الإعلانات التي قمت بإضافتها',
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                          fontFamily: "CustomIcons",
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                child: _isPostLoading
+                                                    ? Container(
+                                                        height: 100,
+                                                        child: Center(
+                                                          child:
+                                                              new CircularProgressIndicator(),
+                                                        ),
+                                                      )
+                                                    : DataTable(
+                                                        columns: <DataColumn>[
+                                                          DataColumn(
+                                                            label: Text(
+                                                              'العنوان',
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                                color: Colors
+                                                                    .lightBlue,
+                                                                fontFamily:
+                                                                    "CustomIcons",
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right,
+                                                            ),
+                                                          ),
+                                                          DataColumn(
+                                                            label: Text(
+                                                              'التحكم',
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                                color: Colors
+                                                                    .lightBlue,
+                                                                fontFamily:
+                                                                    "CustomIcons",
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                        rows: _rPosts
+                                                            .map(
+                                                              (post) => DataRow(
+                                                                cells: [
+                                                                  DataCell(
+                                                                    FittedBox(
+                                                                      child: InkWell(
+                                                                          onTap: () {
+                                                                            Navigator.of(context).push(
+                                                                              new MaterialPageRoute(
+                                                                                builder: (BuildContext context) => new FullPost(
+                                                                                  post_id: post.id.toString(),
+                                                                                ),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                          child: Text(
+                                                                            post.title,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 18,
+                                                                              fontFamily: "CustomIcons",
+                                                                            ),
+                                                                            textAlign:
+                                                                                TextAlign.right,
+                                                                          )),
+                                                                    ),
+                                                                  ),
+                                                                  DataCell(
+                                                                    IconButton(
+                                                                      icon: Icon(
+                                                                          Icons
+                                                                              .delete),
+                                                                      color: Colors
+                                                                          .red,
+                                                                      onPressed:
+                                                                          () {
+                                                                        _deletePost(
+                                                                            post.id);
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            )
+                                                            .toList(),
+                                                      ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            }
+          },
+        ),
       ),
     );
   }
 }
-
-class BikeListItem extends StatelessWidget {
-
-  Map<String, dynamic> list1;
-
-  BikeListItem({this.list1});
-
-
-  @override
-  Widget build(BuildContext context) {
-
-    if(list1.length > 0){
-
-      List<dynamic> data = list1["data"];
-
-      return new ListView.builder(
-
-          shrinkWrap: true,
-          itemCount:data.length,
-          itemBuilder: (context,i){
-
-            var show_icons = true;
-
-            var img = data[i]['img'].toString();
-            print("img: $img");
-            if(img == ""){
-              img = default_image;
-              print("img: $img");
-            }
-
-            var bath = data[i]['bathroom'];
-            if(bath == null){
-              show_icons = false;
-              bath = "0";
-            }
-
-            var bed = data[i]['bedroom'];
-            if(bed == null){
-              show_icons = false;
-              bed = "0";
-            }
-
-            var car_num = data[i]['num_car'];
-            if(car_num == null){
-              car_num = "0";
-            }
-
-            return new Container(
-
-              padding: const EdgeInsets.all(10.0),
-              child: new GestureDetector(
-                onTap: (){
-
-                },child: InkWell(
-                borderRadius: BorderRadius.circular(4.0),
-                onTap: (){
-
-
-                  Navigator.of(context).push(
-                    new MaterialPageRoute(
-                        builder: (BuildContext context) => new Posts_detalis(post_id: data[i]['id'].toString() ,) ),
-
-                  );
-                },
-                child:Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.grey, width: 0.5),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  elevation: 0,
-                  margin: const EdgeInsets.all(10.0),
-
-                  color: Colors.white,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-
-                    children: [
-
-                      Padding(
-                        padding: const EdgeInsets.all(0),
-
-                        child: img == 'null'? Image.asset('assets/images/posts/default_post_img.jpeg',fit: BoxFit.fill,
-                          height: MediaQuery.of(context).size.width/1.5,) :Image.network(
-                          "https://iraqibayt.com/storage/app/public/posts/$img",
-                          fit: BoxFit.cover,
-                          height: MediaQuery.of(context).size.width/2.5,),
-
-
-                      ),
-
-                      ButtonBar(
-                        alignment: MainAxisAlignment.center,
-                        children: [
-                          FlatButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                                side: BorderSide(color: Color(0xFFdd685f))
-                            ),
-                            color: Color(0xFFdd685f),
-                            onPressed: () {
-                              // Perform some action
-                            },
-                            child: Text("${data[i]['price']} ${data[i]['currancy']['name']}",style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontFamily: "CustomIcons",
-                            ),softWrap: true,),
-                          ),
-                          FlatButton(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                                side: BorderSide(color: Color(0xFFdd685f))
-                            ),
-                            color: Color(0xFFdd685f),
-                            onPressed: () {
-                              // Perform some action
-                            },
-                            child: Text("${data[i]['category']['name']}",style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white,
-                              fontFamily: "CustomIcons",
-                            ),softWrap: true,),
-                          ),
-                        ],
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-
-                        child: Text(data[i]['title'],textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 22,
-                            color: Colors.black,
-                            fontFamily: "CustomIcons",
-                          ),softWrap: true,),
-
-
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0,
-                          right: 16.0,),
-
-                        child: Divider(
-                          color: Colors.black,
-                          thickness: 0.5,
-                        ),),
-
-                      RaisedButton(
-                        onPressed: () {},
-                        color: Colors.white,
-                        elevation: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Icon(Icons.location_on,color:Color(0xFFdd685f)),
-                            Text("${data[i]['city']['name']} - ${data[i]['region']['name']}",style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                              fontFamily: "CustomIcons",
-                              fontWeight:FontWeight.w300,
-                            ),softWrap: true,),
-
-                          ],
-                        ),
-                      ),
-                      RaisedButton(
-                        onPressed: () {},
-                        color: Colors.white,
-                        elevation: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Icon(Icons.format_line_spacing,color:Color(0xFFdd685f)),
-                            Text(" المساحة:  ${data[i]['area']} ${data[i]['unit']['name']}",style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                              fontFamily: "CustomIcons",
-                              fontWeight:FontWeight.w300,
-                            ),softWrap: true,),
-
-                          ],
-                        ),
-                      ),
-                      RaisedButton(
-                        onPressed: () {},
-                        color: Colors.white,
-                        elevation: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Icon(Icons.add_box,color: Color(0xFFdd685f),),
-                            Text(" أضيف: ${data[i]['created_at']}",style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                              fontFamily: "CustomIcons",
-                              fontWeight:FontWeight.w300,
-                            ),softWrap: true,),
-
-                          ],
-                        ),
-                      ),
-
-                      show_icons ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            flex: 3, // 20%
-                            child:Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-
-                              children: [
-                                Icon(MyIcons.car ,),
-                                Text(car_num.toString()),
-                              ],),),
-
-                          Expanded(
-                            flex: 3, // 20%
-                            child:Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(MyIcons.bed,),
-                                Text(bed.toString()),
-                              ],),),
-
-                          Expanded(
-                            flex: 3, // 20%
-                            child:Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(MyIcons.bath),
-                                Text(bath.toString()),
-                              ],),),
-                        ],):Container(),
-
-                      Padding(
-                        padding: const EdgeInsets.all(0),
-
-                        child:Container(color: Colors.grey,
-                            margin: const EdgeInsets.only( top: 10.0,bottom: 0.0),
-                            padding: const EdgeInsets.all(0.0),
-                            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-
-                              RaisedButton(
-                                onPressed: () {},
-                                color: Colors.white,
-                                elevation: 0,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Icon(Icons.call,color: Color(0xFFdd685f),),
-                                    Text(data[i]['phone'],style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontFamily: "CustomIcons",
-                                      fontWeight:FontWeight.w300,
-                                    ),softWrap: true,),
-
-                                  ],
-                                ),
-                              ),
-                              RaisedButton(
-                                onPressed: () {},
-                                color: Colors.red,
-                                elevation: 0,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Icon(Icons.favorite_border,color: Colors.white,),
-
-
-                                  ],
-                                ),
-                              ),
-                            ],)
-
-                        ),
-                      ),
-
-                    ],
-                  ),
-                ),
-
-
-
-
-
-
-              ),
-
-              )
-
-
-
-
-              ,);
-          });
-
-    }else{
-      return Text('لا يوجد إعلانات',style: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold, fontSize: 20.0
-        ,      fontFamily: "CustomIcons",),
-        softWrap: true,
-      );
-    }
-
-  }
-
-
-
-
-}
-
