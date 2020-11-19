@@ -8,10 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
+import 'package:iraqibayt/widgets/home/home.dart';
+import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'dart:async';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../ContactUs.dart';
+import '../my_icons_icons.dart';
+import '../profile.dart';
 
 
 class Add_Post extends StatefulWidget {
@@ -251,24 +257,20 @@ class _Add_Post extends State<Add_Post> {
         ),
 
       ),
-      body :_guest?Row(
-        children: [
-          Expanded(
-            child: InkWell(
-              borderRadius: BorderRadius.circular(4.0),
-              onTap: () {},
-              child: Card(
+      body :_guest?
+          Card(
                 shape: RoundedRectangleBorder(
                   side: BorderSide(color: Colors.grey, width: 0.5),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(0),
                 ),
-                clipBehavior: Clip.antiAlias,
-                margin: const EdgeInsets.all(10.0),
+                //clipBehavior: Clip.antiAlias,
+                margin: const EdgeInsets.only(top:10),
                 //color: Colors.grey,
                 elevation: 0,
 
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(0),
@@ -278,7 +280,7 @@ class _Add_Post extends State<Add_Post> {
                         child: Text(
                           'تسجيل الدخول',
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 20,
                             color: Colors.white,
                             fontFamily: "CustomIcons",
                           ),
@@ -288,25 +290,23 @@ class _Add_Post extends State<Add_Post> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Container(
-                              child: Center(
-                                child: Column(
+                      child: Column(
                                   children: [
                                     Text(
                                       'الرجاء تسجيل الدخول لتتمكن من إضافة إعلان',
                                       style: TextStyle(
+                                        fontSize: 18,
                                         fontFamily: 'CustomIcons',
                                       ),
                                     ),
+                                    SizedBox(height: 15,),
                                     FlatButton(
-                                      color: Colors.white,
-                                      textColor: Colors.black,
+                                      color: Color(0xFF335876),
+                                      textColor: Colors.white,
                                       disabledColor: Colors.grey,
                                       disabledTextColor: Colors.grey,
                                       padding: EdgeInsets.all(8.0),
+
                                       splashColor: Colors.orange,
                                       onPressed:  () {
                                         Navigator
@@ -317,26 +317,19 @@ class _Add_Post extends State<Add_Post> {
                                         'تسجيل الدخول',
                                         style: TextStyle(
                                           fontSize: 18,
-                                          color: Colors.grey,
+                                          color: Colors.white,
                                           fontFamily: "CustomIcons",
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+
                     ),
                   ],
                 ),
-              ),
-            ),
-          ),
-        ],
-      ):SingleChildScrollView(
+              )
+          :SingleChildScrollView(
         child: Column(
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: CrossAxisAlignment.center,
@@ -1297,31 +1290,66 @@ class _Add_Post extends State<Add_Post> {
       ]
         )
       ),
-        );
-
-
-    /*return new MaterialApp(
-      home: new Scaffold(
-        appBar: new AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Column(
-          children: <Widget>[
-            Center(child: Text('Error: $_error')),
-            RaisedButton(
-              child: Text("Pick images"),
-              onPressed: loadAssets,
-            ),
-            Expanded(
-              child: buildGridView(),
-            )
-          ],
-        ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFF335876),
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Color(0xFFdd685f),
+        onTap: onTabTapped, // new
+        currentIndex: 2,
+        type: BottomNavigationBarType.fixed, // new
+        items: [
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'الرئيسية',
+          ),
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book),
+            label: 'الإعلانات',
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.post_add),
+              label: 'أضف إعلان'
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(MyIcons.user),
+              label: 'حسابي'
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.mail),
+              label: 'ملاحظات'
+          ),
+        ],
       ),
-    );*/
+
+    );
+
+
 
   }
-
+  void onTabTapped(int index)
+  {
+    if(index == 0){
+      Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Home()),
+      );
+    }else if(index == 1){
+      Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Posts_Home()),
+      );
+    }else if(index == 3){
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Profile()));
+    }else if(index == 4){
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new ContactUs()));
+    }
+    /*setState(() {
+      _currentIndex = index;
+      print(index.toString());
+    });*/
+  }
 
   /////multiselect images////
   List<Asset> images = List<Asset>();

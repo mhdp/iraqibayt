@@ -28,6 +28,7 @@ class _Contact_us_card extends State<Contact_us_card> {
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(0),

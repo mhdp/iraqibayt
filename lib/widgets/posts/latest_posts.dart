@@ -9,6 +9,7 @@ import 'package:iraqibayt/modules/api/callApi.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:iraqibayt/widgets/home/search_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../my_icons_icons.dart';
 import '../welcome.dart';
@@ -342,11 +343,11 @@ class _BikeListItemState extends State<BikeListItem> {
           child: Card(
             shape: RoundedRectangleBorder(
               side: BorderSide(color: Colors.grey, width: 0.5),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(0),
             ),
             clipBehavior: Clip.antiAlias,
             elevation: 0,
-            margin: const EdgeInsets.all(10.0),
+            margin: const EdgeInsets.only(top:10.0),
             color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -362,10 +363,10 @@ class _BikeListItemState extends State<BikeListItem> {
                           ? Image.asset(
                         'assets/images/posts/default_post_img.jpeg',
                         fit: BoxFit.fill,
-                        height: MediaQuery.of(context)
+                        height: (MediaQuery.of(context)
                             .size
                             .width /
-                            1.5,
+                            1.5),
                       )
                           : Image.network(
                         "https://iraqibayt.com/storage/app/public/posts/$img",
@@ -373,7 +374,7 @@ class _BikeListItemState extends State<BikeListItem> {
                         height: MediaQuery.of(context)
                             .size
                             .width /
-                            2.5,
+                            1.5,
                       )),
                       Padding(
                         padding: const EdgeInsets.all(6),
@@ -446,51 +447,7 @@ class _BikeListItemState extends State<BikeListItem> {
                     ],
                   ),
                 ),
-//                                ButtonBar(
-//                                  alignment: MainAxisAlignment.center,
-//                                  children: [
-//                                    FlatButton(
-//                                      shape: RoundedRectangleBorder(
-//                                          borderRadius:
-//                                              BorderRadius.circular(5.0),
-//                                          side: BorderSide(
-//                                              color: Color(0xFFdd685f))),
-//                                      color: Color(0xFFdd685f),
-//                                      onPressed: () {
-//                                        // Perform some action
-//                                      },
-//                                      child: Text(
-//                                        "${data[i]['price']} ${data[i]['currancy']['name']}",
-//                                        style: TextStyle(
-//                                          fontSize: 18,
-//                                          color: Colors.white,
-//                                          fontFamily: "CustomIcons",
-//                                        ),
-//                                        softWrap: true,
-//                                      ),
-//                                    ),
-//                                    FlatButton(
-//                                      shape: RoundedRectangleBorder(
-//                                          borderRadius:
-//                                              BorderRadius.circular(5.0),
-//                                          side: BorderSide(
-//                                              color: Color(0xFFdd685f))),
-//                                      color: Color(0xFFdd685f),
-//                                      onPressed: () {
-//                                        // Perform some action
-//                                      },
-//                                      child: Text(
-//                                        "${data[i]['category']['name']}",
-//                                        style: TextStyle(
-//                                          fontSize: 18,
-//                                          color: Colors.white,
-//                                          fontFamily: "CustomIcons",
-//                                        ),
-//                                        softWrap: true,
-//                                      ),
-//                                    ),
-//                                  ],
-//                                ),
+//
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
@@ -594,7 +551,7 @@ class _BikeListItemState extends State<BikeListItem> {
                         MainAxisAlignment.end,
                         children: [
                           Icon(
-                            MyIcons.car,
+                            MyIcons.car, color: Color(0xFF335876),
                           ),
                           Text(car_num.toString()),
                         ],
@@ -607,7 +564,7 @@ class _BikeListItemState extends State<BikeListItem> {
                         MainAxisAlignment.center,
                         children: [
                           Icon(
-                            MyIcons.bed,
+                            MyIcons.bed, color: Color(0xFF335876),
                           ),
                           Text(bed.toString()),
                         ],
@@ -619,7 +576,7 @@ class _BikeListItemState extends State<BikeListItem> {
                         mainAxisAlignment:
                         MainAxisAlignment.start,
                         children: [
-                          Icon(MyIcons.bath),
+                          Icon(MyIcons.bath, color: Color(0xFF335876)),
                           Text(bath.toString()),
                         ],
                       ),
@@ -627,34 +584,58 @@ class _BikeListItemState extends State<BikeListItem> {
                   ],
                 )
                     : Container(),
+                //Divider
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 16.0,
+                    right: 16.0,
+                  ),
+                  child: Divider(
+                    color: Colors.black,
+                    thickness: 0.5,
+                  ),
+                ),
+
                 Padding(
                   padding: const EdgeInsets.all(0),
                   child: Container(
-                      color: Colors.grey,
+                      color: Colors.white,
                       margin: const EdgeInsets.only(
-                          top: 10.0, bottom: 0.0),
+                          top: 0, bottom: 0.0),
                       padding: const EdgeInsets.all(0.0),
                       child: Row(
                         mainAxisAlignment:
                         MainAxisAlignment.center,
                         children: [
-                          RaisedButton(
-                            onPressed: () {},
-                            color: Colors.white,
-                            elevation: 0,
+                          FlatButton(
+                            onPressed: () async {
+                              var url = "tel:+${data[i]['phone'].toString().trim()}";
+                              print(url);
+                              if (await canLaunch(url)) {
+                                await launch(url);
+                              }
+                            },
+                            shape: RoundedRectangleBorder(side: BorderSide(
+                                color: Color(0xFF335876),
+                                width: 0,
+                                style: BorderStyle.solid
+                            ),),
+
+                            color: Color(0xFF335876),
+
                             child: Row(
                               mainAxisAlignment:
                               MainAxisAlignment.center,
                               children: <Widget>[
                                 Icon(
                                   Icons.call,
-                                  color: Color(0xFFdd685f),
+                                  color: Colors.white,
                                 ),
                                 Text(
                                   data[i]['phone'],
                                   style: TextStyle(
                                     fontSize: 18,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     fontFamily: "CustomIcons",
                                     fontWeight: FontWeight.w300,
                                   ),
@@ -666,12 +647,41 @@ class _BikeListItemState extends State<BikeListItem> {
                           _checkIfInFavs(data[i]['id'],
                               _rFavorites) ==
                               null
-                              ? RaisedButton(
+                              ? FlatButton(
                             onPressed: () {
                               _addFavorite(data[i]['id']);
                             },
+                            shape: RoundedRectangleBorder(side: BorderSide(
+                                color: Colors.red,
+                                width: 0,
+                                style: BorderStyle.solid
+                            ),),
                             color: Colors.red,
-                            elevation: 0,
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment
+                                  .center,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.favorite_border,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          )
+                              : FlatButton(
+                            onPressed: () {
+                              _deleteFavorite(
+                                  _checkIfInFavs(
+                                      data[i]['id'],
+                                      _rFavorites));
+                            },
+                            shape: RoundedRectangleBorder(side: BorderSide(
+                                color: Colors.red,
+                                width: 0,
+                                style: BorderStyle.solid
+                            ),),
+                            color: Colors.red,
                             child: Row(
                               mainAxisAlignment:
                               MainAxisAlignment
@@ -680,27 +690,6 @@ class _BikeListItemState extends State<BikeListItem> {
                                 Icon(
                                   Icons.favorite,
                                   color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          )
-                              : RaisedButton(
-                            onPressed: () {
-                              _deleteFavorite(
-                                  _checkIfInFavs(
-                                      data[i]['id'],
-                                      _rFavorites));
-                            },
-                            color: Color(0xffdfe4ea),
-                            elevation: 0,
-                            child: Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment
-                                  .center,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.favorite,
-                                  color: Colors.red,
                                 ),
                               ],
                             ),

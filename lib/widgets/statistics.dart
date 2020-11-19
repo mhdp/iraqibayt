@@ -39,7 +39,7 @@ class _StatisticsState extends State<Statistics> {
     int brIndex;
 
     return Scaffold(
-      backgroundColor: Color(0XFF8e8d8d),
+      backgroundColor: Color(0XFFc4c4c4),
       appBar: AppBar(
         title: Text(
           'إحصائيات عالمية',
@@ -74,16 +74,16 @@ class _StatisticsState extends State<Statistics> {
                         itemBuilder: (context, index) {
                           print(brIndex);
                           return InkWell(
-                            borderRadius: BorderRadius.circular(4.0),
+                            borderRadius: BorderRadius.circular(0),
                             onTap: () {},
                             child: Card(
                               shape: RoundedRectangleBorder(
                                 side:
                                     BorderSide(color: Colors.grey, width: 0.5),
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(0),
                               ),
                               clipBehavior: Clip.antiAlias,
-                              margin: const EdgeInsets.all(10.0),
+                              margin: const EdgeInsets.only(top:10.0),
                               //color: Colors.grey,
                               elevation: 0,
 

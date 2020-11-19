@@ -6,12 +6,16 @@ import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/Favorite.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
+import 'package:iraqibayt/widgets/home/home.dart';
 import 'package:iraqibayt/widgets/home/search_card.dart';
 import 'package:iraqibayt/widgets/my_icons_icons.dart';
 import 'package:iraqibayt/widgets/posts/full_post.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../ContactUs.dart';
+import '../profile.dart';
 import 'add_post.dart';
 
 DatabaseHelper databaseHelper = new DatabaseHelper();
@@ -53,7 +57,7 @@ class _Posts_Home extends State<Posts_Home> {
     final double screenHeight =
         MediaQuery.of(context).size.height - statusBarHeight - kToolbarHeight;
     return Scaffold(
-      backgroundColor: Color(0XFF8e8d8d),
+      backgroundColor: Color(0XFFc4c4c4),
       appBar: AppBar(
         backgroundColor: Color(0xFF335876),
         title: Text(
@@ -87,20 +91,20 @@ class _Posts_Home extends State<Posts_Home> {
                       builder: (BuildContext context) => new Add_Post()),
                 );
               },
-              color: Colors.white,
+              color: Color(0xff65AECA),
               elevation: 0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Icon(
                     Icons.add_box,
-                    color: Color(0xFF335876),
+                    color: Colors.white,
                   ),
                   Text(
                     " أضف إعلان ",
                     style: TextStyle(
                       fontSize: 20,
-                      color: Color(0xFF335876),
+                      color: Colors.white,
                       fontFamily: "CustomIcons",
                       fontWeight: FontWeight.w300,
                     ),
@@ -119,7 +123,62 @@ class _Posts_Home extends State<Posts_Home> {
               )
             : BikeListItem(list1: databaseHelper.posts_list),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFF335876),
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Color(0xFFdd685f),
+        onTap: onTabTapped, // new
+        currentIndex: 1,
+        type: BottomNavigationBarType.fixed, // new
+        items: [
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'الرئيسية',
+          ),
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book),
+            label: 'الإعلانات',
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.post_add),
+              label: 'أضف إعلان'
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(MyIcons.user),
+              label: 'حسابي'
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.mail),
+              label: 'ملاحظات'
+          ),
+        ],
+      ),
     );
+  }
+
+  void onTabTapped(int index)
+  {
+    if(index == 0){
+      Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Home()),
+      );
+    }else if(index == 2){
+      Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Add_Post()),
+      );
+    }else if(index == 3){
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Profile()));
+    }else if(index == 4){
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new ContactUs()));
+    }
+    /*setState(() {
+      _currentIndex = index;
+      print(index.toString());
+    });*/
   }
 }
 
@@ -242,7 +301,7 @@ class _BikeListItemState extends State<BikeListItem> {
                             style: TextStyle(
                               fontFamily: 'CustomIcons',
                               fontSize: 30.0,
-                              color: Colors.red,
+                              color: Color(0xFF335876),
                             ),
                           ),
                         ),
@@ -251,16 +310,18 @@ class _BikeListItemState extends State<BikeListItem> {
                         padding: const EdgeInsets.all(10.0),
                         child: Divider(
                           thickness: 1.0,
-                          color: Colors.black54,
+                          color: Color(0xFF335876),
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.all(30.0),
                         child: Center(
+
                           child: Text(
-                            'يجب عليك تسجيل الدخول أولاً لكي تتمكن من المتابعة',
+                            'يجب عليك تسجيل الدخول أولاً لكي تتمكن من إضافة الإعلان إلى المفضلة',
                             style: TextStyle(
                                 fontFamily: 'CustomIcons', fontSize: 20.0),
+
                           ),
                         ),
                       ),
@@ -269,7 +330,7 @@ class _BikeListItemState extends State<BikeListItem> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: GFButton(
-                              color: GFColors.LIGHT,
+                              color: Color(0xFF335876),
                               //blockButton: true,
                               child: Center(
                                 child: Text(
@@ -346,7 +407,7 @@ class _BikeListItemState extends State<BikeListItem> {
                   'عدد النتائج :' + data.length.toString(),
                   style: TextStyle(
                     fontSize: 18,
-                    color: Colors.white,
+                    color: Color(0xFF335876),
                     //backgroundColor: Color(0xFF335876)
                     fontFamily: "CustomIcons",
                   ),
@@ -386,11 +447,11 @@ class _BikeListItemState extends State<BikeListItem> {
                     }
 
                     return new Container(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(0),
                       child: new GestureDetector(
                         onTap: () {},
                         child: InkWell(
-                          borderRadius: BorderRadius.circular(4.0),
+                          borderRadius: BorderRadius.circular(0),
                           onTap: () {
                             Navigator.of(context).push(
                               new MaterialPageRoute(
@@ -403,11 +464,11 @@ class _BikeListItemState extends State<BikeListItem> {
                           child: Card(
                             shape: RoundedRectangleBorder(
                               side: BorderSide(color: Colors.grey, width: 0.5),
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(0),
                             ),
                             clipBehavior: Clip.antiAlias,
                             elevation: 0,
-                            margin: const EdgeInsets.all(10.0),
+                            margin: const EdgeInsets.only(top:10.0),
                             color: Colors.white,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -434,7 +495,7 @@ class _BikeListItemState extends State<BikeListItem> {
                                             height: MediaQuery.of(context)
                                                 .size
                                                 .width /
-                                                2.5,
+                                                1.5,
                                           )),
                                       Padding(
                                         padding: const EdgeInsets.all(6),
@@ -507,51 +568,7 @@ class _BikeListItemState extends State<BikeListItem> {
                                     ],
                                   ),
                                 ),
-//                                ButtonBar(
-//                                  alignment: MainAxisAlignment.center,
-//                                  children: [
-//                                    FlatButton(
-//                                      shape: RoundedRectangleBorder(
-//                                          borderRadius:
-//                                              BorderRadius.circular(5.0),
-//                                          side: BorderSide(
-//                                              color: Color(0xFFdd685f))),
-//                                      color: Color(0xFFdd685f),
-//                                      onPressed: () {
-//                                        // Perform some action
-//                                      },
-//                                      child: Text(
-//                                        "${data[i]['price']} ${data[i]['currancy']['name']}",
-//                                        style: TextStyle(
-//                                          fontSize: 18,
-//                                          color: Colors.white,
-//                                          fontFamily: "CustomIcons",
-//                                        ),
-//                                        softWrap: true,
-//                                      ),
-//                                    ),
-//                                    FlatButton(
-//                                      shape: RoundedRectangleBorder(
-//                                          borderRadius:
-//                                              BorderRadius.circular(5.0),
-//                                          side: BorderSide(
-//                                              color: Color(0xFFdd685f))),
-//                                      color: Color(0xFFdd685f),
-//                                      onPressed: () {
-//                                        // Perform some action
-//                                      },
-//                                      child: Text(
-//                                        "${data[i]['category']['name']}",
-//                                        style: TextStyle(
-//                                          fontSize: 18,
-//                                          color: Colors.white,
-//                                          fontFamily: "CustomIcons",
-//                                        ),
-//                                        softWrap: true,
-//                                      ),
-//                                    ),
-//                                  ],
-//                                ),
+//
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
@@ -690,34 +707,58 @@ class _BikeListItemState extends State<BikeListItem> {
                                         ],
                                       )
                                     : Container(),
+                                //Divider
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 16.0,
+                                    right: 16.0,
+                                  ),
+                                  child: Divider(
+                                    color: Colors.black,
+                                    thickness: 0.5,
+                                  ),
+                                ),
+
                                 Padding(
                                   padding: const EdgeInsets.all(0),
                                   child: Container(
-                                      color: Colors.grey,
+                                      color: Colors.white,
                                       margin: const EdgeInsets.only(
-                                          top: 10.0, bottom: 0.0),
+                                          top: 0, bottom: 0.0),
                                       padding: const EdgeInsets.all(0.0),
                                       child: Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                        MainAxisAlignment.center,
                                         children: [
-                                          RaisedButton(
-                                            onPressed: () {},
-                                            color: Colors.white,
-                                            elevation: 0,
+                                          FlatButton(
+                                            onPressed: () async {
+                                              var url = "tel:+${data[i]['phone'].toString().trim()}";
+                                              print(url);
+                                              if (await canLaunch(url)) {
+                                                await launch(url);
+                                              }
+                                            },
+                                            shape: RoundedRectangleBorder(side: BorderSide(
+                                                color: Color(0xFF335876),
+                                                width: 0,
+                                                style: BorderStyle.solid
+                                            ),),
+
+                                            color: Color(0xFF335876),
+
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.center,
+                                              MainAxisAlignment.center,
                                               children: <Widget>[
                                                 Icon(
                                                   Icons.call,
-                                                  color: Color(0xFFdd685f),
+                                                  color: Colors.white,
                                                 ),
                                                 Text(
                                                   data[i]['phone'],
                                                   style: TextStyle(
                                                     fontSize: 18,
-                                                    color: Colors.black,
+                                                    color: Colors.white,
                                                     fontFamily: "CustomIcons",
                                                     fontWeight: FontWeight.w300,
                                                   ),
@@ -727,47 +768,55 @@ class _BikeListItemState extends State<BikeListItem> {
                                             ),
                                           ),
                                           _checkIfInFavs(data[i]['id'],
-                                                      _rFavorites) ==
-                                                  null
-                                              ? RaisedButton(
-                                                  onPressed: () {
-                                                    _addFavorite(data[i]['id']);
-                                                  },
-                                                  color: Colors.red,
-                                                  elevation: 0,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      Icon(
-                                                        Icons.favorite,
-                                                        color: Colors.white,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )
-                                              : RaisedButton(
-                                                  onPressed: () {
-                                                    _deleteFavorite(
-                                                        _checkIfInFavs(
-                                                            data[i]['id'],
-                                                            _rFavorites));
-                                                  },
-                                                  color: Color(0xffdfe4ea),
-                                                  elevation: 0,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      Icon(
-                                                        Icons.favorite,
-                                                        color: Colors.red,
-                                                      ),
-                                                    ],
-                                                  ),
+                                              _rFavorites) ==
+                                              null
+                                              ? FlatButton(
+                                            onPressed: () {
+                                              _addFavorite(data[i]['id']);
+                                            },
+                                            shape: RoundedRectangleBorder(side: BorderSide(
+                                                color: Colors.red,
+                                                width: 0,
+                                                style: BorderStyle.solid
+                                            ),),
+                                            color: Colors.red,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .center,
+                                              children: <Widget>[
+                                                Icon(
+                                                  Icons.favorite_border,
+                                                  color: Colors.white,
                                                 ),
+                                              ],
+                                            ),
+                                          )
+                                              : FlatButton(
+                                            onPressed: () {
+                                              _deleteFavorite(
+                                                  _checkIfInFavs(
+                                                      data[i]['id'],
+                                                      _rFavorites));
+                                            },
+                                            shape: RoundedRectangleBorder(side: BorderSide(
+                                                color: Colors.red,
+                                                width: 0,
+                                                style: BorderStyle.solid
+                                            ),),
+                                            color: Colors.red,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .center,
+                                              children: <Widget>[
+                                                Icon(
+                                                  Icons.favorite,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       )),
                                 ),

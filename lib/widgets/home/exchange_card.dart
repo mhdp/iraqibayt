@@ -48,15 +48,15 @@ class _ExchangeCardState extends State<ExchangeCard> {
           children: [
             Expanded(
               child: InkWell(
-                borderRadius: BorderRadius.circular(4.0),
+                borderRadius: BorderRadius.circular(0),
                 onTap: () {},
                 child: Card(
                   shape: RoundedRectangleBorder(
                     side: BorderSide(color: Colors.grey, width: 0.5),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(0),
                   ),
                   clipBehavior: Clip.antiAlias,
-                  margin: const EdgeInsets.all(10.0),
+                  margin: const EdgeInsets.only(top:10.0),
                   //color: Colors.grey,
                   elevation: 0,
 

@@ -10,6 +10,7 @@ import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/posts/spicail_posts.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
+import '../ContactUs.dart';
 import '../NavDrawer.dart';
 import '../my_icons_icons.dart';
 import '../profile.dart';
@@ -37,7 +38,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0XFF8e8d8d),
+      backgroundColor: Color(0XFFc4c4c4),
       drawer: NavDrawer(),
       appBar: AppBar(
         title: Text(
@@ -93,7 +94,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             ExchangeCard(),
             RaisedButton(
               onPressed: () {},
-              color: Color(0XFF8e8d8d),
+              color: Color(0XFFc4c4c4),
               elevation: 0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -115,7 +116,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             SearchCard(),
             RaisedButton(
               onPressed: () {},
-              color: Color(0XFF8e8d8d),
+              color: Color(0XFFc4c4c4),
               elevation: 0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -136,7 +137,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             Spicial_posts(),
             RaisedButton(
               onPressed: () {},
-              color: Color(0XFF8e8d8d),
+              color: Color(0XFFc4c4c4),
               elevation: 0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -210,7 +211,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           builder: (BuildContext context) => new Profile()));
     }else if(index == 4){
       Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new Profile()));
+          builder: (BuildContext context) => new ContactUs()));
     }
     /*setState(() {
       _currentIndex = index;

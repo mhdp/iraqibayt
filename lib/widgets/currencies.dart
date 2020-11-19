@@ -115,7 +115,7 @@ class _CurrenciesState extends State<Currencies> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0XFF8e8d8d),
+      backgroundColor: Color(0XFFc4c4c4),
       appBar: AppBar(
         title: Text(
           'أسعار العملات',
@@ -127,10 +127,13 @@ class _CurrenciesState extends State<Currencies> {
       ),
       body: Container(
         child: ListView(
+
           scrollDirection: Axis.vertical,
           children: <Widget>[
             Container(
               child: GFCard(
+                //padding: const EdgeInsets.all(0),
+                margin: const EdgeInsets.only(top: 10),
                 boxFit: BoxFit.cover,
                 title: GFListTile(
                   //padding: const EdgeInsets.symmetric(horizontal: 70),
@@ -177,6 +180,7 @@ class _CurrenciesState extends State<Currencies> {
             ),
             Container(
               child: GFCard(
+                margin: const EdgeInsets.only(top: 10),
                 boxFit: BoxFit.cover,
                 title: GFListTile(
                   //padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -284,6 +288,7 @@ class _CurrenciesState extends State<Currencies> {
             ),
             Container(
               child: GFCard(
+                margin: const EdgeInsets.only(top: 10),
                 boxFit: BoxFit.cover,
                 title: GFListTile(
                   //padding: const EdgeInsets.symmetric(horizontal: 10),
