@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
 import 'package:getwidget/getwidget.dart';
@@ -7,16 +8,14 @@ import 'package:iraqibayt/modules/api/callApi.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../my_icons_icons.dart';
 import 'package:image_viewer/image_viewer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
-
-
 DatabaseHelper databaseHelper = new DatabaseHelper();
 
 class Posts_detalis extends StatefulWidget {
-
   String post_id;
 
   Posts_detalis({Key key, this.post_id}) : super(key: key);
@@ -231,37 +230,100 @@ class _Posts_detalis extends State<Posts_detalis> {
           databaseHelper.get_default_post_image().whenComplete(() {
             setState(() {
               String default_image = databaseHelper.default_post_image;
-              imageList.add("https://iraqibayt.com/storage/app/public/posts/$default_image");
+              imageList.add(
+                  "https://iraqibayt.com/storage/app/public/posts/$default_image");
             });
           });
         } else {
-          imageList
-              .add('https://iraqibayt.com/storage/app/public/posts/${databaseHelper.get_post_by_id_list[0]["img"].toString()}');
+          imageList.add(
+              'https://iraqibayt.com/storage/app/public/posts/${databaseHelper.get_post_by_id_list[0]["img"].toString()}');
         }
 
         is_loading = false;
 
         //print(databaseHelper.get_post_by_id_list[0]["imgs"].toString());
-        String imgs_list1 = databaseHelper.get_post_by_id_list[0]["imgs"].toString().replaceAll("[", "");
+        String imgs_list1 = databaseHelper.get_post_by_id_list[0]["imgs"]
+            .toString()
+            .replaceAll("[", "");
         imgs_list1 = imgs_list1.replaceAll("]", "");
         imgs_list1 = imgs_list1.replaceAll(" ", "");
 
         List<String> imgs = imgs_list1.split(",");
         //print(imgs.length.toString());
-          imgs.forEach((element) {
-            //print(element.toString());
-            if(!element.isEmpty){
-              print ("enter $element");
-              imageList.add('https://iraqibayt.com/storage/app/public/posts/$element');
-            }
-          } );
-
+        imgs.forEach((element) {
+          //print(element.toString());
+          if (!element.isEmpty) {
+            print("enter $element");
+            imageList
+                .add('https://iraqibayt.com/storage/app/public/posts/$element');
+          }
+        });
 
         //print(imageList.length);
         //imageList = Set.from(imgs);
         //print(imgs);
       });
     });
+  }
+
+  _launchURL(String phone) async {
+    String url = 'tel:$phone';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  void _phoneCall(String phoneNumber) {
+    _launchURL(phoneNumber);
+  }
+
+  void _launchWhatsApp({
+    @required String phone,
+    @required String message,
+  }) async {
+    String url() {
+      if (Platform.isIOS) {
+        return "whatsapp://wa.me/$phone/?text=${Uri.parse(message)}";
+      } else {
+        return "whatsapp://send?   phone=$phone&text=${Uri.parse(message)}";
+      }
+    }
+
+    if (await canLaunch(url())) {
+      await launch(url());
+    } else {
+      throw 'Could not launch ${url()}';
+    }
+  }
+
+  void _launchViber({
+    @required String phone,
+  }) async {
+    String url() {
+      return 'viber://chat?number=$phone';
+    }
+
+    if (await canLaunch(url())) {
+      await launch(url());
+    } else {
+      throw 'Could not launch ${url()}';
+    }
+  }
+
+  void _launchTelegram({
+    @required String phone,
+  }) async {
+    String url() {
+      return 'https://t.me/$phone';
+    }
+
+    if (await canLaunch(url())) {
+      await launch(url());
+    } else {
+      throw 'Could not launch ${url()}';
+    }
   }
 
   @override
@@ -318,13 +380,11 @@ class _Posts_detalis extends State<Posts_detalis> {
                                 ImageViewer.showImageSlider(
                                   images: imageList,
                                   startingPosition: carsoul_index,
-                                //print(carsoul_counter.toString());
+                                  //print(carsoul_counter.toString());
                                 );
                               },
-                              child: Image.network(
-                                url,
-                                fit: BoxFit.cover,
-                                width: 1000.0),
+                              child: Image.network(url,
+                                  fit: BoxFit.cover, width: 1000.0),
                             ),
                           ),
                         );
@@ -336,7 +396,6 @@ class _Posts_detalis extends State<Posts_detalis> {
                       });
                     },
                   ),
-
 
 //title
                   Padding(
@@ -739,25 +798,45 @@ class _Posts_detalis extends State<Posts_detalis> {
                         padding: new EdgeInsets.all(0.0),
                         color: Colors.black,
                         icon: new Icon(MyIcons.phone, size: 38.0),
-                        onPressed: () {},
+                        onPressed: () {
+                          _phoneCall(databaseHelper.get_post_by_id_list[0]
+                                  ["phone"]
+                              .toString());
+                        },
                       ),
                       IconButton(
                         padding: new EdgeInsets.all(0.0),
                         color: Colors.green,
                         icon: new Icon(MyIcons.whatsapp, size: 38.0),
-                        onPressed: () {},
+                        onPressed: () {
+                          _launchWhatsApp(
+                              phone: databaseHelper.get_post_by_id_list[0]
+                                      ["phone"]
+                                  .toString(),
+                              message: 'البيت العراقي');
+                        },
                       ),
                       IconButton(
                         padding: new EdgeInsets.all(0.0),
                         color: Colors.blue,
                         icon: new Icon(MyIcons.telegram, size: 38.0),
-                        onPressed: () {},
+                        onPressed: () {
+                          _launchTelegram(
+                              phone: databaseHelper.get_post_by_id_list[0]
+                                      ["phone"]
+                                  .toString());
+                        },
                       ),
                       IconButton(
                         padding: new EdgeInsets.all(0.0),
                         color: Colors.indigo,
                         icon: new Icon(MyIcons.viber, size: 38.0),
-                        onPressed: () {},
+                        onPressed: () {
+                          _launchViber(
+                              phone: databaseHelper.get_post_by_id_list[0]
+                                      ["phone"]
+                                  .toString());
+                        },
                       ),
                     ],
                   ),
@@ -843,7 +922,4 @@ class _Posts_detalis extends State<Posts_detalis> {
             ),
     );
   }
-
-
-
 }

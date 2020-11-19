@@ -105,7 +105,9 @@ class _WeatherCardState extends State<WeatherCard> {
                     borderRadius: BorderRadius.circular(0),
                   ),
                   clipBehavior: Clip.antiAlias,
-                  margin: const EdgeInsets.only(top:10,),
+                  margin: const EdgeInsets.only(
+                    top: 10,
+                  ),
                   //color: Colors.grey,
                   elevation: 0,
 
@@ -188,10 +190,8 @@ class _WeatherCardState extends State<WeatherCard> {
                                                       Alignment.centerRight,
                                                   //padding: const EdgeInsets.symmetric(horizontal: 5),
                                                   child: DropdownButton<int>(
-
                                                     elevation: 5,
                                                     hint: Container(
-                                                      
                                                       alignment:
                                                           Alignment.centerRight,
                                                       width: 100.0,
@@ -240,38 +240,50 @@ class _WeatherCardState extends State<WeatherCard> {
                                               alignment: Alignment.center,
                                               child: Row(
                                                 children: [
-                                                  Text(
-                                                    'التاريخ : ',
-                                                    textAlign: TextAlign.right,
-                                                    style: TextStyle(
-                                                      fontSize: 20,
-                                                      fontFamily: "CustomIcons",
-                                                      //fontWeight:FontWeight.bold,
+                                                  Expanded(
+                                                    child: Text(
+                                                      'التاريخ : ',
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontFamily:
+                                                            "CustomIcons",
+                                                        //fontWeight:FontWeight.bold,
+                                                      ),
                                                     ),
+                                                    flex: 17,
                                                   ),
-                                                  Text(
-                                                    _getWeatherDataByCity(
-                                                            _rWeather, cityId)
-                                                        .day,
-                                                    textAlign: TextAlign.right,
-                                                    style: TextStyle(
-                                                      fontSize: 18,
+                                                  Expanded(
+                                                    child: Text(
+                                                      _getWeatherDataByCity(
+                                                              _rWeather, cityId)
+                                                          .day,
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                      ),
                                                     ),
+                                                    flex: 25,
                                                   ),
-                                                  Container(
-
-                                                    padding: const EdgeInsets.all(
-                                                        10.0),
-                                                    height: 100,
-                                                    child:Center( child: SvgPicture.network(
-                                                      'https://iraqibayt.com/storage/app/public/weather/' +
-                                                          _getWeatherDataByCity(
-                                                              _rWeather,
-                                                              cityId)
-                                                              .wIcon
-                                                              .toString(),
-                                                      alignment: Alignment.center,
-                                                    ),)
+                                                  Expanded(
+                                                    child: Container(
+                                                        height: 100,
+                                                        child: FittedBox(
+                                                          child: SvgPicture
+                                                              .network(
+                                                            'https://iraqibayt.com/storage/app/public/weather/' +
+                                                                _getWeatherDataByCity(
+                                                                        _rWeather,
+                                                                        cityId)
+                                                                    .wIcon
+                                                                    .toString(),
+                                                            alignment: Alignment
+                                                                .center,
+                                                          ),
+                                                        )),
+                                                    flex: 50,
                                                   ),
                                                 ],
                                               ),
@@ -292,29 +304,29 @@ class _WeatherCardState extends State<WeatherCard> {
                                                 Container(
                                                   child: Column(
                                                     children: <Widget>[
-
-
-                                                        Container(
-                                                          padding:
-                                                          const EdgeInsets
-                                                              .symmetric(
-                                                              vertical: 5.0,
-                                                              horizontal: 30),
-                                                          height: 50,
-                                                          alignment:
-                                                          Alignment.center,
-                                                          child: Image.asset(
-                                                            'assets/images/min_temp.png',
-                                                            fit: BoxFit.cover,
-                                                          ),
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                vertical: 5.0,
+                                                                horizontal: 30),
+                                                        height: 50,
+                                                        alignment:
+                                                            Alignment.center,
+                                                        child: Image.asset(
+                                                          'assets/images/min_temp.png',
+                                                          fit: BoxFit.cover,
                                                         ),
-                                                        Text('الدنيا',style: TextStyle(
+                                                      ),
+                                                      Text(
+                                                        'الدنيا',
+                                                        style: TextStyle(
                                                           fontSize: 18,
-                                                          fontFamily: "CustomIcons",
+                                                          fontFamily:
+                                                              "CustomIcons",
                                                           //fontWeight:FontWeight.bold,
-                                                        ),),
-
-
+                                                        ),
+                                                      ),
                                                       Row(
                                                         children: [
                                                           Text(
@@ -353,11 +365,15 @@ class _WeatherCardState extends State<WeatherCard> {
                                                           fit: BoxFit.cover,
                                                         ),
                                                       ),
-                                                      Text(' العليا',style: TextStyle(
-                                                        fontSize: 18,
-                                                        fontFamily: "CustomIcons",
-                                                        //fontWeight:FontWeight.bold,
-                                                      ),),
+                                                      Text(
+                                                        ' العليا',
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontFamily:
+                                                              "CustomIcons",
+                                                          //fontWeight:FontWeight.bold,
+                                                        ),
+                                                      ),
                                                       Row(
                                                         children: [
                                                           Text(
@@ -380,7 +396,6 @@ class _WeatherCardState extends State<WeatherCard> {
                                                     ],
                                                   ),
                                                 ),
-
                                               ],
                                             ),
                                           ],
