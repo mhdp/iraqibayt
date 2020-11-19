@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
         '/main_board': (context) => MainBoard(),
         '/home': (context) => Home(),
         '/posts': (context) => Posts_Home(),
-        '/my_posts': (context) => My_Posts_Home(),
+        '/my_posts': (context) => MyPosts(),
         '/Posts_detalis': (context) => Posts_detalis(),
         '/notes': (context) => Notes(),
         '/currencies': (context) => Currencies(),
