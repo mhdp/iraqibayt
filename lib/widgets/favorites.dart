@@ -3,9 +3,16 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/Favorite.dart';
+import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/full_post.dart';
+import 'package:iraqibayt/widgets/posts/posts_home.dart';
+import 'package:iraqibayt/widgets/profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
+
+import 'ContactUs.dart';
+import 'home/home.dart';
+import 'my_icons_icons.dart';
 
 class Favorites extends StatefulWidget {
   @override
@@ -149,7 +156,7 @@ class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0XFF8e8d8d),
+      backgroundColor: Color(0XFFc4c4c4),
       appBar: AppBar(
         title: Text(
           'االمفضلة',
@@ -164,18 +171,21 @@ class _FavoritesState extends State<Favorites> {
           builder: (ctx, constraints) {
             if (_guest) {
               return Row(
+
                 children: [
                   Expanded(
                     child: InkWell(
-                      borderRadius: BorderRadius.circular(4.0),
+
+                      borderRadius: BorderRadius.circular(0),
                       onTap: () {},
                       child: Card(
+
                         shape: RoundedRectangleBorder(
                           side: BorderSide(color: Colors.grey, width: 0.5),
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(0),
                         ),
                         clipBehavior: Clip.antiAlias,
-                        margin: const EdgeInsets.all(10.0),
+                        margin: const EdgeInsets.only(top:10.0),
                         //color: Colors.grey,
                         elevation: 0,
 
@@ -412,6 +422,65 @@ class _FavoritesState extends State<Favorites> {
           },
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFF335876),
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.white,
+        onTap: onTabTapped, // new
+        //currentIndex: 0,
+        type: BottomNavigationBarType.fixed, // new
+        items: [
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'الرئيسية',
+          ),
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book),
+            label: 'الإعلانات',
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.post_add),
+              label: 'أضف إعلان'
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(MyIcons.user),
+              label: 'حسابي'
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.mail),
+              label: 'ملاحظات'
+          ),
+        ],
+      ),
     );
+  }
+
+  void onTabTapped(int index) {
+    if(index == 0){
+      Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Home()),
+      );
+    }else if(index == 1){
+      Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Posts_Home()),
+      );
+    }else if(index == 2){
+      Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Add_Post()),
+      );
+    }else if(index == 3){
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Profile()));
+    }else if(index == 4){
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new ContactUs()));
+    }
+    /*setState(() {
+      _currentIndex = index;
+      print(index.toString());
+    });*/
   }
 }

@@ -194,8 +194,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     );
   }
 
-  void onTabTapped(int index)
-  {
+  void onTabTapped(int index) {
     if(index == 1){
       Navigator.of(context).push(
         new MaterialPageRoute(

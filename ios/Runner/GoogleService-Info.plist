@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>374562821443-nta1o0lgc6f8eka3au7hnrg29tgcpvmc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.374562821443-nta1o0lgc6f8eka3au7hnrg29tgcpvmc</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>374562821443-u3rnhsg8pehmegrf0rragdt74itf32h1.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCzZeUa_3-PXC8Gzs2ow3dphtxacBU31RE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>374562821443</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.iraqibayt</string>
+	<key>PROJECT_ID</key>
+	<string>iraqibayt-9656d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>iraqibayt-9656d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:374562821443:ios:acaf4edee756936c8d4bf6</string>
+	<key>DATABASE_URL</key>
+	<string>https://iraqibayt-9656d.firebaseio.com</string>
+</dict>
+</plist>
