@@ -214,8 +214,9 @@ class _CommentsState extends State<Comments> {
                   Positioned(
                       bottom: 0,
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.1,
+                        height: MediaQuery.of(context).size.height * 0.08,
                         width: MediaQuery.of(context).size.width,
+                        color: Colors.white,
                         child: Column(
                           children: <Widget>[
                             Row(
@@ -225,8 +226,10 @@ class _CommentsState extends State<Comments> {
                                       Icons.send,
                                       color: Color(0xff275879),
                                     ),
+                                    color: Colors.white,
                                     onPressed: _addComment),
                                 Container(
+                                  color: Colors.white,
                                   width:
                                       MediaQuery.of(context).size.width * 0.8,
                                   child: TextFormField(
