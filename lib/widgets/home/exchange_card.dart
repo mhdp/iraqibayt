@@ -56,7 +56,7 @@ class _ExchangeCardState extends State<ExchangeCard> {
                     borderRadius: BorderRadius.circular(0),
                   ),
                   clipBehavior: Clip.antiAlias,
-                  margin: const EdgeInsets.only(top:10.0),
+                  margin: const EdgeInsets.only(top:15.0,bottom: 10),
                   //color: Colors.grey,
                   elevation: 0,
 
@@ -71,7 +71,8 @@ class _ExchangeCardState extends State<ExchangeCard> {
                           child: Text(
                             'أسعار الصرف',
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
                               color: Colors.white,
                               fontFamily: "CustomIcons",
                             ),

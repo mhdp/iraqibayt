@@ -345,7 +345,7 @@ class _BikeListItemState extends State<BikeListItem> {
             ),
             clipBehavior: Clip.antiAlias,
             elevation: 0,
-            margin: const EdgeInsets.only(top:10.0),
+            margin: const EdgeInsets.only(top:15.0),
             color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

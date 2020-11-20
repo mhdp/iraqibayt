@@ -41,12 +41,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       backgroundColor: Color(0XFFc4c4c4),
       drawer: NavDrawer(),
       appBar: AppBar(
-        title: Text(
+        title: /*Text(
           'البيت العراقي',
           style: TextStyle(
             fontFamily: "CustomIcons",
           ),
-        ),
+        ),*/Image.asset('assets/images/logo_white.png', fit: BoxFit.fill,height: 40,),
         backgroundColor: Color(0xFF335876),
         actions: [
           Padding(
@@ -93,6 +93,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             WeatherCard(),
             ExchangeCard(),
             RaisedButton(
+
               onPressed: () {},
               color: Color(0XFFc4c4c4),
               elevation: 0,
@@ -113,7 +114,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ),
             DepartsCard(),
+            SizedBox(height: 5,),
             SearchCard(),
+            SizedBox(height: 5,),
             RaisedButton(
               onPressed: () {},
               color: Color(0XFFc4c4c4),
@@ -135,6 +138,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ),
             Spicial_posts(),
+            SizedBox(height: 10,),
             RaisedButton(
               onPressed: () {},
               color: Color(0XFFc4c4c4),
@@ -156,6 +160,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ),
             latest_posts(),
+            SizedBox(height: 5,),
             Contact_us_card(),
           ],
         ),

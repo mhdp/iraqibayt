@@ -19,10 +19,10 @@ class _Contact_us_card extends State<Contact_us_card> {
     return Card(
       shape: RoundedRectangleBorder(
         side: BorderSide(color: Colors.grey, width: 0.5),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(0),
       ),
       clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.all(10.0),
+      margin: const EdgeInsets.only(top:15.0,bottom: 15.0),
       //color: Colors.grey,
       elevation: 0,
 

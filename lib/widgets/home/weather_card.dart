@@ -106,7 +106,7 @@ class _WeatherCardState extends State<WeatherCard> {
                   ),
                   clipBehavior: Clip.antiAlias,
                   margin: const EdgeInsets.only(
-                    top: 10,
+                    top: 15,
                   ),
                   //color: Colors.grey,
                   elevation: 0,
@@ -122,7 +122,8 @@ class _WeatherCardState extends State<WeatherCard> {
                           child: Text(
                             'أحوال الطقس',
                             style: TextStyle(
-                              fontSize: 18,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
                               color: Colors.white,
                               fontFamily: "CustomIcons",
                             ),
