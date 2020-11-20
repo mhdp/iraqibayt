@@ -18,7 +18,6 @@ class _ProfileState extends State<Profile> {
 
   String _username;
   String _password;
-  String _newPassword;
   String _email;
   String _token;
 
