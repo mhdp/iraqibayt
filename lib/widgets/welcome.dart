@@ -13,6 +13,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:apple_sign_in/apple_sign_in.dart';
+
 
 DatabaseHelper databaseHelper = new DatabaseHelper();
 
@@ -78,8 +80,7 @@ class _Welcome extends State<Welcome> {
     return null;
   }
 
-  _save_login_info(
-      int userId, String pass, String name, String email, String token) async {
+  _save_login_info(int userId, String pass, String name, String email, String token) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'is_login';
     final value = "1";
@@ -209,7 +210,7 @@ class _Welcome extends State<Welcome> {
 
   Widget _appleButton() {
     return InkWell(
-      //onTap: appleLogIn,
+      onTap: appleLogIn,
       child: Container(
         height: 50,
         margin: EdgeInsets.symmetric(vertical: 5),
@@ -222,7 +223,7 @@ class _Welcome extends State<Welcome> {
               flex: 1,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xff000000),
+                  color: Color(0xfffffeee),
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(5),
                       topRight: Radius.circular(5)),
@@ -230,7 +231,7 @@ class _Welcome extends State<Welcome> {
                 alignment: Alignment.center,
                 child: Icon(
                   FontAwesomeIcons.apple,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ),
             ),
@@ -238,7 +239,7 @@ class _Welcome extends State<Welcome> {
               flex: 5,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xdd000000),
+                  color: Color(0xddffffff),
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(5),
                       topLeft: Radius.circular(5)),
@@ -246,7 +247,7 @@ class _Welcome extends State<Welcome> {
                 alignment: Alignment.center,
                 child: Text(' الإستمرار بإستخدام أبل',
                     style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontFamily: "CustomIcons",
                         fontSize: 18,
                         fontWeight: FontWeight.w400)),
@@ -256,6 +257,38 @@ class _Welcome extends State<Welcome> {
         ),
       ),
     );
+  }
+
+  appleLogIn() async {
+    //print('dd');
+    if(await AppleSignIn.isAvailable()) {
+      final AuthorizationResult result = await AppleSignIn.performRequests([
+        AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
+      ]);
+      switch (result.status) {
+        case AuthorizationStatus.authorized:
+          print(result.credential.email);//All the required credentials
+          print(result.credential.fullName.givenName);//All the required credentials
+          print(result.credential.fullName.familyName);//All the required credentials
+          print(result.credential.authorizationCode);
+          String fullname ="${result.credential.fullName.givenName} ${result.credential.fullName.familyName}";
+          /*_databaseHelper.registerApple(fullname.toString(),result.credential.email.toString(),result.credential.authorizationCode.toString()).whenComplete(() {
+            if (_databaseHelper.apple_status == true){
+              Navigator.pushReplacementNamed(context, '/GroceryHomePage');
+            }else{
+              print ('error');
+            }
+          });*/
+          //All the required credentials
+          break;//All the required credentials
+        case AuthorizationStatus.error:
+          print("Sign in failed: ${result.error.localizedDescription}");
+          break;
+        case AuthorizationStatus.cancelled:
+          print('User cancelled');
+          break;
+      }
+    }
   }
 
   Widget _googleButton() {
@@ -341,11 +374,18 @@ class _Welcome extends State<Welcome> {
     );
   }
 
+
   @override
   initState() {
     super.initState();
     // read();
-    check_login();
+    //check_login();
+
+    if(Platform.isIOS){                                                      //check for ios if developing for both android & ios
+      AppleSignIn.onCredentialRevoked.listen((_) {
+        print("Credentials revoked");
+      });
+    }
   }
 
   @override
@@ -392,9 +432,9 @@ class _Welcome extends State<Welcome> {
                       ])),
                   _facebookButton(),
                   _googleButton(),
+                  android_or_ios(),
                   //new_account_button(context),
                   SizedBox(height: 20),
-
                   FlatButton(
                     color: Color(0xFF335876),
                     textColor: Colors.white,

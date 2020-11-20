@@ -405,7 +405,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 28,
-                        color: Colors.indigo,
+                        color: Color(0xFF335876),
                         fontFamily: "CustomIcons",
                       ),
                       softWrap: true,

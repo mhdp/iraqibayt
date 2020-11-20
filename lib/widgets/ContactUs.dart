@@ -44,7 +44,7 @@ class _ContactUs extends State<ContactUs> {
                       builder: (BuildContext context) => new Add_Post()),
                 );
               },
-              color: Color(0xff65AECA),
+              color: Color(0xFFdd685f),
               elevation: 0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -71,10 +71,10 @@ class _ContactUs extends State<ContactUs> {
       body: Card(
   shape: RoundedRectangleBorder(
     side: BorderSide(color: Colors.grey, width: 0.5),
-    borderRadius: BorderRadius.circular(10),
+    borderRadius: BorderRadius.circular(0),
   ),
   clipBehavior: Clip.antiAlias,
-  margin: const EdgeInsets.all(10.0),
+  margin: const EdgeInsets.only(top:10.0),
   //color: Colors.grey,
   elevation: 0,
 
@@ -90,7 +90,8 @@ class _ContactUs extends State<ContactUs> {
           child: Text(
             'أرسل ملاحظاتك',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
               color: Colors.white,
               fontFamily: "CustomIcons",
             ),
@@ -203,7 +204,7 @@ class _ContactUs extends State<ContactUs> {
         unselectedItemColor: Colors.white,
         selectedItemColor: Color(0xFFdd685f),
         onTap: onTabTapped, // new
-        currentIndex: 1,
+        currentIndex: 4,
         type: BottomNavigationBarType.fixed, // new
         items: [
           new BottomNavigationBarItem(

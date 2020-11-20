@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iraqibayt/widgets/abouts.dart';
 import 'package:iraqibayt/widgets/advanced_search.dart';
 import 'package:iraqibayt/widgets/favorites.dart';
@@ -26,7 +27,11 @@ import 'package:iraqibayt/widgets/notes.dart';
 import 'package:iraqibayt/widgets/currencies.dart';
 
 void main() {
-  runApp(MyApp());
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((value) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {

@@ -152,6 +152,50 @@ class NavDrawerState extends State<NavDrawer> {
                     builder: (BuildContext context) => new feedbacks()))*/ /*
             },
           ),*/
+          Divider(),
+          ListTile(
+            leading: Icon(
+              MyIcons.info,
+              color: Color(0xFF335876),
+            ),
+            title: Text(
+              'من نحن',
+              style: TextStyle(fontFamily: 'CustomIcons'),
+            ),
+            onTap: () => {
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new Favorites()))
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              MyIcons.book,
+              color: Color(0xFF335876),
+            ),
+            title: Text(
+              'شروط الاستخدام',
+              style: TextStyle(fontFamily: 'CustomIcons'),
+            ),
+            onTap: () => {
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new Favorites()))
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              MyIcons.book,
+              color: Color(0xFF335876),
+            ),
+            title: Text(
+              'سياسة الخصوصية',
+              style: TextStyle(fontFamily: 'CustomIcons'),
+            ),
+            onTap: () => {
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new Favorites()))
+            },
+          ),
+          Divider(),
           ListTile(
             leading: Icon(
               Icons.exit_to_app,

@@ -91,7 +91,7 @@ class _Posts_Home extends State<Posts_Home> {
                       builder: (BuildContext context) => new Add_Post()),
                 );
               },
-              color: Color(0xff65AECA),
+              color: Color(0xFFdd685f),
               elevation: 0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -575,8 +575,8 @@ class _BikeListItemState extends State<BikeListItem> {
                                     data[i]['title'],
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 22,
-                                      color: Colors.black,
+                                      fontSize: 24,
+                                      color: Color(0xFF335876),
                                       fontFamily: "CustomIcons",
                                     ),
                                     softWrap: true,

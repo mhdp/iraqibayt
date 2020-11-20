@@ -38,7 +38,8 @@ class _Contact_us_card extends State<Contact_us_card> {
               child: Text(
                 'أرسل ملاحظاتك',
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontFamily: "CustomIcons",
                 ),
@@ -110,7 +111,7 @@ class _Contact_us_card extends State<Contact_us_card> {
               controller: email_Controller,
               keyboardType: TextInputType.emailAddress,
               maxLines: null,
-              textAlign: TextAlign.left,
+              textAlign: TextAlign.right,
               decoration: InputDecoration(
                   isDense: true,
                   contentPadding: EdgeInsets.all(7),

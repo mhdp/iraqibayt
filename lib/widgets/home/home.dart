@@ -41,12 +41,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       backgroundColor: Color(0XFFc4c4c4),
       drawer: NavDrawer(),
       appBar: AppBar(
-        title: /*Text(
-          'البيت العراقي',
-          style: TextStyle(
-            fontFamily: "CustomIcons",
-          ),
-        ),*/Image.asset('assets/images/logo_white.png', fit: BoxFit.fill,height: 40,),
+        title:
+        Center(child: Image.asset('assets/images/logo_white.png', fit: BoxFit.fill,height: 40,),),
+
         backgroundColor: Color(0xFF335876),
         actions: [
           Padding(
@@ -102,7 +99,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 children: <Widget>[
                   //Icon(Icons.list,color: Colors.white,),
 
-                  Text(" أقسام الموقع ",style: TextStyle(
+                  Text("الأقسام",style: TextStyle(
                     fontSize: 25,
                     color: Colors.black,
                     fontFamily: "CustomIcons",

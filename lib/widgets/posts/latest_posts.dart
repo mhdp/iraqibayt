@@ -454,8 +454,8 @@ class _BikeListItemState extends State<BikeListItem> {
                     data[i]['title'],
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 22,
-                      color: Colors.black,
+                      fontSize: 24,
+                      color: Color(0xFF335876),
                       fontFamily: "CustomIcons",
                     ),
                     softWrap: true,

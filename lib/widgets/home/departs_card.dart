@@ -373,6 +373,7 @@ class _DepartsCardState extends State<DepartsCard> {
                                 departs[i].name,
                                 style: TextStyle(
                                   fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                   fontFamily: "CustomIcons",
                                 ),
                               )

@@ -49,6 +49,8 @@ dependencies:
   flutter_absolute_path: ^1.0.6
   image_viewer: ^1.0.0
   url_launcher: ^5.7.10
+  apple_sign_in: ^0.1.0
+
 
 dev_dependencies:
   flutter_test:
