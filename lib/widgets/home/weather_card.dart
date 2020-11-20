@@ -13,7 +13,6 @@ class WeatherCard extends StatefulWidget {
 }
 
 class _WeatherCardState extends State<WeatherCard> {
-  List<City> _cities, _rCities;
   List<Weather> _weathers, _rWeather;
   String cityHint;
   int cityId;
@@ -88,6 +87,76 @@ class _WeatherCardState extends State<WeatherCard> {
     }
     return targetWeather;
   }
+
+//  void _showCitiesDialog(context, List<Weather> cities) {
+//    showDialog(
+//        context: context,
+//        builder: (BuildContext bc) {
+//          return Dialog(
+//            shape:
+//                RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+//            elevation: 16,
+//            child: StatefulBuilder(builder: (context, setState) {
+//              return Container(
+//                height: cities.length <= 4
+//                    ? MediaQuery.of(context).size.height * 0.1 * cities.length
+//                    : MediaQuery.of(context).size.height * 0.6,
+//                child: Column(
+//                  children: [
+//                    Container(
+//                      padding: const EdgeInsets.all(5.0),
+//                      child: Center(
+//                        child: Text(
+//                          'اختر المدينة',
+//                          style: TextStyle(
+//                            fontFamily: 'CustomIcons',
+//                            fontSize: 20.0,
+//                            color: Color(0xff275879),
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+//                    Padding(
+//                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+//                      child: Divider(
+//                        thickness: 1.0,
+//                        color: Colors.black54,
+//                      ),
+//                    ),
+//                    Expanded(
+//                      child: ListView.builder(
+//                        itemCount: cities.length,
+//                        itemBuilder: (context, index) {
+//                          return Padding(
+//                            padding: const EdgeInsets.all(8.0),
+//                            child: ListTile(
+//                              value: cities[index].city.id,
+//                              child: Text(
+//                                cities[index].city.name,
+//                                style: TextStyle(fontFamily: 'CustomIcons'),
+//                              ),
+//                              onTap: () {
+//                                setState(() {
+//                                  cityId = cities[index].city.id;
+//                                  cityHint = cities[index].city.name;
+//                                  print(cityId);
+//                                });
+//
+//                                Navigator.of(context, rootNavigator: true)
+//                                    .pop();
+//                              },
+//                            ),
+//                          );
+//                        },
+//                      ),
+//                    ),
+//                  ],
+//                ),
+//              );
+//            }),
+//          );
+//        });
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -212,14 +281,21 @@ class _WeatherCardState extends State<WeatherCard> {
                                                         child: Container(
                                                           alignment: Alignment
                                                               .centerRight,
-                                                          width: 100.0,
-                                                          child: new Text(
-                                                            weather.city.name,
-                                                            textAlign:
-                                                                TextAlign.right,
-                                                            style: TextStyle(
-                                                              fontFamily:
-                                                                  "CustomIcons",
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              0.5,
+                                                          child: Center(
+                                                            child: Text(
+                                                              weather.city.name,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .right,
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                    "CustomIcons",
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
@@ -228,12 +304,32 @@ class _WeatherCardState extends State<WeatherCard> {
                                                     onChanged: (int cId) {
                                                       setState(() {
                                                         cityId = cId;
-                                                        cityHint = 'X';
                                                         print(cId);
                                                       });
                                                     },
                                                   ),
                                                 ),
+//                                                Container(
+//                                                  child: FlatButton(
+//                                                    color: Colors.white,
+//                                                    textColor: Colors.black,
+//                                                    padding:
+//                                                        EdgeInsets.all(8.0),
+//                                                    splashColor: Colors.orange,
+//                                                    onPressed: () {
+//                                                      //_showCitiesDialog(context, _rWeather);
+//                                                    },
+//                                                    child: Text(
+//                                                      cityHint,
+//                                                      style: TextStyle(
+//                                                        fontSize: 18,
+//                                                        color: Colors.grey,
+//                                                        fontFamily:
+//                                                            "CustomIcons",
+//                                                      ),
+//                                                    ),
+//                                                  ),
+//                                                ),
                                               ],
                                             ),
                                             Container(
