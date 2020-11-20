@@ -26,7 +26,7 @@ class Posts_detalis extends StatefulWidget {
 class _Posts_detalis extends State<Posts_detalis> {
   int carsoul_index;
   int _selectedIndex = 0;
-  String _email, _password;
+  String _token;
   List<Favorite> _favorites, _rFavorites;
 
   Future _getUserFavorites() async {
@@ -35,22 +35,16 @@ class _Posts_detalis extends State<Posts_detalis> {
     final value = prefs.get(key);
     //print('$value');
     if (value == '1') {
-      final key2 = 'email';
-      final key3 = 'pass';
+      final key2 = 'token';
       final value2 = prefs.get(key2);
-      //print(value2);
-      final value3 = prefs.get(key3);
-      //print(value3);
 
       setState(() {
-        _email = value2;
-        _password = value3;
+        _token = value2;
       });
     }
 
     var data = {
-      'email': _email,
-      'password': _password,
+      'token': _token,
     };
 
     Favorite tFav;
@@ -85,22 +79,16 @@ class _Posts_detalis extends State<Posts_detalis> {
     final value = prefs.get(key);
     //print('$value');
     if (value == '1') {
-      final key2 = 'email';
-      final key3 = 'pass';
+      final key2 = 'token';
       final value2 = prefs.get(key2);
-      //print(value2);
-      final value3 = prefs.get(key3);
-      //print(value3);
 
       setState(() {
-        _email = value2;
-        _password = value3;
+        _token = value2;
       });
 
       var data = {
         'id': pid,
-        'email': _email,
-        'password': _password,
+        'token': _token,
       };
 
       var res = await CallApi().postData(data, '/favorites/add');
@@ -189,8 +177,7 @@ class _Posts_detalis extends State<Posts_detalis> {
   _deleteFavorite(int fid) async {
     var data = {
       'id': fid,
-      'email': _email,
-      'password': _password,
+      'token': _token,
     };
 
     var res = await CallApi().postData(data, '/favorites/delete');
@@ -420,80 +407,83 @@ class _Posts_detalis extends State<Posts_detalis> {
                     ),
                   ),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
+                  FittedBox(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
 //city
-                      RaisedButton(
-                        onPressed: () {},
-                        color: Colors.white,
-                        elevation: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Icon(Icons.location_city, color: Color(0xff275879)),
-                            Text(
-                              databaseHelper.get_post_by_id_list[0]["city"]
-                                      ["name"]
-                                  .toString(),
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontFamily: "CustomIcons",
-                                fontWeight: FontWeight.w300,
+                        RaisedButton(
+                          onPressed: () {},
+                          color: Colors.white,
+                          elevation: 0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(Icons.location_city,
+                                  color: Color(0xff275879)),
+                              Text(
+                                databaseHelper.get_post_by_id_list[0]["city"]
+                                        ["name"]
+                                    .toString(),
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontFamily: "CustomIcons",
+                                  fontWeight: FontWeight.w300,
+                                ),
+                                softWrap: true,
                               ),
-                              softWrap: true,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      //region
-                      RaisedButton(
-                        onPressed: () {},
-                        color: Colors.white,
-                        elevation: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Icon(Icons.location_on, color: Color(0xff275879)),
-                            Text(
-                              databaseHelper.get_post_by_id_list[0]["region"]
-                                      ["name"]
-                                  .toString(),
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontFamily: "CustomIcons",
-                                fontWeight: FontWeight.w300,
+                        //region
+                        RaisedButton(
+                          onPressed: () {},
+                          color: Colors.white,
+                          elevation: 0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(Icons.location_on, color: Color(0xff275879)),
+                              Text(
+                                databaseHelper.get_post_by_id_list[0]["region"]
+                                        ["name"]
+                                    .toString(),
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontFamily: "CustomIcons",
+                                  fontWeight: FontWeight.w300,
+                                ),
+                                softWrap: true,
                               ),
-                              softWrap: true,
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      //area
-                      RaisedButton(
-                        onPressed: () {},
-                        color: Colors.white,
-                        elevation: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Icon(Icons.format_line_spacing,
-                                color: Color(0xff275879)),
-                            Text(
-                              " ${databaseHelper.get_post_by_id_list[0]["area"].toString()} ${databaseHelper.get_post_by_id_list[0]["unit"]["name"].toString()}",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                fontFamily: "CustomIcons",
-                                fontWeight: FontWeight.w300,
+                        //area
+                        RaisedButton(
+                          onPressed: () {},
+                          color: Colors.white,
+                          elevation: 0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Icon(Icons.format_line_spacing,
+                                  color: Color(0xff275879)),
+                              Text(
+                                " ${databaseHelper.get_post_by_id_list[0]["area"].toString()} ${databaseHelper.get_post_by_id_list[0]["unit"]["name"].toString()}",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontFamily: "CustomIcons",
+                                  fontWeight: FontWeight.w300,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,

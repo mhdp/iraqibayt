@@ -20,6 +20,7 @@ class _ProfileState extends State<Profile> {
   String _password;
   String _newPassword;
   String _email;
+  String _token;
 
   var _guest = false;
   bool _isLoading = false;
@@ -52,16 +53,20 @@ class _ProfileState extends State<Profile> {
       final key = 'name';
       final key2 = 'email';
       final key3 = 'pass';
+      final key4 = 'token';
       final value = prefs.get(key);
       print(value);
       final value2 = prefs.get(key2);
       print(value2);
       final value3 = prefs.get(key3);
       print(value3);
+      final value4 = prefs.get(key4);
+      print(value4);
       setState(() {
         _username = value;
         _email = value2;
         _password = value3;
+        _token = value4;
 
         _usernameController.text = _username;
         _emailController.text = _email;
@@ -98,6 +103,7 @@ class _ProfileState extends State<Profile> {
       _isLoading = true;
     });
     var data = {
+      'token': _token,
       'name': _usernameInput,
       'email': _email,
       'password': _password,

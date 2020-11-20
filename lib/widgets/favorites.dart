@@ -15,8 +15,7 @@ class Favorites extends StatefulWidget {
 class _FavoritesState extends State<Favorites> {
   List<Favorite> _favorites, _rFavorites;
 
-  String _password;
-  String _email;
+  String _token;
 
   var _guest = false;
   bool _isFavLoading;
@@ -43,15 +42,11 @@ class _FavoritesState extends State<Favorites> {
     final value = prefs.get(key);
     print('$value');
     if (value == '1') {
-      final key2 = 'email';
-      final key3 = 'pass';
+      final key2 = 'token';
       final value2 = prefs.get(key2);
       print(value2);
-      final value3 = prefs.get(key3);
-      print(value3);
       setState(() {
-        _email = value2;
-        _password = value3;
+        _token = value2;
       });
     }
   }
@@ -62,16 +57,11 @@ class _FavoritesState extends State<Favorites> {
     final value = prefs.get(key);
     print('$value');
     if (value == '1') {
-      final key2 = 'email';
-      final key3 = 'pass';
+      final key2 = 'token';
       final value2 = prefs.get(key2);
       print(value2);
-      final value3 = prefs.get(key3);
-      print(value3);
-
       setState(() {
-        _email = value2;
-        _password = value3;
+        _token = value2;
       });
     }
 
@@ -79,8 +69,7 @@ class _FavoritesState extends State<Favorites> {
       _isFavLoading = true;
     });
     var data = {
-      'email': _email,
-      'password': _password,
+      'token': _token,
     };
 
     Favorite tFav;
@@ -106,8 +95,7 @@ class _FavoritesState extends State<Favorites> {
   _deleteFavorite(int fid) async {
     var data = {
       'id': fid,
-      'email': _email,
-      'password': _password,
+      'token': _token,
     };
 
     var res = await CallApi().postData(data, '/favorites/delete');
@@ -349,27 +337,23 @@ class _FavoritesState extends State<Favorites> {
                                                                       child: InkWell(
                                                                           onTap: () {
                                                                             Navigator.of(context).push(
-                                                                            new MaterialPageRoute(
-                                                                                builder: (BuildContext context) =>
-                                                                                new FullPost(
+                                                                              new MaterialPageRoute(
+                                                                                builder: (BuildContext context) => new FullPost(
                                                                                   post_id: favorite.postId.toString(),
-                                                                                ),),);
-
-                                                                            },
-                                                                          child:
-                                                                          Text(
-                                                                        favorite
-                                                                            .postTitle,
-                                                                        style:
-                                                                            TextStyle(
-                                                                          fontSize:
-                                                                              18,
-                                                                          fontFamily:
-                                                                              "CustomIcons",
-                                                                        ),
-                                                                        textAlign:
-                                                                            TextAlign.right,
-                                                                      )),
+                                                                                ),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                          child: Text(
+                                                                            favorite.postTitle,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              fontSize: 18,
+                                                                              fontFamily: "CustomIcons",
+                                                                            ),
+                                                                            textAlign:
+                                                                                TextAlign.right,
+                                                                          )),
                                                                     ),
                                                                   ),
                                                                   DataCell(
