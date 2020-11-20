@@ -11,7 +11,7 @@ class DatabaseHelper {
   Map<String, dynamic> posts_list;
   var spicial_posts_list;
   var latest_posts_list;
-  Map<String, dynamic> my_posts_list ;
+  Map<String, dynamic> my_posts_list;
   Map<String, dynamic> my_posts_favorits_list;
   List<dynamic> get_post_by_id_list;
 
@@ -19,6 +19,7 @@ class DatabaseHelper {
   var register_status = false;
   String user_name = "";
   int user_id = 0;
+  String userToken = ' ';
 
   Future<List> get_posts() async {
     String myUrl = "$serverUrl/allposts_api";
@@ -49,34 +50,38 @@ class DatabaseHelper {
     }
   }
 
-  Future<List> get_my_posts(String email,String pass) async {
+  Future<List> get_my_posts(String email, String pass) async {
     String myUrl = "$serverUrl/get_my_posts_api";
-    http.Response response = await http.post(myUrl,
-        body: {
-          'email': email,
-          'password': pass,
-        });
-    if(response.body.length > 0){
+    http.Response response = await http.post(myUrl, body: {
+      'email': email,
+      'password': pass,
+    });
+    if (response.body.length > 0) {
       my_posts_list = json.decode(response.body);
       //print(posts_list.toString());
     }
   }
 
-  Future<List> get_my_posts_favorits(String email,String pass) async {
+  Future<List> get_my_posts_favorits(String email, String pass) async {
     String myUrl = "$serverUrl/users/favorit";
-    http.Response response = await http.post(myUrl,
-        body: {
-          'email': email,
-          'password': pass,
-        });
-    if(response.body.length > 0){
+    http.Response response = await http.post(myUrl, body: {
+      'email': email,
+      'password': pass,
+    });
+    if (response.body.length > 0) {
       print(response.body.toString());
       my_posts_favorits_list = json.decode(response.body);
       //print(posts_list.toString());
     }
   }
 
-  Future<List> getAdvSearchResults(int categoryId, List<int> subCategories, int cityId, List<int> regions, int sortBy,) async {
+  Future<List> getAdvSearchResults(
+    int categoryId,
+    List<int> subCategories,
+    int cityId,
+    List<int> regions,
+    int sortBy,
+  ) async {
     String myUrl = "$serverUrl/posts_search_adv";
 
     //Define post request body
@@ -151,6 +156,7 @@ class DatabaseHelper {
       var data = json.decode(response.body);
       user_name = data["user"]["name"];
       user_id = data["user"]["id"];
+      userToken = data["user"]["customToken"];
     } else {
       login_status = false;
     }
