@@ -66,8 +66,8 @@ class _Welcome extends State<Welcome> {
       print(body);
 
       if (body['success'] == true) {
-        _save_login_info(
-            body['user']["id"], user.uid, user.displayName, user.email);
+        _save_login_info(body['user']["id"], user.uid, user.displayName,
+            user.email, body['user']["customToken"]);
 
         Navigator.pushReplacementNamed(context, '/home');
       }
@@ -78,7 +78,8 @@ class _Welcome extends State<Welcome> {
     return null;
   }
 
-  _save_login_info(int userId, String pass, String name, String email) async {
+  _save_login_info(
+      int userId, String pass, String name, String email, String token) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'is_login';
     final value = "1";
@@ -99,6 +100,10 @@ class _Welcome extends State<Welcome> {
     final key4 = 'email';
     final value4 = email;
     prefs.setString(key4, value4);
+
+    final key5 = 'token';
+    final value5 = token;
+    prefs.setString(key5, value5);
   }
 
   void signOutGoogle() async {
@@ -127,8 +132,8 @@ class _Welcome extends State<Welcome> {
     print(body);
 
     if (body['success'] == true) {
-      _save_login_info(
-          body['user']['id'], profile["id"], profile["name"], profile["email"]);
+      _save_login_info(body['user']['id'], profile["id"], profile["name"],
+          profile["email"], body['user']["customToken"]);
 
       Navigator.pushReplacementNamed(context, '/home');
     }
@@ -664,7 +669,8 @@ class _Welcome extends State<Welcome> {
                 databaseHelper.user_id,
                 _passwordController.text.toString(),
                 databaseHelper.user_name,
-                _emailController.text.trim().toLowerCase().toString());
+                _emailController.text.trim().toLowerCase().toString(),
+                databaseHelper.userToken);
             Navigator.pushReplacementNamed(context, '/home');
           }
         });
@@ -908,7 +914,8 @@ class _Welcome extends State<Welcome> {
                 databaseHelper.user_id,
                 _passwordController.text.toString(),
                 _nameController.text.trim(),
-                _emailController.text.trim().toLowerCase().toString());
+                _emailController.text.trim().toLowerCase().toString(),
+                databaseHelper.userToken);
 
             Navigator.pushReplacementNamed(context, '/home');
           }

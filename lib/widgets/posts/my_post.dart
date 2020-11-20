@@ -16,8 +16,7 @@ class MyPosts extends StatefulWidget {
 class _MyPostsState extends State<MyPosts> {
   List<Post> _posts, _rPosts;
 
-  String _password;
-  String _email;
+  String _token;
 
   var _guest = false;
   bool _isPostLoading;
@@ -44,15 +43,11 @@ class _MyPostsState extends State<MyPosts> {
     final value = prefs.get(key);
     print('$value');
     if (value == '1') {
-      final key2 = 'email';
-      final key3 = 'pass';
+      final key2 = 'token';
       final value2 = prefs.get(key2);
       print(value2);
-      final value3 = prefs.get(key3);
-      print(value3);
       setState(() {
-        _email = value2;
-        _password = value3;
+        _token = value2;
       });
     }
   }
@@ -63,26 +58,18 @@ class _MyPostsState extends State<MyPosts> {
     final value = prefs.get(key);
     print('$value');
     if (value == '1') {
-      final key2 = 'email';
-      final key3 = 'pass';
+      final key2 = 'token';
       final value2 = prefs.get(key2);
       print(value2);
-      final value3 = prefs.get(key3);
-      print(value3);
-
       setState(() {
-        _email = value2;
-        _password = value3;
+        _token = value2;
       });
     }
 
     setState(() {
       _isPostLoading = true;
     });
-    var data = {
-      'email': _email,
-      'password': _password,
-    };
+    var data = {'token': _token};
 
     Post tPost;
     _posts = [];
@@ -105,11 +92,7 @@ class _MyPostsState extends State<MyPosts> {
   }
 
   _deletePost(int pid) async {
-    var data = {
-      'id': pid,
-      'email': _email,
-      'password': _password,
-    };
+    var data = {'id': pid, 'token': _token};
 
     var res = await CallApi().postData(data, '/posts/delete');
     var body = json.decode(res.body);
