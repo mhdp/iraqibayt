@@ -69,7 +69,7 @@ class _MyPostsState extends State<MyPosts> {
     setState(() {
       _isPostLoading = true;
     });
-    var data = {'customToken': _token};
+    var data = {'token': _token};
 
     Post tPost;
     _posts = [];
@@ -92,9 +92,7 @@ class _MyPostsState extends State<MyPosts> {
   }
 
   _deletePost(int pid) async {
-    var data = {
-      'id': pid,
-    };
+    var data = {'id': pid, 'token': _token};
 
     var res = await CallApi().postData(data, '/posts/delete');
     var body = json.decode(res.body);
