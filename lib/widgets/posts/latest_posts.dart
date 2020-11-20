@@ -347,7 +347,7 @@ class _BikeListItemState extends State<BikeListItem> {
             ),
             clipBehavior: Clip.antiAlias,
             elevation: 0,
-            margin: const EdgeInsets.only(top:15.0),
+            margin: const EdgeInsets.only(top:10.0),
             color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -454,8 +454,8 @@ class _BikeListItemState extends State<BikeListItem> {
                     data[i]['title'],
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 24,
-                      color: Color(0xFF335876),
+                      fontSize: 22,
+                      color: Colors.black,
                       fontFamily: "CustomIcons",
                     ),
                     softWrap: true,
