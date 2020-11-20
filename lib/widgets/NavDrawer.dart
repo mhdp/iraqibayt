@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iraqibayt/widgets/favorites.dart';
 import 'package:iraqibayt/widgets/my_icons_icons.dart';
+import 'package:iraqibayt/widgets/pages/Privcy.dart';
+import 'package:iraqibayt/widgets/pages/about_us.dart';
+import 'package:iraqibayt/widgets/pages/terms.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/my_favorits.dart';
 import 'package:iraqibayt/widgets/posts/my_post.dart';
 import 'package:iraqibayt/widgets/profile.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'ContactUs.dart';
 
 class NavDrawer extends StatefulWidget {
   @override
@@ -152,7 +157,7 @@ class NavDrawerState extends State<NavDrawer> {
                     builder: (BuildContext context) => new feedbacks()))*/ /*
             },
           ),*/
-          Divider(),
+          Divider(color: Color(0xFF335876),),
           ListTile(
             leading: Icon(
               MyIcons.info,
@@ -164,7 +169,7 @@ class NavDrawerState extends State<NavDrawer> {
             ),
             onTap: () => {
               Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Favorites()))
+                  builder: (BuildContext context) => new About_us_()))
             },
           ),
           ListTile(
@@ -178,7 +183,7 @@ class NavDrawerState extends State<NavDrawer> {
             ),
             onTap: () => {
               Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Favorites()))
+                  builder: (BuildContext context) => new Terms()))
             },
           ),
           ListTile(
@@ -192,10 +197,24 @@ class NavDrawerState extends State<NavDrawer> {
             ),
             onTap: () => {
               Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Favorites()))
+                  builder: (BuildContext context) => new Privcy()))
             },
           ),
-          Divider(),
+          Divider(color: Color(0xFF335876),),
+          ListTile(
+            leading: Icon(
+              MyIcons.mail,
+              color: Color(0xFF335876),
+            ),
+            title: Text(
+              'أرسل ملاحظة',
+              style: TextStyle(fontFamily: 'CustomIcons'),
+            ),
+            onTap: () => {
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new ContactUs()))
+            },
+          ),
           ListTile(
             leading: Icon(
               Icons.exit_to_app,

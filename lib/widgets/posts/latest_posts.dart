@@ -16,6 +16,7 @@ import '../welcome.dart';
 import 'full_post.dart';
 
 DatabaseHelper databaseHelper = new DatabaseHelper();
+String _token;
 
 String default_image = "";
 bool _isVisible;
@@ -82,27 +83,20 @@ class _BikeListItemState extends State<BikeListItem> {
     final value = prefs.get(key);
     print('$value');
     if (value == '1') {
-      final key2 = 'email';
-      final key3 = 'pass';
+      final key2 = 'token';
       final value2 = prefs.get(key2);
-      print(value2);
-      final value3 = prefs.get(key3);
-      print(value3);
 
       setState(() {
-        _email = value2;
-        _password = value3;
+        _token = value2;
       });
     }
 
     var data = {
-      'email': _email,
-      'password': _password,
+      'token': _token,
     };
 
     Favorite tFav;
     _favorites = [];
-    _favsIds = [];
 
     var res = await CallApi().postData(data, '/users/favorit');
     var body = json.decode(res.body);
@@ -112,7 +106,6 @@ class _BikeListItemState extends State<BikeListItem> {
       for (var fav in body['favorites']) {
         tFav = Favorite.fromJson(fav);
         _favorites.add(tFav);
-        //_favsIds.add(tFav.postId);
       }
 
       return _favorites;
@@ -133,22 +126,16 @@ class _BikeListItemState extends State<BikeListItem> {
     final value = prefs.get(key);
     print('$value');
     if (value == '1') {
-      final key2 = 'email';
-      final key3 = 'pass';
+      final key2 = 'token';
       final value2 = prefs.get(key2);
-      print(value2);
-      final value3 = prefs.get(key3);
-      print(value3);
 
       setState(() {
-        _email = value2;
-        _password = value3;
+        _token = value2;
       });
 
       var data = {
         'id': pid,
-        'email': _email,
-        'password': _password,
+        'token': _token,
       };
 
       var res = await CallApi().postData(data, '/favorites/add');
@@ -180,7 +167,7 @@ class _BikeListItemState extends State<BikeListItem> {
                             style: TextStyle(
                               fontFamily: 'CustomIcons',
                               fontSize: 30.0,
-                              color: Colors.red,
+                              color: Color(0xFF335876),
                             ),
                           ),
                         ),
@@ -189,14 +176,14 @@ class _BikeListItemState extends State<BikeListItem> {
                         padding: const EdgeInsets.all(10.0),
                         child: Divider(
                           thickness: 1.0,
-                          color: Colors.black54,
+                          color: Color(0xFF335876),
                         ),
                       ),
                       Container(
                         padding: const EdgeInsets.all(30.0),
                         child: Center(
                           child: Text(
-                            'يجب عليك تسجيل الدخول أولاً لكي تتمكن من المتابعة',
+                            'يجب عليك تسجيل الدخول أولاً لكي تتمكن من إضافة الإعلان إلى المفضلة',
                             style: TextStyle(
                                 fontFamily: 'CustomIcons', fontSize: 20.0),
                           ),
@@ -207,7 +194,7 @@ class _BikeListItemState extends State<BikeListItem> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: GFButton(
-                              color: GFColors.LIGHT,
+                              color: Color(0xFF335876),
                               //blockButton: true,
                               child: Center(
                                 child: Text(
@@ -237,8 +224,7 @@ class _BikeListItemState extends State<BikeListItem> {
   _deleteFavorite(int fid) async {
     var data = {
       'id': fid,
-      'email': _email,
-      'password': _password,
+      'token': _token,
     };
 
     var res = await CallApi().postData(data, '/favorites/delete');
@@ -455,7 +441,7 @@ class _BikeListItemState extends State<BikeListItem> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 22,
-                      color: Colors.black,
+                      color: Color(0xFF335876),
                       fontFamily: "CustomIcons",
                     ),
                     softWrap: true,

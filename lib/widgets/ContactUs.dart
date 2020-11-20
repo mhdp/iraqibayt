@@ -163,7 +163,7 @@ class _ContactUs extends State<ContactUs> {
           controller: email_Controller,
           keyboardType: TextInputType.emailAddress,
           maxLines: null,
-          textAlign: TextAlign.left,
+          textAlign: TextAlign.right,
           decoration: InputDecoration(
               isDense: true,
               contentPadding: EdgeInsets.all(7),
