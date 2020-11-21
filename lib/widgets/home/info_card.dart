@@ -11,7 +11,6 @@ class InfoCard extends StatefulWidget {
 }
 
 class _InfoCardState extends State<InfoCard> {
-
   List info_list = List();
   String info_text;
   int counter = 0;
@@ -28,36 +27,32 @@ class _InfoCardState extends State<InfoCard> {
   }
 
   void startTimer() {
-
-    if(info_list.isNotEmpty){
+    if (info_list.isNotEmpty) {
       var rng = new Random();
 
-        counter = rng.nextInt(info_list.length);
-
+      counter = rng.nextInt(info_list.length - 1);
     }
     // Start the periodic timer which prints something every 1 seconds
-    timer=  new Timer.periodic(new Duration(seconds: 10), (time) {
-      if(info_list.isNotEmpty){
-        if(counter <= info_list.length){
+    timer = new Timer.periodic(new Duration(seconds: 10), (time) {
+      if (info_list.isNotEmpty) {
+        if (counter < info_list.length) {
           setState(() {
             info_text = info_list[counter]["name"];
           });
-
-        }
+          counter++;
+        } else
+          counter = 0;
       }
-
-      counter++;
-      if(counter > info_list.length){
-        counter = 0;
-      }
-
-
-
     });
   }
 
   void initState() {
     super.initState();
+
+    setState(() {
+      info_text = 'معلومة';
+    });
+
     _getdata();
   }
 
@@ -69,42 +64,41 @@ class _InfoCardState extends State<InfoCard> {
         borderRadius: BorderRadius.circular(0),
       ),
       clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.only(top:15.0,bottom: 15.0),
+      margin: const EdgeInsets.only(top: 15.0, bottom: 15.0),
       //color: Colors.grey,
       elevation: 0,
 
       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-      Padding(
-      padding: const EdgeInsets.all(0),
-      child: Container(
-        padding: const EdgeInsets.all(3.0),
-        color: Color(0xff275879),
-        child: Text(
-          'هل تعلم',
-          style: TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-            fontFamily: "CustomIcons",
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(0),
+            child: Container(
+              padding: const EdgeInsets.all(3.0),
+              color: Color(0xff275879),
+              child: Text(
+                'هل تعلم',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontFamily: "CustomIcons",
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-    ),
-
-    Padding(
-    padding: const EdgeInsets.all(10.0),
-    child:Text(info_text,style: TextStyle(
-      fontSize: 20,
-      color: Colors.black,
-      fontFamily: "CustomIcons",)
-
-    ),),
-
-          ],
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(info_text,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontFamily: "CustomIcons",
+                )),
+          ),
+        ],
       ),
     );
   }

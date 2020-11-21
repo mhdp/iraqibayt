@@ -118,8 +118,7 @@ class DatabaseHelper {
       get_post_by_id_list = json.decode(response.body);
       //print(posts_list.toString());
 
-      //print("response ${get_post_by_id_list.length.toString()}");
-
+      print("response ${get_post_by_id_list.length.toString()}");
     }
   }
 

@@ -416,7 +416,7 @@ class _SearchCardState extends State<SearchCard> {
                     borderRadius: BorderRadius.circular(0),
                   ),
                   clipBehavior: Clip.antiAlias,
-                  margin: const EdgeInsets.only(top:10.0,bottom: 10),
+                  margin: const EdgeInsets.only(top: 10.0, bottom: 10),
                   //color: Colors.grey,
                   elevation: 0,
 
@@ -496,32 +496,45 @@ class _SearchCardState extends State<SearchCard> {
                                                   Expanded(
                                                     flex: 50,
                                                     child: FlatButton(
-                                                      shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(0),
-                                                          side: BorderSide(color: Colors.black)
-                                                      ),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .black)),
                                                       onPressed: () {
                                                         _showCategoriesDialog(
                                                             context,
                                                             _rCategories);
-                                                        setState((){});
+                                                        setState(() {});
                                                       },
-                                                      child: Row(
-
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: <Widget>[
-                                                          Text(
-                                                        catHint,
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.black,
-                                                          fontFamily:
-                                                              "CustomIcons",
+                                                      child: FittedBox(
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            Text(
+                                                              catHint,
+                                                              style: TextStyle(
+                                                                fontSize: 16,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontFamily:
+                                                                    "CustomIcons",
+                                                              ),
+                                                            ),
+                                                            Icon(
+                                                              Icons
+                                                                  .arrow_drop_down,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ),
-
-                                                          Icon(Icons.arrow_drop_down,color: Colors.black,),
-                                                      ],
                                                       ),
                                                     ),
 //                                                    child: FittedBox(
@@ -586,35 +599,52 @@ class _SearchCardState extends State<SearchCard> {
 //                                                      ),
 //                                                    ),
                                                   ),
-                                                  SizedBox(width: 10,),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
                                                   Expanded(
                                                     flex: 50,
                                                     child: FlatButton(
-                                                      shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(0),
-                                                          side: BorderSide(color: Colors.black)
-                                                      ),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .black)),
                                                       onPressed: () {
                                                         _showSubcatsDialog(
                                                             context,
                                                             _subCategories);
                                                       },
-                                                      child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
-                                                        children: <Widget>[
-
-                                                          Text(
-                                                        'اختر الأقسام الفرعية',
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.black,
-                                                          fontFamily:
-                                                              "CustomIcons",
+                                                      child: FittedBox(
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: <Widget>[
+                                                            Text(
+                                                              'اختر الأقسام الفرعية',
+                                                              style: TextStyle(
+                                                                fontSize: 16,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontFamily:
+                                                                    "CustomIcons",
+                                                              ),
+                                                            ),
+                                                            Icon(
+                                                              Icons
+                                                                  .arrow_drop_down,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
-                                                          Icon(Icons.arrow_drop_down,color: Colors.black,),
-                                                        ],
-                                                    ),),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -674,72 +704,95 @@ class _SearchCardState extends State<SearchCard> {
 //                                                      },
 //                                                    ),
                                                     child: FlatButton(
-                                                      shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(0),
-                                                          side: BorderSide(color: Colors.black)
-                                                      ),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .black)),
                                                       color: Colors.white,
                                                       textColor: Colors.black,
-
                                                       splashColor:
                                                           Colors.orange,
                                                       onPressed: () {
                                                         _showCitiesDialog(
                                                             context, _rCities);
-                                                        setState((){});
+                                                        setState(() {});
                                                       },
                                                       child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
                                                         children: <Widget>[
                                                           Text(
-                                                        cityHint,
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: Colors.black,
-                                                          fontFamily:
-                                                              "CustomIcons",
-                                                        ),
-                                                      ),
-                                                          Icon(Icons.arrow_drop_down,color: Colors.black,),
-                                                      ],
+                                                            cityHint,
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontFamily:
+                                                                  "CustomIcons",
+                                                            ),
+                                                          ),
+                                                          Icon(
+                                                            Icons
+                                                                .arrow_drop_down,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
                                                   ),
-                                                  SizedBox(width: 10,),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
                                                   Expanded(
                                                       flex: 5,
                                                       child: FlatButton(
                                                         shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(0),
-                                                            side: BorderSide(color: Colors.black)
-                                                        ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0),
+                                                            side: BorderSide(
+                                                                color: Colors
+                                                                    .black)),
                                                         onPressed: () {
                                                           _showRegionsDialog(
                                                               context,
                                                               _regions);
                                                         },
                                                         child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
                                                           children: <Widget>[
                                                             Text(
-                                                          'اختر المناطق',
-                                                          style: TextStyle(
-                                                            fontSize: 16,
-                                                            color:
-                                                                Colors.black,
-                                                            fontFamily:
-                                                                "CustomIcons",
-                                                          ),
-                                                        ),
-                                                            Icon(Icons.arrow_drop_down,color: Colors.black,),
-                                                        ],
+                                                              'اختر المناطق',
+                                                              style: TextStyle(
+                                                                fontSize: 16,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontFamily:
+                                                                    "CustomIcons",
+                                                              ),
+                                                            ),
+                                                            Icon(
+                                                              Icons
+                                                                  .arrow_drop_down,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ],
                                                         ),
                                                       )),
                                                 ],
                                               ),
                                             ),
                                             Container(
-
                                               margin: const EdgeInsets.only(
                                                   top: 5.0),
                                               child: FlatButton(
@@ -774,20 +827,24 @@ class _SearchCardState extends State<SearchCard> {
                                                   );
                                                 },
                                                 child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                    Text(
-                                    'بحث',
-                                    style: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.white,
-                                    fontFamily:
-                                    "CustomIcons",
-                                    ),
-                                    ),
-                                    Icon(Icons.search,color: Colors.white,),
-                                    ],
-                                    ),
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      'بحث',
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.white,
+                                                        fontFamily:
+                                                            "CustomIcons",
+                                                      ),
+                                                    ),
+                                                    Icon(
+                                                      Icons.search,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ],
+                                                ),
                                                 //blockButton: true,
                                                 color: Color(0xff65AECA),
                                               ),

@@ -5,6 +5,7 @@ import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/Favorite.dart';
 import 'package:iraqibayt/modules/Post.dart';
 import 'package:iraqibayt/widgets/posts/full_post.dart';
+import 'package:iraqibayt/widgets/posts/update_post.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 
@@ -352,17 +353,34 @@ class _MyPostsState extends State<MyPosts> {
                                                                     ),
                                                                   ),
                                                                   DataCell(
-                                                                    IconButton(
-                                                                      icon: Icon(
-                                                                          Icons
-                                                                              .delete),
-                                                                      color: Colors
-                                                                          .red,
-                                                                      onPressed:
-                                                                          () {
-                                                                        _deletePost(
-                                                                            post.id);
-                                                                      },
+                                                                    Row(
+                                                                      children: [
+                                                                        IconButton(
+                                                                          icon:
+                                                                              Icon(Icons.delete),
+                                                                          color:
+                                                                              Colors.red,
+                                                                          onPressed:
+                                                                              () {
+                                                                            _deletePost(post.id);
+                                                                          },
+                                                                        ),
+                                                                        IconButton(
+                                                                          icon:
+                                                                              Icon(Icons.edit),
+                                                                          color:
+                                                                              Colors.blue,
+                                                                          onPressed:
+                                                                              () {
+                                                                            Navigator.of(context).push(
+                                                                              new MaterialPageRoute(
+                                                                                  builder: (BuildContext context) => new UpdatePost(
+                                                                                        postId: post.id.toString(),
+                                                                                      )),
+                                                                            );
+                                                                          },
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                   ),
                                                                 ],

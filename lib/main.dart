@@ -12,6 +12,7 @@ import 'package:iraqibayt/widgets/main_board.dart';
 import 'package:iraqibayt/widgets/posts/my_post.dart';
 import 'package:iraqibayt/widgets/posts/post_details.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
+import 'package:iraqibayt/widgets/posts/update_post.dart';
 import 'package:iraqibayt/widgets/profile.dart';
 import 'package:iraqibayt/widgets/quizMain.dart';
 import 'package:iraqibayt/widgets/quizs.dart';
@@ -27,7 +28,6 @@ import 'package:iraqibayt/widgets/notes.dart';
 import 'package:iraqibayt/widgets/currencies.dart';
 
 void main() {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
@@ -64,6 +64,7 @@ class MyApp extends StatelessWidget {
         '/posts': (context) => Posts_Home(),
         '/my_posts': (context) => MyPosts(),
         '/Posts_detalis': (context) => Posts_detalis(),
+        '/update_post': (context) => UpdatePost(),
         '/notes': (context) => Notes(),
         '/currencies': (context) => Currencies(),
         '/tips': (context) => Tips(),
