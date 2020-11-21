@@ -295,19 +295,19 @@ class _BikeListItemState extends State<BikeListItem> {
     }
 
     var bath = data[i]['bathroom'];
-    if (bath == null) {
+    if (bath == 'null' || bath == null) {
       show_icons = false;
       bath = "0";
     }
 
     var bed = data[i]['bedroom'];
-    if (bed == null) {
+    if (bed == 'null' || bed == null) {
       show_icons = false;
       bed = "0";
     }
 
     var car_num = data[i]['num_car'];
-    if (car_num == null) {
+    if (car_num == 'null' || car_num == null) {
       car_num = "0";
     }
 
