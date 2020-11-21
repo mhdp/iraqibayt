@@ -319,15 +319,23 @@ class _Posts_detalis extends State<Posts_detalis> {
     var bath;
     var bed;
     var car_num;
+
+    //contact method
+    var call_ = false;
+    var whatsapp_ = false;
+    var telegram_ = false;
+    var viber_ = false;
+
+
     if (is_loading == false) {
       bath = databaseHelper.get_post_by_id_list[0]["bathroom"];
-      if (bath == null) {
+      if (bath == "null") {
         show_icons = false;
         bath = "0";
       }
 
       bed = databaseHelper.get_post_by_id_list[0]["bedroom"];
-      if (bed == null) {
+      if (bed == "null") {
         show_icons = false;
         bed = "0";
       }
@@ -336,6 +344,16 @@ class _Posts_detalis extends State<Posts_detalis> {
       if (car_num == null) {
         car_num = "0";
       }
+
+      //check contact method
+      String contact_info = databaseHelper.get_post_by_id_list[0]["contact"].toString();
+
+      //check call
+
+      if(contact_info.contains("اتصال مباشر")){
+        call_ = true;
+      }
+
     }
 
     int carsoul_counter = 0;
@@ -554,7 +572,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                               color: Color(0xff275879),
                             ),
                             Text(
-                              " أضافه ${databaseHelper.get_post_by_id_list[0]["name"].toString()} ${databaseHelper.get_post_by_id_list[0]["created_at"].toString()}",
+                              " أضافه ${databaseHelper.get_post_by_id_list[0]["user"]["name"].toString()} ${databaseHelper.get_post_by_id_list[0]["created_at"].toString()}",
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,

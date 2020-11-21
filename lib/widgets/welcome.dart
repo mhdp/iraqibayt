@@ -272,6 +272,24 @@ class _Welcome extends State<Welcome> {
           print(result.credential.fullName.familyName);//All the required credentials
           print(result.credential.authorizationCode);
           String fullname ="${result.credential.fullName.givenName} ${result.credential.fullName.familyName}";
+
+          var data = {
+            'name': fullname,
+            'email': result.credential.email,
+            'id': result.credential.identityToken.toString(),
+          };
+
+          var res = await CallApi().postData(data, '/facebook_login');
+          var body = json.decode(res.body);
+          print(body);
+
+          if (body['success'] == true) {
+            _save_login_info(body['user']['id'], result.credential.identityToken.toString(), fullname,
+                result.credential.email, body['user']["customToken"]);
+
+            Navigator.pushReplacementNamed(context, '/home');
+          }
+
           /*_databaseHelper.registerApple(fullname.toString(),result.credential.email.toString(),result.credential.authorizationCode.toString()).whenComplete(() {
             if (_databaseHelper.apple_status == true){
               Navigator.pushReplacementNamed(context, '/GroceryHomePage');

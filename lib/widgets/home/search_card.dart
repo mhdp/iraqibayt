@@ -496,19 +496,32 @@ class _SearchCardState extends State<SearchCard> {
                                                   Expanded(
                                                     flex: 50,
                                                     child: FlatButton(
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(0),
+                                                          side: BorderSide(color: Colors.black)
+                                                      ),
                                                       onPressed: () {
                                                         _showCategoriesDialog(
                                                             context,
                                                             _rCategories);
+                                                        setState((){});
                                                       },
-                                                      child: Text(
+                                                      child: Row(
+
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: <Widget>[
+                                                          Text(
                                                         catHint,
                                                         style: TextStyle(
                                                           fontSize: 16,
-                                                          color: Colors.black54,
+                                                          color: Colors.black,
                                                           fontFamily:
                                                               "CustomIcons",
                                                         ),
+                                                      ),
+
+                                                          Icon(Icons.arrow_drop_down,color: Colors.black,),
+                                                      ],
                                                       ),
                                                     ),
 //                                                    child: FittedBox(
@@ -573,24 +586,35 @@ class _SearchCardState extends State<SearchCard> {
 //                                                      ),
 //                                                    ),
                                                   ),
+                                                  SizedBox(width: 10,),
                                                   Expanded(
                                                     flex: 50,
                                                     child: FlatButton(
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(0),
+                                                          side: BorderSide(color: Colors.black)
+                                                      ),
                                                       onPressed: () {
                                                         _showSubcatsDialog(
                                                             context,
                                                             _subCategories);
                                                       },
-                                                      child: Text(
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: <Widget>[
+
+                                                          Text(
                                                         'اختر الأقسام الفرعية',
                                                         style: TextStyle(
                                                           fontSize: 16,
-                                                          color: Colors.black54,
+                                                          color: Colors.black,
                                                           fontFamily:
                                                               "CustomIcons",
                                                         ),
                                                       ),
-                                                    ),
+                                                          Icon(Icons.arrow_drop_down,color: Colors.black,),
+                                                        ],
+                                                    ),),
                                                   ),
                                                 ],
                                               ),
@@ -650,56 +674,75 @@ class _SearchCardState extends State<SearchCard> {
 //                                                      },
 //                                                    ),
                                                     child: FlatButton(
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius: BorderRadius.circular(0),
+                                                          side: BorderSide(color: Colors.black)
+                                                      ),
                                                       color: Colors.white,
                                                       textColor: Colors.black,
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
+
                                                       splashColor:
                                                           Colors.orange,
                                                       onPressed: () {
                                                         _showCitiesDialog(
                                                             context, _rCities);
+                                                        setState((){});
                                                       },
-                                                      child: Text(
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: <Widget>[
+                                                          Text(
                                                         cityHint,
                                                         style: TextStyle(
-                                                          fontSize: 18,
-                                                          color: Colors.grey,
+                                                          fontSize: 16,
+                                                          color: Colors.black,
                                                           fontFamily:
                                                               "CustomIcons",
                                                         ),
                                                       ),
+                                                          Icon(Icons.arrow_drop_down,color: Colors.black,),
+                                                      ],
+                                                      ),
                                                     ),
                                                   ),
+                                                  SizedBox(width: 10,),
                                                   Expanded(
                                                       flex: 5,
                                                       child: FlatButton(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.circular(0),
+                                                            side: BorderSide(color: Colors.black)
+                                                        ),
                                                         onPressed: () {
                                                           _showRegionsDialog(
                                                               context,
                                                               _regions);
                                                         },
-                                                        child: Text(
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: <Widget>[
+                                                            Text(
                                                           'اختر المناطق',
                                                           style: TextStyle(
                                                             fontSize: 16,
                                                             color:
-                                                                Colors.black54,
+                                                                Colors.black,
                                                             fontFamily:
                                                                 "CustomIcons",
                                                           ),
+                                                        ),
+                                                            Icon(Icons.arrow_drop_down,color: Colors.black,),
+                                                        ],
                                                         ),
                                                       )),
                                                 ],
                                               ),
                                             ),
                                             Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 20.0),
+
                                               margin: const EdgeInsets.only(
                                                   top: 5.0),
-                                              child: GFButton(
+                                              child: FlatButton(
                                                 onPressed: () {
                                                   //print('cat:' +catValue.toString());
                                                   _subCategories
@@ -730,8 +773,22 @@ class _SearchCardState extends State<SearchCard> {
                                                     ),
                                                   );
                                                 },
-                                                text: "بحث",
-                                                blockButton: true,
+                                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                    Text(
+                                    'بحث',
+                                    style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontFamily:
+                                    "CustomIcons",
+                                    ),
+                                    ),
+                                    Icon(Icons.search,color: Colors.white,),
+                                    ],
+                                    ),
+                                                //blockButton: true,
                                                 color: Color(0xff65AECA),
                                               ),
                                             )

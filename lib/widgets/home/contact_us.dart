@@ -11,8 +11,84 @@ class _Contact_us_card extends State<Contact_us_card> {
 
   int signup_btn_child_index = 0;
   String type_selected;
+  String type_Hint = "نوع الملاحطة";
+  List<String> type_list = ['شكر','إقتراح','مشكلة','الإعلان في موقعنا'];
   final email_Controller = TextEditingController();
   final message_Controller = TextEditingController();
+
+
+
+  void minus(String type) {
+    setState(() {
+      type_Hint = type;
+      type_selected = type;
+    });
+  }
+  void _showTypesDialog(context, List<String> cities) {
+    showDialog(
+        context: context,
+        builder: (BuildContext bc) {
+          return Dialog(
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+            elevation: 16,
+            child: StatefulBuilder(builder: (context, setState) {
+              return Container(
+                height: cities.length <= 4
+                    ? MediaQuery.of(context).size.height * 0.1 * cities.length
+                    : MediaQuery.of(context).size.height * 0.6,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Center(
+                        child: Text(
+                          'اختر نوع الملاحظة',
+                          style: TextStyle(
+                            fontFamily: 'CustomIcons',
+                            fontSize: 20.0,
+                            color: Color(0xff275879),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Divider(
+                        thickness: 1.0,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: cities.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+
+                              title: Text(
+                                cities[index],
+                                style: TextStyle(fontFamily: 'CustomIcons'),
+                              ),
+                              onTap: () {
+
+                                minus(cities[index]);
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +125,7 @@ class _Contact_us_card extends State<Contact_us_card> {
           ),
           Padding(
     padding: const EdgeInsets.all(10),
-    child:DropdownButtonFormField(
+    child:/*DropdownButtonFormField(
 
             decoration: const InputDecoration(
               isDense: true,
@@ -104,7 +180,39 @@ class _Contact_us_card extends State<Contact_us_card> {
             },
             value: type_selected,
 
-          ),),
+          ),*/
+    FlatButton(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+          side: BorderSide(color: Colors.black)
+      ),
+      color: Color(0xFFe8e8e8),
+      textColor: Colors.grey,
+      padding:
+      EdgeInsets.all(8.0),
+      splashColor: Colors.orange,
+      onPressed: () {
+        _showTypesDialog(context, type_list);
+
+      },
+      child: Row(
+
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            type_Hint,
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.black,
+              fontFamily:
+              "CustomIcons",
+            ),
+          ),
+
+          Icon(Icons.arrow_drop_down,color: Colors.black,),
+        ],
+      ),
+    ),),
           Padding(
             padding: const EdgeInsets.all(10),
             child: TextFormField(

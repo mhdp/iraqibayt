@@ -15,6 +15,7 @@ import '../NavDrawer.dart';
 import '../my_icons_icons.dart';
 import '../profile.dart';
 import 'contact_us.dart';
+import 'info_card.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -157,6 +158,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ),
             latest_posts(),
+            SizedBox(height: 5,),
+            InfoCard(),
             SizedBox(height: 5,),
             Contact_us_card(),
           ],
