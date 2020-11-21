@@ -940,6 +940,7 @@ class _Welcome extends State<Welcome> {
         setState(() {
           signup_btn_child_index = 0;
         });
+
       } else if (_passwordController.text.isEmpty) {
         alert_dialog('يرجى كتابة كلمةالمرور', 1, 'بيانات ناقصة');
         setState(() {
