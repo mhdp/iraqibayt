@@ -74,6 +74,8 @@ PODS:
     - FBSDKCoreKit (~> 5.5)
     - FBSDKLoginKit (~> 5.5)
     - Flutter
+  - flutter_open_whatsapp (0.0.1):
+    - Flutter
   - google_sign_in (0.0.1):
     - Flutter
     - GoogleSignIn (~> 5.0)
@@ -149,6 +151,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_absolute_path (from `.symlinks/plugins/flutter_absolute_path/ios`)
   - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
+  - flutter_open_whatsapp (from `.symlinks/plugins/flutter_open_whatsapp/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - image_viewer (from `.symlinks/plugins/image_viewer/ios`)
   - multi_image_picker (from `.symlinks/plugins/multi_image_picker/ios`)
@@ -195,6 +198,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_absolute_path/ios"
   flutter_facebook_login:
     :path: ".symlinks/plugins/flutter_facebook_login/ios"
+  flutter_open_whatsapp:
+    :path: ".symlinks/plugins/flutter_open_whatsapp/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
   image_viewer:
@@ -233,6 +238,7 @@ SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_absolute_path: 5adb13678c88f0bdfba527f3851f9543d01dde66
   flutter_facebook_login: cfb5659f686b1c575ef205c6b6fd20db9679d3c4
+  flutter_open_whatsapp: 4b54cd5403cfe53414e4252fd52fc27f79635f58
   google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
   GoogleAppMeasurement: 966e88df9d19c15715137bb2ddaf52373f111436
   GoogleDataTransport: f56af7caa4ed338dc8e138a5d7c5973e66440833

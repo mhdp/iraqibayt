@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/Favorite.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
+import 'package:iraqibayt/widgets/home/contact_us.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -254,7 +257,7 @@ class _Posts_detalis extends State<Posts_detalis> {
   }
 
   _launchURL(String phone) async {
-    String url = 'tel:$phone';
+    String url = 'tel://$phone';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -262,15 +265,12 @@ class _Posts_detalis extends State<Posts_detalis> {
     }
   }
 
-  void _phoneCall(String phoneNumber) {
-    _launchURL(phoneNumber);
-  }
 
-  void _launchWhatsApp({
-    @required String phone,
-    @required String message,
+  void _launchWhatsApp ({
+  @required String phone,
+  @required String message,
   }) async {
-    String url() {
+    /*String url() {
       if (Platform.isIOS) {
         return "whatsapp://wa.me/$phone/?text=${Uri.parse(message)}";
       } else {
@@ -282,7 +282,10 @@ class _Posts_detalis extends State<Posts_detalis> {
       await launch(url());
     } else {
       throw 'Could not launch ${url()}';
-    }
+    }*/
+
+    FlutterOpenWhatsapp.sendSingleMessage(phone, message);
+
   }
 
   void _launchViber({
@@ -329,19 +332,19 @@ class _Posts_detalis extends State<Posts_detalis> {
 
     if (is_loading == false) {
       bath = databaseHelper.get_post_by_id_list[0]["bathroom"];
-      if (bath == "null") {
+      if (bath == "null" || bath == null) {
         show_icons = false;
         bath = "0";
       }
 
       bed = databaseHelper.get_post_by_id_list[0]["bedroom"];
-      if (bed == "null") {
+      if (bed == "null" || bed == null) {
         show_icons = false;
         bed = "0";
       }
 
       car_num = databaseHelper.get_post_by_id_list[0]["num_car"];
-      if (car_num == null) {
+      if (car_num == null || car_num == null) {
         car_num = "0";
       }
 
@@ -350,7 +353,22 @@ class _Posts_detalis extends State<Posts_detalis> {
 
       //check call
 
-      if(contact_info.contains("اتصال مباشر")){
+      if(contact_info.contains("إتصال مباشر")){
+        call_ = true;
+      }
+
+      //check whatsapp
+      if(contact_info.contains("واتسآب")){
+        whatsapp_ = true;
+      }
+
+      //check telegram
+      if(contact_info.contains("تلغرام")){
+        telegram_ = true;
+      }
+
+      //check viber
+      if(contact_info.contains("فايبر")){
         call_ = true;
       }
 
@@ -425,8 +443,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                     ),
                   ),
 
-                  FittedBox(
-                    child: Row(
+                  Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
 //city
@@ -502,7 +519,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                         ),
                       ],
                     ),
-                  ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -802,17 +819,17 @@ class _Posts_detalis extends State<Posts_detalis> {
                   ButtonBar(
                     alignment: MainAxisAlignment.center,
                     children: [
-                      IconButton(
+                      call_? IconButton(
                         padding: new EdgeInsets.all(0.0),
                         color: Colors.black,
                         icon: new Icon(MyIcons.phone, size: 38.0),
                         onPressed: () {
-                          _phoneCall(databaseHelper.get_post_by_id_list[0]
+                          _launchURL(databaseHelper.get_post_by_id_list[0]
                                   ["phone"]
                               .toString());
                         },
-                      ),
-                      IconButton(
+                      ):Container(),
+                      whatsapp_? IconButton(
                         padding: new EdgeInsets.all(0.0),
                         color: Colors.green,
                         icon: new Icon(MyIcons.whatsapp, size: 38.0),
@@ -823,8 +840,8 @@ class _Posts_detalis extends State<Posts_detalis> {
                                   .toString(),
                               message: 'البيت العراقي');
                         },
-                      ),
-                      IconButton(
+                      ):Container(),
+                      telegram_ ? IconButton(
                         padding: new EdgeInsets.all(0.0),
                         color: Colors.blue,
                         icon: new Icon(MyIcons.telegram, size: 38.0),
@@ -834,8 +851,8 @@ class _Posts_detalis extends State<Posts_detalis> {
                                       ["phone"]
                                   .toString());
                         },
-                      ),
-                      IconButton(
+                      ):Container(),
+                      viber_? IconButton(
                         padding: new EdgeInsets.all(0.0),
                         color: Colors.indigo,
                         icon: new Icon(MyIcons.viber, size: 38.0),
@@ -845,7 +862,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                                       ["phone"]
                                   .toString());
                         },
-                      ),
+                      ):Container(),
                     ],
                   ),
 
@@ -894,13 +911,13 @@ class _Posts_detalis extends State<Posts_detalis> {
                                             ["id"],
                                         _rFavorites));
                                   },
-                                  color: Colors.blue,
+                                  color: Colors.red,
                                   elevation: 0,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Icon(
-                                        Icons.favorite_border,
+                                        Icons.favorite,
                                         color: Colors.white,
                                       ),
                                       Text(

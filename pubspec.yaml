@@ -50,6 +50,7 @@ dependencies:
   image_viewer: ^1.0.0
   url_launcher: ^5.7.10
   apple_sign_in: ^0.1.0
+  flutter_open_whatsapp: ^0.1.2
 
 
 dev_dependencies:
