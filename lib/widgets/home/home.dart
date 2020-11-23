@@ -24,7 +24,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
-
   var _currentIndex = 0;
 
   @override
@@ -43,9 +42,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       backgroundColor: Color(0XFFc4c4c4),
       drawer: NavDrawer(),
       appBar: AppBar(
-        title:
-        Center(child: Image.asset('assets/images/logo_white.png', fit: BoxFit.fill,height: 40,),),
-
+        title: Center(
+          child: Image.asset(
+            'assets/images/logo_white.png',
+            fit: BoxFit.fill,
+            height: 40,
+          ),
+        ),
         backgroundColor: Color(0xFF335876),
         actions: [
           Padding(
@@ -85,114 +88,123 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       ),
       body: Container(
         child: SingleChildScrollView(
-      child:Column(
-          //mainAxisSize: MainAxisSize.min,
-          //scrollDirection: Axis.vertical,
-          children: <Widget>[
-            WeatherCard(),
-            ExchangeCard(),
-            RaisedButton(
+          child: Column(
+            //mainAxisSize: MainAxisSize.min,
+            //scrollDirection: Axis.vertical,
+            children: <Widget>[
+              WeatherCard(),
+              ExchangeCard(),
+              RaisedButton(
+                onPressed: () {},
+                color: Color(0XFFc4c4c4),
+                elevation: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    //Icon(Icons.list,color: Colors.white,),
 
-              onPressed: () {},
-              color: Color(0XFFc4c4c4),
-              elevation: 0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  //Icon(Icons.list,color: Colors.white,),
-
-                  Text("الأقسام",style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.black,
-                    fontFamily: "CustomIcons",
-                    fontWeight:FontWeight.w300,
-
-                  ),),
-
-                ],
-              ),
-            ),
-            DepartsCard(),
-            SizedBox(height: 5,),
-            SearchCard(),
-            SizedBox(height: 5,),
-            RaisedButton(
-              onPressed: () {},
-              color: Color(0XFFc4c4c4),
-              elevation: 0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  //Icon(Icons.list,color: Colors.white,),
-
-                  Text(" العروض المميزة ",style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.black,
-                    fontFamily: "CustomIcons",
-                    fontWeight:FontWeight.w300,
-
-                  ),),
-
-                ],
-              ),
-            ),
-            Spicial_posts(),
-            Padding(
-            padding: const EdgeInsets.all(10),
-            child:FlatButton(
-              onPressed: () {
-
-                Navigator.of(context).push(new MaterialPageRoute(
-                    builder: (BuildContext context) => new Spical_page()));
-              },
-              child: Row(
-                mainAxisAlignment:
-                MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'عرض كل الإعلانات المميزة',
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontFamily:
-                      "CustomIcons",
+                    Text(
+                      "الأقسام",
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.black,
+                        fontFamily: "CustomIcons",
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
-                  ),
-
-                ],
+                  ],
+                ),
               ),
-              //blockButton: true,
-              color: Color(0xFFdd685f),
-            )),
-            SizedBox(height: 10,),
-            RaisedButton(
-              onPressed: () {},
-              color: Color(0XFFc4c4c4),
-              elevation: 0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  //Icon(Icons.list,color: Colors.white,),
-
-                  Text(" العروض المضافة حديثاً ",style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.black,
-                    fontFamily: "CustomIcons",
-                    fontWeight:FontWeight.w300,
-
-                  ),),
-
-                ],
+              DepartsCard(),
+              SizedBox(
+                height: 5,
               ),
-            ),
-            latest_posts(),
-            SizedBox(height: 5,),
-            InfoCard(),
-            SizedBox(height: 5,),
-            Contact_us_card(),
-          ],
+              SearchCard(),
+              SizedBox(
+                height: 5,
+              ),
+              RaisedButton(
+                onPressed: () {},
+                color: Color(0XFFc4c4c4),
+                elevation: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    //Icon(Icons.list,color: Colors.white,),
+
+                    Text(
+                      " العروض المميزة ",
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.black,
+                        fontFamily: "CustomIcons",
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Spicial_posts(),
+              Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).push(new MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              new Spical_page()));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'عرض كل الإعلانات المميزة',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontFamily: "CustomIcons",
+                          ),
+                        ),
+                      ],
+                    ),
+                    //blockButton: true,
+                    color: Color(0xFFdd685f),
+                  )),
+              SizedBox(
+                height: 10,
+              ),
+              RaisedButton(
+                onPressed: () {},
+                color: Color(0XFFc4c4c4),
+                elevation: 0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    //Icon(Icons.list,color: Colors.white,),
+
+                    Text(
+                      " العروض المضافة حديثاً ",
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.black,
+                        fontFamily: "CustomIcons",
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              latest_posts(),
+              SizedBox(
+                height: 5,
+              ),
+              InfoCard(),
+              SizedBox(
+                height: 5,
+              ),
+              Contact_us_card(),
+            ],
+          ),
         ),
-      ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF335876),
@@ -211,37 +223,29 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             label: 'الإعلانات',
           ),
           new BottomNavigationBarItem(
-              icon: Icon(Icons.post_add),
-              label: 'أضف إعلان'
-          ),
-          new BottomNavigationBarItem(
-              icon: Icon(MyIcons.user),
-              label: 'حسابي'
-          ),
-          new BottomNavigationBarItem(
-              icon: Icon(Icons.mail),
-              label: 'ملاحظات'
-          ),
+              icon: Icon(Icons.post_add), label: 'أضف إعلان'),
+          new BottomNavigationBarItem(icon: Icon(MyIcons.user), label: 'حسابي'),
+          new BottomNavigationBarItem(icon: Icon(Icons.mail), label: 'ملاحظات'),
         ],
       ),
     );
   }
 
   void onTabTapped(int index) {
-    if(index == 1){
+    if (index == 1) {
       Navigator.of(context).push(
         new MaterialPageRoute(
             builder: (BuildContext context) => new Posts_Home()),
       );
-    }else if(index == 2){
+    } else if (index == 2) {
       Navigator.of(context).push(
         new MaterialPageRoute(
             builder: (BuildContext context) => new Add_Post()),
       );
-    }else if(index == 3){
+    } else if (index == 3) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Profile()));
-    }else if(index == 4){
+    } else if (index == 4) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new ContactUs()));
     }
@@ -251,5 +255,3 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     });*/
   }
 }
-
-

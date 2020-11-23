@@ -27,8 +27,8 @@ class _SearchCardState extends State<SearchCard> {
   int cityValue;
   String cityHint;
 
-  int selectedRCounter;
-  bool _isAllSelected;
+  int selectedRCounter, selectedSCounter;
+  bool _isAllRSelected, _isAllSSelected;
 
   List<int> _subsIds, _regionsIds;
 
@@ -223,6 +223,9 @@ class _SearchCardState extends State<SearchCard> {
   }
 
   void _showSubcatsDialog(context, List<SubCategory> subs) {
+    setState(() {
+      selectedSCounter = subs.length;
+    });
     showDialog(
         context: context,
         builder: (BuildContext bc) {
@@ -257,6 +260,41 @@ class _SearchCardState extends State<SearchCard> {
                         color: Colors.black54,
                       ),
                     ),
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CheckboxListTile(
+                          title: Text(
+                            'تحديد الكل',
+                            style: TextStyle(fontFamily: 'CustomIcons'),
+                          ),
+                          value: _isAllSSelected,
+                          onChanged: (bool value) {
+                            if (!value) {
+                              for (var sub in _subCategories) {
+                                setState(() {
+                                  sub.checked = 0;
+                                });
+                              }
+
+                              setState(() {
+                                _isAllSSelected = value;
+                              });
+                            } else {
+                              for (var sub in _subCategories) {
+                                setState(() {
+                                  sub.checked = 1;
+                                });
+                              }
+
+                              setState(() {
+                                _isAllSSelected = value;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    ),
                     Expanded(
                       child: ListView.builder(
                         itemCount: subs.length,
@@ -272,16 +310,25 @@ class _SearchCardState extends State<SearchCard> {
                               onChanged: (bool value) {
                                 //print(value);
 
-                                if (value)
+                                if (value) {
                                   setState(() {
                                     subs[index].checked = 1;
                                     _subCategories[index].checked = 1;
+                                    selectedSCounter++;
                                   });
-                                else
+                                  _updateSelectedSubCats();
+                                } else {
                                   setState(() {
                                     subs[index].checked = 0;
                                     _subCategories[index].checked = 0;
+                                    selectedSCounter--;
                                   });
+                                  _updateSelectedSubCats();
+                                }
+
+                                print(_subCategories.length.toString() +
+                                    '--' +
+                                    selectedSCounter.toString());
                               },
                             ),
                           );
@@ -297,6 +344,9 @@ class _SearchCardState extends State<SearchCard> {
   }
 
   void _showRegionsDialog(context, List<Region> regions) {
+    setState(() {
+      selectedRCounter = regions.length;
+    });
     showDialog(
         context: context,
         builder: (BuildContext bc) {
@@ -332,15 +382,38 @@ class _SearchCardState extends State<SearchCard> {
                       ),
                     ),
                     Container(
-                      child: CheckboxListTile(
-                        title: Text(
-                          'تحديد الكل',
-                          style: TextStyle(fontFamily: 'CustomIcons'),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CheckboxListTile(
+                          title: Text(
+                            'تحديد الكل',
+                            style: TextStyle(fontFamily: 'CustomIcons'),
+                          ),
+                          value: _isAllRSelected,
+                          onChanged: (bool value) {
+                            if (!value) {
+                              for (var region in _regions) {
+                                setState(() {
+                                  region.checked = 0;
+                                });
+                              }
+
+                              setState(() {
+                                _isAllRSelected = value;
+                              });
+                            } else {
+                              for (var region in _regions) {
+                                setState(() {
+                                  region.checked = 1;
+                                });
+                              }
+
+                              setState(() {
+                                _isAllRSelected = value;
+                              });
+                            }
+                          },
                         ),
-                        value: _isAllSelected,
-                        onChanged: (bool value) {
-                          _selectAllRegions(value);
-                        },
                       ),
                     ),
                     Expanded(
@@ -402,38 +475,25 @@ class _SearchCardState extends State<SearchCard> {
     return baghdad.id;
   }
 
-  void _selectAllRegions(bool sValue) {
-    if (!sValue) {
-      for (var region in _regions) {
-        setState(() {
-          region.checked = 0;
-        });
-      }
-
-      setState(() {
-        _isAllSelected = sValue;
-      });
-    } else {
-      for (var region in _regions) {
-        setState(() {
-          region.checked = 1;
-        });
-      }
-
-      setState(() {
-        _isAllSelected = sValue;
-      });
-    }
-  }
-
   void _updateSelectedRegions() {
     if (_regions.length == selectedRCounter)
       setState(() {
-        _isAllSelected = true;
+        _isAllRSelected = true;
       });
     else
       setState(() {
-        _isAllSelected = false;
+        _isAllRSelected = false;
+      });
+  }
+
+  void _updateSelectedSubCats() {
+    if (_subCategories.length == selectedSCounter)
+      setState(() {
+        _isAllSSelected = true;
+      });
+    else
+      setState(() {
+        _isAllSSelected = false;
       });
   }
 
@@ -442,8 +502,10 @@ class _SearchCardState extends State<SearchCard> {
     super.initState();
     catHint = 'جميع الأقسام الرئيسية';
     cityHint = 'جميع المدن';
-    _isAllSelected = true;
+    _isAllRSelected = true;
+    _isAllSSelected = true;
     selectedRCounter = 0;
+    selectedSCounter = 0;
 
     catValue = 1;
     _getBaghdadId().then((value) {
@@ -600,27 +662,24 @@ class _SearchCardState extends State<SearchCard> {
                                                     ),
 //
                                                   ),
-
                                                 ],
                                               ),
                                             ),
-
                                             Container(
                                               child: Row(
                                                 children: <Widget>[
-
                                                   Expanded(
                                                     flex: 50,
                                                     child: FlatButton(
                                                       shape:
-                                                      RoundedRectangleBorder(
-                                                          borderRadius:
-                                                          BorderRadius
-                                                              .circular(
-                                                              0),
-                                                          side: BorderSide(
-                                                              color: Colors
-                                                                  .black)),
+                                                          RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          0),
+                                                              side: BorderSide(
+                                                                  color: Colors
+                                                                      .black)),
                                                       onPressed: () {
                                                         _showSubcatsDialog(
                                                             context,
@@ -629,8 +688,8 @@ class _SearchCardState extends State<SearchCard> {
                                                       child: FittedBox(
                                                         child: Row(
                                                           mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
+                                                              MainAxisAlignment
+                                                                  .center,
                                                           children: <Widget>[
                                                             Text(
                                                               'اختر الأقسام الفرعية',
@@ -639,14 +698,14 @@ class _SearchCardState extends State<SearchCard> {
                                                                 color: Colors
                                                                     .black,
                                                                 fontFamily:
-                                                                "CustomIcons",
+                                                                    "CustomIcons",
                                                               ),
                                                             ),
                                                             Icon(
                                                               Icons
                                                                   .arrow_drop_down,
                                                               color:
-                                                              Colors.black,
+                                                                  Colors.black,
                                                             ),
                                                           ],
                                                         ),
@@ -756,7 +815,6 @@ class _SearchCardState extends State<SearchCard> {
                                                 ],
                                               ),
                                             ),
-
                                             Container(
                                               child: Row(
                                                 children: <Widget>[
@@ -765,9 +823,9 @@ class _SearchCardState extends State<SearchCard> {
                                                       child: FlatButton(
                                                         shape: RoundedRectangleBorder(
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                0),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        0),
                                                             side: BorderSide(
                                                                 color: Colors
                                                                     .black)),
@@ -778,8 +836,8 @@ class _SearchCardState extends State<SearchCard> {
                                                         },
                                                         child: Row(
                                                           mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
+                                                              MainAxisAlignment
+                                                                  .center,
                                                           children: <Widget>[
                                                             Text(
                                                               'اختر المناطق',
@@ -788,14 +846,14 @@ class _SearchCardState extends State<SearchCard> {
                                                                 color: Colors
                                                                     .black,
                                                                 fontFamily:
-                                                                "CustomIcons",
+                                                                    "CustomIcons",
                                                               ),
                                                             ),
                                                             Icon(
                                                               Icons
                                                                   .arrow_drop_down,
                                                               color:
-                                                              Colors.black,
+                                                                  Colors.black,
                                                             ),
                                                           ],
                                                         ),
@@ -803,7 +861,6 @@ class _SearchCardState extends State<SearchCard> {
                                                 ],
                                               ),
                                             ),
-
                                             Container(
                                               margin: const EdgeInsets.only(
                                                   top: 5.0),

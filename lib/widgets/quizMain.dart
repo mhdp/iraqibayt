@@ -279,7 +279,7 @@ class _QuizMainState extends State<QuizMain> {
                                   //blockButton: true,
                                   child: Center(
                                     child: Text(
-                                      'الرئيسية',
+                                      'المسابقات',
                                       style: TextStyle(
                                           fontFamily: 'CustomIcons',
                                           fontSize: 20.0),
@@ -289,7 +289,7 @@ class _QuizMainState extends State<QuizMain> {
                                     Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Home()),
+                                          builder: (context) => Quizs()),
                                       (Route<dynamic> route) => false,
                                     );
                                   }),
