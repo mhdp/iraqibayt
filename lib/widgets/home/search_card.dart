@@ -537,83 +537,29 @@ class _SearchCardState extends State<SearchCard> {
                                                         ),
                                                       ),
                                                     ),
-//                                                    child: FittedBox(
-//                                                      child: new DropdownButton<
-//                                                          int>(
-//                                                        elevation: 5,
-//                                                        hint: Container(
-//                                                          alignment: Alignment
-//                                                              .centerRight,
-//                                                          child: Text(
-//                                                            catHint,
-//                                                            style: TextStyle(
-//                                                              fontSize: 18,
-//                                                              fontFamily:
-//                                                                  "CustomIcons",
-//                                                            ),
-//                                                          ),
-//                                                        ),
-//                                                        value: catValue,
-//                                                        items: _rCategories.map(
-//                                                            (Category
-//                                                                category) {
-//                                                          return new DropdownMenuItem<
-//                                                              int>(
-//                                                            value: category.id,
-//                                                            child: Container(
-//                                                              alignment: Alignment
-//                                                                  .centerRight,
-//                                                              child: new Text(
-//                                                                category.name,
-//                                                                textAlign:
-//                                                                    TextAlign
-//                                                                        .right,
-//                                                                style:
-//                                                                    TextStyle(
-//                                                                  fontFamily:
-//                                                                      "CustomIcons",
-//                                                                ),
-//                                                              ),
-//                                                            ),
-//                                                          );
-//                                                        }).toList(),
-//                                                        onChanged: (int catId) {
-//                                                          setState(() {
-//                                                            catValue = catId;
-//                                                            //catHint = _getCatHint(catValue, _rCategories);
 //
-//                                                            _subCategories = List
-//                                                                .from(_getSubCats(
-//                                                                    catId,
-//                                                                    _rCategories));
-////                                                          subCatValue =
-////                                                              _subCategories[0]
-////                                                                  .id;
-//                                                            //_subCategories = List.from(_rCategories[catId].subCatList);
-//                                                            print(catValue
-//                                                                    .toString() +
-//                                                                ' ' +
-//                                                                catHint);
-//                                                          });
-//                                                        },
-//                                                      ),
-//                                                    ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
+
+                                                ],
+                                              ),
+                                            ),
+
+                                            Container(
+                                              child: Row(
+                                                children: <Widget>[
+
                                                   Expanded(
                                                     flex: 50,
                                                     child: FlatButton(
                                                       shape:
-                                                          RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          0),
-                                                              side: BorderSide(
-                                                                  color: Colors
-                                                                      .black)),
+                                                      RoundedRectangleBorder(
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              0),
+                                                          side: BorderSide(
+                                                              color: Colors
+                                                                  .black)),
                                                       onPressed: () {
                                                         _showSubcatsDialog(
                                                             context,
@@ -622,8 +568,8 @@ class _SearchCardState extends State<SearchCard> {
                                                       child: FittedBox(
                                                         child: Row(
                                                           mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
+                                                          MainAxisAlignment
+                                                              .center,
                                                           children: <Widget>[
                                                             Text(
                                                               'اختر الأقسام الفرعية',
@@ -632,14 +578,14 @@ class _SearchCardState extends State<SearchCard> {
                                                                 color: Colors
                                                                     .black,
                                                                 fontFamily:
-                                                                    "CustomIcons",
+                                                                "CustomIcons",
                                                               ),
                                                             ),
                                                             Icon(
                                                               Icons
                                                                   .arrow_drop_down,
                                                               color:
-                                                                  Colors.black,
+                                                              Colors.black,
                                                             ),
                                                           ],
                                                         ),
@@ -746,17 +692,21 @@ class _SearchCardState extends State<SearchCard> {
                                                       ),
                                                     ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
+                                                ],
+                                              ),
+                                            ),
+
+                                            Container(
+                                              child: Row(
+                                                children: <Widget>[
                                                   Expanded(
                                                       flex: 5,
                                                       child: FlatButton(
                                                         shape: RoundedRectangleBorder(
                                                             borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        0),
+                                                            BorderRadius
+                                                                .circular(
+                                                                0),
                                                             side: BorderSide(
                                                                 color: Colors
                                                                     .black)),
@@ -767,8 +717,8 @@ class _SearchCardState extends State<SearchCard> {
                                                         },
                                                         child: Row(
                                                           mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
+                                                          MainAxisAlignment
+                                                              .center,
                                                           children: <Widget>[
                                                             Text(
                                                               'اختر المناطق',
@@ -777,14 +727,14 @@ class _SearchCardState extends State<SearchCard> {
                                                                 color: Colors
                                                                     .black,
                                                                 fontFamily:
-                                                                    "CustomIcons",
+                                                                "CustomIcons",
                                                               ),
                                                             ),
                                                             Icon(
                                                               Icons
                                                                   .arrow_drop_down,
                                                               color:
-                                                                  Colors.black,
+                                                              Colors.black,
                                                             ),
                                                           ],
                                                         ),
@@ -792,6 +742,7 @@ class _SearchCardState extends State<SearchCard> {
                                                 ],
                                               ),
                                             ),
+
                                             Container(
                                               margin: const EdgeInsets.only(
                                                   top: 5.0),

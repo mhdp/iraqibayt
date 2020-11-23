@@ -16,6 +16,27 @@ class _WeatherCardState extends State<WeatherCard> {
   List<Weather> _weathers, _rWeather;
   String cityHint;
   int cityId;
+  int counter = 0;
+  Timer timer_weather;
+
+  void startTimer() {
+
+    // Start the periodic timer which prints something every 1 seconds
+    timer_weather = new Timer.periodic(new Duration(seconds: 8), (time) {
+      if (_rWeather.isNotEmpty) {
+        if (counter < _rWeather.length) {
+          setState(() {
+            cityId = _rWeather[counter].city.id;
+            cityHint = _rWeather[counter].city.name;
+            print('timer $cityHint');
+          });
+          counter++;
+        } else
+          counter = 0;
+      }
+    });
+  }
+
 
 //  Future _getBaghdadId() async {
 //    var response =
@@ -40,6 +61,8 @@ class _WeatherCardState extends State<WeatherCard> {
         cityId = initList[0].city.id;
       });
     });
+
+    startTimer();
 
 //    _getBaghdadId().then((value) {
 //      setState(() {
@@ -89,6 +112,7 @@ class _WeatherCardState extends State<WeatherCard> {
   }
 
   void minus(int id,String hint) {
+    timer_weather.cancel();
     setState(() {
       cityId = id;
       cityHint = hint;
@@ -236,6 +260,7 @@ class _WeatherCardState extends State<WeatherCard> {
                                       );
                                     } else {
                                       _rWeather = (snapshot.data).toList();
+
 //                                      var keysList = receivedMap.keys.toList();
 //                                      _rWeather = receivedMap[keysList[0]];
 //                                      _rCities = receivedMap[keysList[1]];
@@ -326,7 +351,12 @@ class _WeatherCardState extends State<WeatherCard> {
 
                                                       });
                                                     },
-                                                    child: Text(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .center,
+                                                      children: <Widget>[
+                                                        Text(
                                                       cityHint,
                                                       style: TextStyle(
                                                         fontSize: 18,
@@ -334,6 +364,15 @@ class _WeatherCardState extends State<WeatherCard> {
                                                         fontFamily:
                                                             "CustomIcons",
                                                       ),
+                                                    ),
+
+                                                        Icon(
+                                                          Icons
+                                                              .arrow_drop_down,
+                                                          color:
+                                                          Colors.black,
+                                                        ),
+                                                    ],
                                                     ),
                                                   ),
                                                 ),

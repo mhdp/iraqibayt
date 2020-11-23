@@ -8,6 +8,7 @@ import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/latest_posts.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/posts/spicail_posts.dart';
+import 'package:iraqibayt/widgets/posts/spicial_page.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
 import '../ContactUs.dart';
@@ -136,6 +137,33 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ),
             Spicial_posts(),
+            Padding(
+            padding: const EdgeInsets.all(10),
+            child:FlatButton(
+              onPressed: () {
+
+                Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context) => new Spical_page()));
+              },
+              child: Row(
+                mainAxisAlignment:
+                MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'عرض كل الإعلانات المميزة',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontFamily:
+                      "CustomIcons",
+                    ),
+                  ),
+
+                ],
+              ),
+              //blockButton: true,
+              color: Color(0xFFdd685f),
+            )),
             SizedBox(height: 10,),
             RaisedButton(
               onPressed: () {},

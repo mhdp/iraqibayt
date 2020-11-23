@@ -424,7 +424,7 @@ class _Welcome extends State<Welcome> {
                   SizedBox(height: 40.0),
                   choose_form(),
 
-                  android_or_ios(),
+                  //android_or_ios(),
                   Container(
                       margin: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 30.0),

@@ -10,6 +10,7 @@ class DatabaseHelper {
   String serverUrl = "https://iraqibayt.com/api";
   Map<String, dynamic> posts_list;
   var spicial_posts_list;
+  var all_spicial_posts_list;
   var latest_posts_list;
   Map<String, dynamic> my_posts_list;
   Map<String, dynamic> my_posts_favorits_list;
@@ -36,6 +37,16 @@ class DatabaseHelper {
     if (response.body.length > 0) {
       //print(response.body.toString());
       spicial_posts_list = json.decode(response.body);
+      //print(posts_list.toString());
+    }
+  }
+
+  Future<List> get_all_spicial_posts() async {
+    String myUrl = "$serverUrl/get_all_spical_posts_api";
+    http.Response response = await http.post(myUrl);
+    if (response.body.length > 0) {
+      //print(response.body.toString());
+      all_spicial_posts_list = json.decode(response.body);
       //print(posts_list.toString());
     }
   }

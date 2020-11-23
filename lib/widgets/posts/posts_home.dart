@@ -41,6 +41,7 @@ class _Posts_Home extends State<Posts_Home> {
     databaseHelper.get_default_post_image().whenComplete(() {
       setState(() {
         default_image = databaseHelper.default_post_image;
+        print('default image: $default_image');
       });
     });
 
@@ -395,7 +396,7 @@ class _BikeListItemState extends State<BikeListItem> {
 
                     var img = data[i]['img'].toString();
                     print("img: $img");
-                    if (img == "") {
+                    if (img == "" || img == null) {
                       img = default_image;
                       print("img: $img");
                     }
