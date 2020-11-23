@@ -353,6 +353,10 @@ class _UpdatePost extends State<UpdatePost> {
           }
         });
 
+        if(){
+
+        }
+
         //print(databaseHelper.get_post_by_id_list[0]["imgs"].toString());
 //        String imgs_list1 = databaseHelper.get_post_by_id_list[0]["imgs"]
 //            .toString()
@@ -377,6 +381,24 @@ class _UpdatePost extends State<UpdatePost> {
       });
     });
   }
+
+/*  Future<File> urlToFile(String imageUrl) async {
+// generate random number.
+    var rng = new Random();
+// get temporary directory of device.
+    Directory tempDir = await getTemporaryDirectory();
+// get temporary path from temporary directory.
+    String tempPath = tempDir.path;
+// create a new file in temporary path with random file name.
+    File file = new File('$tempPath'+ (rng.nextInt(100)).toString() +'.png');
+// call http.get method and pass imageUrl into it to get response.
+    http.Response response = await http.get(imageUrl);
+// write bodyBytes received in response to file.
+    await file.writeAsBytes(response.bodyBytes);
+// now return the file which is created with random name in
+// temporary directory and image bytes from response is written to // that file.
+    return file;
+  }*/
 
   void initState() {
     super.initState();

@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 
 import '../welcome.dart';
+import 'add_post.dart';
 
 class MyPosts extends StatefulWidget {
   @override
@@ -149,6 +150,41 @@ class _MyPostsState extends State<MyPosts> {
           ),
         ),
         backgroundColor: Color(0xff275879),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: RaisedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  new MaterialPageRoute(
+                      builder: (BuildContext context) => new Add_Post()),
+                );
+              },
+              color: Color(0xFFdd685f),
+              elevation: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Icon(
+                    Icons.add_box,
+                    //color: Color(0xFF335876),
+                    color: Colors.white,
+                  ),
+                  Text(
+                    " أضف إعلان ",
+                    style: TextStyle(
+                      fontSize: 20,
+                      //color: Color(0xFF335876),
+                      color: Colors.white,
+                      fontFamily: "CustomIcons",
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: LayoutBuilder(
@@ -371,7 +407,7 @@ class _MyPostsState extends State<MyPosts> {
                                                                             _deletePost(post.id);
                                                                           },
                                                                         ),
-                                                                        /*IconButton(
+                                                                        IconButton(
                                                                           icon:
                                                                               Icon(Icons.edit),
                                                                           color:
@@ -385,7 +421,7 @@ class _MyPostsState extends State<MyPosts> {
                                                                                       )),
                                                                             );
                                                                           },
-                                                                        ),*/
+                                                                        ),
                                                                       ],
                                                                     ),
                                                                   ),

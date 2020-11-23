@@ -1670,6 +1670,9 @@ class _Add_Post extends State<Add_Post> {
   }
 
   Widget buildGridView() {
+
+
+
     if (images != null)
       return ResponsiveGridRow(
         children: [
@@ -1685,14 +1688,33 @@ class _Add_Post extends State<Add_Post> {
                 color: Color(0xFFebebeb),
 
               ),*/
-                height: 190,
+                height: 230,
                 alignment: Alignment(0, 0),
                 //color: Colors.grey,
-                child: AssetThumb(
+                child: Column(children: [ AssetThumb(
                   asset: images[i],
                   width: 300,
                   height: 300,
                 ),
+
+                  IconButton(
+                    icon:
+                    Icon(Icons.delete),
+                    color:
+                    Colors.red,
+                    onPressed:
+                        () {
+                      setState(() {
+                        print(images.length.toString());
+                        //images.remove(i);
+                        images.removeAt(i);
+                        print(images.length.toString());
+
+                      });
+                      //_deletePost(post.id);
+                    },
+                  ),
+                ],),
               ),
             ),
         ],
@@ -1702,8 +1724,10 @@ class _Add_Post extends State<Add_Post> {
   }
 
   Future<void> loadAssets() async {
+    List<Asset> images_temp = List<Asset>();
+
     setState(() {
-      images = List<Asset>();
+      images_temp = List<Asset>();
     });
 
     List<Asset> resultList;
@@ -1725,8 +1749,7 @@ class _Add_Post extends State<Add_Post> {
     if (!mounted) return;
 
     setState(() {
-      images = resultList;
-      if (error == null) _error = 'No Error Dectected';
+      images.addAll(resultList) ;
     });
   }
 
