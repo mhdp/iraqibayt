@@ -353,9 +353,9 @@ class _UpdatePost extends State<UpdatePost> {
           }
         });
 
-        if(){
+        /*if(){
 
-        }
+        }*/
 
         //print(databaseHelper.get_post_by_id_list[0]["imgs"].toString());
 //        String imgs_list1 = databaseHelper.get_post_by_id_list[0]["imgs"]
