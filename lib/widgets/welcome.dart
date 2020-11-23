@@ -15,7 +15,6 @@ import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:apple_sign_in/apple_sign_in.dart';
 
-
 DatabaseHelper databaseHelper = new DatabaseHelper();
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -80,7 +79,8 @@ class _Welcome extends State<Welcome> {
     return null;
   }
 
-  _save_login_info(int userId, String pass, String name, String email, String token) async {
+  _save_login_info(
+      int userId, String pass, String name, String email, String token) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'is_login';
     final value = "1";
@@ -261,17 +261,20 @@ class _Welcome extends State<Welcome> {
 
   appleLogIn() async {
     //print('dd');
-    if(await AppleSignIn.isAvailable()) {
+    if (await AppleSignIn.isAvailable()) {
       final AuthorizationResult result = await AppleSignIn.performRequests([
         AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
       ]);
       switch (result.status) {
         case AuthorizationStatus.authorized:
-          print(result.credential.email);//All the required credentials
-          print(result.credential.fullName.givenName);//All the required credentials
-          print(result.credential.fullName.familyName);//All the required credentials
+          print(result.credential.email); //All the required credentials
+          print(result
+              .credential.fullName.givenName); //All the required credentials
+          print(result
+              .credential.fullName.familyName); //All the required credentials
           print(result.credential.authorizationCode);
-          String fullname ="${result.credential.fullName.givenName} ${result.credential.fullName.familyName}";
+          String fullname =
+              "${result.credential.fullName.givenName} ${result.credential.fullName.familyName}";
 
           var data = {
             'name': fullname,
@@ -284,8 +287,12 @@ class _Welcome extends State<Welcome> {
           print(body);
 
           if (body['success'] == true) {
-            _save_login_info(body['user']['id'], result.credential.identityToken.toString(), fullname,
-                result.credential.email, body['user']["customToken"]);
+            _save_login_info(
+                body['user']['id'],
+                result.credential.identityToken.toString(),
+                fullname,
+                result.credential.email,
+                body['user']["customToken"]);
 
             Navigator.pushReplacementNamed(context, '/home');
           }
@@ -298,7 +305,7 @@ class _Welcome extends State<Welcome> {
             }
           });*/
           //All the required credentials
-          break;//All the required credentials
+          break; //All the required credentials
         case AuthorizationStatus.error:
           print("Sign in failed: ${result.error.localizedDescription}");
           break;
@@ -392,14 +399,14 @@ class _Welcome extends State<Welcome> {
     );
   }
 
-
   @override
   initState() {
     super.initState();
     // read();
     //check_login();
 
-    if(Platform.isIOS){                                                      //check for ios if developing for both android & ios
+    if (Platform.isIOS) {
+      //check for ios if developing for both android & ios
       AppleSignIn.onCredentialRevoked.listen((_) {
         print("Credentials revoked");
       });
@@ -940,7 +947,6 @@ class _Welcome extends State<Welcome> {
         setState(() {
           signup_btn_child_index = 0;
         });
-
       } else if (_passwordController.text.isEmpty) {
         alert_dialog('يرجى كتابة كلمةالمرور', 1, 'بيانات ناقصة');
         setState(() {

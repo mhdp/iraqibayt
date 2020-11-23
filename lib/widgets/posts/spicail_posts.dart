@@ -26,7 +26,6 @@ class Spicial_posts extends StatefulWidget {
 }
 
 class _Spicial_posts extends State<Spicial_posts> {
-
   var is_loading = true;
 
   void initState() {
@@ -51,12 +50,10 @@ class _Spicial_posts extends State<Spicial_posts> {
   @override
   Widget build(BuildContext context) {
     return is_loading
-            ? new Center(
-          child: new GFLoader(type: GFLoaderType.circle),
-        )
-            : BikeListItem(list1: databaseHelper.spicial_posts_list);
-
-
+        ? new Center(
+            child: new GFLoader(type: GFLoaderType.circle),
+          )
+        : BikeListItem(list1: databaseHelper.spicial_posts_list);
   }
 }
 
@@ -154,7 +151,7 @@ class _BikeListItemState extends State<BikeListItem> {
                     borderRadius: BorderRadius.circular(40)),
                 elevation: 16,
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.38,
+                  height: MediaQuery.of(context).size.height * 0.44,
                   width: MediaQuery.of(context).size.height * 0.4,
                   child: Column(
                     children: [
@@ -207,7 +204,7 @@ class _BikeListItemState extends State<BikeListItem> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => Welcome()),
-                                      (Route<dynamic> route) => false,
+                                  (Route<dynamic> route) => false,
                                 );
                               }),
                         ),
@@ -258,14 +255,9 @@ class _BikeListItemState extends State<BikeListItem> {
 
       return Column(
         children: [
-          for (var i = 0; i < widget.list1.length; i++)
-            post_widget(i)
+          for (var i = 0; i < widget.list1.length; i++) post_widget(i)
         ],
       );
-
-
-
-
     } else {
       return Text(
         'لا يوجد إعلانات',
@@ -280,7 +272,7 @@ class _BikeListItemState extends State<BikeListItem> {
     }
   }
 
-  post_widget(int i){
+  post_widget(int i) {
     var data = widget.list1;
 
     var show_icons = true;
@@ -318,10 +310,9 @@ class _BikeListItemState extends State<BikeListItem> {
           onTap: () {
             Navigator.of(context).push(
               new MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                  new FullPost(
-                    post_id: data[i]['id'].toString(),
-                  )),
+                  builder: (BuildContext context) => new FullPost(
+                        post_id: data[i]['id'].toString(),
+                      )),
             );
           },
           child: Card(
@@ -331,7 +322,7 @@ class _BikeListItemState extends State<BikeListItem> {
             ),
             clipBehavior: Clip.antiAlias,
             elevation: 0,
-            margin: const EdgeInsets.only(top:10.0),
+            margin: const EdgeInsets.only(top: 10.0),
             color: Colors.white,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -343,34 +334,28 @@ class _BikeListItemState extends State<BikeListItem> {
                     children: <Widget>[
                       Padding(
                           padding: const EdgeInsets.all(6),
-                          child:img == 'null'
+                          child: img == 'null'
                               ? Image.asset(
-                            'assets/images/posts/default_post_img.jpeg',
-                            fit: BoxFit.fill,
-                            height: MediaQuery.of(context)
-                                .size
-                                .width /
-                                1.5,
-                          )
+                                  'assets/images/posts/default_post_img.jpeg',
+                                  fit: BoxFit.fill,
+                                  height:
+                                      MediaQuery.of(context).size.width / 1.5,
+                                )
                               : Image.network(
-                            "https://iraqibayt.com/storage/app/public/posts/$img",
-                            fit: BoxFit.cover,
-                            height: MediaQuery.of(context)
-                                .size
-                                .width /
-                                1.5,
-                          )),
+                                  "https://iraqibayt.com/storage/app/public/posts/$img",
+                                  fit: BoxFit.cover,
+                                  height:
+                                      MediaQuery.of(context).size.width / 1.5,
+                                )),
                       Padding(
                         padding: const EdgeInsets.all(6),
-                        child:Flex(
+                        child: Flex(
                           direction: Axis.horizontal,
-                          mainAxisAlignment:
-                          MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             Container(
                               padding: const EdgeInsets.all(3.0),
-                              margin: const EdgeInsets.only(
-                                  top: 50.0),
+                              margin: const EdgeInsets.only(top: 50.0),
                               constraints: BoxConstraints(),
                               decoration: BoxDecoration(
                                 color: Colors.redAccent,
@@ -378,9 +363,8 @@ class _BikeListItemState extends State<BikeListItem> {
                                   color: Colors.redAccent,
                                 ),
                                 borderRadius: BorderRadius.only(
-
-                                  topRight:Radius.circular(10.0),
-                                  bottomRight:Radius.circular(10.0),
+                                  topRight: Radius.circular(10.0),
+                                  bottomRight: Radius.circular(10.0),
                                 ),
                               ),
                               child: Text(
@@ -393,18 +377,17 @@ class _BikeListItemState extends State<BikeListItem> {
                               ),
                             ),
                           ],
-                        ),),
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(6),
-                        child:Flex(
+                        child: Flex(
                           direction: Axis.horizontal,
-                          mainAxisAlignment:
-                          MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             Container(
                               padding: const EdgeInsets.all(3.0),
-                              margin: const EdgeInsets.only(
-                                  top: 90.0),
+                              margin: const EdgeInsets.only(top: 90.0),
                               constraints: BoxConstraints(),
                               decoration: BoxDecoration(
                                 color: Colors.redAccent,
@@ -412,9 +395,8 @@ class _BikeListItemState extends State<BikeListItem> {
                                   color: Colors.redAccent,
                                 ),
                                 borderRadius: BorderRadius.only(
-
-                                  topRight:Radius.circular(10.0),
-                                  bottomRight:Radius.circular(10.0),
+                                  topRight: Radius.circular(10.0),
+                                  bottomRight: Radius.circular(10.0),
                                 ),
                               ),
                               child: Text(
@@ -427,7 +409,8 @@ class _BikeListItemState extends State<BikeListItem> {
                               ),
                             ),
                           ],
-                        ),)
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -462,8 +445,7 @@ class _BikeListItemState extends State<BikeListItem> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Icon(Icons.location_on,
-                          color: Color(0xff275879)),
+                      Icon(Icons.location_on, color: Color(0xff275879)),
                       Text(
                         "${data[i]['city']['name']} - ${data[i]['region']['name']}",
                         style: TextStyle(
@@ -484,8 +466,7 @@ class _BikeListItemState extends State<BikeListItem> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Icon(Icons.format_line_spacing,
-                          color: Color(0xff275879)),
+                      Icon(Icons.format_line_spacing, color: Color(0xff275879)),
                       Text(
                         " المساحة:  ${data[i]['area']} ${data[i]['unit']['name']}",
                         style: TextStyle(
@@ -525,48 +506,49 @@ class _BikeListItemState extends State<BikeListItem> {
                 ),
                 show_icons
                     ? Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 3, // 20%
-                      child: Column(
-                        mainAxisAlignment:
-                        MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            MyIcons.car, color: Color(0xFF335876),
+                          Expanded(
+                            flex: 3, // 20%
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Icon(
+                                  MyIcons.car,
+                                  color: Color(0xFF335876),
+                                ),
+                                Text(car_num.toString()),
+                              ],
+                            ),
                           ),
-                          Text(car_num.toString()),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3, // 20%
-                      child: Column(
-                        mainAxisAlignment:
-                        MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            MyIcons.bed,color: Color(0xFF335876),
+                          Expanded(
+                            flex: 3, // 20%
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  MyIcons.bed,
+                                  color: Color(0xFF335876),
+                                ),
+                                Text(bed.toString()),
+                              ],
+                            ),
                           ),
-                          Text(bed.toString()),
+                          Expanded(
+                            flex: 3, // 20%
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Icon(
+                                  MyIcons.bath,
+                                  color: Color(0xFF335876),
+                                ),
+                                Text(bath.toString()),
+                              ],
+                            ),
+                          ),
                         ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3, // 20%
-                      child: Column(
-                        mainAxisAlignment:
-                        MainAxisAlignment.start,
-                        children: [
-                          Icon(MyIcons.bath,color: Color(0xFF335876),),
-                          Text(bath.toString()),
-                        ],
-                      ),
-                    ),
-                  ],
-                )
+                      )
                     : Container(),
 //Divider
                 Padding(
@@ -584,32 +566,29 @@ class _BikeListItemState extends State<BikeListItem> {
                   padding: const EdgeInsets.all(0),
                   child: Container(
                       color: Colors.white,
-                      margin: const EdgeInsets.only(
-                          top: 0, bottom: 0.0),
+                      margin: const EdgeInsets.only(top: 0, bottom: 0.0),
                       padding: const EdgeInsets.all(0.0),
                       child: Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FlatButton(
                             onPressed: () async {
-                              var url = "tel:+${data[i]['phone'].toString().trim()}";
+                              var url =
+                                  "tel:+${data[i]['phone'].toString().trim()}";
                               print(url);
                               if (await canLaunch(url)) {
-                              await launch(url);
+                                await launch(url);
                               }
-                              },
-                            shape: RoundedRectangleBorder(side: BorderSide(
-                                color: Color(0xFF335876),
-                                width: 0,
-                                style: BorderStyle.solid
-                            ),),
-
+                            },
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
+                                  color: Color(0xFF335876),
+                                  width: 0,
+                                  style: BorderStyle.solid),
+                            ),
                             color: Color(0xFF335876),
-
                             child: Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Icon(
                                   Icons.call,
@@ -628,56 +607,50 @@ class _BikeListItemState extends State<BikeListItem> {
                               ],
                             ),
                           ),
-                          _checkIfInFavs(data[i]['id'],
-                              _rFavorites) ==
-                              null
+                          _checkIfInFavs(data[i]['id'], _rFavorites) == null
                               ? FlatButton(
-                            onPressed: () {
-                              _addFavorite(data[i]['id']);
-                            },
-                            shape: RoundedRectangleBorder(side: BorderSide(
-                                color: Colors.red,
-                                width: 0,
-                                style: BorderStyle.solid
-                            ),),
-                            color: Colors.red,
-                            child: Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment
-                                  .center,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.favorite_border,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          )
+                                  onPressed: () {
+                                    _addFavorite(data[i]['id']);
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: Colors.red,
+                                        width: 0,
+                                        style: BorderStyle.solid),
+                                  ),
+                                  color: Colors.red,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.favorite_border,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
+                                )
                               : FlatButton(
-                            onPressed: () {
-                              _deleteFavorite(
-                                  _checkIfInFavs(
-                                      data[i]['id'],
-                                      _rFavorites));
-                            },
-                            shape: RoundedRectangleBorder(side: BorderSide(
-                                color: Colors.red,
-                                width: 0,
-                                style: BorderStyle.solid
-                            ),),
-                            color: Colors.red,
-                            child: Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment
-                                  .center,
-                              children: <Widget>[
-                                Icon(
-                                  Icons.favorite,
-                                  color: Colors.white,
+                                  onPressed: () {
+                                    _deleteFavorite(_checkIfInFavs(
+                                        data[i]['id'], _rFavorites));
+                                  },
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: Colors.red,
+                                        width: 0,
+                                        style: BorderStyle.solid),
+                                  ),
+                                  color: Colors.red,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.favorite,
+                                        color: Colors.white,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ),
                         ],
                       )),
                 ),

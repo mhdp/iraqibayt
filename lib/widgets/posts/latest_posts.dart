@@ -152,7 +152,7 @@ class _BikeListItemState extends State<BikeListItem> {
                     borderRadius: BorderRadius.circular(40)),
                 elevation: 16,
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.38,
+                  height: MediaQuery.of(context).size.height * 0.44,
                   width: MediaQuery.of(context).size.height * 0.4,
                   child: Column(
                     children: [
