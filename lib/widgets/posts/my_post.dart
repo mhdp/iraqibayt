@@ -9,6 +9,8 @@ import 'package:iraqibayt/widgets/posts/update_post.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 
+import '../welcome.dart';
+
 class MyPosts extends StatefulWidget {
   @override
   _MyPostsState createState() => _MyPostsState();
@@ -64,6 +66,7 @@ class _MyPostsState extends State<MyPosts> {
       print(value2);
       setState(() {
         _token = value2;
+        print('token: $_token');
       });
     }
 
@@ -89,6 +92,9 @@ class _MyPostsState extends State<MyPosts> {
         _isPostLoading = false;
       });
       return _posts;
+    }else{
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Welcome()));
     }
   }
 
@@ -365,7 +371,7 @@ class _MyPostsState extends State<MyPosts> {
                                                                             _deletePost(post.id);
                                                                           },
                                                                         ),
-                                                                        IconButton(
+                                                                        /*IconButton(
                                                                           icon:
                                                                               Icon(Icons.edit),
                                                                           color:
@@ -379,7 +385,7 @@ class _MyPostsState extends State<MyPosts> {
                                                                                       )),
                                                                             );
                                                                           },
-                                                                        ),
+                                                                        ),*/
                                                                       ],
                                                                     ),
                                                                   ),

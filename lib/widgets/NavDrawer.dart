@@ -8,6 +8,7 @@ import 'package:iraqibayt/widgets/pages/terms.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/my_favorits.dart';
 import 'package:iraqibayt/widgets/posts/my_post.dart';
+import 'package:iraqibayt/widgets/posts/spicial_page.dart';
 import 'package:iraqibayt/widgets/profile.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -128,6 +129,22 @@ class NavDrawerState extends State<NavDrawer> {
                   builder: (BuildContext context) => new MyPosts()))
             },
           ),
+
+          ListTile(
+            leading: Icon(
+              Icons.star,
+              color: Color(0xFF335876),
+            ),
+            title: Text(
+              'الإعلانات المميزة',
+              style: TextStyle(fontFamily: 'CustomIcons'),
+            ),
+            onTap: () => {
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new Spical_page()))
+            },
+          ),
+
           ListTile(
             leading: Icon(
               Icons.favorite,

@@ -75,7 +75,7 @@ class _ProfileState extends State<Profile> {
 
         _usernameController.text = _username;
         _emailController.text = _email;
-        _passwordController.text = _password;
+        //_passwordController.text = _password;
       });
     }
   }
@@ -100,7 +100,19 @@ class _ProfileState extends State<Profile> {
 
   void _submitUserData() async {
     final _usernameInput = _usernameController.text;
-    final _newPassInput = _newPasswordController.text;
+    final _newPassInput2 = _newPasswordController.text;
+    final _newPassInput = _passwordController.text;
+
+    if(_newPassInput != _newPassInput2){
+      _showDialog("تأكد من تطابق كلمتي المرور");
+      return;
+    }
+
+    if(_passwordController.text.length < 6){
+      _showDialog("كلمة المرور قصيرة جداً");
+      return;
+    }
+
     if (_usernameInput.isNotEmpty)
       _updatePrefs(_password, _newPassInput, _usernameInput);
 
@@ -125,6 +137,27 @@ class _ProfileState extends State<Profile> {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  void _showDialog(String msg) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: new Text('تنبيه'),
+            content: new Text(msg),
+            actions: <Widget>[
+              new RaisedButton(
+                child: new Text(
+                  'موافق',
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 
   @override
@@ -411,9 +444,15 @@ class _ProfileState extends State<Profile> {
                                                       child: TextFormField(
                                                         textAlign:
                                                             TextAlign.center,
-                                                        enabled: false,
+                                                        enabled: true,
                                                         decoration:
                                                             InputDecoration(
+                                                              hintText:
+                                                              'اترك الحقل فارغاً في حال لم ترغب بتغيير كلمة المرور',
+                                                              hintStyle: TextStyle(
+                                                                  fontSize: 16.0,
+                                                                  fontFamily:
+                                                                  'CustomIcons'),
                                                           contentPadding:
                                                               const EdgeInsets
                                                                       .symmetric(
