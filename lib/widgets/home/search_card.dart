@@ -27,6 +27,9 @@ class _SearchCardState extends State<SearchCard> {
   int cityValue;
   String cityHint;
 
+  int selectedRCounter;
+  bool _isAllSelected;
+
   List<int> _subsIds, _regionsIds;
 
   Future<Map<String, List<Object>>> _getSearchData() async {
@@ -328,6 +331,18 @@ class _SearchCardState extends State<SearchCard> {
                         color: Colors.black54,
                       ),
                     ),
+                    Container(
+                      child: CheckboxListTile(
+                        title: Text(
+                          'تحديد الكل',
+                          style: TextStyle(fontFamily: 'CustomIcons'),
+                        ),
+                        value: _isAllSelected,
+                        onChanged: (bool value) {
+                          _selectAllRegions(value);
+                        },
+                      ),
+                    ),
                     Expanded(
                       child: ListView.builder(
                         itemCount: regions.length,
@@ -343,16 +358,25 @@ class _SearchCardState extends State<SearchCard> {
                               onChanged: (bool value) {
                                 //print(value);
 
-                                if (value)
+                                if (value) {
                                   setState(() {
                                     regions[index].checked = 1;
                                     _regions[index].checked = 1;
+                                    selectedRCounter++;
                                   });
-                                else
+                                  _updateSelectedRegions();
+                                } else {
                                   setState(() {
                                     regions[index].checked = 0;
                                     _regions[index].checked = 0;
+                                    selectedRCounter--;
                                   });
+                                  _updateSelectedRegions();
+                                }
+
+                                print(_regions.length.toString() +
+                                    '--' +
+                                    selectedRCounter.toString());
                               },
                             ),
                           );
@@ -378,11 +402,48 @@ class _SearchCardState extends State<SearchCard> {
     return baghdad.id;
   }
 
+  void _selectAllRegions(bool sValue) {
+    if (!sValue) {
+      for (var region in _regions) {
+        setState(() {
+          region.checked = 0;
+        });
+      }
+
+      setState(() {
+        _isAllSelected = sValue;
+      });
+    } else {
+      for (var region in _regions) {
+        setState(() {
+          region.checked = 1;
+        });
+      }
+
+      setState(() {
+        _isAllSelected = sValue;
+      });
+    }
+  }
+
+  void _updateSelectedRegions() {
+    if (_regions.length == selectedRCounter)
+      setState(() {
+        _isAllSelected = true;
+      });
+    else
+      setState(() {
+        _isAllSelected = false;
+      });
+  }
+
   @override
   void initState() {
     super.initState();
     catHint = 'جميع الأقسام الرئيسية';
     cityHint = 'جميع المدن';
+    _isAllSelected = true;
+    selectedRCounter = 0;
 
     catValue = 1;
     _getBaghdadId().then((value) {

@@ -112,7 +112,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                     borderRadius: BorderRadius.circular(40)),
                 elevation: 16,
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.38,
+                  height: MediaQuery.of(context).size.height * 0.44,
                   width: MediaQuery.of(context).size.height * 0.4,
                   child: Column(
                     children: [
@@ -139,7 +139,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                         padding: const EdgeInsets.all(30.0),
                         child: Center(
                           child: Text(
-                            'يجب عليك تسجيل الدخول أولاً لكي تتمكن من المتابعة',
+                            'يجب عليك تسجيل الدخول أولاً لكي تتمكن من إضافة الإعلان إلى المفضلة',
                             style: TextStyle(
                                 fontFamily: 'CustomIcons', fontSize: 20.0),
                           ),
@@ -150,7 +150,7 @@ class _Posts_detalis extends State<Posts_detalis> {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 30.0),
                           child: GFButton(
-                              color: GFColors.LIGHT,
+                              color: Color(0xFF335876),
                               //blockButton: true,
                               child: Center(
                                 child: Text(
@@ -265,10 +265,9 @@ class _Posts_detalis extends State<Posts_detalis> {
     }
   }
 
-
-  void _launchWhatsApp ({
-  @required String phone,
-  @required String message,
+  void _launchWhatsApp({
+    @required String phone,
+    @required String message,
   }) async {
     /*String url() {
       if (Platform.isIOS) {
@@ -285,7 +284,6 @@ class _Posts_detalis extends State<Posts_detalis> {
     }*/
 
     FlutterOpenWhatsapp.sendSingleMessage(phone, message);
-
   }
 
   void _launchViber({
@@ -329,7 +327,6 @@ class _Posts_detalis extends State<Posts_detalis> {
     var telegram_ = false;
     var viber_ = false;
 
-
     if (is_loading == false) {
       bath = databaseHelper.get_post_by_id_list[0]["bathroom"];
       if (bath == "null" || bath == null) {
@@ -349,29 +346,29 @@ class _Posts_detalis extends State<Posts_detalis> {
       }
 
       //check contact method
-      String contact_info = databaseHelper.get_post_by_id_list[0]["contact"].toString();
+      String contact_info =
+          databaseHelper.get_post_by_id_list[0]["contact"].toString();
 
       //check call
 
-      if(contact_info.contains("إتصال مباشر")){
+      if (contact_info.contains("إتصال مباشر")) {
         call_ = true;
       }
 
       //check whatsapp
-      if(contact_info.contains("واتسآب")){
+      if (contact_info.contains("واتسآب")) {
         whatsapp_ = true;
       }
 
       //check telegram
-      if(contact_info.contains("تلغرام")){
+      if (contact_info.contains("تلغرام")) {
         telegram_ = true;
       }
 
       //check viber
-      if(contact_info.contains("فايبر")){
+      if (contact_info.contains("فايبر")) {
         call_ = true;
       }
-
     }
 
     int carsoul_counter = 0;
@@ -444,81 +441,80 @@ class _Posts_detalis extends State<Posts_detalis> {
                   ),
 
                   Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
 //city
-                        RaisedButton(
-                          onPressed: () {},
-                          color: Colors.white,
-                          elevation: 0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Icon(Icons.location_city,
-                                  color: Color(0xff275879)),
-                              Text(
-                                databaseHelper.get_post_by_id_list[0]["city"]
-                                        ["name"]
-                                    .toString(),
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontFamily: "CustomIcons",
-                                  fontWeight: FontWeight.w300,
-                                ),
-                                softWrap: true,
+                      RaisedButton(
+                        onPressed: () {},
+                        color: Colors.white,
+                        elevation: 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Icon(Icons.location_city, color: Color(0xff275879)),
+                            Text(
+                              databaseHelper.get_post_by_id_list[0]["city"]
+                                      ["name"]
+                                  .toString(),
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                                fontFamily: "CustomIcons",
+                                fontWeight: FontWeight.w300,
                               ),
-                            ],
-                          ),
+                              softWrap: true,
+                            ),
+                          ],
                         ),
-                        //region
-                        RaisedButton(
-                          onPressed: () {},
-                          color: Colors.white,
-                          elevation: 0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Icon(Icons.location_on, color: Color(0xff275879)),
-                              Text(
-                                databaseHelper.get_post_by_id_list[0]["region"]
-                                        ["name"]
-                                    .toString(),
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontFamily: "CustomIcons",
-                                  fontWeight: FontWeight.w300,
-                                ),
-                                softWrap: true,
+                      ),
+                      //region
+                      RaisedButton(
+                        onPressed: () {},
+                        color: Colors.white,
+                        elevation: 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Icon(Icons.location_on, color: Color(0xff275879)),
+                            Text(
+                              databaseHelper.get_post_by_id_list[0]["region"]
+                                      ["name"]
+                                  .toString(),
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                                fontFamily: "CustomIcons",
+                                fontWeight: FontWeight.w300,
                               ),
-                            ],
-                          ),
+                              softWrap: true,
+                            ),
+                          ],
                         ),
-                        //area
-                        RaisedButton(
-                          onPressed: () {},
-                          color: Colors.white,
-                          elevation: 0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Icon(Icons.format_line_spacing,
-                                  color: Color(0xff275879)),
-                              Text(
-                                " ${databaseHelper.get_post_by_id_list[0]["area"].toString()} ${databaseHelper.get_post_by_id_list[0]["unit"]["name"].toString()}",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontFamily: "CustomIcons",
-                                  fontWeight: FontWeight.w300,
-                                ),
+                      ),
+                      //area
+                      RaisedButton(
+                        onPressed: () {},
+                        color: Colors.white,
+                        elevation: 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Icon(Icons.format_line_spacing,
+                                color: Color(0xff275879)),
+                            Text(
+                              " ${databaseHelper.get_post_by_id_list[0]["area"].toString()} ${databaseHelper.get_post_by_id_list[0]["unit"]["name"].toString()}",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                                fontFamily: "CustomIcons",
+                                fontWeight: FontWeight.w300,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
+                  ),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -819,50 +815,58 @@ class _Posts_detalis extends State<Posts_detalis> {
                   ButtonBar(
                     alignment: MainAxisAlignment.center,
                     children: [
-                      call_? IconButton(
-                        padding: new EdgeInsets.all(0.0),
-                        color: Colors.black,
-                        icon: new Icon(MyIcons.phone, size: 38.0),
-                        onPressed: () {
-                          _launchURL(databaseHelper.get_post_by_id_list[0]
-                                  ["phone"]
-                              .toString());
-                        },
-                      ):Container(),
-                      whatsapp_? IconButton(
-                        padding: new EdgeInsets.all(0.0),
-                        color: Colors.green,
-                        icon: new Icon(MyIcons.whatsapp, size: 38.0),
-                        onPressed: () {
-                          _launchWhatsApp(
-                              phone: databaseHelper.get_post_by_id_list[0]
-                                      ["phone"]
-                                  .toString(),
-                              message: 'البيت العراقي');
-                        },
-                      ):Container(),
-                      telegram_ ? IconButton(
-                        padding: new EdgeInsets.all(0.0),
-                        color: Colors.blue,
-                        icon: new Icon(MyIcons.telegram, size: 38.0),
-                        onPressed: () {
-                          _launchTelegram(
-                              phone: databaseHelper.get_post_by_id_list[0]
-                                      ["phone"]
-                                  .toString());
-                        },
-                      ):Container(),
-                      viber_? IconButton(
-                        padding: new EdgeInsets.all(0.0),
-                        color: Colors.indigo,
-                        icon: new Icon(MyIcons.viber, size: 38.0),
-                        onPressed: () {
-                          _launchViber(
-                              phone: databaseHelper.get_post_by_id_list[0]
-                                      ["phone"]
-                                  .toString());
-                        },
-                      ):Container(),
+                      call_
+                          ? IconButton(
+                              padding: new EdgeInsets.all(0.0),
+                              color: Colors.black,
+                              icon: new Icon(MyIcons.phone, size: 38.0),
+                              onPressed: () {
+                                _launchURL(databaseHelper.get_post_by_id_list[0]
+                                        ["phone"]
+                                    .toString());
+                              },
+                            )
+                          : Container(),
+                      whatsapp_
+                          ? IconButton(
+                              padding: new EdgeInsets.all(0.0),
+                              color: Colors.green,
+                              icon: new Icon(MyIcons.whatsapp, size: 38.0),
+                              onPressed: () {
+                                _launchWhatsApp(
+                                    phone: databaseHelper.get_post_by_id_list[0]
+                                            ["phone"]
+                                        .toString(),
+                                    message: 'البيت العراقي');
+                              },
+                            )
+                          : Container(),
+                      telegram_
+                          ? IconButton(
+                              padding: new EdgeInsets.all(0.0),
+                              color: Colors.blue,
+                              icon: new Icon(MyIcons.telegram, size: 38.0),
+                              onPressed: () {
+                                _launchTelegram(
+                                    phone: databaseHelper.get_post_by_id_list[0]
+                                            ["phone"]
+                                        .toString());
+                              },
+                            )
+                          : Container(),
+                      viber_
+                          ? IconButton(
+                              padding: new EdgeInsets.all(0.0),
+                              color: Colors.indigo,
+                              icon: new Icon(MyIcons.viber, size: 38.0),
+                              onPressed: () {
+                                _launchViber(
+                                    phone: databaseHelper.get_post_by_id_list[0]
+                                            ["phone"]
+                                        .toString());
+                              },
+                            )
+                          : Container(),
                     ],
                   ),
 
