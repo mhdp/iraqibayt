@@ -397,16 +397,7 @@ class _MyPostsState extends State<MyPosts> {
                                                                   DataCell(
                                                                     Row(
                                                                       children: [
-                                                                        IconButton(
-                                                                          icon:
-                                                                              Icon(Icons.delete),
-                                                                          color:
-                                                                              Colors.red,
-                                                                          onPressed:
-                                                                              () {
-                                                                            _deletePost(post.id);
-                                                                          },
-                                                                        ),
+
                                                                         IconButton(
                                                                           icon:
                                                                               Icon(Icons.edit),
@@ -420,6 +411,16 @@ class _MyPostsState extends State<MyPosts> {
                                                                                         postId: post.id.toString(),
                                                                                       )),
                                                                             );
+                                                                          },
+                                                                        ),
+                                                                        IconButton(
+                                                                          icon:
+                                                                          Icon(Icons.delete),
+                                                                          color:
+                                                                          Colors.red,
+                                                                          onPressed:
+                                                                              () {
+                                                                            _deletePost(post.id);
                                                                           },
                                                                         ),
                                                                       ],

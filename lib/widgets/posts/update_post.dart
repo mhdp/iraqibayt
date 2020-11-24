@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,9 +13,11 @@ import 'package:iraqibayt/widgets/home/home.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'dart:async';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:path/path.dart' as Path;
+import 'package:path_provider/path_provider.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:uuid/uuid.dart';
 import '../ContactUs.dart';
 import '../my_icons_icons.dart';
 import '../profile.dart';
@@ -235,7 +238,7 @@ class _UpdatePost extends State<UpdatePost> {
   void _fillFormData() {
     databaseHelper.get_post_by_id(widget.postId).whenComplete(() {
       //print(databaseHelper.get_post_by_id_list.length.toString());
-      setState(() {
+      setState(() async {
         //print("img: ${databaseHelper.get_post_by_id_list[0]["img"].toString()}");
 
 //        if (databaseHelper.get_post_by_id_list[0]["img"].toString().isEmpty) {
@@ -353,9 +356,44 @@ class _UpdatePost extends State<UpdatePost> {
           }
         });
 
-        /*if(){
+        if(databaseHelper.get_post_by_id_list[0]["img"] != null || databaseHelper.get_post_by_id_list[0]["img"].toString().isNotEmpty){
+            print("imag one : ${databaseHelper.get_post_by_id_list[0]["img"].toString()}");
+            File img_one = await urlToFile(databaseHelper.get_post_by_id_list[0]["img"].toString());
+            images_files.add(img_one);
+            //Asset asset_one = await fileToAsset(img_one);
+            //images.add(asset_one);
+            //print(images.length.toString());
 
-        }*/
+        }
+
+        String imgs_list1 = databaseHelper.get_post_by_id_list[0]["imgs"]
+            .toString()
+            .replaceAll("[", "");
+        imgs_list1 = imgs_list1.replaceAll("]", "");
+        imgs_list1 = imgs_list1.replaceAll(" ", "");
+
+        List<String> imgs = imgs_list1.split(",");
+        //print(imgs.length.toString());
+        imgs.forEach((element) async {
+          //print(element.toString());
+          if (!element.isEmpty) {
+            print("enter $element");
+            /*imageList
+                .add('https://iraqibayt.com/storage/app/public/posts/$element');*/
+
+            File img_one = await urlToFile(element.toString());
+            images_files.add(img_one);
+            setState(() {
+
+            });
+          }
+        });
+        print("images file : ${images_files.length.toString()}");
+        setState(() {
+
+        });
+
+
 
         //print(databaseHelper.get_post_by_id_list[0]["imgs"].toString());
 //        String imgs_list1 = databaseHelper.get_post_by_id_list[0]["imgs"]
@@ -378,27 +416,43 @@ class _UpdatePost extends State<UpdatePost> {
         //print(imageList.length);
         //imageList = Set.from(imgs);
         //print(imgs);
+
+
       });
     });
   }
 
-/*  Future<File> urlToFile(String imageUrl) async {
+  List<File> images_files = [];
+
+  Future<File> urlToFile(String imageUrl) async {
 // generate random number.
     var rng = new Random();
 // get temporary directory of device.
-    Directory tempDir = await getTemporaryDirectory();
+    //Directory tempDir = await getTemporaryDirectory();
+    Directory documentDirectory = await getApplicationDocumentsDirectory();
+
 // get temporary path from temporary directory.
-    String tempPath = tempDir.path;
+    String tempPath = documentDirectory.path;
+
+
 // create a new file in temporary path with random file name.
-    File file = new File('$tempPath'+ (rng.nextInt(100)).toString() +'.png');
+    File file = new File('$tempPath'+ (rng.nextInt(100)).toString() +'.jpg');
 // call http.get method and pass imageUrl into it to get response.
-    http.Response response = await http.get(imageUrl);
+    http.Response response = await http.get("https://iraqibayt.com/storage/app/public/posts/$imageUrl");
 // write bodyBytes received in response to file.
     await file.writeAsBytes(response.bodyBytes);
 // now return the file which is created with random name in
 // temporary directory and image bytes from response is written to // that file.
     return file;
-  }*/
+  }
+
+  var uuid = Uuid();
+
+  Future<Asset> fileToAsset(File image) async {
+    String fileName = Path.basename(image.path);
+    var decodedImage = await decodeImageFromList(image.readAsBytesSync());
+    return Asset(uuid.v4(), fileName, decodedImage.width, decodedImage.height);
+  }
 
   void initState() {
     super.initState();
@@ -409,6 +463,7 @@ class _UpdatePost extends State<UpdatePost> {
     get_Currancies();
 
     _fillFormData();
+
   }
 
   @override
@@ -1849,9 +1904,49 @@ class _UpdatePost extends State<UpdatePost> {
   }
 
   Widget buildGridView() {
-    if (images != null)
+    print(' images list: ${images.length.toString()}');
+    if (images != null || images_files != null)
       return ResponsiveGridRow(
         children: [
+          for (var i = 0; i < images_files.length; i++)
+            ResponsiveGridCol(
+              xs: 6,
+              md: 4,
+              child: Container(
+                margin: const EdgeInsets.all(3.0),
+                padding: const EdgeInsets.all(0),
+                /*decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color(0xFFebebeb),
+
+              ),*/
+                height: 180,
+                alignment: Alignment(0, 0),
+                //color: Colors.grey,
+                child: Column(children: [
+                  Image.file(
+                   images_files[i],
+                ),
+                  IconButton(
+                    icon:
+                    Icon(Icons.delete),
+                    color:
+                    Colors.red,
+                    onPressed:
+                        () {
+                      setState(() {
+                        //print(images.length.toString());
+                        //images.remove(i);
+                        images_files.removeAt(i);
+                        //print(images.length.toString());
+
+                      });
+                      //_deletePost(post.id);
+                    },
+                  ),
+                ],),
+              ),
+            ),
           for (var i = 0; i < images.length; i++)
             ResponsiveGridCol(
               xs: 6,
@@ -1864,14 +1959,32 @@ class _UpdatePost extends State<UpdatePost> {
                 color: Color(0xFFebebeb),
 
               ),*/
-                height: 190,
+                height: 230,
                 alignment: Alignment(0, 0),
                 //color: Colors.grey,
-                child: AssetThumb(
+                child: Column(children: [AssetThumb(
                   asset: images[i],
                   width: 300,
                   height: 300,
                 ),
+                  IconButton(
+                    icon:
+                    Icon(Icons.delete),
+                    color:
+                    Colors.red,
+                    onPressed:
+                        () {
+                      setState(() {
+                        print(images.length.toString());
+                        //images.remove(i);
+                        images.removeAt(i);
+                        print(images.length.toString());
+
+                      });
+                      //_deletePost(post.id);
+                    },
+                  ),
+                ]),
               ),
             ),
         ],
@@ -1881,8 +1994,10 @@ class _UpdatePost extends State<UpdatePost> {
   }
 
   Future<void> loadAssets() async {
+    List<Asset> images_temp = List<Asset>();
+
     setState(() {
-      images = List<Asset>();
+      images_temp = List<Asset>();
     });
 
     List<Asset> resultList;
@@ -1904,8 +2019,7 @@ class _UpdatePost extends State<UpdatePost> {
     if (!mounted) return;
 
     setState(() {
-      images = resultList;
-      if (error == null) _error = 'No Error Dectected';
+      images = resultList ;
     });
   }
 
@@ -2139,16 +2253,25 @@ class _UpdatePost extends State<UpdatePost> {
       Uri uri = Uri.parse('https://iraqibayt.com/api/update_post_api');
       http.MultipartRequest request = http.MultipartRequest("POST", uri);
 
+      int files_counter = 0;
+      for (var i = 0; i < images_files.length; i++) {
+        var path = images_files[i].path;
+
+        request.files.add(await http.MultipartFile.fromPath('imgs_file$files_counter', path,
+            contentType: new MediaType('application', 'x-tar')));
+        files_counter++;
+        //final file = File(path);
+      };
+
       for (var i = 0; i < images.length; i++) {
         var path =
-            await FlutterAbsolutePath.getAbsolutePath(images[i].identifier);
+        await FlutterAbsolutePath.getAbsolutePath(images[i].identifier);
 
-        request.files.add(await http.MultipartFile.fromPath('imgs_file$i', path,
+        request.files.add(await http.MultipartFile.fromPath('imgs_file$files_counter', path,
             contentType: new MediaType('application', 'x-tar')));
-
-        final file = File(path);
-      }
-      ;
+        files_counter++;
+        //final file = File(path);
+      };
       request.fields.addAll(postBody);
 
       print("start send");

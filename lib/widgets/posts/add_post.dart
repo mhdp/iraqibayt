@@ -1749,7 +1749,7 @@ class _Add_Post extends State<Add_Post> {
     if (!mounted) return;
 
     setState(() {
-      images.addAll(resultList) ;
+      images = resultList ;
     });
   }
 
@@ -1938,6 +1938,7 @@ class _Add_Post extends State<Add_Post> {
       final key = 'token';
       final token = prefs.get(key) ?? 0;
 
+      print(token.toString());
       ////////// send data to api
       Map<String, String> postBody = new Map<String, String>();
 
