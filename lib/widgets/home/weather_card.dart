@@ -20,7 +20,6 @@ class _WeatherCardState extends State<WeatherCard> {
   Timer timer_weather;
 
   void startTimer() {
-
     // Start the periodic timer which prints something every 1 seconds
     timer_weather = new Timer.periodic(new Duration(seconds: 8), (time) {
       if (_rWeather.isNotEmpty) {
@@ -28,7 +27,6 @@ class _WeatherCardState extends State<WeatherCard> {
           setState(() {
             cityId = _rWeather[counter].city.id;
             cityHint = _rWeather[counter].city.name;
-            print('timer $cityHint');
           });
           counter++;
         } else
@@ -36,7 +34,6 @@ class _WeatherCardState extends State<WeatherCard> {
       }
     });
   }
-
 
 //  Future _getBaghdadId() async {
 //    var response =
@@ -95,7 +92,7 @@ class _WeatherCardState extends State<WeatherCard> {
 //      //_cities.add(tCity);
 
     }
-    print(_weathers.length);
+    //print(_weathers.length);
 
 //    dataMap.putIfAbsent('w_list', () => _weathers);
 //    dataMap.putIfAbsent('c_list', () => _cities);
@@ -111,7 +108,7 @@ class _WeatherCardState extends State<WeatherCard> {
     return targetWeather;
   }
 
-  void minus(int id,String hint) {
+  void minus(int id, String hint) {
     timer_weather.cancel();
     setState(() {
       cityId = id;
@@ -161,14 +158,13 @@ class _WeatherCardState extends State<WeatherCard> {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ListTile(
-
                               title: Text(
                                 cities[index].city.name,
                                 style: TextStyle(fontFamily: 'CustomIcons'),
                               ),
                               onTap: () {
-
-                                minus(cities[index].city.id,cities[index].city.name);
+                                minus(cities[index].city.id,
+                                    cities[index].city.name);
                                 Navigator.of(context, rootNavigator: true)
                                     .pop();
                               },
@@ -346,33 +342,29 @@ class _WeatherCardState extends State<WeatherCard> {
                                                         EdgeInsets.all(8.0),
                                                     splashColor: Colors.orange,
                                                     onPressed: () {
-                                                      _showCitiesDialog(context, _rWeather);
-                                                      setState(() {
-
-                                                      });
+                                                      _showCitiesDialog(
+                                                          context, _rWeather);
+                                                      setState(() {});
                                                     },
                                                     child: Row(
                                                       mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .center,
+                                                          MainAxisAlignment
+                                                              .center,
                                                       children: <Widget>[
                                                         Text(
-                                                      cityHint,
-                                                      style: TextStyle(
-                                                        fontSize: 18,
-                                                        color: Colors.black,
-                                                        fontFamily:
-                                                            "CustomIcons",
-                                                      ),
-                                                    ),
-
-                                                        Icon(
-                                                          Icons
-                                                              .arrow_drop_down,
-                                                          color:
-                                                          Colors.black,
+                                                          cityHint,
+                                                          style: TextStyle(
+                                                            fontSize: 18,
+                                                            color: Colors.black,
+                                                            fontFamily:
+                                                                "CustomIcons",
+                                                          ),
                                                         ),
-                                                    ],
+                                                        Icon(
+                                                          Icons.arrow_drop_down,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),

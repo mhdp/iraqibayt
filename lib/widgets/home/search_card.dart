@@ -28,7 +28,7 @@ class _SearchCardState extends State<SearchCard> {
   String cityHint;
 
   int selectedRCounter, selectedSCounter;
-  bool _isAllRSelected, _isAllSSelected;
+  bool _isAllRSelected, _isAllSSelected, _subsFirstTime, _regionsFirstTime;
 
   List<int> _subsIds, _regionsIds;
 
@@ -127,6 +127,9 @@ class _SearchCardState extends State<SearchCard> {
                                   _regions = List.from(
                                       _getRegions(cityValue, _rCities));
                                   print(cityValue);
+
+                                  _regionsFirstTime = true;
+                                  _isAllRSelected = true;
                                 });
 
                                 Navigator.of(context, rootNavigator: true)
@@ -200,6 +203,8 @@ class _SearchCardState extends State<SearchCard> {
                                   _subCategories = List.from(
                                       _getSubCats(catValue, _rCategories));
                                   print(catValue);
+                                  _isAllSSelected = true;
+                                  _subsFirstTime = true;
                                 });
 
                                 Navigator.of(context, rootNavigator: true)
@@ -223,9 +228,17 @@ class _SearchCardState extends State<SearchCard> {
   }
 
   void _showSubcatsDialog(context, List<SubCategory> subs) {
-    setState(() {
-      selectedSCounter = subs.length;
-    });
+    if (_subsFirstTime) {
+      setState(() {
+        _subsFirstTime = false;
+        selectedSCounter = _subCategories.length;
+      });
+    }
+    _updateSelectedSubCats();
+    print(_isAllSSelected);
+    print(
+        _subCategories.length.toString() + '--' + selectedSCounter.toString());
+
     showDialog(
         context: context,
         builder: (BuildContext bc) {
@@ -235,8 +248,10 @@ class _SearchCardState extends State<SearchCard> {
             elevation: 16,
             child: StatefulBuilder(builder: (context, setState) {
               return Container(
-                height: subs.length <= 4
-                    ? MediaQuery.of(context).size.height * 0.1 * subs.length
+                height: _subCategories.length <= 4
+                    ? MediaQuery.of(context).size.height *
+                        0.1 *
+                        _subCategories.length
                     : MediaQuery.of(context).size.height * 0.6,
                 child: Column(
                   children: [
@@ -279,6 +294,7 @@ class _SearchCardState extends State<SearchCard> {
 
                               setState(() {
                                 _isAllSSelected = value;
+                                selectedSCounter = 0;
                               });
                             } else {
                               for (var sub in _subCategories) {
@@ -289,6 +305,7 @@ class _SearchCardState extends State<SearchCard> {
 
                               setState(() {
                                 _isAllSSelected = value;
+                                selectedSCounter = _subCategories.length;
                               });
                             }
                           },
@@ -297,29 +314,31 @@ class _SearchCardState extends State<SearchCard> {
                     ),
                     Expanded(
                       child: ListView.builder(
-                        itemCount: subs.length,
+                        itemCount: _subCategories.length,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CheckboxListTile(
                               title: Text(
-                                subs[index].name,
+                                _subCategories[index].name,
                                 style: TextStyle(fontFamily: 'CustomIcons'),
                               ),
-                              value: subs[index].checked == 1 ? true : false,
+                              value: _isAllSSelected
+                                  ? true
+                                  : _subCategories[index].checked == 1
+                                      ? true
+                                      : false,
                               onChanged: (bool value) {
                                 //print(value);
 
                                 if (value) {
                                   setState(() {
-                                    subs[index].checked = 1;
                                     _subCategories[index].checked = 1;
                                     selectedSCounter++;
                                   });
                                   _updateSelectedSubCats();
                                 } else {
                                   setState(() {
-                                    subs[index].checked = 0;
                                     _subCategories[index].checked = 0;
                                     selectedSCounter--;
                                   });
@@ -344,9 +363,16 @@ class _SearchCardState extends State<SearchCard> {
   }
 
   void _showRegionsDialog(context, List<Region> regions) {
-    setState(() {
-      selectedRCounter = regions.length;
-    });
+    if (_regionsFirstTime) {
+      setState(() {
+        _regionsFirstTime = false;
+        selectedRCounter = _regions.length;
+      });
+    }
+    _updateSelectedRegions();
+    print(_isAllRSelected);
+    print(_regions.length.toString() + '--' + selectedRCounter.toString());
+
     showDialog(
         context: context,
         builder: (BuildContext bc) {
@@ -356,8 +382,8 @@ class _SearchCardState extends State<SearchCard> {
             elevation: 16,
             child: StatefulBuilder(builder: (context, setState) {
               return Container(
-                height: regions.length <= 4
-                    ? MediaQuery.of(context).size.height * 0.1 * regions.length
+                height: _regions.length <= 4
+                    ? MediaQuery.of(context).size.height * 0.1 * _regions.length
                     : MediaQuery.of(context).size.height * 0.6,
                 child: Column(
                   children: [
@@ -400,6 +426,7 @@ class _SearchCardState extends State<SearchCard> {
 
                               setState(() {
                                 _isAllRSelected = value;
+                                selectedRCounter = 0;
                               });
                             } else {
                               for (var region in _regions) {
@@ -410,6 +437,7 @@ class _SearchCardState extends State<SearchCard> {
 
                               setState(() {
                                 _isAllRSelected = value;
+                                selectedRCounter = _regions.length;
                               });
                             }
                           },
@@ -418,29 +446,31 @@ class _SearchCardState extends State<SearchCard> {
                     ),
                     Expanded(
                       child: ListView.builder(
-                        itemCount: regions.length,
+                        itemCount: _regions.length,
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CheckboxListTile(
                               title: Text(
-                                regions[index].name,
+                                _regions[index].name,
                                 style: TextStyle(fontFamily: 'CustomIcons'),
                               ),
-                              value: regions[index].checked == 1 ? true : false,
+                              value: _isAllRSelected
+                                  ? true
+                                  : _regions[index].checked == 1
+                                      ? true
+                                      : false,
                               onChanged: (bool value) {
                                 //print(value);
 
                                 if (value) {
                                   setState(() {
-                                    regions[index].checked = 1;
                                     _regions[index].checked = 1;
                                     selectedRCounter++;
                                   });
                                   _updateSelectedRegions();
                                 } else {
                                   setState(() {
-                                    regions[index].checked = 0;
                                     _regions[index].checked = 0;
                                     selectedRCounter--;
                                   });
@@ -504,6 +534,8 @@ class _SearchCardState extends State<SearchCard> {
     cityHint = 'جميع المدن';
     _isAllRSelected = true;
     _isAllSSelected = true;
+    _subsFirstTime = true;
+    _regionsFirstTime = true;
     selectedRCounter = 0;
     selectedSCounter = 0;
 
@@ -520,6 +552,10 @@ class _SearchCardState extends State<SearchCard> {
 
   @override
   void dispose() {
+    print('Enter Dispose section => ');
+    setState(() {
+      _subsFirstTime = true;
+    });
     super.dispose();
   }
 

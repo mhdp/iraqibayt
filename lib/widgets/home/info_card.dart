@@ -31,7 +31,7 @@ class _InfoCardState extends State<InfoCard> {
       var rng = new Random();
 
       counter = rng.nextInt(info_list.length - 1);
-      print(counter);
+      //print(counter);
     }
     // Start the periodic timer which prints something every 1 seconds
     timer = new Timer.periodic(new Duration(seconds: 10), (time) {
