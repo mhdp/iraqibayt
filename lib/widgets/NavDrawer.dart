@@ -82,6 +82,7 @@ class NavDrawerState extends State<NavDrawer> {
               color: Color(0xFF335876),
             ),
           ),
+          //profile
           ListTile(
             leading: Icon(
               MyIcons.user,
@@ -98,6 +99,21 @@ class NavDrawerState extends State<NavDrawer> {
           ),
           ListTile(
             leading: Icon(
+              Icons.favorite,
+              color: Color(0xFF335876),
+            ),
+            title: Text(
+              'المفضلة',
+              style: TextStyle(fontFamily: 'CustomIcons'),
+            ),
+            onTap: () => {
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new Favorites()))
+            },
+          ),
+          //add post
+          ListTile(
+            leading: Icon(
               Icons.add_box,
               color: Color(0xFF335876),
             ),
@@ -110,11 +126,8 @@ class NavDrawerState extends State<NavDrawer> {
                   builder: (BuildContext context) => new Add_Post()))
             },
           ),
-          /*ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),*/
+
+          //my post
           ListTile(
             leading: Icon(
               Icons.menu_book,
@@ -129,7 +142,7 @@ class NavDrawerState extends State<NavDrawer> {
                   builder: (BuildContext context) => new MyPosts()))
             },
           ),
-
+          //spicial posts
           ListTile(
             leading: Icon(
               Icons.star,
@@ -144,37 +157,11 @@ class NavDrawerState extends State<NavDrawer> {
                   builder: (BuildContext context) => new Spical_page()))
             },
           ),
+          //favorit
 
-          ListTile(
-            leading: Icon(
-              Icons.favorite,
-              color: Color(0xFF335876),
-            ),
-            title: Text(
-              'المفضلة',
-              style: TextStyle(fontFamily: 'CustomIcons'),
-            ),
-            onTap: () => {
-              Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Favorites()))
-            },
-          ),
-          /*ListTile(
-            leading: Icon(
-              Icons.message,
-              color: Color(0xFF335876),
-            ),
-            title: Text(
-              'الرسائل',
-              style: TextStyle(fontFamily: 'CustomIcons'),
-            ),
-            onTap: () => {
-              */ /*Navigator.of(context).push(
-                new MaterialPageRoute(
-                    builder: (BuildContext context) => new feedbacks()))*/ /*
-            },
-          ),*/
+
           Divider(color: Color(0xFF335876),),
+          //about
           ListTile(
             leading: Icon(
               MyIcons.info,
@@ -189,6 +176,7 @@ class NavDrawerState extends State<NavDrawer> {
                   builder: (BuildContext context) => new About_us_()))
             },
           ),
+          //tirms
           ListTile(
             leading: Icon(
               MyIcons.book,
@@ -203,6 +191,7 @@ class NavDrawerState extends State<NavDrawer> {
                   builder: (BuildContext context) => new Terms()))
             },
           ),
+          //privcy
           ListTile(
             leading: Icon(
               MyIcons.book,
@@ -218,6 +207,7 @@ class NavDrawerState extends State<NavDrawer> {
             },
           ),
           Divider(color: Color(0xFF335876),),
+          //countact us
           ListTile(
             leading: Icon(
               MyIcons.mail,
@@ -232,6 +222,7 @@ class NavDrawerState extends State<NavDrawer> {
                   builder: (BuildContext context) => new ContactUs()))
             },
           ),
+          //log out
           ListTile(
             leading: Icon(
               Icons.exit_to_app,
@@ -251,8 +242,9 @@ class NavDrawerState extends State<NavDrawer> {
               final key = 'is_login';
               final value = "0";
               prefs.setString(key, value);
-              Navigator.of(context).push(new MaterialPageRoute(
-                  builder: (BuildContext context) => new Welcome()));
+              Navigator.of(context).popUntil((route) => route.isFirst);
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Welcome()));
+
             },
           ),
         ],

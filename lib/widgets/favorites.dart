@@ -7,6 +7,7 @@ import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/full_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/profile.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 
@@ -23,7 +24,7 @@ class _FavoritesState extends State<Favorites> {
   List<Favorite> _favorites, _rFavorites;
 
   String _token;
-
+  String delete_icon_text = "إزالة";
   var _guest = false;
   bool _isFavLoading;
 
@@ -100,6 +101,10 @@ class _FavoritesState extends State<Favorites> {
   }
 
   _deleteFavorite(int fid) async {
+    setState(() {
+      delete_icon_text = "جار الإزالة...";
+    });
+
     var data = {
       'id': fid,
       'token': _token,
@@ -113,9 +118,15 @@ class _FavoritesState extends State<Favorites> {
       _getUserFavorites().then((value) {
         setState(() {
           _rFavorites = List.from(value);
+          Navigator.pop(context);
+          delete_icon_text = "إزالة";
         });
       });
     }
+
+    setState(() {
+      delete_icon_text = "إزالة";
+    });
   }
 
   @override
@@ -226,7 +237,7 @@ class _FavoritesState extends State<Favorites> {
                                                 'تسجيل الدخول',
                                                 style: TextStyle(
                                                   fontSize: 18,
-                                                  color: Colors.grey,
+                                                  color: Colors.black,
                                                   fontFamily: "CustomIcons",
                                                 ),
                                               ),
@@ -369,14 +380,45 @@ class _FavoritesState extends State<Favorites> {
                                                                   DataCell(
                                                                     IconButton(
                                                                       icon: Icon(
-                                                                          Icons
-                                                                              .delete),
-                                                                      color: Colors
-                                                                          .red,
+                                                                          Icons.delete),
+                                                                      color: Colors.red,
                                                                       onPressed:
                                                                           () {
-                                                                        _deleteFavorite(
-                                                                            favorite.id);
+                                                                            Alert(
+                                                                              context: context,
+                                                                              type: AlertType.none,
+                                                                              title: "",
+                                                                              desc: "هل أنت متأكد من رغبتك في إزالة هذا الإعلان من المفضلة",
+                                                                              buttons: [
+                                                                                DialogButton(
+                                                                                  child: Text(
+                                                                                    delete_icon_text,
+                                                                                    style: TextStyle(color: Colors.white, fontSize: 20),
+                                                                                  ),
+                                                                                  onPressed: () => {
+                                                                            setState(() {
+
+                                                                            _deleteFavorite(favorite.id);
+                                                                            }),
+
+
+                                                                                    //Navigator.pop(context),
+
+                                                                                  },
+                                                                                  color: Colors.red,
+                                                                                ),
+                                                                                DialogButton(
+                                                                                  child: Text(
+                                                                                    "إلغاء",
+                                                                                    style: TextStyle(color: Colors.white, fontSize: 20),
+                                                                                  ),
+                                                                                  onPressed: () => Navigator.pop(context),
+                                                                                  color: Colors.grey
+                                                                                )
+                                                                              ],
+                                                                            ).show();
+
+
                                                                       },
                                                                     ),
                                                                   ),

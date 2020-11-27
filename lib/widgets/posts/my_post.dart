@@ -6,6 +6,7 @@ import 'package:iraqibayt/modules/Favorite.dart';
 import 'package:iraqibayt/modules/Post.dart';
 import 'package:iraqibayt/widgets/posts/full_post.dart';
 import 'package:iraqibayt/widgets/posts/update_post.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 
@@ -420,9 +421,44 @@ class _MyPostsState extends State<MyPosts> {
                                                                           Colors.red,
                                                                           onPressed:
                                                                               () {
-                                                                            _deletePost(post.id);
+                                                                                Alert(
+                                                                                  context: context,
+                                                                                  type: AlertType.none,
+                                                                                  title: "",
+                                                                                  desc: "هل أنت متأكد من رغبتك في حذف هذا الإعلان",
+                                                                                  buttons: [
+                                                                                    DialogButton(
+                                                                                      child: Text(
+                                                                                        "حذف الإعلان",
+                                                                                        style: TextStyle(color: Colors.white, fontSize: 20),
+                                                                                      ),
+                                                                                      onPressed: () => {
+                                                                                        setState(() {
+                                                                                          _deletePost(post.id);
+
+                                                                                        }),
+
+
+                                                                                        //Navigator.pop(context),
+
+                                                                                      },
+                                                                                      color: Colors.red,
+                                                                                    ),
+                                                                                    DialogButton(
+                                                                                        child: Text(
+                                                                                          "إلغاء",
+                                                                                          style: TextStyle(color: Colors.white, fontSize: 20),
+                                                                                        ),
+                                                                                        onPressed: () => Navigator.pop(context),
+                                                                                        color: Colors.grey
+                                                                                    )
+                                                                                  ],
+                                                                                ).show();
+
+
                                                                           },
                                                                         ),
+
                                                                       ],
                                                                     ),
                                                                   ),

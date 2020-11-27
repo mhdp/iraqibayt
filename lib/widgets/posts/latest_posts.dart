@@ -613,16 +613,16 @@ class _BikeListItemState extends State<BikeListItem> {
                                   shape: RoundedRectangleBorder(
                                     side: BorderSide(
                                         color: Colors.red,
-                                        width: 0,
+                                        width: 1,
                                         style: BorderStyle.solid),
                                   ),
-                                  color: Colors.red,
+                                  color: Colors.white,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Icon(
                                         Icons.favorite_border,
-                                        color: Colors.white,
+                                        color: Colors.red,
                                       ),
                                     ],
                                   ),
@@ -635,16 +635,16 @@ class _BikeListItemState extends State<BikeListItem> {
                                   shape: RoundedRectangleBorder(
                                     side: BorderSide(
                                         color: Colors.red,
-                                        width: 0,
+                                        width: 1,
                                         style: BorderStyle.solid),
                                   ),
-                                  color: Colors.red,
+                                  color: Colors.white,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Icon(
                                         Icons.favorite,
-                                        color: Colors.white,
+                                        color: Colors.red,
                                       ),
                                     ],
                                   ),

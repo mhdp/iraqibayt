@@ -14,7 +14,6 @@ import 'dart:async';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../ContactUs.dart';
 import '../my_icons_icons.dart';
 import '../profile.dart';
@@ -44,6 +43,10 @@ class _Add_Post extends State<Add_Post> {
   String car_Selection;
   String car_number_Selection;
   String payment_method;
+  String catHint = "اختر قسم رئيسي";
+  String sub_catHint = "اختر قسم فرعي";
+  String cityHint = "اختر مدينة";
+  String regionHint = "اختر منطقة";
 
   final title_Controller = TextEditingController();
   final details_Controller = TextEditingController();
@@ -63,6 +66,23 @@ class _Add_Post extends State<Add_Post> {
   bool viber = false;
   int signup_btn_child_index = 0;
   var _guest = false;
+
+  final _formKey = GlobalKey<FormState>();
+
+  //errors colors
+  var cat_border = Colors.black;
+  double cat_border_size = 1;
+  var subcat_border = Colors.black;
+  double subat_border_size = 1;
+  var city_border = Colors.black;
+  double city_border_size = 1;
+  var regions_border = Colors.black;
+  double regions_border_size = 1;
+
+  var title_border = Colors.black;
+  double title_border_size = 1;
+
+  //////////
 
   Future<String> get_cats() async {
     String url = "https://iraqibayt.com/getCategories";
@@ -223,6 +243,329 @@ class _Add_Post extends State<Add_Post> {
     }
   }
 
+  //Cat's dialogs
+  void _showCategoriesDialog(context, List categories) {
+    showDialog(
+        context: context,
+        builder: (BuildContext bc) {
+          return Dialog(
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+            elevation: 16,
+            child: StatefulBuilder(builder: (context, setState) {
+              return Container(
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Center(
+                        child: Text(
+                          'اختر القسم الرئيسي',
+                          style: TextStyle(
+                            fontFamily: 'CustomIcons',
+                            fontSize: 20.0,
+                            color: Color(0xff275879),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Divider(
+                        thickness: 1.0,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: categories.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              title: Text(
+                                categories[index]["name"],
+                                style: TextStyle(fontFamily: 'CustomIcons'),
+                              ),
+                              onTap: () {
+
+                                  update_cat_state(categories[index]["id"].toString(),categories[index]["name"].toString());
+                                  Navigator.of(context, rootNavigator: true).pop();
+
+
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
+          );
+        });
+  }
+  update_cat_state(String newVal,String hint){
+    setState(() {
+      cat_Selection = newVal;
+      sub_cat_Selection = null;
+      //print(_mycountrySelection);
+      sub_cat_list.clear();
+      sub_cat_list = List();
+      is_sub = true;
+      catHint = hint;
+      cat_border = Colors.black;
+      cat_border_size = 1;
+    });
+
+    get_sub_cats(newVal);
+  }
+  ///////////
+
+  //Sub_cat's dialog
+  void _showSubCategoriesDialog(context, List categories) {
+    showDialog(
+        context: context,
+        builder: (BuildContext bc) {
+          return Dialog(
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+            elevation: 16,
+            child: StatefulBuilder(builder: (context, setState) {
+              return Container(
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Center(
+                        child: Text(
+                          'اختر القسم الفرعي',
+                          style: TextStyle(
+                            fontFamily: 'CustomIcons',
+                            fontSize: 20.0,
+                            color: Color(0xff275879),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Divider(
+                        thickness: 1.0,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: categories.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              title: Text(
+                                categories[index]["name"],
+                                style: TextStyle(fontFamily: 'CustomIcons'),
+                              ),
+                              onTap: () {
+
+                                update_sub_cat_state(categories[index]["id"].toString(),categories[index]["name"].toString());
+                                Navigator.of(context, rootNavigator: true).pop();
+
+
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
+          );
+        });
+  }
+  update_sub_cat_state(String newVal,String hint){
+
+    setState(() {
+      sub_cat_Selection = newVal;
+      subcat_border = Colors.black;
+      subat_border_size = 1;
+      sub_catHint = hint;
+      for (var sub_type in sub_cat_list) {
+        if (sub_type["id"]
+            .toString() == newVal.toString()) {
+
+          if (sub_type["type"].toString() =="سكني") {
+            is_home = true;
+          } else {
+            is_home = false;
+          }
+        }
+      }
+
+    });
+  }
+  ///////////
+
+  //Cities dialog
+  void _showCitiesDialog(context, List categories) {
+    showDialog(
+        context: context,
+        builder: (BuildContext bc) {
+          return Dialog(
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+            elevation: 16,
+            child: StatefulBuilder(builder: (context, setState) {
+              return Container(
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Center(
+                        child: Text(
+                          'اختر المدينة',
+                          style: TextStyle(
+                            fontFamily: 'CustomIcons',
+                            fontSize: 20.0,
+                            color: Color(0xff275879),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Divider(
+                        thickness: 1.0,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: categories.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              title: Text(
+                                categories[index]["name"],
+                                style: TextStyle(fontFamily: 'CustomIcons'),
+                              ),
+                              onTap: () {
+
+                                update_Cities_state(categories[index]["id"].toString(),categories[index]["name"].toString());
+                                Navigator.of(context, rootNavigator: true).pop();
+
+
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
+          );
+        });
+  }
+  update_Cities_state(String newVal,String hint){
+
+    setState(() {
+      city_Selection = newVal;
+      region_Selection = null;
+      cityHint = hint;
+      regions_list.clear();
+      regions_list = List();
+      is_region = true;
+      city_border = Colors.black;
+      city_border_size = 1;
+    });
+    get_regions(newVal);
+  }
+  ///////////
+
+  //regions dialog
+  void _showRegionsDialog(context, List categories) {
+    showDialog(
+        context: context,
+        builder: (BuildContext bc) {
+          return Dialog(
+            shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+            elevation: 16,
+            child: StatefulBuilder(builder: (context, setState) {
+              return Container(
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Center(
+                        child: Text(
+                          'اختر المنطقة',
+                          style: TextStyle(
+                            fontFamily: 'CustomIcons',
+                            fontSize: 20.0,
+                            color: Color(0xff275879),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: Divider(
+                        thickness: 1.0,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: categories.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              title: Text(
+                                categories[index]["name"],
+                                style: TextStyle(fontFamily: 'CustomIcons'),
+                              ),
+                              onTap: () {
+
+                                update_Regions_state(categories[index]["id"].toString(),categories[index]["name"].toString());
+                                Navigator.of(context, rootNavigator: true).pop();
+
+
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }),
+          );
+        });
+  }
+  update_Regions_state(String newVal,String hint){
+
+    setState(() {
+      region_Selection = newVal;
+      regionHint = hint;
+      regions_border_size = 1;
+      regions_border = Colors.black;
+    });
+  }
+  ///////////
+
   void initState() {
     super.initState();
     _checkIfGuest();
@@ -317,7 +660,9 @@ class _Add_Post extends State<Add_Post> {
                 ],
               ),
             )
-          : SingleChildScrollView(
+          : Form(
+          key: _formKey,
+          child:SingleChildScrollView(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -359,61 +704,50 @@ class _Add_Post extends State<Add_Post> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.all(10.0),
+                                        padding: const EdgeInsets.only(top:5,left: 5,right: 5,bottom: 0),
                                         child: cat_list.length > 0
-                                            ? DropdownButtonFormField(
-                                                decoration:
-                                                    const InputDecoration(
-                                                  isDense: true,
-                                                  contentPadding:
-                                                      EdgeInsets.all(7),
-                                                  filled: true,
-                                                  fillColor: Color(0xFFe8e8e8),
-                                                  border:
-                                                      const OutlineInputBorder(
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                      const Radius.circular(
-                                                          5.0),
-                                                    ),
-                                                  ),
-                                                ),
-                                                isExpanded: true,
-                                                hint: SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            2, // for example
-                                                    child: Text(
-                                                      "اختر قسم رئيسي",
-                                                      textAlign:
-                                                          TextAlign.right,
-                                                      textDirection:
-                                                          TextDirection.rtl,
-                                                    )),
-                                                items: cat_list.map((item) {
-                                                  return new DropdownMenuItem(
-                                                    child:
-                                                        new Text(item['name']),
-                                                    value:
-                                                        item['id'].toString(),
-                                                  );
-                                                }).toList(),
-                                                onChanged: (newVal) {
-                                                  setState(() {
-                                                    cat_Selection = newVal;
-                                                    sub_cat_Selection = null;
-                                                    //print(_mycountrySelection);
-                                                    sub_cat_list.clear();
-                                                    sub_cat_list = List();
-                                                    is_sub = true;
-                                                  });
-
-                                                  get_sub_cats(newVal);
-                                                },
-                                                value: cat_Selection,
-                                              )
+                                            ?  FlatButton(
+      color: Color(0xFFe8e8e8),
+    shape:
+    RoundedRectangleBorder(
+    borderRadius:
+    BorderRadius
+        .circular(
+    5),
+    side: BorderSide(
+    color: cat_border,
+    width: cat_border_size)),
+    onPressed: () {
+    _showCategoriesDialog(
+    context,
+    cat_list);
+    setState(() {});
+    },
+    child: FittedBox(
+    child: Row(
+    mainAxisAlignment:
+    MainAxisAlignment
+        .center,
+    children: <Widget>[
+    Text(
+    catHint,
+    style: TextStyle(
+    fontSize: 16,
+    color: Colors.black,
+    fontFamily:
+    "CustomIcons",
+    ),
+    ),
+    Icon(
+    Icons
+        .arrow_drop_down,
+    color:
+    Colors.black,
+    ),
+    ],
+    ),
+    ),
+    )
                                             : Center(
                                                 child: new GFLoader(
                                                     type: GFLoaderType.circle)),
@@ -421,201 +755,150 @@ class _Add_Post extends State<Add_Post> {
                                       is_sub
                                           ? sub_cat_list.length > 0
                                               ? Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(10),
-                                                  child:
-                                                      DropdownButtonFormField(
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      isDense: true,
-                                                      contentPadding:
-                                                          EdgeInsets.all(7),
-                                                      filled: true,
-                                                      fillColor:
-                                                          Color(0xFFe8e8e8),
-                                                      border:
-                                                          const OutlineInputBorder(
-                                                        borderRadius:
-                                                            const BorderRadius
-                                                                .all(
-                                                          const Radius.circular(
-                                                              5.0),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    isExpanded: true,
-                                                    hint: SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            2, // for example
-                                                        child: Text(
-                                                          "اختر قسم فرعي",
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                          textDirection:
-                                                              TextDirection.rtl,
-                                                        )),
-                                                    items: sub_cat_list
-                                                        .map((item) {
-                                                      //_mycitySelection = item['city_id'].toString();
-                                                      return new DropdownMenuItem(
-                                                        child: new Text(
-                                                            item['name']),
-                                                        value: item['id']
-                                                            .toString(),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged: (newVal) {
-                                                      setState(() {
-                                                        sub_cat_Selection =
-                                                            newVal;
-
-                                                        for (var sub_type
-                                                            in sub_cat_list) {
-                                                          if (sub_type["id"]
-                                                                  .toString() ==
-                                                              newVal
-                                                                  .toString()) {
-                                                            print(sub_type[
-                                                                    "type"]
-                                                                .toString());
-
-                                                            if (sub_type["type"]
-                                                                    .toString() ==
-                                                                "سكني") {
-                                                              is_home = true;
-                                                            } else {
-                                                              is_home = false;
-                                                            }
-                                                          }
-                                                        }
-                                                        //print(_mycitySelection);
-                                                      });
-                                                    },
-                                                    value: sub_cat_Selection,
-                                                  ))
+                                        padding: const EdgeInsets.only(top:0,left: 5,right: 5,bottom: 5),
+                                        child: FlatButton(
+                                          color: Color(0xFFe8e8e8),
+                                          shape:
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                              BorderRadius
+                                                  .circular(
+                                                  5),
+                                              side: BorderSide(
+                                                  color: subcat_border,
+                                              width: subat_border_size)),
+                                          onPressed: () {
+                                            _showSubCategoriesDialog(
+                                                context,
+                                                sub_cat_list);
+                                            setState(() {});
+                                          },
+                                          child: FittedBox(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .center,
+                                              children: <Widget>[
+                                                Text(
+                                                  sub_catHint,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.black,
+                                                    fontFamily:
+                                                    "CustomIcons",
+                                                  ),
+                                                ),
+                                                Icon(
+                                                  Icons
+                                                      .arrow_drop_down,
+                                                  color:
+                                                  Colors.black,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+//
+                                      )
                                               : Center(
                                                   child: new GFLoader(
                                                       type:
                                                           GFLoaderType.circle))
                                           : Container(),
                                       Padding(
-                                        padding: const EdgeInsets.all(10),
+                                        padding: const EdgeInsets.only(top:0,left: 5,right: 5,bottom: 5),
                                         child: city_list.length > 0
-                                            ? DropdownButtonFormField(
-                                                decoration:
-                                                    const InputDecoration(
-                                                  isDense: true,
-                                                  contentPadding:
-                                                      EdgeInsets.all(7),
-                                                  filled: true,
-                                                  fillColor: Color(0xFFe8e8e8),
-                                                  border:
-                                                      const OutlineInputBorder(
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                      const Radius.circular(
-                                                          5.0),
-                                                    ),
+                                            ? FlatButton(
+                                          color: Color(0xFFe8e8e8),
+                                          shape:
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                              BorderRadius
+                                                  .circular(
+                                                  5),
+                                              side: BorderSide(
+                                                  color: city_border,
+                                              width: city_border_size)),
+                                          onPressed: () {
+                                            _showCitiesDialog(
+                                                context,
+                                                city_list);
+                                            setState(() {});
+                                          },
+                                          child: FittedBox(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .center,
+                                              children: <Widget>[
+                                                Text(
+                                                  cityHint,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.black,
+                                                    fontFamily:
+                                                    "CustomIcons",
                                                   ),
                                                 ),
-                                                isExpanded: true,
-                                                hint: SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            2, // for example
-                                                    child: Text(
-                                                      "اختر مدينة",
-                                                      textAlign:
-                                                          TextAlign.right,
-                                                      textDirection:
-                                                          TextDirection.rtl,
-                                                    )),
-                                                items: city_list.map((item) {
-                                                  return new DropdownMenuItem(
-                                                    child:
-                                                        new Text(item['name']),
-                                                    value:
-                                                        item['id'].toString(),
-                                                  );
-                                                }).toList(),
-                                                onChanged: (newVal) {
-                                                  setState(() {
-                                                    city_Selection = newVal;
-                                                    region_Selection = null;
-                                                    //print(_mycountrySelection);
-                                                    regions_list.clear();
-                                                    regions_list = List();
-                                                    is_region = true;
-                                                  });
-                                                  get_regions(newVal);
-                                                },
-                                                value: city_Selection,
-                                              )
+                                                Icon(
+                                                  Icons
+                                                      .arrow_drop_down,
+                                                  color:
+                                                  Colors.black,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
                                             : Center(
                                                 child: new GFLoader(
                                                     type: GFLoaderType.circle)),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.all(10),
+                                        padding: const EdgeInsets.only(top:0,left: 5,right: 5,bottom: 5),
                                         child: is_region
                                             ? regions_list.length > 0
-                                                ? DropdownButtonFormField(
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      isDense: true,
-                                                      contentPadding:
-                                                          EdgeInsets.all(7),
-                                                      filled: true,
-                                                      fillColor:
-                                                          Color(0xFFe8e8e8),
-                                                      border:
-                                                          const OutlineInputBorder(
-                                                        borderRadius:
-                                                            const BorderRadius
-                                                                .all(
-                                                          const Radius.circular(
-                                                              5.0),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    isExpanded: true,
-                                                    hint: SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            2, // for example
-                                                        child: Text(
-                                                          "اختر المنطقة",
-                                                          textAlign:
-                                                              TextAlign.right,
-                                                          textDirection:
-                                                              TextDirection.rtl,
-                                                        )),
-                                                    items: regions_list
-                                                        .map((item) {
-                                                      //_mycitySelection = item['city_id'].toString();
-                                                      return new DropdownMenuItem(
-                                                        child: new Text(
-                                                            item['name']),
-                                                        value: item['id']
-                                                            .toString(),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged: (newVal) {
-                                                      setState(() {
-                                                        region_Selection =
-                                                            newVal;
-                                                        //print(_mycitySelection);
-                                                      });
-                                                    },
-                                                    value: region_Selection,
-                                                  )
+                                                ? FlatButton(
+                                          color: Color(0xFFe8e8e8),
+                                          shape:
+                                          RoundedRectangleBorder(
+                                              borderRadius:
+                                              BorderRadius
+                                                  .circular(
+                                                  5),
+                                              side: BorderSide(
+                                                  color: regions_border,width: regions_border_size)),
+                                          onPressed: () {
+                                            _showRegionsDialog(
+                                                context,
+                                                regions_list);
+                                            setState(() {});
+                                          },
+                                          child: FittedBox(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .center,
+                                              children: <Widget>[
+                                                Text(
+                                                  regionHint,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.black,
+                                                    fontFamily:
+                                                    "CustomIcons",
+                                                  ),
+                                                ),
+                                                Icon(
+                                                  Icons
+                                                      .arrow_drop_down,
+                                                  color:
+                                                  Colors.black,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
                                                 : Center(
                                                     child: new GFLoader(
                                                         type: GFLoaderType
@@ -693,6 +976,7 @@ class _Add_Post extends State<Add_Post> {
                                                             ),
                                                           ),
                                                           isExpanded: true,
+                                                              validator: (value) => value == null ? 'يرجى تحديد عدد غرف النوم' : null,
                                                           hint: SizedBox(
                                                               //width: MediaQuery.of(context).size.width/2, // for example
                                                               child: Text(
@@ -767,6 +1051,7 @@ class _Add_Post extends State<Add_Post> {
                                                             ),
                                                           ),
                                                           isExpanded: true,
+                                                              validator: (value) => value == null ? 'يرجى تحديد عدد الحمامات' : null,
                                                           hint: SizedBox(
                                                               //width: MediaQuery.of(context).size.width/2, // for example
                                                               child: Text(
@@ -854,6 +1139,7 @@ class _Add_Post extends State<Add_Post> {
                                                             ),
                                                           ),
                                                           isExpanded: true,
+                                                              validator: (value) => value == null ? 'يرجى تحديد حالة الكراج' : null,
                                                           hint: SizedBox(
                                                               //width: MediaQuery.of(context).size.width/2, // for example
                                                               child: Text(
@@ -968,7 +1254,7 @@ class _Add_Post extends State<Add_Post> {
                                                                 ),
                                                               ),
                                                               hintText:
-                                                                  "الطابق"),
+                                                                  "الطابق (اختياري)"),
                                                     ),
                                                   )),
                                                   Expanded(
@@ -1003,7 +1289,7 @@ class _Add_Post extends State<Add_Post> {
                                                                 ),
                                                               ),
                                                               hintText:
-                                                                  "عدد الطوابق"),
+                                                                  "عدد الطوابق (اختياري)"),
                                                     ),
                                                   ))
                                                 ],
@@ -1039,6 +1325,7 @@ class _Add_Post extends State<Add_Post> {
                                               fontFamily: "CustomIcons",
                                             ),
                                             textAlign: TextAlign.center,
+
                                           ),
                                         ),
                                       ),
@@ -1052,17 +1339,32 @@ class _Add_Post extends State<Add_Post> {
                                           keyboardType: TextInputType.multiline,
                                           maxLines: null,
                                           textAlign: TextAlign.right,
+                                          onChanged: (title_Controller){
+                                            setState(() {
+                                              title_border = Colors.black;
+                                              title_border_size = 1;
+                                            });
+
+                                          },
+                                          validator: (String value) {
+                                            if (title_Controller.text.isEmpty) {
+                                              return 'يرجى إدخال عنوان الإعلان';
+                                            }
+                                            return null;
+                                          },
                                           decoration: InputDecoration(
                                               isDense: true,
                                               contentPadding: EdgeInsets.all(7),
                                               filled: true,
                                               fillColor: Color(0xFFe8e8e8),
                                               border: new OutlineInputBorder(
+                                                borderSide: BorderSide(color: title_border,width: title_border_size),
                                                 borderRadius:
                                                     const BorderRadius.all(
                                                   const Radius.circular(5.0),
                                                 ),
                                               ),
+
                                               hintText: "عنوان الإعلان"),
                                         ),
                                       ),
@@ -1075,6 +1377,13 @@ class _Add_Post extends State<Add_Post> {
                                           controller: details_Controller,
                                           keyboardType: TextInputType.multiline,
                                           maxLines: null,
+                                          minLines: 3,
+                                          validator: (String value) {
+                                            if (title_Controller.text.isEmpty) {
+                                              return 'يرجى إدخال تفاصيل الإعلان';
+                                            }
+                                            return null;
+                                          },
                                           textAlign: TextAlign.right,
                                           decoration: InputDecoration(
                                               isDense: true,
@@ -1087,7 +1396,7 @@ class _Add_Post extends State<Add_Post> {
                                                   const Radius.circular(5.0),
                                                 ),
                                               ),
-                                              hintText: "تفاصيل الإعلان"),
+                                              hintText: "تفاصيل الإعلان",),
                                         ),
                                       ),
                                       /*SizedBox(
@@ -1116,6 +1425,12 @@ class _Add_Post extends State<Add_Post> {
                                                           color: Colors.black,
                                                           fontWeight:
                                                               FontWeight.w300),
+                                                      validator: (String value) {
+                                                        if (title_Controller.text.isEmpty) {
+                                                          return 'يرجى إدخال مساحة العقار';
+                                                        }
+                                                        return null;
+                                                      },
                                                       decoration:
                                                           InputDecoration(
                                                         filled: true,
@@ -1173,6 +1488,7 @@ class _Add_Post extends State<Add_Post> {
                                                             ),
                                                           ),
                                                           isExpanded: true,
+                                                              validator: (value) => value == null ? 'يرجى اختيار وحدة قياس' : null,
                                                           hint: SizedBox(
                                                               //width: MediaQuery.of(context).size.width/2, // for example
                                                               child: Text(
@@ -1227,6 +1543,12 @@ class _Add_Post extends State<Add_Post> {
                                                           TextInputType.text,
                                                       textAlign:
                                                           TextAlign.right,
+                                                      validator: (String value) {
+                                                        if (title_Controller.text.isEmpty) {
+                                                          return 'يرجى إدخال سعر العقار';
+                                                        }
+                                                        return null;
+                                                      },
                                                       style: TextStyle(
                                                           color: Colors.black,
                                                           fontWeight:
@@ -1288,6 +1610,7 @@ class _Add_Post extends State<Add_Post> {
                                                               ),
                                                             ),
                                                           ),
+                                                              validator: (value) => value == null ? 'يرجى اختيار العملة' : null,
                                                           isExpanded: true,
                                                           hint: SizedBox(
                                                               //width: MediaQuery.of(context).size.width/2, // for example
@@ -1340,6 +1663,7 @@ class _Add_Post extends State<Add_Post> {
                                               ),
                                             ),
                                             value: payment_method,
+                                            validator: (value) => value == null ? 'يرجى تحديد طريقة الدفع' : null,
                                             hint: SizedBox(
                                                 width: MediaQuery.of(context)
                                                         .size
@@ -1451,6 +1775,12 @@ class _Add_Post extends State<Add_Post> {
                                           keyboardType: TextInputType.number,
                                           maxLines: null,
                                           textAlign: TextAlign.right,
+                                          validator: (String value) {
+                                            if (title_Controller.text.isEmpty) {
+                                              return 'يرجى إدخال رقم الاتصال';
+                                            }
+                                            return null;
+                                          },
                                           decoration: InputDecoration(
                                               isDense: true,
                                               contentPadding: EdgeInsets.all(7),
@@ -1592,7 +1922,7 @@ class _Add_Post extends State<Add_Post> {
 
                             _submit_signup_Button(),
                           ]))
-                ])),
+                ]))),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF335876),
         unselectedItemColor: Colors.white,
@@ -1643,7 +1973,7 @@ class _Add_Post extends State<Add_Post> {
 
   /////multiselect images////
   List<Asset> images = List<Asset>();
-  String _error;
+
 
   Widget image_button() {
     return InkWell(
@@ -1754,6 +2084,9 @@ class _Add_Post extends State<Add_Post> {
   }
 
   send_post() async {
+    if (_formKey.currentState.validate()) {
+
+    }
     if (signup_btn_child_index == 0) {
       setState(() {
         signup_btn_child_index = 1;
@@ -1766,6 +2099,8 @@ class _Add_Post extends State<Add_Post> {
         _showDialog("يرجى اختيار القسم الرئيسي.");
         setState(() {
           signup_btn_child_index = 0;
+          cat_border_size = 3;
+          cat_border = Colors.red;
         });
         return;
       }
@@ -1775,6 +2110,9 @@ class _Add_Post extends State<Add_Post> {
         _showDialog("يرجى اختيار القسم الفرعي.");
         setState(() {
           signup_btn_child_index = 0;
+
+          subat_border_size = 3;
+          subcat_border = Colors.red;
         });
 
         return;
@@ -1834,6 +2172,8 @@ class _Add_Post extends State<Add_Post> {
         _showDialog("يرجى اختيار المدينة.");
         setState(() {
           signup_btn_child_index = 0;
+          city_border_size = 3;
+          city_border = Colors.red;
         });
         return;
       }
@@ -1843,6 +2183,8 @@ class _Add_Post extends State<Add_Post> {
         _showDialog("يرجى اختيار المنطقة.");
         setState(() {
           signup_btn_child_index = 0;
+          regions_border_size = 3;
+          regions_border = Colors.red;
         });
         return;
       }
@@ -1852,6 +2194,8 @@ class _Add_Post extends State<Add_Post> {
         _showDialog("يرجى إدخال عنوان الإعلان.");
         setState(() {
           signup_btn_child_index = 0;
+          title_border_size = 3;
+          title_border = Colors.red;
         });
         return;
       }
@@ -1920,7 +2264,7 @@ class _Add_Post extends State<Add_Post> {
       }
 
       //check contact method
-      if (phone == false &&
+      /*if (phone == false &&
           whatsapp == false &&
           telegram == false &&
           viber == false) {
@@ -1929,7 +2273,7 @@ class _Add_Post extends State<Add_Post> {
           signup_btn_child_index = 0;
         });
         return;
-      }
+      }*/
 
       /////////end form valdation/////////
 

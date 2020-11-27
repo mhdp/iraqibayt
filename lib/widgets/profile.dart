@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
+import 'package:iraqibayt/widgets/welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 
@@ -544,10 +545,40 @@ class _ProfileState extends State<Profile> {
                                                             fontFamily:
                                                                 'CustomIcons'),
                                                         blockButton: true,
+
                                                         color:
                                                             Color(0xff65AECA),
                                                       ),
-                                                    )
+                                                    ),
+                                                    Divider(color: Colors.grey,),
+                                                    Container(
+                                                      padding: const EdgeInsets
+                                                          .symmetric(
+                                                          horizontal: 5.0),
+                                                      margin:
+                                                      const EdgeInsets.only(
+                                                          top: 25.0),
+                                                      child: GFButton(
+                                                        onPressed: () async {
+                                                          final prefs = await SharedPreferences.getInstance();
+                                                          final key = 'is_login';
+                                                          final value = "0";
+                                                          prefs.setString(key, value);
+                                                          Navigator.of(context).popUntil((route) => route.isFirst);
+                                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Welcome()));
+
+                                                        },
+                                                        text:  'تسجيل الخروج',
+                                                        textStyle: TextStyle(
+                                                            fontSize: 18.0,
+                                                            fontFamily:
+                                                            'CustomIcons'),
+                                                        blockButton: true,
+                                                        icon: Icon(MyIcons.logout,color: Colors.black,),
+
+                                                        color: Colors.grey,
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                               )
@@ -557,6 +588,7 @@ class _ProfileState extends State<Profile> {
                                       ],
                                     ),
                                   ),
+
                                 ],
                               ),
                             ),

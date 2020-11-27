@@ -887,20 +887,27 @@ class _Posts_detalis extends State<Posts_detalis> {
                                     _addFavorite(databaseHelper
                                         .get_post_by_id_list[0]["id"]);
                                   },
+                            shape: RoundedRectangleBorder(
+                              side: BorderSide(
                                   color: Colors.red,
+                                  width: 1,
+                                  style:
+                                  BorderStyle.solid),
+                            ),
+                                  color: Colors.white,
                                   elevation: 0,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Icon(
                                         Icons.favorite_border,
-                                        color: Colors.white,
+                                        color: Colors.red,
                                       ),
                                       Text(
                                         " أضف إلى المفضلة",
                                         style: TextStyle(
                                           fontSize: 18,
-                                          color: Colors.white,
+                                          color: Colors.black,
                                           fontFamily: "CustomIcons",
                                           fontWeight: FontWeight.w300,
                                         ),
