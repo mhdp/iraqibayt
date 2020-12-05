@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/Favorite.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
@@ -188,6 +189,8 @@ class BikeListItem extends StatefulWidget {
 class _BikeListItemState extends State<BikeListItem> {
   List<Favorite> _favorites, _rFavorites;
 
+  var _controller = ScrollController();
+
   Future _getUserFavorites() async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'is_login';
@@ -351,9 +354,27 @@ class _BikeListItemState extends State<BikeListItem> {
     }
   }
 
+  void _listener() {
+    if (_controller.position.atEdge) {
+      if (_controller.position.pixels == 0)
+        setState(() {
+          _isVisible = true;
+        });
+      else
+        setState(() {
+          _isVisible = false;
+        });
+    } else
+      setState(() {
+        _isVisible = false;
+      });
+  }
+
   @override
   void initState() {
     super.initState();
+
+    _controller.addListener(_listener);
 
     _getUserFavorites().then((value) {
       setState(() {
@@ -390,6 +411,7 @@ class _BikeListItemState extends State<BikeListItem> {
             Expanded(
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
+                  controller: _controller,
                   shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, i) {
@@ -409,7 +431,7 @@ class _BikeListItemState extends State<BikeListItem> {
                     }
 
                     var bed = data[i]['bedroom'];
-                    if (bed == null|| bed == 'null') {
+                    if (bed == null || bed == 'null') {
                       show_icons = false;
                       bed = "0";
                     }
