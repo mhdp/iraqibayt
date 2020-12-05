@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-
 class DatabaseHelper {
   String default_post_image = "";
   String serverUrl = "https://iraqibayt.com/api";
@@ -20,11 +19,28 @@ class DatabaseHelper {
   int user_id = 0;
   String userToken = ' ';
 
+  var extraPostList;
+  int maxPagesNumber = 0;
+  int _pageIndex = 1;
+
   Future<List> get_posts() async {
     String myUrl = "$serverUrl/allposts_api";
     http.Response response = await http.post(myUrl);
     if (response.body.length > 0) {
       posts_list = json.decode(response.body);
+      var data = json.decode(response.body);
+      maxPagesNumber = data['last_page'] as int;
+      //print(posts_list.toString());
+    }
+  }
+
+  Future<List> getPostsNextPage(int pageID) async {
+    String myUrl = "$serverUrl/allposts_api?page=" + pageID.toString();
+    http.Response response = await http.post(myUrl);
+    if (response.body.length > 0) {
+      extraPostList = json.decode(response.body);
+
+      //posts_list.addAll(_extraPostList);
       //print(posts_list.toString());
     }
   }
