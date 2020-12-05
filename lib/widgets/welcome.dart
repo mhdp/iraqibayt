@@ -245,7 +245,7 @@ class _Welcome extends State<Welcome> {
                       topLeft: Radius.circular(5)),
                 ),
                 alignment: Alignment.center,
-                child: Text(' الإستمرار بإستخدام أبل',
+                child: Text(' الإستمرار بإستخدام Apple',
                     style: TextStyle(
                         color: Colors.black,
                         fontFamily: "CustomIcons",

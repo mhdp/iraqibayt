@@ -396,7 +396,7 @@ class _WeatherCardState extends State<WeatherCard> {
                                                       textAlign:
                                                           TextAlign.right,
                                                       style: TextStyle(
-                                                        fontSize: 18,
+                                                        fontSize: 16,
                                                       ),
                                                     ),
                                                     flex: 25,

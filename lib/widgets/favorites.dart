@@ -13,6 +13,7 @@ import 'package:iraqibayt/modules/api/callApi.dart';
 
 import 'ContactUs.dart';
 import 'home/home.dart';
+import 'my_account.dart';
 import 'my_icons_icons.dart';
 
 class Favorites extends StatefulWidget {
@@ -499,7 +500,7 @@ class _FavoritesState extends State<Favorites> {
       );
     }else if(index == 3){
       Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new Profile()));
+          builder: (BuildContext context) => new MyAccount()));
     }else if(index == 4){
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new ContactUs()));

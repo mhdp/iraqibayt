@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iraqibayt/modules/Note.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/profile.dart';
@@ -155,7 +156,7 @@ class _NotesState extends State<Notes> {
       );
     }else if(index == 3){
       Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new Profile()));
+          builder: (BuildContext context) => new MyAccount()));
     }else if(index == 4){
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new ContactUs()));

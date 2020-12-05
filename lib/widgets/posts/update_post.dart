@@ -10,6 +10,7 @@ import 'package:getwidget/getwidget.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
+import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'dart:async';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -1864,7 +1865,7 @@ class _UpdatePost extends State<UpdatePost> {
       );
     } else if (index == 3) {
       Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new Profile()));
+          builder: (BuildContext context) => new MyAccount()));
     } else if (index == 4) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new ContactUs()));

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iraqibayt/widgets/abouts.dart';
@@ -39,9 +40,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        DefaultCupertinoLocalizations.delegate
       ],
       supportedLocales: [
         Locale('ar', 'AE'), // OR Locale('ar', 'AE') OR Other RTL locales

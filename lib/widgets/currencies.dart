@@ -8,6 +8,7 @@ import 'package:iraqibayt/modules/Exchange.dart';
 import 'package:iraqibayt/modules/Currency.dart';
 import 'package:iraqibayt/modules/ICurrency.dart';
 import 'package:flutter_html/style.dart';
+import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/profile.dart';
@@ -455,7 +456,7 @@ class _CurrenciesState extends State<Currencies> {
       );
     }else if(index == 3){
       Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new Profile()));
+          builder: (BuildContext context) => new MyAccount()));
     }else if(index == 4){
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new ContactUs()));

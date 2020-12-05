@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/profile.dart';
@@ -354,7 +355,7 @@ class _ContactUs extends State<ContactUs> {
       );
     }else if(index == 3){
       Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new Profile()));
+          builder: (BuildContext context) => new MyAccount()));
     }
     /*setState(() {
       _currentIndex = index;

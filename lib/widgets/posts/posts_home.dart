@@ -8,6 +8,7 @@ import 'package:iraqibayt/modules/api/callApi.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
 import 'package:iraqibayt/widgets/home/search_card.dart';
+import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/my_icons_icons.dart';
 import 'package:iraqibayt/widgets/posts/full_post.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
@@ -161,7 +162,7 @@ class _Posts_Home extends State<Posts_Home> {
       );
     } else if (index == 3) {
       Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new Profile()));
+          builder: (BuildContext context) => new MyAccount()));
     } else if (index == 4) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new ContactUs()));

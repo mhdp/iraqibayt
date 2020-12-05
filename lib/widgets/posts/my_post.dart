@@ -4,12 +4,17 @@ import 'dart:convert';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/Favorite.dart';
 import 'package:iraqibayt/modules/Post.dart';
+import 'package:iraqibayt/widgets/home/home.dart';
 import 'package:iraqibayt/widgets/posts/full_post.dart';
+import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/posts/update_post.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 
+import '../ContactUs.dart';
+import '../my_account.dart';
+import '../my_icons_icons.dart';
 import '../welcome.dart';
 import 'add_post.dart';
 
@@ -488,6 +493,63 @@ class _MyPostsState extends State<MyPosts> {
           },
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFF335876),
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.white,
+        onTap: onTabTapped, // new
+        currentIndex: 3,
+        type: BottomNavigationBarType.fixed, // new
+        items: [
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'الرئيسية',
+          ),
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book),
+            label: 'الإعلانات',
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.post_add),
+              label: 'أضف إعلان'
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(MyIcons.user),
+              label: 'حسابي'
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.mail),
+              label: 'ملاحظات'
+          ),
+        ],
+      ),
     );
+  }
+
+  void onTabTapped(int index) {
+    if(index == 1){
+      Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Posts_Home()),
+      );
+    }else if(index == 2){
+      Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Add_Post()),
+      );
+    }else if(index == 0){
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Home()));
+    }else if(index == 3){
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new MyAccount()));
+    }else if(index == 4){
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new ContactUs()));
+    }
+    /*setState(() {
+      _currentIndex = index;
+      print(index.toString());
+    });*/
   }
 }

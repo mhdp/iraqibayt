@@ -13,6 +13,7 @@ import 'package:responsive_grid/responsive_grid.dart';
 
 import '../ContactUs.dart';
 import '../NavDrawer.dart';
+import '../my_account.dart';
 import '../my_icons_icons.dart';
 import '../profile.dart';
 import 'contact_us.dart';
@@ -244,7 +245,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       );
     } else if (index == 3) {
       Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new Profile()));
+          builder: (BuildContext context) => new MyAccount()));
     } else if (index == 4) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new ContactUs()));

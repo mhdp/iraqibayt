@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:getwidget/getwidget.dart';
+import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
@@ -606,7 +607,7 @@ class _ProfileState extends State<Profile> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF335876),
         unselectedItemColor: Colors.white,
-        selectedItemColor: Color(0xFFdd685f),
+        selectedItemColor: Colors.white,
         onTap: onTabTapped, // new
         currentIndex: 3,
         type: BottomNavigationBarType.fixed, // new
@@ -651,6 +652,9 @@ class _ProfileState extends State<Profile> {
     }else if(index == 0){
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Home()));
+    }else if(index == 3){
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new MyAccount()));
     }else if(index == 4){
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new ContactUs()));

@@ -9,6 +9,7 @@ import 'package:getwidget/getwidget.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
+import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'dart:async';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -47,6 +48,7 @@ class _Add_Post extends State<Add_Post> {
   String sub_catHint = "اختر قسم فرعي";
   String cityHint = "اختر مدينة";
   String regionHint = "اختر منطقة";
+  String unitHint = "اختر وحدة قياس";
 
   final title_Controller = TextEditingController();
   final details_Controller = TextEditingController();
@@ -60,6 +62,7 @@ class _Add_Post extends State<Add_Post> {
   var is_sub = false;
   var is_region = false;
   var is_home = false;
+  bool is_carage = false;
   bool phone = false;
   bool whatsapp = false;
   bool telegram = false;
@@ -582,7 +585,7 @@ class _Add_Post extends State<Add_Post> {
       appBar: AppBar(
         backgroundColor: Color(0xFF335876),
         title: Text(
-          "أضف إعلان جديد",
+          "أضف إعلان عقار",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
@@ -668,7 +671,7 @@ class _Add_Post extends State<Add_Post> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                   Padding(
-                      padding: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.all(0),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
@@ -677,10 +680,10 @@ class _Add_Post extends State<Add_Post> {
                                 shape: RoundedRectangleBorder(
                                   side: BorderSide(
                                       color: Colors.grey, width: 0.5),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(0),
                                 ),
                                 clipBehavior: Clip.antiAlias,
-                                margin: const EdgeInsets.all(10.0),
+                                margin: const EdgeInsets.only(top:10.0,bottom: 10),
                                 //color: Colors.grey,
                                 elevation: 0,
                                 child: Column(
@@ -912,10 +915,10 @@ class _Add_Post extends State<Add_Post> {
                                     shape: RoundedRectangleBorder(
                                       side: BorderSide(
                                           color: Colors.grey, width: 0.5),
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(0),
                                     ),
                                     clipBehavior: Clip.antiAlias,
-                                    margin: const EdgeInsets.all(10.0),
+                                    margin: const EdgeInsets.only(top:10.0,bottom: 10),
                                     //color: Colors.grey,
                                     elevation: 0,
                                     child: Column(
@@ -1154,9 +1157,12 @@ class _Add_Post extends State<Add_Post> {
                                                             DropdownMenuItem(
                                                               value:
                                                                   "تحتوي كراج",
-                                                              child: Text(
-                                                                "تحتوي كراج",
-                                                              ),
+                                                              child: Row(children: [
+                                                                Text(
+                                                                  "تحتوي كراج",
+                                                                ),
+                                                                Icon(Icons.arrow_back_rounded)
+                                                              ],)
                                                             ),
                                                             DropdownMenuItem(
                                                               value:
@@ -1168,14 +1174,23 @@ class _Add_Post extends State<Add_Post> {
                                                           ],
                                                           onChanged: (value) {
                                                             setState(() {
-                                                              car_Selection =
-                                                                  value;
+                                                              car_Selection = value;
+                                                              if(value == "تحتوي كراج"){
+                                                                setState(() {
+                                                                  is_carage = true;
+                                                                });
+
+                                                              }else{
+                                                                setState(() {
+                                                                  is_carage = false;
+                                                                });
+                                                              }
                                                             });
                                                           },
                                                           value: car_Selection,
                                                         )),
                                                   ),
-                                                  Expanded(
+                                                  is_carage? Expanded(
                                                       child: Padding(
                                                     padding:
                                                         const EdgeInsets.all(5),
@@ -1209,7 +1224,7 @@ class _Add_Post extends State<Add_Post> {
                                                               hintText:
                                                                   "عدد السيارات"),
                                                     ),
-                                                  ))
+                                                  )):Container()
                                                 ],
                                               )),
 
@@ -1302,10 +1317,10 @@ class _Add_Post extends State<Add_Post> {
                                 shape: RoundedRectangleBorder(
                                   side: BorderSide(
                                       color: Colors.grey, width: 0.5),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(0),
                                 ),
                                 clipBehavior: Clip.antiAlias,
-                                margin: const EdgeInsets.all(10.0),
+                                margin: const EdgeInsets.only(top:10.0,bottom: 10),
                                 //color: Colors.grey,
                                 elevation: 0,
                                 child: Column(
@@ -1433,6 +1448,7 @@ class _Add_Post extends State<Add_Post> {
                                                       },
                                                       decoration:
                                                           InputDecoration(
+
                                                         filled: true,
                                                         fillColor:
                                                             Color(0xFFe8e8e8),
@@ -1701,10 +1717,10 @@ class _Add_Post extends State<Add_Post> {
                                 shape: RoundedRectangleBorder(
                                   side: BorderSide(
                                       color: Colors.grey, width: 0.5),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(0),
                                 ),
                                 clipBehavior: Clip.antiAlias,
-                                margin: const EdgeInsets.all(10.0),
+                                margin: const EdgeInsets.only(top:10.0,bottom: 10),
                                 //color: Colors.grey,
                                 elevation: 0,
                                 child: Column(
@@ -1742,10 +1758,10 @@ class _Add_Post extends State<Add_Post> {
                                 shape: RoundedRectangleBorder(
                                   side: BorderSide(
                                       color: Colors.grey, width: 0.5),
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(0),
                                 ),
                                 clipBehavior: Clip.antiAlias,
-                                margin: const EdgeInsets.all(10.0),
+                                margin: const EdgeInsets.only(top:10,bottom: 10),
                                 //color: Colors.grey,
                                 elevation: 0,
                                 child: Column(
@@ -1829,6 +1845,7 @@ class _Add_Post extends State<Add_Post> {
                                                             color: Colors.black,
                                                             size: 30.0,
                                                           ),
+                                                          Text('اتصال مباشر'),
                                                           Checkbox(
                                                             value: phone,
                                                             onChanged:
@@ -1853,6 +1870,7 @@ class _Add_Post extends State<Add_Post> {
                                                                 0XFF63a63a),
                                                             size: 30.0,
                                                           ),
+                                                          Text('واتساب'),
                                                           Checkbox(
                                                             value: whatsapp,
                                                             onChanged:
@@ -1878,6 +1896,7 @@ class _Add_Post extends State<Add_Post> {
                                                                 0xFF51a1d3),
                                                             size: 30.0,
                                                           ),
+                                                          Text('تلغرام'),
                                                           Checkbox(
                                                             value: telegram,
                                                             onChanged:
@@ -1903,6 +1922,7 @@ class _Add_Post extends State<Add_Post> {
                                                                 0xFF6c439a),
                                                             size: 30.0,
                                                           ),
+                                                          Text('فايبر'),
                                                           Checkbox(
                                                             value: viber,
                                                             onChanged:
@@ -1960,7 +1980,7 @@ class _Add_Post extends State<Add_Post> {
       );
     } else if (index == 3) {
       Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new Profile()));
+          builder: (BuildContext context) => new MyAccount()));
     } else if (index == 4) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new ContactUs()));
@@ -2082,6 +2102,7 @@ class _Add_Post extends State<Add_Post> {
       images = resultList ;
     });
   }
+////////////////
 
   send_post() async {
     if (_formKey.currentState.validate()) {
@@ -2335,9 +2356,9 @@ class _Add_Post extends State<Add_Post> {
         request.files.add(await http.MultipartFile.fromPath('imgs_file$i', path,
             contentType: new MediaType('application', 'x-tar')));
 
-        final file = File(path);
+        //final file = File(path);
       }
-      ;
+
       request.fields.addAll(postBody);
 
       print("start send");

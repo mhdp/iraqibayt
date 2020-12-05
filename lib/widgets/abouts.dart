@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:iraqibayt/widgets/fullAbout.dart';
+import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/profile.dart';
@@ -270,7 +271,7 @@ class _AboutsState extends State<Abouts> {
       );
     }else if(index == 3){
       Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new Profile()));
+          builder: (BuildContext context) => new MyAccount()));
     }else if(index == 4){
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new ContactUs()));
