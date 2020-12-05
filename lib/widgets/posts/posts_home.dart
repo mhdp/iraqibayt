@@ -37,7 +37,7 @@ class _Posts_Home extends State<Posts_Home> {
   void initState() {
     super.initState();
     setState(() {
-      _isVisible = false;
+      _isVisible = true;
     });
 
     databaseHelper.get_default_post_image().whenComplete(() {
