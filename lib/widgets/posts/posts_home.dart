@@ -23,7 +23,7 @@ import 'add_post.dart';
 DatabaseHelper databaseHelper = new DatabaseHelper();
 
 String default_image = "";
-bool _isVisible;
+bool _isVisible, _isExtraLoadingVisible, _isEndResultsVisible;
 String _token;
 
 class Posts_Home extends StatefulWidget {
@@ -37,7 +37,9 @@ class _Posts_Home extends State<Posts_Home> {
   void initState() {
     super.initState();
     setState(() {
-      _isVisible = false;
+      _isVisible = true;
+      _isExtraLoadingVisible = false;
+      _isEndResultsVisible = false;
     });
 
     databaseHelper.get_default_post_image().whenComplete(() {
@@ -188,6 +190,8 @@ class BikeListItem extends StatefulWidget {
 
 class _BikeListItemState extends State<BikeListItem> {
   List<Favorite> _favorites, _rFavorites;
+  int _pageIndex;
+  List<dynamic> data;
 
   var _controller = ScrollController();
 
@@ -359,14 +363,37 @@ class _BikeListItemState extends State<BikeListItem> {
       if (_controller.position.pixels == 0)
         setState(() {
           _isVisible = true;
+          _isExtraLoadingVisible = false;
+          _isEndResultsVisible = false;
         });
-      else
+      else {
         setState(() {
           _isVisible = false;
+          _isExtraLoadingVisible = true;
         });
+
+        if (_pageIndex <= databaseHelper.maxPagesNumber) {
+          _pageIndex++;
+          databaseHelper.getPostsNextPage(_pageIndex).whenComplete(() {
+            setState(() {
+              for (var item in databaseHelper.extraPostList['data']) {
+                data.add(item);
+              }
+              _isExtraLoadingVisible = false;
+            });
+          });
+        } else {
+          setState(() {
+            _isExtraLoadingVisible = false;
+            _isEndResultsVisible = true;
+          });
+        }
+      }
     } else
       setState(() {
         _isVisible = false;
+        _isExtraLoadingVisible = false;
+        _isEndResultsVisible = false;
       });
   }
 
@@ -381,12 +408,16 @@ class _BikeListItemState extends State<BikeListItem> {
         _rFavorites = List.from(value);
       });
     });
+
+    setState(() {
+      _pageIndex = 1;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     if (widget.list1.length > 0) {
-      List<dynamic> data = widget.list1["data"];
+      data = widget.list1["data"];
 
       return Container(
         child: Column(
@@ -394,11 +425,11 @@ class _BikeListItemState extends State<BikeListItem> {
           children: <Widget>[
             Visibility(visible: _isVisible, child: SearchCard()),
             Container(
-              height: MediaQuery.of(context).size.height * 0.06,
+              height: MediaQuery.of(context).size.height * 0.04,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(2.0),
                 child: Text(
-                  'عدد النتائج :' + data.length.toString(),
+                  'عدد النتائج :' + widget.list1['total'].toString(),
                   style: TextStyle(
                     fontSize: 18,
                     color: Color(0xFF335876),
@@ -836,6 +867,30 @@ class _BikeListItemState extends State<BikeListItem> {
                     );
                   }),
             ),
+            Visibility(
+                visible: _isExtraLoadingVisible,
+                child: Container(
+                  height: 50,
+                  child: Center(
+                    child: new CircularProgressIndicator(),
+                  ),
+                )),
+            Visibility(
+                visible: _isEndResultsVisible,
+                child: Container(
+                  height: 50,
+                  child: Center(
+                    child: Text(
+                      'نهاية النتائج',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        fontFamily: "CustomIcons",
+                      ),
+                    ),
+                  ),
+                )),
           ],
         ),
       );
