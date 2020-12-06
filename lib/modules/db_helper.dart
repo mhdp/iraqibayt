@@ -21,7 +21,6 @@ class DatabaseHelper {
 
   var extraPostList;
   int maxPagesNumber = 0;
-  int _pageIndex = 1;
 
   Future<List> get_posts() async {
     String myUrl = "$serverUrl/allposts_api";
@@ -118,17 +117,53 @@ class DatabaseHelper {
     //Add dynamic entries
     subCategories.forEach((element) {
       postBody.putIfAbsent('subCats%5B%5D', () => element.toString());
-      print('subCats[]=' + element.toString());
+      //print('subCats[]=' + element.toString());
     });
     regions.forEach((element) {
       postBody.putIfAbsent('regions%5B%5D', () => element.toString());
-      print('regions[]=' + element.toString());
+      //print('regions[]=' + element.toString());
     });
 
     http.Response response = await http.post(myUrl, body: postBody);
     if (response.body.length > 0) {
       posts_list = json.decode(response.body);
-      print(posts_list.toString());
+      var data = json.decode(response.body);
+      maxPagesNumber = data['last_page'] as int;
+      //print(posts_list.toString());
+    }
+  }
+
+  Future<List> getSearchNextPage(
+    int pageID,
+    int categoryId,
+    List<int> subCategories,
+    int cityId,
+    List<int> regions,
+    int sortBy,
+  ) async {
+    String myUrl = "$serverUrl/posts_search_adv?page=" + pageID.toString();
+    //Define post request body
+    Map<String, String> postBody = new Map<String, String>();
+    //Add static entries
+    postBody.putIfAbsent('category', () => categoryId.toString());
+    postBody.putIfAbsent('city', () => cityId.toString());
+    postBody.putIfAbsent('sortBy', () => sortBy.toString());
+    //Add dynamic entries
+    subCategories.forEach((element) {
+      postBody.putIfAbsent('subCats%5B%5D', () => element.toString());
+      //print('subCats[]=' + element.toString());
+    });
+    regions.forEach((element) {
+      postBody.putIfAbsent('regions%5B%5D', () => element.toString());
+      //print('regions[]=' + element.toString());
+    });
+
+    http.Response response = await http.post(myUrl, body: postBody);
+    if (response.body.length > 0) {
+      extraPostList = json.decode(response.body);
+
+      //posts_list.addAll(_extraPostList);
+      //print(posts_list.toString());
     }
   }
 

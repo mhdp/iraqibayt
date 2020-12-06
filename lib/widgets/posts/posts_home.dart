@@ -868,29 +868,31 @@ class _BikeListItemState extends State<BikeListItem> {
                   }),
             ),
             Visibility(
-                visible: _isExtraLoadingVisible,
-                child: Container(
-                  height: 50,
-                  child: Center(
-                    child: new CircularProgressIndicator(),
-                  ),
-                )),
+              visible: _isExtraLoadingVisible,
+              child: Container(
+                height: 50,
+                child: Center(
+                  child: new CircularProgressIndicator(),
+                ),
+              ),
+            ),
             Visibility(
-                visible: _isEndResultsVisible,
-                child: Container(
-                  height: 50,
-                  child: Center(
-                    child: Text(
-                      'نهاية النتائج',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        fontFamily: "CustomIcons",
-                      ),
+              visible: _isEndResultsVisible,
+              child: Container(
+                height: 50,
+                child: Center(
+                  child: Text(
+                    'نهاية النتائج',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                      fontFamily: "CustomIcons",
                     ),
                   ),
-                )),
+                ),
+              ),
+            ),
           ],
         ),
       );

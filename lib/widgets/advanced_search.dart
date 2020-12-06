@@ -18,7 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 DatabaseHelper databaseHelper = new DatabaseHelper();
 
 String default_image = "";
-bool _isVisible;
+bool _isVisible, _isExtraLoadingVisible, _isEndResultsVisible;
 
 class AdvancedSearch extends StatefulWidget {
   final int categoryId;
@@ -45,6 +45,8 @@ class _AdvancedSearchState extends State<AdvancedSearch> {
     super.initState();
     setState(() {
       _isVisible = false;
+      _isExtraLoadingVisible = false;
+      _isEndResultsVisible = false;
     });
 
     databaseHelper.get_default_post_image().whenComplete(() {
@@ -165,6 +167,10 @@ class ResultListItem extends StatefulWidget {
 class _ResultListItemState extends State<ResultListItem> {
   String _email, _password;
   List<Favorite> _favorites, _rFavorites;
+  int _pageIndex;
+  List<dynamic> data;
+
+  var _controller = ScrollController();
 
   Future _getUserFavorites() async {
     final prefs = await SharedPreferences.getInstance();
@@ -343,21 +349,66 @@ class _ResultListItemState extends State<ResultListItem> {
     }
   }
 
+  void _listener() {
+    if (_controller.position.atEdge) {
+      if (_controller.position.pixels == 0)
+        setState(() {
+          _isExtraLoadingVisible = false;
+          _isEndResultsVisible = false;
+        });
+      else {
+        setState(() {
+          _isExtraLoadingVisible = true;
+        });
+
+        if (_pageIndex <= databaseHelper.maxPagesNumber) {
+          _pageIndex++;
+          databaseHelper
+              .getSearchNextPage(_pageIndex, widget.catId, widget.subCats,
+                  widget.citId, widget.regions, widget.sortById)
+              .whenComplete(() {
+            setState(() {
+              for (var item in databaseHelper.extraPostList['data']) {
+                data.add(item);
+              }
+              _isExtraLoadingVisible = false;
+            });
+          });
+        } else {
+          setState(() {
+            _isExtraLoadingVisible = false;
+            _isEndResultsVisible = true;
+          });
+        }
+      }
+    } else
+      setState(() {
+        _isExtraLoadingVisible = false;
+        _isEndResultsVisible = false;
+      });
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+
+    _controller.addListener(_listener);
+
     _getUserFavorites().then((value) {
       setState(() {
         _rFavorites = List.from(value);
       });
+    });
+
+    setState(() {
+      _pageIndex = 1;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     if (widget.list1.length > 0) {
-      List<dynamic> data = widget.list1["data"];
+      data = widget.list1["data"];
 
       return Container(
         child: Column(
@@ -373,11 +424,11 @@ class _ResultListItemState extends State<ResultListItem> {
                   sortById: widget.sortById,
                 )),
             Container(
-              height: MediaQuery.of(context).size.height * 0.06,
+              height: MediaQuery.of(context).size.height * 0.04,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(2.0),
                 child: Text(
-                  'عدد النتائج :' + data.length.toString(),
+                  'عدد النتائج :' + widget.list1['total'].toString(),
                   style: TextStyle(
                     fontSize: 18,
                     color: Color(0xFF335876),
@@ -389,6 +440,7 @@ class _ResultListItemState extends State<ResultListItem> {
             Expanded(
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
+                  controller: _controller,
                   shrinkWrap: true,
                   itemCount: data.length,
                   itemBuilder: (context, i) {
@@ -799,6 +851,32 @@ class _ResultListItemState extends State<ResultListItem> {
                       ),
                     );
                   }),
+            ),
+            Visibility(
+              visible: _isExtraLoadingVisible,
+              child: Container(
+                height: 50,
+                child: Center(
+                  child: new CircularProgressIndicator(),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: _isEndResultsVisible,
+              child: Container(
+                height: 50,
+                child: Center(
+                  child: Text(
+                    'نهاية النتائج',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.0,
+                      fontFamily: "CustomIcons",
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
