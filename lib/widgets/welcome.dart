@@ -105,6 +105,8 @@ class _Welcome extends State<Welcome> {
     final key5 = 'token';
     final value5 = token;
     prefs.setString(key5, value5);
+
+    databaseHelper.updateFirebaseToken(value1);
   }
 
   void signOutGoogle() async {

@@ -29,7 +29,7 @@ class AdvancedSearchCard extends StatefulWidget {
 }
 
 class _AdvancedSearchCardState extends State<AdvancedSearchCard> {
-  final List<SortBy> _sourByList = [
+  final List<SortBy> _sortByList = [
     SortBy(id: 1, name: '(تاريخ النشر) من الأحدث للأقدم'),
     SortBy(id: 2, name: '(تاريخ النشر) من الأقدم للأحدث'),
     SortBy(id: 3, name: '(عدد غرف النوم) من الأكثر للأقل عددا'),
@@ -537,7 +537,7 @@ class _AdvancedSearchCardState extends State<AdvancedSearchCard> {
                                                             ),
                                                           ),
                                                           value: sortByValue,
-                                                          items: _sourByList
+                                                          items: _sortByList
                                                               .map((SortBy sb) {
                                                             return new DropdownMenuItem<
                                                                 int>(

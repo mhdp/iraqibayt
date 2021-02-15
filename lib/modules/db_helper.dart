@@ -1,8 +1,12 @@
 import 'dart:convert';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DatabaseHelper {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
   String default_post_image = "";
   String serverUrl = "https://iraqibayt.com/api";
   Map<String, dynamic> posts_list;
@@ -247,5 +251,23 @@ class DatabaseHelper {
     } else {
       register_status = false;
     }
+  }
+
+  Future updateFirebaseToken(int userId) async
+  {
+    String _deviceToken = await _firebaseMessaging.getToken();
+
+    print(_deviceToken);
+    print(userId);
+
+    String myUrl = "$serverUrl/update_user_fb_token";
+    http.Response response = await http.post(myUrl, body: {
+      'token': _deviceToken,
+      'user_id': userId.toString(),
+    });
+
+    print("result: ${response.body}");
+
+    return response.body.toString();
   }
 }

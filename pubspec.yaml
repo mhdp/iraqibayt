@@ -55,6 +55,9 @@ dependencies:
   uuid: ^2.2.2
   path: ^1.7.0
   rflutter_alert: ^1.1.0
+  firebase_messaging: ^7.0.3
+  flutter_local_notifications: ^3.0.2
+
 
 
 dev_dependencies:

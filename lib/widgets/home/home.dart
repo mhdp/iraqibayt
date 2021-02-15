@@ -1,21 +1,26 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:iraqibayt/widgets/home/exchange_card.dart';
 import 'package:iraqibayt/widgets/home/search_card.dart';
 import 'package:iraqibayt/widgets/home/weather_card.dart';
 import 'package:iraqibayt/widgets/home/departs_card.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
+import 'package:iraqibayt/widgets/posts/full_post.dart';
 import 'package:iraqibayt/widgets/posts/latest_posts.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/posts/spicail_posts.dart';
 import 'package:iraqibayt/widgets/posts/spicial_page.dart';
-import 'package:responsive_grid/responsive_grid.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../ContactUs.dart';
 import '../NavDrawer.dart';
 import '../my_account.dart';
 import '../my_icons_icons.dart';
-import '../profile.dart';
+import '../notifications.dart';
 import 'contact_us.dart';
 import 'info_card.dart';
 
@@ -25,11 +30,298 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
-  var _currentIndex = 0;
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  DatabaseHelper databaseHelper = new DatabaseHelper();
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  new FlutterLocalNotificationsPlugin();
+
+  String notificationRouteType = '0';
+  String couponNotificationId = '0';
+  String notificationUrl = '0';
+  String notificationID = '0';
+  String notificationPostID = '0';
+
+
+  Future _launchNotificationURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Future onSelectNotification(String payload) async {
+    // showDialog(
+    //   context: context,
+    //   builder: (_) {
+    //     return new AlertDialog(
+    //       title: Text("PayLoad"),
+    //       content: Text("Payload : $payload"),
+    //     );
+    //   },
+    // );
+    // api.sendNotificationSeenAck(notificationID).then((value) {
+    _foregroundNotificationRouter();
+    // });
+
+  }
+  void showNotification(String title, String body) async {
+    await _demoNotification(title, body);
+  }
+
+  Future<void> _demoNotification(String title, String body) async {
+
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'channel_ID', 'channel name', 'channel description',
+        importance: Importance.max,
+        playSound: true,
+        showProgress: true,
+        priority: Priority.high,
+        ticker: 'test ticker');
+
+    var iOSChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics, iOS: iOSChannelSpecifics);
+    await flutterLocalNotificationsPlugin
+        .show(0, title, body, platformChannelSpecifics, payload: 'test');
+  }
+
+  _foregroundNotificationRouter()
+  {
+
+    switch(notificationRouteType)
+    {
+      case 'local': if(notificationUrl == '0')
+      {
+        Navigator.of(context).push(
+          new MaterialPageRoute(
+              builder: (BuildContext context) => new Notifications()),
+        );
+      }
+      else
+      {
+        _launchNotificationURL(notificationUrl).whenComplete(() {
+          setState(() {
+            notificationUrl = '0';
+          });
+        });
+      }
+      break;
+
+      case 'global': if(notificationUrl == '0')
+      {
+        Navigator.of(context).push(
+          new MaterialPageRoute(
+              builder: (BuildContext context) => new Notifications()),
+        );
+      }
+      else
+      {
+        _launchNotificationURL(notificationUrl).whenComplete(() {
+          setState(() {
+            notificationUrl = '0';
+          });
+        });
+      }
+      break;
+
+      case 'comment': if(notificationPostID != '0')
+      {
+        Navigator.of(context).push(
+          new MaterialPageRoute(
+            builder: (BuildContext context) => new FullPost(post_id: notificationPostID,),),
+        );
+      }
+      break;
+
+      case 'favourite': if(notificationPostID != '0')
+      {
+        Navigator.of(context).push(
+          new MaterialPageRoute(
+            builder: (BuildContext context) => new FullPost(post_id: notificationPostID,),),
+        );
+      }
+      break;
+    }
+
+  }
+
+  _backgroundNotificationRouter(Map<String , dynamic> message)
+  {
+    switch(message['data']['type'])
+    {
+      case 'local': if(message['data']['url'] == '#' && message['data']['url'] != null)
+      {
+        Navigator.of(context).push(
+          new MaterialPageRoute(
+              builder: (BuildContext context) => new Notifications()),
+        );
+      }
+      else
+      {
+        _launchNotificationURL(message['data']['url']);
+      }
+      break;
+
+      case 'global': if(message['data']['url'] == '#' && message['data']['url'] != null)
+      {
+        Navigator.of(context).push(
+          new MaterialPageRoute(
+              builder: (BuildContext context) => new Notifications()),
+        );
+      }
+      else
+      {
+        _launchNotificationURL(message['data']['url']);
+      }
+      break;
+
+      case 'comment': if(message['data']['post_id'] != null)
+      {
+        Navigator.of(context).push(
+          new MaterialPageRoute(
+            builder: (BuildContext context) => new FullPost(post_id: message['data']['post_id'].toString(),),),
+        );
+      }
+      break;
+
+      case 'favourite': if(message['data']['post_id'] != null)
+      {
+        Navigator.of(context).push(
+          new MaterialPageRoute(
+            builder: (BuildContext context) => new FullPost(post_id: message['data']['post_id'].toString(),),),
+        );
+      }
+      break;
+    }
+
+  }
+
+  Future checkIfDuplicatedNotification (String receivedId) async
+  {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'last_notification_id';
+    final value = prefs.get(key);
+
+    if(receivedId == value.toString())
+      return true;
+    else
+      return false;
+  }
+
+  Future setLastNotificationId (String receivedId) async
+  {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'last_notification_id';
+    prefs.setString(key, receivedId);
+  }
+
+  void initializeNotificationsConfigs() {
+    var initializationSettingsAndroid =
+    new AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String , dynamic> message) async {
+
+        showNotification(
+            message['notification']['title'], message['notification']['body']);
+
+        print("onMessage: $message");
+
+        setState(() {
+          notificationRouteType = message['data']['type'];
+          notificationID = message['data']['notification_id'];
+
+          switch(message['data']['type'])
+          {
+            case 'local': if(message['data']['url'] != '#')
+            {
+              print('this a private notification from iraqiBayt website');
+
+              setState(() {
+                notificationUrl = message['data']['url'];
+              });
+            }
+            break;
+
+            case 'global': if(message['data']['url'] != '#')
+            {
+              setState(() {
+                notificationUrl = message['data']['url'];
+              });
+            }
+            break;
+
+            case 'comment': if(message['data']['post_id'] != null)
+            {
+              setState(() {
+                notificationPostID = message['data']['post_id'];
+              });
+            }
+            break;
+
+            case 'favourite': if(message['data']['post_id'] != null)
+            {
+              setState(() {
+                notificationPostID = message['data']['post_id'];
+              });
+            }
+            break;
+          }
+        });
+
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+
+        print('on Launch section entered !!!!');
+        if(!await checkIfDuplicatedNotification(message['data']['notification_id']))
+        {
+          setLastNotificationId(message['data']['notification_id']).whenComplete(() {
+
+            print("onLaunch: $message");
+            setState(() {
+              notificationID = message['data']['notification_id'];
+              _backgroundNotificationRouter(message);
+            });
+
+          });
+        }
+      },
+      onResume: (Map<String, dynamic> message) async {
+
+        print('on Resume section entered !!!!');
+
+        if(!await checkIfDuplicatedNotification(message['data']['notification_id']))
+        {
+          setLastNotificationId(message['data']['notification_id']).whenComplete(() {
+
+            print("onResume: $message");
+            setState(() {
+              notificationID = message['data']['notification_id'];
+              _backgroundNotificationRouter(message);
+            });
+
+          });
+        }
+
+      },
+    );
+
+  }
 
   @override
   void initState() {
     super.initState();
+
+    initializeNotificationsConfigs();
   }
 
   @override
