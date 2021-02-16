@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:dio/dio.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -13,6 +15,7 @@ import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'dart:async';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../ContactUs.dart';
@@ -2044,7 +2047,7 @@ class _Add_Post extends State<Add_Post> {
                 child: Column(children: [ AssetThumb(
                   asset: images[i],
                   width: 300,
-                  height: 300,
+                  height: 260,
                 ),
 
                   IconButton(
@@ -2088,6 +2091,7 @@ class _Add_Post extends State<Add_Post> {
         maxImages: 30,
         enableCamera: true,
         selectedAssets: images,
+
       );
     } on Exception catch (e) {
       error = e.toString();
@@ -2108,7 +2112,8 @@ class _Add_Post extends State<Add_Post> {
     if (_formKey.currentState.validate()) {
 
     }
-    if (signup_btn_child_index == 0) {
+    //if (signup_btn_child_index == 0) {
+    if (true) {
       setState(() {
         signup_btn_child_index = 1;
       });
@@ -2299,22 +2304,19 @@ class _Add_Post extends State<Add_Post> {
       /////////end form valdation/////////
 
       ////////get user parameter///////
-      final prefs = await SharedPreferences.getInstance();
+      /*final prefs = await SharedPreferences.getInstance();
       final key = 'token';
-      final token = prefs.get(key) ?? 0;
+      final token = prefs.get(key) ?? 0;*/
 
-      print(token.toString());
+      //print(token.toString());
       ////////// send data to api
-      Map<String, String> postBody = new Map<String, String>();
+      //Map<String, String> postBody = new Map<String, String>();
 
-      postBody.putIfAbsent('token', () => token.toString());
+      /*postBody.putIfAbsent('token', () => token.toString());
       postBody.putIfAbsent('id', () => '');
-      postBody.putIfAbsent(
-          'title', () => '${title_Controller.text.toString()}');
-      postBody.putIfAbsent(
-          'description', () => '${details_Controller.text.toString()}');
-      postBody.putIfAbsent(
-          'price', () => '${price_Controller.text.toString()}');
+      postBody.putIfAbsent('title', () => '${title_Controller.text.toString()}');
+      postBody.putIfAbsent('description', () => '${details_Controller.text.toString()}');
+      postBody.putIfAbsent('price', () => '${price_Controller.text.toString()}');
       postBody.putIfAbsent('currancy_id', () => '${Currancies_Selection}');
       postBody.putIfAbsent('area', () => '${area_Controller.text.toString()}');
       postBody.putIfAbsent('rooms', () => '');
@@ -2323,16 +2325,12 @@ class _Add_Post extends State<Add_Post> {
       postBody.putIfAbsent('payment', () => '${payment_method}');
       postBody.putIfAbsent('furniture', () => '');
       postBody.putIfAbsent('carage', () => '${car_Selection}');
-      postBody.putIfAbsent(
-          'num_car', () => '${car_num_Controller.text.toString()}');
-      postBody.putIfAbsent(
-          'floor', () => '${floor_Controller.text.toString()}');
+      postBody.putIfAbsent('num_car', () => '${car_num_Controller.text.toString()}');
+      postBody.putIfAbsent('floor', () => '${floor_Controller.text.toString()}');
       postBody.putIfAbsent('age', () => '');
-      postBody.putIfAbsent(
-          'num_floor', () => '${floor_num_Controller.text.toString()}');
+      postBody.putIfAbsent('num_floor', () => '${floor_num_Controller.text.toString()}');
       postBody.putIfAbsent('name', () => '');
-      postBody.putIfAbsent(
-          'phone', () => '${phone_Controller.text.toString()}');
+      postBody.putIfAbsent('phone', () => '${phone_Controller.text.toString()}');
       postBody.putIfAbsent('category_id', () => '${cat_Selection}');
       postBody.putIfAbsent('subcat_id', () => '${sub_cat_Selection}');
       postBody.putIfAbsent('unit_id', () => '${units_Selection}');
@@ -2344,9 +2342,9 @@ class _Add_Post extends State<Add_Post> {
       postBody.putIfAbsent('call', () => '${phone.toString()}');
       postBody.putIfAbsent('whatsapp', () => '${whatsapp.toString()}');
       postBody.putIfAbsent('telegram', () => '${telegram.toString()}');
-      postBody.putIfAbsent('viber', () => '${viber.toString()}');
+      postBody.putIfAbsent('viber', () => '${viber.toString()}');*/
 
-      Uri uri = Uri.parse('https://iraqibayt.com/api/save_post_api');
+      /*Uri uri = Uri.parse('https://iraqibayt.com/api/save_post_api');
       http.MultipartRequest request = http.MultipartRequest("POST", uri);
 
       for (var i = 0; i < images.length; i++) {
@@ -2359,10 +2357,10 @@ class _Add_Post extends State<Add_Post> {
         //final file = File(path);
       }
 
-      request.fields.addAll(postBody);
+      request.fields.addAll(postBody);*/
 
       print("start send");
-      http.Response response2 =
+      /*http.Response response2 =
           await http.Response.fromStream(await request.send());
 
       var res = json.decode(response2.body);
@@ -2373,12 +2371,120 @@ class _Add_Post extends State<Add_Post> {
         _showDialog("حدث خطأ! يرجى المحاولة لاحقاً.");
       }
       print("Result: ${response2.statusCode}");
-      print("Result: ${response2.body}");
+      print("Result: ${response2.body}");*/
+
+
+
+      var dio = Dio();
+      Response response;
+      try {
+        response = await dio.post(
+          //"/upload",
+          "https://iraqibayt.com/api/save_post_api",
+          data: await FormData_(),
+          options: Options(contentType: 'multipart/form-data',
+              responseType: ResponseType.bytes),
+          onSendProgress: (received, total) {
+            if (total != -1) {
+              print((received / total * 100).toStringAsFixed(0) + "%");
+            }
+          },
+
+        );
+
+        Navigator.pushReplacementNamed(context, '/my_posts');
+      }on DioError catch (e) {
+    if(e.response.statusCode == 401){
+      _showDialog("حدث خطأ! يرجى المحاولة لاحقاً.");
+
+    }else{
+      _showDialog("حدث خطأ! يرجى المحاولة لاحقاً.");
+    }
+    }
+
 
       setState(() {
         signup_btn_child_index = 0;
       });
+
     }
+  }
+
+  Future<FormData> FormData_() async {
+
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'token';
+    final token = prefs.get(key) ?? 0;
+
+    var formData = FormData();
+
+    //add parameter
+    formData.fields
+      ..add(MapEntry("token", token.toString()))
+      ..add(MapEntry("id", ""))
+      ..add(MapEntry("title", '${title_Controller.text.toString()}'))
+      ..add(MapEntry("description", '${details_Controller.text.toString()}'))
+      ..add(MapEntry("price", '${price_Controller.text.toString()}'))
+      ..add(MapEntry("currancy_id", '${Currancies_Selection}'))
+      ..add(MapEntry("area", '${area_Controller.text.toString()}'))
+      ..add(MapEntry("rooms", ""))
+      ..add(MapEntry("bedroom", '${beed_Selection}'))
+      ..add(MapEntry("bathroom", '${bath_Selection}'))
+      ..add(MapEntry("payment", '${payment_method}'))
+      ..add(MapEntry("furniture", ""))
+      ..add(MapEntry("carage", '${car_Selection}'))
+      ..add(MapEntry("num_car", '${car_num_Controller.text.toString()}'))
+      ..add(MapEntry("floor", '${floor_Controller.text.toString()}'))
+      ..add(MapEntry("age", ""))
+      ..add(MapEntry("num_floor", '${floor_num_Controller.text.toString()}'))
+      ..add(MapEntry("name", ""))
+      ..add(MapEntry("phone", '${phone_Controller.text.toString()}'))
+      ..add(MapEntry("category_id", '${cat_Selection}'))
+      ..add(MapEntry("subcat_id", '${sub_cat_Selection}'))
+      ..add(MapEntry("unit_id", '${units_Selection}'))
+      ..add(MapEntry("city_id", '${city_Selection}'))
+      ..add(MapEntry("region_id", '${region_Selection}'))
+      ..add(MapEntry("level", "0"))
+      ..add(MapEntry("type", "سكني"))
+      ..add(MapEntry("img", ""))
+      ..add(MapEntry("call", '${phone.toString()}'))
+      ..add(MapEntry("whatsapp", '${whatsapp.toString()}'))
+      ..add(MapEntry("telegram", '${telegram.toString()}'))
+      ..add(MapEntry("viber", '${viber.toString()}'));
+
+    //add files
+    if(images != null){
+      for (var i = 0; i < images.length; i++) {
+        var path = await FlutterAbsolutePath.getAbsolutePath(images[i].identifier);
+        File tempFile = File(path);
+        Directory tempDir = await getTemporaryDirectory();
+        String tempPath = tempDir.path;
+        String filename = path.split('/').last;
+        print (filename);
+        File com_file =await testCompressAndGetFile(tempFile,tempPath+filename+".jpg");
+        formData.files.add(MapEntry(
+          "imgs_file$i",
+          await MultipartFile.fromFile(com_file.path, filename: 'imgs_file$i'),
+        ));
+
+      }
+    }
+
+
+    return formData;
+  }
+
+  Future<File> testCompressAndGetFile(File file, String targetPath) async {
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path, targetPath,
+      quality: 25,
+      rotate: 0,
+    );
+
+    print(file.lengthSync());
+    print(result.lengthSync());
+
+    return result;
   }
 
   void _showDialog(String msg) {

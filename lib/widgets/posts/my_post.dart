@@ -441,7 +441,9 @@ class _MyPostsState extends State<MyPosts> {
                                                                                         setState(() {
                                                                                           _deletePost(post.id);
 
+
                                                                                         }),
+                                                                                      Navigator.pop(context),
 
 
                                                                                         //Navigator.pop(context),

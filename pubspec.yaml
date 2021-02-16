@@ -55,6 +55,9 @@ dependencies:
   uuid: ^2.2.2
   path: ^1.7.0
   rflutter_alert: ^1.1.0
+  dio: ^3.0.10
+  flutter_image_compress: ^0.7.0
+
 
 
 dev_dependencies:

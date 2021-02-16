@@ -358,7 +358,7 @@ class _UpdatePost extends State<UpdatePost> {
         });
 
         if(databaseHelper.get_post_by_id_list[0]["img"] != null || databaseHelper.get_post_by_id_list[0]["img"].toString().isNotEmpty){
-            print("imag one : ${databaseHelper.get_post_by_id_list[0]["img"].toString()}");
+            //print("imag one : ${databaseHelper.get_post_by_id_list[0]["img"].toString()}");
             File img_one = await urlToFile(databaseHelper.get_post_by_id_list[0]["img"].toString());
             images_files.add(img_one);
             //Asset asset_one = await fileToAsset(img_one);

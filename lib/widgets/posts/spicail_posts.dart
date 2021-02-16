@@ -592,6 +592,7 @@ class _BikeListItemState extends State<BikeListItem> {
                               children: <Widget>[
                                 Icon(
                                   Icons.call,
+
                                   color: Colors.white,
                                 ),
                                 Text(
