@@ -95,6 +95,7 @@ class _CommentsState extends State<Comments> {
       _getPostComments().then((value) {
         setState(() {
           _rComments = List.from(value);
+          _commentController.text = '';
         });
       });
     }
