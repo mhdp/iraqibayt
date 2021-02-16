@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iraqibayt/widgets/favorites.dart';
 import 'package:iraqibayt/widgets/my_icons_icons.dart';
+import 'package:iraqibayt/widgets/notifications.dart';
 import 'package:iraqibayt/widgets/pages/Privcy.dart';
 import 'package:iraqibayt/widgets/pages/about_us.dart';
 import 'package:iraqibayt/widgets/pages/terms.dart';
@@ -157,8 +158,22 @@ class NavDrawerState extends State<NavDrawer> {
                   builder: (BuildContext context) => new Spical_page()))
             },
           ),
-          //favorit
 
+          //Notifications
+          ListTile(
+            leading: Icon(
+              Icons.notifications,
+              color: Color(0xFF335876),
+            ),
+            title: Text(
+              'الإشعارات',
+              style: TextStyle(fontFamily: 'CustomIcons'),
+            ),
+            onTap: () => {
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new Notifications()))
+            },
+          ),
 
           Divider(color: Color(0xFF335876),),
           //about

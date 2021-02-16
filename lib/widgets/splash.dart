@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Splash extends StatefulWidget {
@@ -8,6 +9,8 @@ class Splash extends StatefulWidget {
 }
 
 class _Splash extends State<Splash> {
+
+  DatabaseHelper databaseHelper = new DatabaseHelper();
 
   check_login() async {
     final prefs = await SharedPreferences.getInstance();
@@ -19,7 +22,13 @@ class _Splash extends State<Splash> {
         new MaterialPageRoute(
             builder: (BuildContext context) => new Home()),
       );*/
-      Navigator.pushReplacementNamed(context, '/home');
+      var userID = prefs.getInt('user_id');
+      print('user id: ' + userID.toString());
+
+      databaseHelper.updateFirebaseToken(userID).then((value) {
+        //print(value);
+        Navigator.pushReplacementNamed(context, '/home');
+      });
     }else{
       Navigator.pushReplacementNamed(context, '/Welcome');
     }
@@ -39,11 +48,18 @@ class _Splash extends State<Splash> {
         backgroundColor: Color(0xFF335876),
 
       body: Column(
-          mainAxisSize: MainAxisSize.max,
+          // mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Image.asset("assets/images/logo_white-old.png"),
+        Center(child: Image.asset("assets/images/logo_white-old.png")),
+        Padding(
+          padding: const EdgeInsets.only(top:20.0),
+          child: CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+
+          ),
+        ),
       ]),
     );
   }

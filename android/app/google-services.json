@@ -1,42 +1,34 @@
 {
   "project_info": {
-    "project_number": "374562821443",
-    "firebase_url": "https://iraqibayt-9656d.firebaseio.com",
-    "project_id": "iraqibayt-9656d",
-    "storage_bucket": "iraqibayt-9656d.appspot.com"
+    "project_number": "1032557797803",
+    "firebase_url": "https://iraqibayt-38666-default-rtdb.firebaseio.com",
+    "project_id": "iraqibayt-38666",
+    "storage_bucket": "iraqibayt-38666.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:374562821443:android:99d70391d7d7036c8d4bf6",
+        "mobilesdk_app_id": "1:1032557797803:android:901325aa9d2b71400df2ee",
         "android_client_info": {
           "package_name": "com.iraqibayt"
         }
       },
       "oauth_client": [
         {
-          "client_id": "374562821443-u3rnhsg8pehmegrf0rragdt74itf32h1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.iraqibayt",
-            "certificate_hash": "a75702f6c095a59dd733dcf85fd59f477616cbaa"
-          }
-        },
-        {
-          "client_id": "374562821443-cef5fje51t7pgmk1lh5vu1pi0smu4aqt.apps.googleusercontent.com",
+          "client_id": "1032557797803-q4irb2srts3oqsombevnukt0oaaefimd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAhQaexDpY4lDgVMUZg_BPcH-xw8xgYnEk"
+          "current_key": "AIzaSyA4QvRbn0bym-kg_pDT6y3nw8hZHLeojQc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "374562821443-cef5fje51t7pgmk1lh5vu1pi0smu4aqt.apps.googleusercontent.com",
+              "client_id": "1032557797803-q4irb2srts3oqsombevnukt0oaaefimd.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
