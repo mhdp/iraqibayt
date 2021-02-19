@@ -57,6 +57,8 @@ dependencies:
   rflutter_alert: ^1.1.0
   dio: ^3.0.10
   flutter_image_compress: ^0.7.0
+  firebase_messaging: ^7.0.3
+  flutter_local_notifications: ^4.0.1
 
 
 
