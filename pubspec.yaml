@@ -57,7 +57,7 @@ dependencies:
   rflutter_alert: ^1.1.0
   firebase_messaging: ^7.0.3
   flutter_local_notifications: ^3.0.2
-
+  audioplayers: ^0.12.0
 
 
 dev_dependencies:
@@ -96,6 +96,8 @@ flutter:
     - assets/images/note.png
     - assets/images/logo_white-old.png
     - assets/images/user_icon.png
+    - assets/sounds/deduction-588.m4a
+    - assets/sounds/deduction-588.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

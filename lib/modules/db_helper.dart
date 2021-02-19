@@ -270,4 +270,18 @@ class DatabaseHelper {
 
     return response.body.toString();
   }
+
+  Future checkNotification(String notificationID) async
+  {
+    print(notificationID);
+
+    String myUrl = "$serverUrl/notifications/check_notification";
+    http.Response response = await http.post(myUrl, body: {
+      'notification_id': notificationID,
+    });
+
+    print("result: ${response.body}");
+
+    return response.body.toString();
+  }
 }

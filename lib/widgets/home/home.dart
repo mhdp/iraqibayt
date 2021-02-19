@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
+import 'package:iraqibayt/widgets/chats/user_chat.dart';
 import 'package:iraqibayt/widgets/home/exchange_card.dart';
 import 'package:iraqibayt/widgets/home/search_card.dart';
 import 'package:iraqibayt/widgets/home/weather_card.dart';
@@ -42,6 +43,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   String notificationUrl = '0';
   String notificationID = '0';
   String notificationPostID = '0';
+  String notificationUserID = '0';
+  String notificationMessageID = '0';
+  String notificationSenderName = '0';
 
 
   Future _launchNotificationURL(String url) async {
@@ -52,19 +56,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     }
   }
 
-  Future onSelectNotification(String payload) async {
-    // showDialog(
-    //   context: context,
-    //   builder: (_) {
-    //     return new AlertDialog(
-    //       title: Text("PayLoad"),
-    //       content: Text("Payload : $payload"),
-    //     );
-    //   },
-    // );
-    // api.sendNotificationSeenAck(notificationID).then((value) {
+  Future onSelectNotification(String payload) async
+  {
     _foregroundNotificationRouter();
-    // });
 
   }
   void showNotification(String title, String body) async {
@@ -106,6 +100,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           setState(() {
             notificationUrl = '0';
           });
+          databaseHelper.checkNotification(notificationID);
         });
       }
       break;
@@ -123,6 +118,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           setState(() {
             notificationUrl = '0';
           });
+          databaseHelper.checkNotification(notificationID);
         });
       }
       break;
@@ -144,6 +140,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         );
       }
       break;
+
+      case 'chat': if(notificationMessageID != '0')
+      {
+        if(context.widget.toStringShort() != 'UserChat')
+          {
+            Navigator.of(context).push(
+              new MaterialPageRoute(
+                builder: (BuildContext context) => new UserChat(userID: notificationUserID,userName: notificationSenderName,),),
+            );
+          }
+
+      }
+      break;
     }
 
   }
@@ -161,7 +170,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       }
       else
       {
-        _launchNotificationURL(message['data']['url']);
+        _launchNotificationURL(message['data']['url']).whenComplete((){
+          databaseHelper.checkNotification(message['data']['notification_id'].toString());
+        });
       }
       break;
 
@@ -174,7 +185,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       }
       else
       {
-        _launchNotificationURL(message['data']['url']);
+        _launchNotificationURL(message['data']['url']).whenComplete((){
+          databaseHelper.checkNotification(message['data']['notification_id'].toString());
+        });
       }
       break;
 
@@ -193,6 +206,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           new MaterialPageRoute(
             builder: (BuildContext context) => new FullPost(post_id: message['data']['post_id'].toString(),),),
         );
+      }
+      break;
+
+      case 'chat': if(message['data']['message_id'] != null)
+      {
+          Navigator.of(context).push(
+            new MaterialPageRoute(
+              builder: (BuildContext context) => new UserChat(userID: message['data']['sender_id'].toString(),userName: message['data']['sender_name'].toString(),),),
+          );
       }
       break;
     }
@@ -272,6 +294,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             {
               setState(() {
                 notificationPostID = message['data']['post_id'];
+              });
+            }
+            break;
+
+            case 'chat': if(message['data']['message_id'] != null)
+            {
+              print(context.widget.toStringShort());
+
+              setState(() {
+                notificationMessageID = message['data']['message_id'];
+                notificationUserID = message['data']['sender_id'];
+                notificationSenderName = message['data']['sender_name'];
               });
             }
             break;

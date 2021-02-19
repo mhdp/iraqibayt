@@ -8,6 +8,7 @@ import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/Favorite.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
+import 'package:iraqibayt/widgets/chats/user_chat.dart';
 import 'package:iraqibayt/widgets/home/contact_us.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -870,81 +871,124 @@ class _Posts_detalis extends State<Posts_detalis> {
                     ],
                   ),
 
-                  Container(
-                      color: Colors.white,
-                      margin: const EdgeInsets.only(top: 10.0),
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _checkIfInFavs(
-                                      databaseHelper.get_post_by_id_list[0]
-                                          ["id"],
-                                      _rFavorites) ==
-                                  null
-                              ? RaisedButton(
-                                  onPressed: () {
-                                    _addFavorite(databaseHelper
-                                        .get_post_by_id_list[0]["id"]);
-                                  },
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                  color: Colors.red,
-                                  width: 1,
-                                  style:
-                                  BorderStyle.solid),
-                            ),
-                                  color: Colors.white,
-                                  elevation: 0,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.favorite_border,
-                                        color: Colors.red,
-                                      ),
-                                      Text(
-                                        " أضف إلى المفضلة",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontFamily: "CustomIcons",
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                )
-                              : RaisedButton(
-                                  onPressed: () {
-                                    _deleteFavorite(_checkIfInFavs(
-                                        databaseHelper.get_post_by_id_list[0]
-                                            ["id"],
-                                        _rFavorites));
-                                  },
-                                  color: Colors.red,
-                                  elevation: 0,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.favorite,
-                                        color: Colors.white,
-                                      ),
-                                      Text(
-                                        " ضمن المفضلة",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontFamily: "CustomIcons",
-                                          fontWeight: FontWeight.w300,
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                  Row(
+                    children: [
+                      Container(
+                          color: Colors.white,
+                          margin: const EdgeInsets.only(top: 10.0),
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _checkIfInFavs(
+                                          databaseHelper.get_post_by_id_list[0]
+                                              ["id"],
+                                          _rFavorites) ==
+                                      null
+                                  ? RaisedButton(
+                                      onPressed: () {
+                                        _addFavorite(databaseHelper
+                                            .get_post_by_id_list[0]["id"]);
+                                      },
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                      color: Colors.red,
+                                      width: 1,
+                                      style:
+                                      BorderStyle.solid),
                                 ),
-                        ],
-                      )),
+                                      color: Colors.white,
+                                      elevation: 0,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.favorite_border,
+                                            color: Colors.red,
+                                          ),
+                                          Text(
+                                            " أضف إلى المفضلة",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.black,
+                                              fontFamily: "CustomIcons",
+                                              fontWeight: FontWeight.w300,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  : RaisedButton(
+                                      onPressed: () {
+                                        _deleteFavorite(_checkIfInFavs(
+                                            databaseHelper.get_post_by_id_list[0]
+                                                ["id"],
+                                            _rFavorites));
+                                      },
+                                      color: Colors.red,
+                                      elevation: 0,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.favorite,
+                                            color: Colors.white,
+                                          ),
+                                          Text(
+                                            " ضمن المفضلة",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                              fontFamily: "CustomIcons",
+                                              fontWeight: FontWeight.w300,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                            ],
+                          )),
+
+                      Container(
+                          color: Colors.white,
+                          margin: const EdgeInsets.only(top: 10.0),
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              RaisedButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(new MaterialPageRoute(
+                                      builder: (BuildContext context) => new UserChat(userID: databaseHelper.get_post_by_id_list[0]["user"]["id"].toString(),userName: databaseHelper.get_post_by_id_list[0]["user"]["name"].toString(),)));
+
+                                },
+                                color: Colors.blue,
+                                elevation: 0,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(
+                                      Icons.send,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      " أرسل رسالة",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontFamily: "CustomIcons",
+                                        fontWeight: FontWeight.w300,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )),
+
+
+                    ],
+                  ),
 
                   Padding(
                     padding: const EdgeInsets.all(16.0),
