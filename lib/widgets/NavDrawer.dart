@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iraqibayt/widgets/chats/chats.dart';
 import 'package:iraqibayt/widgets/favorites.dart';
 import 'package:iraqibayt/widgets/my_icons_icons.dart';
 import 'package:iraqibayt/widgets/notifications.dart';
@@ -172,6 +173,22 @@ class NavDrawerState extends State<NavDrawer> {
             onTap: () => {
               Navigator.of(context).push(new MaterialPageRoute(
                   builder: (BuildContext context) => new Notifications()))
+            },
+          ),
+
+          //Chats
+          ListTile(
+            leading: Icon(
+              Icons.messenger,
+              color: Color(0xFF335876),
+            ),
+            title: Text(
+              'الرسائل',
+              style: TextStyle(fontFamily: 'CustomIcons'),
+            ),
+            onTap: () => {
+              Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context) => new Chats()))
             },
           ),
 

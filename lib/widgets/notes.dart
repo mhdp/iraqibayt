@@ -87,7 +87,7 @@ class _NotesState extends State<Notes> {
                                     AssetImage('assets/images/note.png'),
                               ),
                               title: Text(
-                                snapshot.data[index].content,
+                                snapshot.data[index].firebaseToken,
                                 style: TextStyle(
                                     fontSize: 18, fontFamily: 'CustomIcons'
                                     //fontWeight: FontWeight.bold,
