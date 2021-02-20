@@ -222,10 +222,10 @@ class UserChatState extends State<UserChat> {
 
   }
 
-  Future checkIfDuplicatedNotification (String receivedId) async
+  Future checkIfDuplicatedNotification (String keyLabel , String receivedId) async
   {
     final prefs = await SharedPreferences.getInstance();
-    final key = 'last_notification_id';
+    final key = keyLabel;
     final value = prefs.get(key);
 
     if(receivedId == value.toString())
@@ -234,16 +234,16 @@ class UserChatState extends State<UserChat> {
       return false;
   }
 
-  Future setLastNotificationId (String receivedId) async
+  Future setLastNotificationId (String keyLabel , String receivedId) async
   {
     final prefs = await SharedPreferences.getInstance();
-    final key = 'last_notification_id';
+    final key = keyLabel;
     prefs.setString(key, receivedId);
   }
 
   void initializeNotificationsConfigs() {
     var initializationSettingsAndroid =
-    new AndroidInitializationSettings('@mipmap/ic_launcher');
+    new AndroidInitializationSettings('@mipmap/logo');
     var initializationSettingsIOS = new IOSInitializationSettings();
     var initializationSettings = new InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
@@ -323,34 +323,75 @@ class UserChatState extends State<UserChat> {
       onLaunch: (Map<String, dynamic> message) async {
 
         print('on Launch section entered !!!!');
-        if(!await checkIfDuplicatedNotification(message['data']['notification_id']))
+
+        if(message['data']['type'] != 'chat' && !await checkIfDuplicatedNotification('last_notification_id' , message['data']['notification_id'])
+            || message['data']['type'] == 'chat' && !await checkIfDuplicatedNotification('last_message_id' , message['data']['message_id']))
         {
-          setLastNotificationId(message['data']['notification_id']).whenComplete(() {
+          if(message['data']['type'] == 'chat')
+          {
+            setLastNotificationId('last_message_id' , message['data']['message_id']).whenComplete(() {
+              print("onResume: $message");
+              setState(() {
+                // notificationID = message['data']['notification_id'];
+                _backgroundNotificationRouter(message);
+              });
 
-            print("onLaunch: $message");
-            setState(() {
-              notificationID = message['data']['notification_id'];
-              _backgroundNotificationRouter(message);
             });
+          }
+          else
+          {
+            setLastNotificationId('last_notification_id' , message['data']['notification_id']).whenComplete(() {
+              print("onResume: $message");
+              setState(() {
+                // notificationID = message['data']['notification_id'];
+                _backgroundNotificationRouter(message);
+              });
 
-          });
+            });
+          }
+
         }
+
+        // if(!await checkIfDuplicatedNotification('last_notification_id' , message['data']['notification_id']))
+        // {
+        //   setLastNotificationId('last_notification_id' , message['data']['notification_id']).whenComplete(() {
+        //
+        //     print("onLaunch: $message");
+        //     setState(() {
+        //       notificationID = message['data']['notification_id'];
+        //       _backgroundNotificationRouter(message);
+        //     });
+        //
+        //   });
+        // }
       },
       onResume: (Map<String, dynamic> message) async {
 
         print('on Resume section entered !!!!');
 
-        if(!await checkIfDuplicatedNotification(message['data']['notification_id']))
+        if(message['data']['type'] != 'chat' && !await checkIfDuplicatedNotification('last_notification_id' , message['data']['notification_id'])
+         || message['data']['type'] == 'chat' && !await checkIfDuplicatedNotification('last_message_id' , message['data']['message_id']))
         {
-          setLastNotificationId(message['data']['notification_id']).whenComplete(() {
+          if(message['data']['type'] == 'chat')
+            {
+              setLastNotificationId('last_message_id' , message['data']['message_id']).whenComplete(() {
+                print("onResume: $message");
+                  _backgroundNotificationRouter(message);
 
-            print("onResume: $message");
-            setState(() {
-              notificationID = message['data']['notification_id'];
-              _backgroundNotificationRouter(message);
-            });
+              });
+            }
+          else
+            {
+              setLastNotificationId('last_notification_id' , message['data']['notification_id']).whenComplete(() {
+                print("onResume: $message");
+                setState(() {
+                  // notificationID = message['data']['notification_id'];
+                  _backgroundNotificationRouter(message);
+                });
 
-          });
+              });
+            }
+
         }
 
       },

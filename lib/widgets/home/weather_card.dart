@@ -13,7 +13,7 @@ class WeatherCard extends StatefulWidget {
 }
 
 class _WeatherCardState extends State<WeatherCard> {
-  List<Weather> _weathers, _rWeather;
+  List<Weather> _weathers, _rWeather = [];
   String cityHint;
   int cityId;
   int counter = 0;

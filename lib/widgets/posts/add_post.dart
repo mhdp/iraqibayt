@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
 import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
@@ -595,6 +596,9 @@ class _Add_Post extends State<Add_Post> {
             fontFamily: "CustomIcons",
           ),
         ),
+        actions: [
+          FirebaseAgent(),
+        ],
       ),
       body: _guest
           ? Card(

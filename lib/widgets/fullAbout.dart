@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/style.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 
 class FullAbout extends StatelessWidget {
   final String title;
@@ -20,6 +21,9 @@ class FullAbout extends StatelessWidget {
           ),
         ),
         backgroundColor: Color(0xff275879),
+        actions: [
+          FirebaseAgent(),
+        ],
       ),
       body: InkWell(
         borderRadius: BorderRadius.circular(4.0),

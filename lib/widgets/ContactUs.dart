@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
@@ -109,7 +110,7 @@ class _ContactUs extends State<ContactUs> {
           ),
         ),
         actions: [
-
+          FirebaseAgent(),
           Padding(
             padding: const EdgeInsets.all(10),
             child: RaisedButton(

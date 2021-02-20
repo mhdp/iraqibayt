@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/Favorite.dart';
 import 'package:iraqibayt/modules/Post.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
 import 'package:iraqibayt/widgets/posts/full_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
@@ -157,6 +158,7 @@ class _MyPostsState extends State<MyPosts> {
         ),
         backgroundColor: Color(0xff275879),
         actions: [
+            FirebaseAgent(),
           Padding(
             padding: const EdgeInsets.all(10),
             child: RaisedButton(

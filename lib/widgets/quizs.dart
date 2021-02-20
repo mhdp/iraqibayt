@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/Quiz.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/quizMain.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
@@ -66,6 +67,9 @@ class _QuizsState extends State<Quizs> {
           ),
         ),
         backgroundColor: Color(0xff275879),
+        actions: [
+          FirebaseAgent(),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[

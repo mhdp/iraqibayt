@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/Favorite.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/full_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
@@ -165,6 +166,9 @@ class _FavoritesState extends State<Favorites> {
           ),
         ),
         backgroundColor: Color(0xff275879),
+        actions: [
+          FirebaseAgent(),
+        ],
       ),
       body: SingleChildScrollView(
         child: LayoutBuilder(

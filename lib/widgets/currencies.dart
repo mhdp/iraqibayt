@@ -8,6 +8,7 @@ import 'package:iraqibayt/modules/Exchange.dart';
 import 'package:iraqibayt/modules/Currency.dart';
 import 'package:iraqibayt/modules/ICurrency.dart';
 import 'package:flutter_html/style.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
@@ -132,6 +133,9 @@ class _CurrenciesState extends State<Currencies> {
           ),
         ),
         backgroundColor: Color(0xff275879),
+        actions: [
+          FirebaseAgent(),
+        ],
       ),
       body: Container(
         child: ListView(

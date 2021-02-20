@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:iraqibayt/modules/Notification.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/posts/full_post.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -140,6 +141,9 @@ class _NotificationsState extends State<Notifications> {
             ),
           ),
           backgroundColor: Color(0xff275879),
+          actions: [
+            FirebaseAgent(),
+          ],
         ),
         body: _isNotificationsLoading
             ? Center(

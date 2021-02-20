@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:getwidget/getwidget.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
@@ -195,6 +196,9 @@ class _ProfileState extends State<Profile> {
           ),
         ),
         backgroundColor: Color(0xff275879),
+        actions: [
+          FirebaseAgent(),
+        ],
       ),
       body: SingleChildScrollView(
         child: LayoutBuilder(

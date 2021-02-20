@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/my_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
@@ -31,6 +32,7 @@ class _MyAccountState extends State<MyAccount> {
         ),
         backgroundColor: Color(0xff275879),
         actions: [
+          FirebaseAgent(),
           Padding(
             padding: const EdgeInsets.all(10),
             child: RaisedButton(

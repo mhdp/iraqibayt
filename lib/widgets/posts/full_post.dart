@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/posts/post_comments.dart';
 import 'package:iraqibayt/widgets/posts/post_details.dart';
 
@@ -51,6 +52,9 @@ class _FullPost extends State<FullPost> {
             fontFamily: "CustomIcons",
           ),
         ),
+        actions: [
+          FirebaseAgent(),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF335876),
