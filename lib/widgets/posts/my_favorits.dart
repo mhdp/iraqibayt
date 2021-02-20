@@ -1,3 +1,4 @@
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
@@ -64,9 +65,9 @@ class _My_Posts_favorits extends State<My_Posts_favorits> {
             fontWeight: FontWeight.bold, fontSize: 20.0
             , fontFamily: "CustomIcons",),
         ),
-
-
-
+        actions: [
+          FirebaseAgent(),
+        ],
       ),
       body :  Column(
           children: <Widget>[

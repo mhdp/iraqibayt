@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iraqibayt/modules/Note.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
@@ -54,6 +55,9 @@ class _NotesState extends State<Notes> {
           ),
         ),
         backgroundColor: Color(0xff275879),
+        actions: [
+          FirebaseAgent(),
+        ],
       ),
       body: Container(
         height: screenHeight,
@@ -87,7 +91,7 @@ class _NotesState extends State<Notes> {
                                     AssetImage('assets/images/note.png'),
                               ),
                               title: Text(
-                                snapshot.data[index].firebaseToken,
+                                snapshot.data[index].content,
                                 style: TextStyle(
                                     fontSize: 18, fontFamily: 'CustomIcons'
                                     //fontWeight: FontWeight.bold,

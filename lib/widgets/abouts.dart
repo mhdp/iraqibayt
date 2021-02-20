@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/fullAbout.dart';
 import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
@@ -56,6 +57,7 @@ class _AboutsState extends State<Abouts> {
         ),
         backgroundColor: Color(0xff275879),
         actions: [
+          FirebaseAgent(),
           Padding(
             padding: const EdgeInsets.all(10),
             child: RaisedButton(

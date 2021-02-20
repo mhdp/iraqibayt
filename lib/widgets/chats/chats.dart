@@ -5,6 +5,7 @@ import 'package:getwidget/components/badge/gf_badge.dart';
 import 'dart:convert';
 import 'package:iraqibayt/modules/User.dart';
 import 'package:iraqibayt/widgets/chats/user_chat.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -147,6 +148,9 @@ class _ChatsState extends State<Chats> {
             ),
           ),
           backgroundColor: Color(0xff275879),
+          actions: [
+            FirebaseAgent(),
+          ],
         ),
         body: _isUsersLoading
             ? Center(

@@ -7,6 +7,7 @@ import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/Favorite.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
 import 'package:iraqibayt/widgets/home/search_card.dart';
 import 'package:iraqibayt/widgets/my_account.dart';
@@ -36,6 +37,7 @@ class _Posts_Home extends State<Posts_Home> {
 
   void initState() {
     super.initState();
+
     setState(() {
       _isVisible = true;
       _isExtraLoadingVisible = false;
@@ -74,6 +76,7 @@ class _Posts_Home extends State<Posts_Home> {
           ),
         ),
         actions: [
+          FirebaseAgent(),
           IconButton(
             onPressed: () {
               setState(() {

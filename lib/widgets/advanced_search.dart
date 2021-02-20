@@ -8,6 +8,7 @@ import 'package:iraqibayt/modules/Favorite.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
 import 'package:iraqibayt/widgets/adv_search_card.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/my_icons_icons.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/full_post.dart';
@@ -83,6 +84,7 @@ class _AdvancedSearchState extends State<AdvancedSearch> {
           ),
         ),
         actions: [
+          FirebaseAgent(),
           IconButton(
             onPressed: () {
               setState(() {

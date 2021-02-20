@@ -6,6 +6,7 @@ import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/Favorite.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
 import 'package:iraqibayt/widgets/home/search_card.dart';
 import 'package:iraqibayt/widgets/my_icons_icons.dart';
@@ -70,7 +71,7 @@ class _Spical_page extends State<Spical_page> {
           ),
         ),
         actions: [
-
+            FirebaseAgent(),
           Padding(
             padding: const EdgeInsets.all(10),
             child: RaisedButton(

@@ -7,6 +7,7 @@ import 'package:iraqibayt/modules/Answer.dart';
 import 'package:iraqibayt/modules/Question.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
 import 'dart:convert';
 
@@ -329,6 +330,9 @@ class _QuizMainState extends State<QuizMain> {
           ),
         ),
         backgroundColor: Color(0xff275879),
+        actions: [
+          FirebaseAgent(),
+        ],
       ),
       body: InkWell(
         borderRadius: BorderRadius.circular(4.0),
