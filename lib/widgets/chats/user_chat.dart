@@ -458,7 +458,7 @@ class UserChatState extends State<UserChat> {
     _getUserChat().then((value) {
       setState(() {
         _rMessages = List.from(value);
-        player.play('/sounds/deduction-588.mp3');
+        player.play('sounds/deduction-588.mp3');
       });
     });
   }

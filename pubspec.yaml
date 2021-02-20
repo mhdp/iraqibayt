@@ -59,6 +59,7 @@ dependencies:
   flutter_image_compress: ^0.7.0
   firebase_messaging: ^7.0.3
   flutter_local_notifications: ^4.0.1
+  audioplayers: ^0.17.4
 
 
 
