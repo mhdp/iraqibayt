@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:getwidget/getwidget.dart';
+import 'package:iraqibayt/widgets/chats/chats.dart';
 import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/my_account.dart';
+import 'package:iraqibayt/widgets/notifications.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
@@ -636,6 +638,14 @@ class _ProfileState extends State<Profile> {
               icon: Icon(Icons.mail),
               label: 'ملاحظات'
           ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.message),
+              label: 'الرسائل'
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.notifications),
+              label: 'الإشعارات'
+          ),
         ],
       ),
 
@@ -662,6 +672,12 @@ class _ProfileState extends State<Profile> {
     }else if(index == 4){
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new ContactUs()));
+    }else if (index == 5) {
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Chats()));
+    } else if (index == 6) {
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Notifications()));
     }
     /*setState(() {
       _currentIndex = index;
