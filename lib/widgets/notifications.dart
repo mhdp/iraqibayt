@@ -2,8 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:iraqibayt/modules/Notification.dart';
+import 'package:iraqibayt/widgets/ContactUs.dart';
+import 'package:iraqibayt/widgets/chats/chats.dart';
 import 'package:iraqibayt/widgets/firebase_agent.dart';
+import 'package:iraqibayt/widgets/home/home.dart';
+import 'package:iraqibayt/widgets/my_icons_icons.dart';
+import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/full_post.dart';
+import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -20,6 +26,7 @@ class _NotificationsState extends State<Notifications> {
   bool _isAuth = true;
 
   Future _getUserNotifications() async {
+    _notifications = [];
     final prefs = await SharedPreferences.getInstance();
     final key = 'is_login';
     final value = prefs.get(key);
@@ -38,7 +45,6 @@ class _NotificationsState extends State<Notifications> {
       };
 
       NotificationSample tNot;
-      _notifications = [];
 
       var res = await http.post('https://iraqibayt.com/api/users/notifications', body: data);
       var body = json.decode(res.body);
@@ -57,6 +63,7 @@ class _NotificationsState extends State<Notifications> {
       setState(() {
         _isAuth = false;
       });
+      return _notifications;
     }
   }
 
@@ -274,6 +281,63 @@ class _NotificationsState extends State<Notifications> {
                           ),
                         ],
                       ),
-              ));
+              ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFF335876),
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Color(0xFFdd685f),
+        onTap: onTabTapped, // new
+        currentIndex: 6,
+        type: BottomNavigationBarType.fixed, // new
+        items: [
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'الرئيسية',
+          ),
+          new BottomNavigationBarItem(
+            icon: Icon(Icons.menu_book),
+            label: 'الإعلانات',
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.post_add), label: 'أضف إعلان'),
+          new BottomNavigationBarItem(icon: Icon(MyIcons.user), label: 'حسابي'),
+          new BottomNavigationBarItem(icon: Icon(Icons.mail), label: 'ملاحظات'),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.message), label: 'الرسائل'),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.notifications), label: 'الإشعارات'),
+        ],
+      ),
+    );
+  }
+
+  void onTabTapped(int index) {
+    if (index == 1) {
+      Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Posts_Home()),
+      );
+    } else if (index == 2) {
+      Navigator.of(context).push(
+        new MaterialPageRoute(
+            builder: (BuildContext context) => new Add_Post()),
+      );
+    } else if (index == 0) {
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Home()));
+    } else if (index == 4) {
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new ContactUs()));
+    }else if (index == 5) {
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Chats()));
+    } else if (index == 6) {
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Notifications()));
+    }
+    /*setState(() {
+      _currentIndex = index;
+      print(index.toString());
+    });*/
   }
 }

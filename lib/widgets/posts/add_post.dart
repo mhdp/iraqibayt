@@ -8,9 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
+import 'package:iraqibayt/widgets/chats/chats.dart';
 import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
 import 'package:iraqibayt/widgets/my_account.dart';
+import 'package:iraqibayt/widgets/notifications.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'dart:async';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -1967,6 +1969,14 @@ class _Add_Post extends State<Add_Post> {
               icon: Icon(Icons.post_add), label: 'أضف إعلان'),
           new BottomNavigationBarItem(icon: Icon(MyIcons.user), label: 'حسابي'),
           new BottomNavigationBarItem(icon: Icon(Icons.mail), label: 'ملاحظات'),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.message),
+              label: 'الرسائل'
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.notifications),
+              label: 'الإشعارات'
+          ),
         ],
       ),
     );
@@ -1988,6 +1998,12 @@ class _Add_Post extends State<Add_Post> {
     } else if (index == 4) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new ContactUs()));
+    }else if (index == 5) {
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Chats()));
+    } else if (index == 6) {
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Notifications()));
     }
     /*setState(() {
       _currentIndex = index;

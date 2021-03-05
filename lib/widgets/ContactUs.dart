@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:iraqibayt/widgets/chats/chats.dart';
 import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/my_account.dart';
+import 'package:iraqibayt/widgets/notifications.dart';
 import 'package:iraqibayt/widgets/posts/add_post.dart';
 import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:iraqibayt/widgets/profile.dart';
@@ -334,6 +336,14 @@ class _ContactUs extends State<ContactUs> {
               icon: Icon(Icons.mail),
               label: 'ملاحظات'
           ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.message),
+              label: 'الرسائل'
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.notifications),
+              label: 'الإشعارات'
+          ),
         ],
       ),
     );
@@ -357,6 +367,15 @@ class _ContactUs extends State<ContactUs> {
     }else if(index == 3){
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new MyAccount()));
+    }else if(index == 4){
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new ContactUs()));
+    }else if (index == 5) {
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Chats()));
+    } else if (index == 6) {
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Notifications()));
     }
     /*setState(() {
       _currentIndex = index;

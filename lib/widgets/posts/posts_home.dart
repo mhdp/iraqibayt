@@ -7,11 +7,13 @@ import 'package:getwidget/getwidget.dart';
 import 'package:iraqibayt/modules/Favorite.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
 import 'package:iraqibayt/modules/db_helper.dart';
+import 'package:iraqibayt/widgets/chats/chats.dart';
 import 'package:iraqibayt/widgets/firebase_agent.dart';
 import 'package:iraqibayt/widgets/home/home.dart';
 import 'package:iraqibayt/widgets/home/search_card.dart';
 import 'package:iraqibayt/widgets/my_account.dart';
 import 'package:iraqibayt/widgets/my_icons_icons.dart';
+import 'package:iraqibayt/widgets/notifications.dart';
 import 'package:iraqibayt/widgets/posts/full_post.dart';
 import 'package:iraqibayt/widgets/welcome.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -151,6 +153,14 @@ class _Posts_Home extends State<Posts_Home> {
               icon: Icon(Icons.post_add), label: 'أضف إعلان'),
           new BottomNavigationBarItem(icon: Icon(MyIcons.user), label: 'حسابي'),
           new BottomNavigationBarItem(icon: Icon(Icons.mail), label: 'ملاحظات'),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.message),
+              label: 'الرسائل'
+          ),
+          new BottomNavigationBarItem(
+              icon: Icon(Icons.notifications),
+              label: 'الإشعارات'
+          ),
         ],
       ),
     );
@@ -172,6 +182,12 @@ class _Posts_Home extends State<Posts_Home> {
     } else if (index == 4) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new ContactUs()));
+    }else if (index == 5) {
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Chats()));
+    } else if (index == 6) {
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new Notifications()));
     }
     /*setState(() {
       _currentIndex = index;
