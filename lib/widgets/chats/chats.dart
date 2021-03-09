@@ -232,73 +232,107 @@ class _ChatsState extends State<Chats> {
                         ),
                       ),
                     )
-                  : Row(
+                  : Container(
+                    child: _rUsers.length == 0
+                        ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Expanded(
-                          child: SizedBox(
-                            height: screenHeight,
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: _rUsers.length,
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                        new MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                new UserChat(
-                                                  userID: _rUsers[index]
-                                                      .id
-                                                      .toString(),
-                                                  userName: _rUsers[index]
-                                                      .name
-                                                      .toString(),
-                                                )));
-                                  },
-                                  child: Card(
-                                    elevation: 3,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0),
-                                      child: ListTile(
-                                        leading: CircleAvatar(
-                                          child: Image.asset(
-                                              'assets/images/user_icon.png'),
-                                        ),
-                                        title: Text(
-                                          _rUsers[index].name,
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontFamily: 'CustomIcons'
-                                              //fontWeight: FontWeight.bold,
-                                              ),
-                                        ),
-                                        trailing: GFBadge(
-                                          color: _unreadMessages[index]
-                                                      .toString() ==
-                                                  '0'
-                                              ? Colors.white
-                                              : GFColors.DANGER,
-                                          textColor: Colors.white,
-                                          child: Text(
-                                            _unreadMessages[index].toString(),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0),
+                          child: Center(
+                            child: Text(
+                              'لتبدأ محادثتك الأولى مع أحد أصحاب الإعلانات على الموقع',
+                              style: TextStyle(
+                                fontFamily: 'CustomIcons',
+                                fontSize: 18,
+                                color: Colors.blueGrey,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Center(
+                            child: Text(
+                              'أنقر على زر "أرسل رسالة" الموجود في صفحة تفاصيل الإعلان',
+                              style: TextStyle(
+                                fontFamily: 'CustomIcons',
+                                fontSize: 18,
+                                color: Colors.blueGrey,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                        :Row(
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: screenHeight,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: _rUsers.length,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          new MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  new UserChat(
+                                                    userID: _rUsers[index]
+                                                        .id
+                                                        .toString(),
+                                                    userName: _rUsers[index]
+                                                        .name
+                                                        .toString(),
+                                                  )));
+                                    },
+                                    child: Card(
+                                      elevation: 3,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        child: ListTile(
+                                          leading: CircleAvatar(
+                                            child: Image.asset(
+                                                'assets/images/user_icon.png'),
+                                          ),
+                                          title: Text(
+                                            _rUsers[index].name,
                                             style: TextStyle(
-                                              fontSize: 13,
-                                              fontFamily: 'CustomIcons',
-                                              // color: Colors.blueGrey,
+                                                fontSize: 18,
+                                                fontFamily: 'CustomIcons'
+                                                //fontWeight: FontWeight.bold,
+                                                ),
+                                          ),
+                                          trailing: GFBadge(
+                                            color: _unreadMessages[index]
+                                                        .toString() ==
+                                                    '0'
+                                                ? Colors.white
+                                                : GFColors.DANGER,
+                                            textColor: Colors.white,
+                                            child: Text(
+                                              _unreadMessages[index].toString(),
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontFamily: 'CustomIcons',
+                                                // color: Colors.blueGrey,
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              },
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                  ),
             ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF335876),

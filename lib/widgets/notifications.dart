@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/style.dart';
 import 'dart:convert';
 import 'package:iraqibayt/modules/Notification.dart';
 import 'package:iraqibayt/widgets/ContactUs.dart';
@@ -46,7 +47,8 @@ class _NotificationsState extends State<Notifications> {
 
       NotificationSample tNot;
 
-      var res = await http.post('https://iraqibayt.com/api/users/notifications', body: data);
+      var res = await http.post('https://iraqibayt.com/api/users/notifications',
+          body: data);
       var body = json.decode(res.body);
       print(body);
 
@@ -91,39 +93,43 @@ class _NotificationsState extends State<Notifications> {
     }
   }
 
-  _notificationRouter(NotificationSample notification)
-  {
-    switch(notification.type)
-    {
-      case 'local': if(notification.url != '#' && notification != null)
-      {
-        _launchNotificationURL(notification.url);
-      }
-      break;
+  _notificationRouter(NotificationSample notification) {
+    switch (notification.type) {
+      case 'local':
+        if (notification.url != '#' && notification != null) {
+          _launchNotificationURL(notification.url);
+        }
+        break;
 
-      case 'global': if(notification.url != '#' && notification != null)
-      {
-        _launchNotificationURL(notification.url);
-      }
-      break;
+      case 'global':
+        if (notification.url != '#' && notification != null) {
+          _launchNotificationURL(notification.url);
+        }
+        break;
 
-      case 'comment': if(notification.postId != null)
-      {
-        Navigator.of(context).push(
-          new MaterialPageRoute(
-            builder: (BuildContext context) => new FullPost(post_id: notification.postId.toString(),),),
-        );
-      }
-      break;
+      case 'comment':
+        if (notification.postId != null) {
+          Navigator.of(context).push(
+            new MaterialPageRoute(
+              builder: (BuildContext context) => new FullPost(
+                post_id: notification.postId.toString(),
+              ),
+            ),
+          );
+        }
+        break;
 
-      case 'favourite': if(notification.postId != null)
-      {
-        Navigator.of(context).push(
-          new MaterialPageRoute(
-            builder: (BuildContext context) => new FullPost(post_id: notification.postId.toString(),),),
-        );
-      }
-      break;
+      case 'favourite':
+        if (notification.postId != null) {
+          Navigator.of(context).push(
+            new MaterialPageRoute(
+              builder: (BuildContext context) => new FullPost(
+                post_id: notification.postId.toString(),
+              ),
+            ),
+          );
+        }
+        break;
     }
   }
 
@@ -139,149 +145,174 @@ class _NotificationsState extends State<Notifications> {
         MediaQuery.of(context).size.height - statusBarHeight - kToolbarHeight;
 
     return Scaffold(
-        backgroundColor: Color(0XFFc4c4c4),
-        appBar: AppBar(
-          title: Text(
-            'الإشعارات',
-            style: TextStyle(
-              fontFamily: "CustomIcons",
-            ),
+      backgroundColor: Color(0XFFc4c4c4),
+      appBar: AppBar(
+        title: Text(
+          'الإشعارات',
+          style: TextStyle(
+            fontFamily: "CustomIcons",
           ),
-          backgroundColor: Color(0xff275879),
-          actions: [
-            FirebaseAgent(),
-          ],
         ),
-        body: _isNotificationsLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : Container(
-                child: !_isAuth
-                    ? InkWell(
-                        borderRadius: BorderRadius.circular(0),
-                        onTap: () {},
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.grey, width: 0.5),
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                          clipBehavior: Clip.antiAlias,
-                          margin: const EdgeInsets.only(top: 10.0),
-                          //color: Colors.grey,
-                          elevation: 0,
-
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(0),
-                                child: Container(
-                                  padding: const EdgeInsets.all(3.0),
-                                  color: Color(0xff275879),
-                                  child: Text(
-                                    'تنبيه',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontFamily: "CustomIcons",
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Container(
-                                  child: Center(
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          'الرجاء تسجيل الدخول لعرض قائمة الإشعارات الخاصة بك',
-                                          style: TextStyle(
-                                            fontFamily: 'CustomIcons',
-                                          ),
-                                        ),
-                                        FlatButton(
-                                          color: Colors.white,
-                                          textColor: Colors.black,
-                                          disabledColor: Colors.grey,
-                                          disabledTextColor: Colors.grey,
-                                          padding: EdgeInsets.all(8.0),
-                                          splashColor: Colors.orange,
-                                          onPressed: () {
-                                            Navigator.pushReplacementNamed(
-                                                context, '/');
-                                          },
-                                          child: Text(
-                                            'تسجيل الدخول',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                              fontFamily: "CustomIcons",
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+        backgroundColor: Color(0xff275879),
+        actions: [
+          FirebaseAgent(),
+        ],
+      ),
+      body: _isNotificationsLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Container(
+              child: !_isAuth
+                  ? InkWell(
+                      borderRadius: BorderRadius.circular(0),
+                      onTap: () {},
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(color: Colors.grey, width: 0.5),
+                          borderRadius: BorderRadius.circular(0),
                         ),
-                      )
-                    : Row(
-                        children: [
-                          Expanded(
-                            child: SizedBox(
-                              height: screenHeight,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: _rNotifications.length,
-                                itemBuilder: (context, index) {
-                                  return InkWell(
-                                    onTap: ()
-                                    {
-                                      _notificationRouter(_rNotifications[index]);
-                                    },
-                                    child: Card(
-                                      elevation: 3,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                        child: ListTile(
-                                          leading: CircleAvatar(
-                                            radius: 30,
-                                            backgroundImage: NetworkImage(
-                                                'https://iraqibayt.com/storage/app/public/posts/5fb68c6700069.jpeg'),
-                                          ),
-                                          title: Text(
-                                            _rNotifications[index].content,
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontFamily: 'CustomIcons'
-                                                //fontWeight: FontWeight.bold,
-                                                ),
-                                          ),
-                                          trailing: Text(
-                                            _rNotifications[index].createdAt,
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              fontFamily: 'CustomIcons',
-                                              color: Colors.blueGrey,
-                                            ),
+                        clipBehavior: Clip.antiAlias,
+                        margin: const EdgeInsets.only(top: 10.0),
+                        //color: Colors.grey,
+                        elevation: 0,
+
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(0),
+                              child: Container(
+                                padding: const EdgeInsets.all(3.0),
+                                color: Color(0xff275879),
+                                child: Text(
+                                  'تنبيه',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontFamily: "CustomIcons",
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Container(
+                                child: Center(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'الرجاء تسجيل الدخول لعرض قائمة الإشعارات الخاصة بك',
+                                        style: TextStyle(
+                                          fontFamily: 'CustomIcons',
+                                        ),
+                                      ),
+                                      FlatButton(
+                                        color: Colors.white,
+                                        textColor: Colors.black,
+                                        disabledColor: Colors.grey,
+                                        disabledTextColor: Colors.grey,
+                                        padding: EdgeInsets.all(8.0),
+                                        splashColor: Colors.orange,
+                                        onPressed: () {
+                                          Navigator.pushReplacementNamed(
+                                              context, '/');
+                                        },
+                                        child: Text(
+                                          'تسجيل الدخول',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.black,
+                                            fontFamily: "CustomIcons",
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                },
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-              ),
+                    )
+                  : Container(
+                      child: _rNotifications.length == 0
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Center(
+                                    child: Text(
+                                      'لا يوجد لديك إشعارات حالياً',
+                                      style: TextStyle(
+                                        fontFamily: 'CustomIcons',
+                                        fontSize: 18,
+                                        color: Colors.blueGrey,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Row(
+                              children: [
+                                Expanded(
+                                  child: SizedBox(
+                                    height: screenHeight,
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: _rNotifications.length,
+                                      itemBuilder: (context, index) {
+                                        return InkWell(
+                                          onTap: () {
+                                            _notificationRouter(
+                                                _rNotifications[index]);
+                                          },
+                                          child: Card(
+                                            elevation: 3,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8.0),
+                                              child: ListTile(
+                                                leading: CircleAvatar(
+                                                  radius: 30,
+                                                  backgroundImage: NetworkImage(
+                                                      'https://iraqibayt.com/storage/app/public/posts/5fb68c6700069.jpeg'),
+                                                ),
+                                                title: Text(
+                                                  _rNotifications[index]
+                                                      .content,
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontFamily: 'CustomIcons'
+                                                      //fontWeight: FontWeight.bold,
+                                                      ),
+                                                ),
+                                                trailing: Text(
+                                                  _rNotifications[index]
+                                                      .createdAt,
+                                                  style: TextStyle(
+                                                    fontSize: 13,
+                                                    fontFamily: 'CustomIcons',
+                                                    color: Colors.blueGrey,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                    ),
+            ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFF335876),
         unselectedItemColor: Colors.white,
@@ -323,12 +354,12 @@ class _NotificationsState extends State<Notifications> {
             builder: (BuildContext context) => new Add_Post()),
       );
     } else if (index == 0) {
-      Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new Home()));
+      Navigator.of(context).push(
+          new MaterialPageRoute(builder: (BuildContext context) => new Home()));
     } else if (index == 4) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new ContactUs()));
-    }else if (index == 5) {
+    } else if (index == 5) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Chats()));
     } else if (index == 6) {
