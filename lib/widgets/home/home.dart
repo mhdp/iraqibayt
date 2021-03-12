@@ -395,6 +395,18 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
 
+    databaseHelper.getUserUnreadNotificationsCount().then((value) {
+      setState(() {
+        notificationCounter = int.parse(value);
+      });
+    });
+
+    databaseHelper.getUserUnreadMessagesCount().then((value) {
+      setState(() {
+        messageCounter = int.parse(value);
+      });
+    });
+
     initializeNotificationsConfigs();
   }
 
