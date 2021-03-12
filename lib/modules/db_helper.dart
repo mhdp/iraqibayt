@@ -284,4 +284,33 @@ class DatabaseHelper {
 
     return response.body.toString();
   }
+
+  Future getUserUnreadNotificationsCount() async
+  {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'user_id';
+    final value = prefs.get(key);
+
+    String myUrl = "https://iraqibayt.com/notifications/users/"+value.toString()+"/unread/get";
+    http.Response response = await http.get(myUrl);
+
+    print("result: ${response.body}");
+
+    return response.body.toString();
+  }
+
+  Future getUserUnreadMessagesCount() async
+  {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'user_id';
+    final value = prefs.get(key);
+
+    String myUrl = "$serverUrl/chats/me/get_unread_msgs_count";
+    http.Response response = await http.post(myUrl , body: {'user_id' : value.toString()});
+
+    print("result: ${response.body}");
+
+    return response.body.toString();
+  }
+
 }
