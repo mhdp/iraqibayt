@@ -26,7 +26,7 @@ class _StatisticsState extends State<Statistics> {
 
   Future<List<Statistic>> _getAbouts() async {
     var statisticsResponse =
-        await http.get('https://iraqibayt.com/api/statistics');
+        await http.get(Uri.parse('https://iraqibayt.com/api/statistics'));
     var statisticsData = json.decode(statisticsResponse.body);
     Statistic tStat;
     statistics = [];

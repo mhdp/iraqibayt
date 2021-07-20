@@ -997,6 +997,109 @@ class _Posts_detalis extends State<Posts_detalis> {
                       thickness: 0.5,
                     ),
                   ),
+
+
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      RaisedButton(
+                        onPressed: () {},
+                        color: Colors.white,
+                        elevation: 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Icon(
+                              Icons.share,
+                              color: Color(0xff275879),
+                            ),
+                            Text(
+                              " شارك الإعلان",
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.indigo,
+                                fontFamily: "CustomIcons",
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      //facebook
+                      RaisedButton(
+                        onPressed: () {
+                        },
+                        color: Color(0xff3e5593),
+                        elevation: 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Icon(
+                              MyIcons.facebook_square,
+                              color: Colors.white,
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 10,),
+                      //twitter
+                      RaisedButton(
+                        onPressed: () async {
+
+
+
+                        },
+                        color: Color(0xff51a4d5),
+                        elevation: 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Icon(
+                              MyIcons.twitter_square,
+                              color: Colors.white,
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 10,),
+
+                      //whatsapp
+                      RaisedButton(
+                        onPressed: () {
+                          /*FlutterShareMe()
+                              .shareToWhatsApp(msg: databaseHelper.get_post_by_id_list[0]["title"].toString() + "  "+'https://iraqibayt.com/post/'+widget.post_id+'/show');*/
+                        },
+                        color: Color(0xff5db743),
+                        elevation: 0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Icon(
+                              MyIcons.whatsapp,
+                              color: Colors.white,
+                            ),
+
+                          ],
+                        ),
+                      ),
+                      SizedBox(width: 10,),
+
+
+
+
+                      SizedBox(height: 50,),
+                    ],
+                  ),
+
                 ],
               ),
             ),

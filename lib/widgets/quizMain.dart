@@ -40,7 +40,7 @@ class _QuizMainState extends State<QuizMain> {
 
   Future _getQuestions() async {
     var qsResponse = await http
-        .get('https://iraqibayt.com/quizz/' + widget.id.toString() + '/asks');
+        .get(Uri.parse('https://iraqibayt.com/quizz/' + widget.id.toString() + '/asks'));
     var qsData = json.decode(qsResponse.body);
     Question tQues;
     _questions = [];
@@ -58,7 +58,7 @@ class _QuizMainState extends State<QuizMain> {
 
   Future _getQuesChoices(int qId) async {
     var csResponse = await http.get(
-        'https://iraqibayt.com/api/answers/' + qId.toString() + '/getanswers');
+        Uri.parse('https://iraqibayt.com/api/answers/' + qId.toString() + '/getanswers'));
     var csData = json.decode(csResponse.body);
     Answer tAnswer;
     _choices = [];

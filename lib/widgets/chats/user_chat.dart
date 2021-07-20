@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
-import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
@@ -32,7 +32,7 @@ class UserChatState extends State<UserChat> {
   final player = AudioCache();
 
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   DatabaseHelper databaseHelper = new DatabaseHelper();
 
@@ -433,9 +433,9 @@ class UserChatState extends State<UserChat> {
     };
 
     var chatResponse = await http.post(
-        'https://iraqibayt.com/api/chats/users/' +
+        Uri.parse('https://iraqibayt.com/api/chats/users/' +
             widget.userID.toString() +
-            '/get_chat',
+            '/get_chat'),
         body: data);
     var chatData = json.decode(chatResponse.body);
     Chat tChat;
@@ -480,7 +480,7 @@ class UserChatState extends State<UserChat> {
         'body': _messageBuffer,
       };
 
-      var res = await http.post('https://iraqibayt.com/api/chats/send_msg', body: data);
+      var res = await http.post(Uri.parse('https://iraqibayt.com/api/chats/send_msg'), body: data);
       var body = json.decode(res.body);
       print(body);
 

@@ -29,7 +29,7 @@ class _About_us_ extends State<About_us_> {
   List pages_list = List();
 
   Future<List<Statistic>> _getdata() async {
-    var statisticsResponse = await http.get('https://iraqibayt.com/api/pages_api');
+    var statisticsResponse = await http.get(Uri.parse('https://iraqibayt.com/api/pages_api'));
     var responce = json.decode(statisticsResponse.body);
     setState(() {
       pages_list = responce;
@@ -148,18 +148,12 @@ class _About_us_ extends State<About_us_> {
             icon: Icon(Icons.menu_book),
             label: 'الإعلانات',
           ),
-          new BottomNavigationBarItem(
-              icon: Icon(Icons.post_add),
-              label: 'أضف إعلان'
-          ),
+
           new BottomNavigationBarItem(
               icon: Icon(MyIcons.user),
               label: 'حسابي'
           ),
-          new BottomNavigationBarItem(
-              icon: Icon(Icons.mail),
-              label: 'ملاحظات'
-          ),
+
           new BottomNavigationBarItem(
               icon: Icon(Icons.message),
               label: 'الرسائل'
@@ -185,20 +179,12 @@ class _About_us_ extends State<About_us_> {
             builder: (BuildContext context) => new Posts_Home()),
       );
     }else if(index == 2){
-      Navigator.of(context).push(
-        new MaterialPageRoute(
-            builder: (BuildContext context) => new Add_Post()),
-      );
-    }else if(index == 3){
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Profile()));
-    }else if(index == 4){
-      Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new ContactUs()));
-    }else if (index == 5) {
+    }else if (index == 3) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Chats()));
-    } else if (index == 6) {
+    } else if (index == 4) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Notifications()));
     }

@@ -99,6 +99,7 @@ class NavDrawerState extends State<NavDrawer> {
                   builder: (BuildContext context) => new Profile()))
             },
           ),
+          //favorites
           ListTile(
             leading: Icon(
               Icons.favorite,

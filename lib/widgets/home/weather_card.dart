@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WeatherCard extends StatefulWidget {
   @override
@@ -51,12 +52,28 @@ class _WeatherCardState extends State<WeatherCard> {
     super.initState();
     cityHint = 'اختر مدينة';
 
-    _getWeatherData().then((value) {
-      List<Weather> initList = List.from(value);
+    getCachedData().then((value) {
+      if (value.length != 0)
+      {
+        List<Weather> initList = List.from(value);
 
-      setState(() {
-        cityId = initList[0].city.id;
-      });
+        setState(() {
+          cityId = initList[0].city.id;
+        });
+      }
+
+    });
+
+    _getWeatherData().then((value) {
+      if (value.length != 0)
+        {
+          List<Weather> initList = List.from(value);
+
+          setState(() {
+            cityId = initList[0].city.id;
+          });
+        }
+
     });
 
     startTimer();
@@ -73,9 +90,44 @@ class _WeatherCardState extends State<WeatherCard> {
     super.dispose();
   }
 
+  getCachedData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'weathers';
+    final is_weathers = prefs.get(key) ?? 0;
+
+    if (is_weathers != 0 ) {
+      var weathersData = json.decode(is_weathers);
+      //print ("get saved weathers data");
+
+      _weathers = [];
+      Weather tWeather;
+      //City tCity;
+
+      //print(weatherData);
+
+      for (var weather in weathersData) {
+        tWeather = Weather.fromJson(weather);
+//      //tCity = City.fromJson(record['city']);
+//      print(tWeather.day);
+        _weathers.add(tWeather);
+//      //_cities.add(tCity);
+
+      }
+
+    }
+    return _weathers;
+  }
+
   Future<List<Weather>> _getWeatherData() async {
-    var weatherResponse = await http.get('https://iraqibayt.com/getWeather');
+    var weatherResponse = await http.get(Uri.parse('https://iraqibayt.com/getWeather'));
     var weatherData = json.decode(weatherResponse.body);
+
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'weathers';
+
+    prefs.setString(key, weatherResponse.body);
+    //print ("save weathers data");
+
     //Map<String, List<Weather>> dataMap = new Map<String, List<Weather>>();
     //_cities = [];
     _weathers = [];
@@ -230,22 +282,9 @@ class _WeatherCardState extends State<WeatherCard> {
                             Expanded(
                               child: Container(
                                 child: FutureBuilder(
-                                  future: _getWeatherData(),
+                                  future: getCachedData(),
                                   builder: (BuildContext context,
                                       AsyncSnapshot snapshot) {
-//                                    if (snapshot.hasError)
-//                                      print(snapshot.error);
-//                                    switch (snapshot.connectionState) {
-//                                      case ConnectionState.none:
-//                                        return Text('Select lot');
-//                                      case ConnectionState.waiting:
-//                                        return Text('Awaiting bids...');
-//                                      case ConnectionState.active:
-//                                        return Text('\$${snapshot.data}');
-//                                      case ConnectionState.done:
-//                                        return Text(
-//                                            '\$${snapshot.data} (closed)');
-//                                    }
                                     if (snapshot.data == null) {
                                       return Container(
                                         height: 50,
@@ -279,61 +318,7 @@ class _WeatherCardState extends State<WeatherCard> {
                                                     //fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                /*Container(
-                                                  alignment:
-                                                      Alignment.centerRight,
-                                                  //padding: const EdgeInsets.symmetric(horizontal: 5),
-                                                  child: DropdownButton<int>(
-                                                    elevation: 5,
-                                                    hint: Container(
-                                                      alignment:
-                                                          Alignment.centerRight,
-                                                      width: 100.0,
-                                                      child: Text(
-                                                        cityHint,
-                                                        style: TextStyle(
-                                                            fontSize: 18,
-                                                            fontFamily:
-                                                                'CustomIcons'),
-                                                      ),
-                                                    ),
-                                                    value: cityId,
-                                                    items: _rWeather
-                                                        .map((Weather weather) {
-                                                      return new DropdownMenuItem<
-                                                          int>(
-                                                        value: weather.city.id,
-                                                        child: Container(
-                                                          alignment: Alignment
-                                                              .centerRight,
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.5,
-                                                          child: Center(
-                                                            child: Text(
-                                                              weather.city.name,
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .right,
-                                                              style: TextStyle(
-                                                                fontFamily:
-                                                                    "CustomIcons",
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged: (int cId) {
-                                                      setState(() {
-                                                        cityId = cId;
-                                                        print(cId);
-                                                      });
-                                                    },
-                                                  ),
-                                                ),*/
+
                                                 Container(
                                                   child: FlatButton(
                                                     color: Colors.white,

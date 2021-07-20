@@ -36,7 +36,7 @@ class _QuizsState extends State<Quizs> {
 
   Future<List<Quiz>> _getQuizs() async {
     var quizsResponse =
-        await http.get('https://iraqibayt.com/api/quiz/category/all');
+        await http.get(Uri.parse('https://iraqibayt.com/api/quiz/category/all'));
     var quizsData = json.decode(quizsResponse.body);
     Quiz tQuiz;
     quizs = [];

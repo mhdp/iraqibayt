@@ -17,7 +17,7 @@ class _InfoCardState extends State<InfoCard> {
   var timer;
 
   _getdata() async {
-    var statisticsResponse = await http.get('https://iraqibayt.com/Info');
+    var statisticsResponse = await http.get(Uri.parse('https://iraqibayt.com/Info'));
     var responce = json.decode(statisticsResponse.body);
     setState(() {
       info_list = responce;

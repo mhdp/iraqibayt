@@ -15,6 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
+import 'my_account.dart';
+
 class Notifications extends StatefulWidget {
   @override
   _NotificationsState createState() => _NotificationsState();
@@ -47,7 +49,7 @@ class _NotificationsState extends State<Notifications> {
 
       NotificationSample tNot;
 
-      var res = await http.post('https://iraqibayt.com/api/users/notifications',
+      var res = await http.post(Uri.parse('https://iraqibayt.com/api/users/notifications'),
           body: data);
       var body = json.decode(res.body);
       print(body);
@@ -318,7 +320,7 @@ class _NotificationsState extends State<Notifications> {
         unselectedItemColor: Colors.white,
         selectedItemColor: Color(0xFFdd685f),
         onTap: onTabTapped, // new
-        currentIndex: 6,
+        currentIndex: 4,
         type: BottomNavigationBarType.fixed, // new
         items: [
           new BottomNavigationBarItem(
@@ -329,10 +331,9 @@ class _NotificationsState extends State<Notifications> {
             icon: Icon(Icons.menu_book),
             label: 'الإعلانات',
           ),
-          new BottomNavigationBarItem(
-              icon: Icon(Icons.post_add), label: 'أضف إعلان'),
+
           new BottomNavigationBarItem(icon: Icon(MyIcons.user), label: 'حسابي'),
-          new BottomNavigationBarItem(icon: Icon(Icons.mail), label: 'ملاحظات'),
+
           new BottomNavigationBarItem(
               icon: Icon(Icons.message), label: 'الرسائل'),
           new BottomNavigationBarItem(
@@ -348,23 +349,15 @@ class _NotificationsState extends State<Notifications> {
         new MaterialPageRoute(
             builder: (BuildContext context) => new Posts_Home()),
       );
-    } else if (index == 2) {
-      Navigator.of(context).push(
-        new MaterialPageRoute(
-            builder: (BuildContext context) => new Add_Post()),
-      );
     } else if (index == 0) {
       Navigator.of(context).push(
           new MaterialPageRoute(builder: (BuildContext context) => new Home()));
-    } else if (index == 4) {
-      Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new ContactUs()));
-    } else if (index == 5) {
+    } else if (index == 3) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Chats()));
-    } else if (index == 6) {
+    } else if (index == 2) {
       Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new Notifications()));
+          builder: (BuildContext context) => new MyAccount()));
     }
     /*setState(() {
       _currentIndex = index;

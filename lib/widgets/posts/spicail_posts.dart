@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:iraqibayt/widgets/posts/spicial_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
@@ -255,20 +256,57 @@ class _BikeListItemState extends State<BikeListItem> {
 
       return Column(
         children: [
-          for (var i = 0; i < widget.list1.length; i++) post_widget(i)
+          RaisedButton(
+            onPressed: () {},
+            color: Color(0XFFc4c4c4),
+            elevation: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                //Icon(Icons.list,color: Colors.white,),
+
+                Text(
+                  " العروض المميزة ",
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.black,
+                    fontFamily: "CustomIcons",
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          for (var i = 0; i < widget.list1.length; i++) post_widget(i),
+
+          Padding(
+              padding: const EdgeInsets.all(10),
+              child: FlatButton(
+                onPressed: () {
+                  Navigator.of(context).push(new MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                      new Spical_page()));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'عرض كل الإعلانات المميزة',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontFamily: "CustomIcons",
+                      ),
+                    ),
+                  ],
+                ),
+                //blockButton: true,
+                color: Color(0xFFdd685f),
+              )),
         ],
       );
     } else {
-      return Text(
-        'لا يوجد إعلانات',
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 20.0,
-          fontFamily: "CustomIcons",
-        ),
-        softWrap: true,
-      );
+      return Container();
     }
   }
 

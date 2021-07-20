@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DatabaseHelper {
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   String default_post_image = "";
   String serverUrl = "https://iraqibayt.com/api";
@@ -28,7 +28,7 @@ class DatabaseHelper {
 
   Future<List> get_posts() async {
     String myUrl = "$serverUrl/allposts_api";
-    http.Response response = await http.post(myUrl);
+    http.Response response = await http.post(Uri.parse(myUrl));
     if (response.body.length > 0) {
       posts_list = json.decode(response.body);
       var data = json.decode(response.body);
@@ -39,7 +39,7 @@ class DatabaseHelper {
 
   Future<List> getPostsNextPage(int pageID) async {
     String myUrl = "$serverUrl/allposts_api?page=" + pageID.toString();
-    http.Response response = await http.post(myUrl);
+    http.Response response = await http.post(Uri.parse(myUrl));
     if (response.body.length > 0) {
       extraPostList = json.decode(response.body);
 
@@ -50,7 +50,7 @@ class DatabaseHelper {
 
   Future<List> get_spicial_posts() async {
     String myUrl = "$serverUrl/get_spical_posts_api";
-    http.Response response = await http.post(myUrl);
+    http.Response response = await http.post(Uri.parse(myUrl));
     if (response.body.length > 0) {
       //print(response.body.toString());
       spicial_posts_list = json.decode(response.body);
@@ -60,7 +60,7 @@ class DatabaseHelper {
 
   Future<List> get_all_spicial_posts() async {
     String myUrl = "$serverUrl/get_all_spical_posts_api";
-    http.Response response = await http.post(myUrl);
+    http.Response response = await http.post(Uri.parse(myUrl));
     if (response.body.length > 0) {
       //print(response.body.toString());
       all_spicial_posts_list = json.decode(response.body);
@@ -70,7 +70,7 @@ class DatabaseHelper {
 
   Future<List> get_latest_posts() async {
     String myUrl = "$serverUrl/get_latest_posts_api";
-    http.Response response = await http.post(myUrl);
+    http.Response response = await http.post(Uri.parse(myUrl));
     if (response.body.length > 0) {
       //print(response.body.toString());
       latest_posts_list = json.decode(response.body);
@@ -80,7 +80,7 @@ class DatabaseHelper {
 
   Future<List> get_my_posts(String email, String pass) async {
     String myUrl = "$serverUrl/get_my_posts_api";
-    http.Response response = await http.post(myUrl, body: {
+    http.Response response = await http.post(Uri.parse(myUrl), body: {
       'email': email,
       'password': pass,
     });
@@ -92,7 +92,7 @@ class DatabaseHelper {
 
   Future<List> get_my_posts_favorits(String email, String pass) async {
     String myUrl = "$serverUrl/users/favorit";
-    http.Response response = await http.post(myUrl, body: {
+    http.Response response = await http.post(Uri.parse(myUrl), body: {
       'email': email,
       'password': pass,
     });
@@ -110,30 +110,41 @@ class DatabaseHelper {
     List<int> regions,
     int sortBy,
   ) async {
-    String myUrl = "$serverUrl/posts_search_adv";
+    String myUrl = "$serverUrl/posts_search_adv_v2?category="+categoryId.toString()+"&city="+cityId.toString();
 
-    //Define post request body
-    Map<String, String> postBody = new Map<String, String>();
+    print ("url: "+myUrl);
+
+
+    subCategories.forEach((element) {
+      myUrl += "&subCats%5B%5D="+element.toString()+",";
+      //print('subCats[]=' + element.toString());
+    });
+
+    regions.forEach((element) {
+      myUrl += "&regions%5B%5D="+element.toString()+",";
+    });
+
+
+
+    /*//Define post request body
+    Map<String, dynamic> postBody = new Map<String, String>();
     //Add static entries
     postBody.putIfAbsent('category', () => categoryId.toString());
     postBody.putIfAbsent('city', () => cityId.toString());
-    postBody.putIfAbsent('sortBy', () => sortBy.toString());
-    //Add dynamic entries
-    subCategories.forEach((element) {
-      postBody.putIfAbsent('subCats%5B%5D', () => element.toString());
-      //print('subCats[]=' + element.toString());
-    });
-    regions.forEach((element) {
-      postBody.putIfAbsent('regions%5B%5D', () => element.toString());
-      //print('regions[]=' + element.toString());
-    });
+    postBody.putIfAbsent('regions', () => regions_post.toString());
+    postBody.putIfAbsent('subCats[]', () => subCats_post.toString());
+    //postBody.putIfAbsent('sortBy', () => sortBy.toString());
+    //Add dynamic entries*/
 
-    http.Response response = await http.post(myUrl, body: postBody);
+
+    print (myUrl.toString());
+    http.Response response = await http.post(Uri.parse(myUrl));
     if (response.body.length > 0) {
+      print("response: "+response.body);
       posts_list = json.decode(response.body);
       var data = json.decode(response.body);
       maxPagesNumber = data['last_page'] as int;
-      //print(posts_list.toString());
+      print(posts_list.toString());
     }
   }
 
@@ -162,7 +173,7 @@ class DatabaseHelper {
       //print('regions[]=' + element.toString());
     });
 
-    http.Response response = await http.post(myUrl, body: postBody);
+    http.Response response = await http.post(Uri.parse(myUrl), body: postBody);
     if (response.body.length > 0) {
       extraPostList = json.decode(response.body);
 
@@ -173,7 +184,7 @@ class DatabaseHelper {
 
   Future<List> get_post_by_id(String id) async {
     String myUrl = "$serverUrl/get_post_by_id";
-    http.Response response = await http.post(myUrl, body: {
+    http.Response response = await http.post(Uri.parse(myUrl), body: {
       "id": "$id",
     });
 
@@ -188,7 +199,7 @@ class DatabaseHelper {
 
   Future<List> get_default_post_image() async {
     String myUrl = "$serverUrl/get_default_post_image";
-    http.Response response = await http.post(myUrl);
+    http.Response response = await http.post(Uri.parse(myUrl));
     if (response.body.length > 0) {
       default_post_image = response.body;
       //print(posts_list.toString());
@@ -200,7 +211,7 @@ class DatabaseHelper {
     String email,
   ) async {
     String myUrl = "$serverUrl/login";
-    http.Response response = await http.post(myUrl, body: {
+    http.Response response = await http.post(Uri.parse(myUrl), body: {
       'email': email,
       'password': pass,
     });
@@ -228,7 +239,7 @@ class DatabaseHelper {
   registerData(String pass, String name, String email) async {
     print('ok');
     String myUrl = "$serverUrl/register";
-    http.Response response = await http.post(myUrl, body: {
+    http.Response response = await http.post(Uri.parse(myUrl), body: {
       'email': email,
       'password': pass,
       'name': name,
@@ -261,7 +272,7 @@ class DatabaseHelper {
     print(userId);
 
     String myUrl = "$serverUrl/update_user_fb_token";
-    http.Response response = await http.post(myUrl, body: {
+    http.Response response = await http.post(Uri.parse(myUrl), body: {
       'token': _deviceToken,
       'user_id': userId.toString(),
     });
@@ -276,7 +287,7 @@ class DatabaseHelper {
     print(notificationID);
 
     String myUrl = "$serverUrl/notifications/check_notification";
-    http.Response response = await http.post(myUrl, body: {
+    http.Response response = await http.post(Uri.parse(myUrl), body: {
       'notification_id': notificationID,
     });
 
@@ -292,7 +303,7 @@ class DatabaseHelper {
     final value = prefs.get(key);
 
     String myUrl = "https://iraqibayt.com/notifications/users/"+value.toString()+"/unread/get";
-    http.Response response = await http.get(myUrl);
+    http.Response response = await http.get(Uri.parse(myUrl));
 
     print("result: ${response.body}");
 
@@ -306,7 +317,7 @@ class DatabaseHelper {
     final value = prefs.get(key);
 
     String myUrl = "$serverUrl/chats/me/get_unread_msgs_count";
-    http.Response response = await http.post(myUrl , body: {'user_id' : value.toString()});
+    http.Response response = await http.post(Uri.parse(myUrl) , body: {'user_id' : value.toString()});
 
     print("result: ${response.body}");
 

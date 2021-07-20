@@ -42,7 +42,7 @@ class _DepartsCardState extends State<DepartsCard> {
   }
 
   Future<List<Depart>> _getDeparts() async {
-    var departsResponse = await http.get('https://iraqibayt.com/departs');
+    var departsResponse = await http.get(Uri.parse('https://iraqibayt.com/departs'));
     var departsData = json.decode(departsResponse.body);
     Depart tDepart;
     departs = [];
@@ -331,7 +331,7 @@ class _DepartsCardState extends State<DepartsCard> {
             )
           : ResponsiveGridRow(
               children: [
-                for (var i = 0; i < departs.length; i++)
+                //for (var i = 0; i < departs.length; i++)
                   ResponsiveGridCol(
                     xs: 6,
                     md: 4,
@@ -346,7 +346,7 @@ class _DepartsCardState extends State<DepartsCard> {
                         alignment: Alignment(0, 0),
                         //color: Colors.grey,
                         child: InkWell(
-                          onTap: () => _setRoute(context, i + 1),
+                          onTap: () => _setRoute(context, 1),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -359,7 +359,7 @@ class _DepartsCardState extends State<DepartsCard> {
                                   image: DecorationImage(
                                       image: NetworkImage(
                                           'https://iraqibayt.com/storage/app/public/images/' +
-                                              departs[i].image),
+                                              departs[0].image),
 
                                       fit: BoxFit.cover),
                                   borderRadius: BorderRadius.circular(10.0),
@@ -370,7 +370,7 @@ class _DepartsCardState extends State<DepartsCard> {
                                 height: 10.0,
                               ),
                               Text(
-                                departs[i].name,
+                                departs[0].name,
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -381,6 +381,356 @@ class _DepartsCardState extends State<DepartsCard> {
                           ),
                         )),
                   ),
+
+                ResponsiveGridCol(
+                  xs: 6,
+                  md: 4,
+                  child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(6.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      height: MediaQuery.of(context).size.width/3 + 50,
+                      alignment: Alignment(0, 0),
+                      //color: Colors.grey,
+                      child: InkWell(
+                        onTap: () => _setRoute(context, 4),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.width/3 ,
+                              width: MediaQuery.of(context).size.width/2 - 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        'https://iraqibayt.com/storage/app/public/images/' +
+                                            departs[3].image),
+
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(10.0),
+
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              departs[3].name,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "CustomIcons",
+                              ),
+                            )
+                          ],
+                        ),
+                      )),
+                ),
+
+                ResponsiveGridCol(
+                  xs: 6,
+                  md: 4,
+                  child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(6.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      height: MediaQuery.of(context).size.width/3 + 50,
+                      alignment: Alignment(0, 0),
+                      //color: Colors.grey,
+                      child: InkWell(
+                        onTap: () => _setRoute(context, 3),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.width/3 ,
+                              width: MediaQuery.of(context).size.width/2 - 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        'https://iraqibayt.com/storage/app/public/images/' +
+                                            departs[2].image),
+
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(10.0),
+
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              departs[2].name,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "CustomIcons",
+                              ),
+                            )
+                          ],
+                        ),
+                      )),
+                ),
+
+                ResponsiveGridCol(
+                  xs: 6,
+                  md: 4,
+                  child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(6.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      height: MediaQuery.of(context).size.width/3 + 50,
+                      alignment: Alignment(0, 0),
+                      //color: Colors.grey,
+                      child: InkWell(
+                        onTap: () => _setRoute(context, 5),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.width/3 ,
+                              width: MediaQuery.of(context).size.width/2 - 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        'https://iraqibayt.com/storage/app/public/images/' +
+                                            departs[4].image),
+
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(10.0),
+
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              departs[4].name,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "CustomIcons",
+                              ),
+                            )
+                          ],
+                        ),
+                      )),
+                ),
+
+                ResponsiveGridCol(
+                  xs: 6,
+                  md: 4,
+                  child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(6.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      height: MediaQuery.of(context).size.width/3 + 50,
+                      alignment: Alignment(0, 0),
+                      //color: Colors.grey,
+                      child: InkWell(
+                        onTap: () => _setRoute(context, 2),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.width/3 ,
+                              width: MediaQuery.of(context).size.width/2 - 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        'https://iraqibayt.com/storage/app/public/images/' +
+                                            departs[1].image),
+
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(10.0),
+
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              departs[1].name,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "CustomIcons",
+                              ),
+                            )
+                          ],
+                        ),
+                      )),
+                ),
+
+                ResponsiveGridCol(
+                  xs: 6,
+                  md: 4,
+                  child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(6.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      height: MediaQuery.of(context).size.width/3 + 50,
+                      alignment: Alignment(0, 0),
+                      //color: Colors.grey,
+                      child: InkWell(
+                        onTap: () => _setRoute(context, 8),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.width/3 ,
+                              width: MediaQuery.of(context).size.width/2 - 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        'https://iraqibayt.com/storage/app/public/images/' +
+                                            departs[7].image),
+
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(10.0),
+
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              departs[7].name,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "CustomIcons",
+                              ),
+                            )
+                          ],
+                        ),
+                      )),
+                ),
+
+                ResponsiveGridCol(
+                  xs: 6,
+                  md: 4,
+                  child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(6.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      height: MediaQuery.of(context).size.width/3 + 50,
+                      alignment: Alignment(0, 0),
+                      //color: Colors.grey,
+                      child: InkWell(
+                        onTap: () => _setRoute(context, 7),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.width/3 ,
+                              width: MediaQuery.of(context).size.width/2 - 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        'https://iraqibayt.com/storage/app/public/images/' +
+                                            departs[6].image),
+
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(10.0),
+
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              departs[6].name,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "CustomIcons",
+                              ),
+                            )
+                          ],
+                        ),
+                      )),
+                ),
+
+                ResponsiveGridCol(
+                  xs: 6,
+                  md: 4,
+                  child: Container(
+                      margin: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(6.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                      ),
+                      height: MediaQuery.of(context).size.width/3 + 50,
+                      alignment: Alignment(0, 0),
+                      //color: Colors.grey,
+                      child: InkWell(
+                        onTap: () => _setRoute(context, 6),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.width/3 ,
+                              width: MediaQuery.of(context).size.width/2 - 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        'https://iraqibayt.com/storage/app/public/images/' +
+                                            departs[5].image),
+
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(10.0),
+
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              departs[5].name,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: "CustomIcons",
+                              ),
+                            )
+                          ],
+                        ),
+                      )),
+                ),
               ],
             ),
     ]);

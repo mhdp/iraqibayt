@@ -7,7 +7,7 @@ class CallApi {
   postData(data, apiUrl) async {
     var fullUrl = base_url + apiUrl;
     return await http.post(
-      fullUrl,
+        Uri.parse(fullUrl),
       body: jsonEncode(data),
       headers: _setHeaders(),
     );
@@ -16,7 +16,7 @@ class CallApi {
   getData(apiUrl) async {
     var fullUrl = base_url + apiUrl;
     return await http.get(
-      fullUrl,
+        Uri.parse(fullUrl),
       headers: _setHeaders(),
     );
   }

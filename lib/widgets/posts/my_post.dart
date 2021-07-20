@@ -14,6 +14,7 @@ import 'package:iraqibayt/widgets/posts/update_post.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:iraqibayt/modules/api/callApi.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../ContactUs.dart';
 import '../my_account.dart';
@@ -362,6 +363,21 @@ class _MyPostsState extends State<MyPosts> {
                                                           ),
                                                           DataColumn(
                                                             label: Text(
+                                                              'التاريخ',
+                                                              style: TextStyle(
+                                                                fontSize: 18,
+                                                                color: Colors
+                                                                    .lightBlue,
+                                                                fontFamily:
+                                                                "CustomIcons",
+                                                              ),
+                                                              textAlign:
+                                                              TextAlign
+                                                                  .right,
+                                                            ),
+                                                          ),
+                                                          DataColumn(
+                                                            label: Text(
                                                               'التحكم',
                                                               style: TextStyle(
                                                                 fontSize: 18,
@@ -401,6 +417,30 @@ class _MyPostsState extends State<MyPosts> {
                                                                             ),
                                                                             textAlign:
                                                                                 TextAlign.right,
+                                                                          )),
+                                                                    ),
+                                                                  ),
+                                                                  DataCell(
+                                                                    FittedBox(
+                                                                      child: InkWell(
+                                                                          onTap: () {
+                                                                            Navigator.of(context).push(
+                                                                              new MaterialPageRoute(
+                                                                                builder: (BuildContext context) => new FullPost(
+                                                                                  post_id: post.id.toString(),
+                                                                                ),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                          child: Text(
+                                                                            post.time,
+                                                                            style:
+                                                                            TextStyle(
+                                                                              fontSize: 18,
+                                                                              fontFamily: "CustomIcons",
+                                                                            ),
+                                                                            textAlign:
+                                                                            TextAlign.right,
                                                                           )),
                                                                     ),
                                                                   ),
@@ -504,7 +544,7 @@ class _MyPostsState extends State<MyPosts> {
         unselectedItemColor: Colors.white,
         selectedItemColor: Colors.white,
         onTap: onTabTapped, // new
-        currentIndex: 3,
+        //currentIndex: 3,
         type: BottomNavigationBarType.fixed, // new
         items: [
           new BottomNavigationBarItem(
@@ -515,18 +555,12 @@ class _MyPostsState extends State<MyPosts> {
             icon: Icon(Icons.menu_book),
             label: 'الإعلانات',
           ),
-          new BottomNavigationBarItem(
-              icon: Icon(Icons.post_add),
-              label: 'أضف إعلان'
-          ),
+
           new BottomNavigationBarItem(
               icon: Icon(MyIcons.user),
               label: 'حسابي'
           ),
-          new BottomNavigationBarItem(
-              icon: Icon(Icons.mail),
-              label: 'ملاحظات'
-          ),
+
           new BottomNavigationBarItem(
               icon: Icon(Icons.message),
               label: 'الرسائل'
@@ -537,6 +571,17 @@ class _MyPostsState extends State<MyPosts> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          String _url = 'https://api.whatsapp.com/send?phone=9647802722141&text=IB';
+
+
+          await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
+
+        },
+        child: const Icon(MyIcons.whatsapp),
+        backgroundColor: Colors.green,
+      ),
     );
   }
 
@@ -546,24 +591,16 @@ class _MyPostsState extends State<MyPosts> {
         new MaterialPageRoute(
             builder: (BuildContext context) => new Posts_Home()),
       );
-    }else if(index == 2){
-      Navigator.of(context).push(
-        new MaterialPageRoute(
-            builder: (BuildContext context) => new Add_Post()),
-      );
     }else if(index == 0){
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Home()));
-    }else if(index == 3){
+    }else if(index == 2){
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new MyAccount()));
-    }else if(index == 4){
-      Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new ContactUs()));
-    }else if (index == 5) {
+    }else if (index == 3) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Chats()));
-    } else if (index == 6) {
+    } else if (index == 4) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Notifications()));
     }

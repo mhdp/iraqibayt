@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:iraqibayt/widgets/advanced_search.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchCard extends StatefulWidget {
   @override
@@ -32,9 +33,50 @@ class _SearchCardState extends State<SearchCard> {
 
   List<int> _subsIds, _regionsIds;
 
+  var is_loading = true;
+
+  getCachedData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'cities';
+    final is_cities = prefs.get(key) ?? 0;
+
+    final key2 = 'categories';
+    final is_categories = prefs.get(key2) ?? 0;
+
+    //print ("is_cities:"+is_cities.toString());
+    //print ("is_categories:"+is_categories.toString());
+
+    if (is_cities != 0 && is_categories != 0) {
+      var citiesData = json.decode(is_cities);
+      //print ("get saved categories data");
+      for (var record in citiesData) {
+        _cities = [];
+        RCity tCity;
+        tCity = RCity.fromJson(record);
+        //print(tCity.name + '->');
+        //print(tCity.regions);
+        _cities.add(tCity);
+      }
+
+      var categoriesData = json.decode(is_categories);
+      _categories = [];
+      Category tCategory;
+
+      for (var record in categoriesData) {
+        tCategory = Category.fromJson(record);
+        //print(tCategory.name);
+        _categories.add(tCategory);
+      }
+
+      setState(() {
+        is_loading = false;
+      });
+    }
+  }
+
   Future<Map<String, List<Object>>> _getSearchData() async {
     //Fetching Cities Data
-    var citiesResponse = await http.get('https://iraqibayt.com/getCities');
+    var citiesResponse = await http.get(Uri.parse('https://iraqibayt.com/getCities'));
     var citiesData = json.decode(citiesResponse.body);
     Map<String, List<Object>> searchDataMap = new Map<String, List<Object>>();
     _cities = [];
@@ -49,7 +91,7 @@ class _SearchCardState extends State<SearchCard> {
 
     //Fetching Categories Data
     var categoriesResponse =
-        await http.get('https://iraqibayt.com/getCategories');
+        await http.get(Uri.parse('https://iraqibayt.com/getCategories'));
     var categoriesData = json.decode(categoriesResponse.body);
     _categories = [];
     Category tCategory;
@@ -66,6 +108,52 @@ class _SearchCardState extends State<SearchCard> {
     return searchDataMap;
   }
 
+  _getData() async {
+    setState(() {
+      is_loading = true;
+    });
+    //Fetching Cities Data
+    var citiesResponse = await http.get(Uri.parse('https://iraqibayt.com/getCities'));
+    var citiesData = json.decode(citiesResponse.body);
+
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'cities';
+
+    prefs.setString(key, citiesResponse.body);
+    //print ("save cities data");
+    _cities = [];
+    RCity tCity;
+
+    for (var record in citiesData) {
+      tCity = RCity.fromJson(record);
+      //print(tCity.name + '->');
+      //print(tCity.regions);
+      _cities.add(tCity);
+    }
+
+    //Fetching Categories Data
+    var categoriesResponse =
+    await http.get(Uri.parse('https://iraqibayt.com/getCategories'));
+    var categoriesData = json.decode(categoriesResponse.body);
+    final key2 = 'categories';
+
+    prefs.setString(key2, categoriesResponse.body);
+    //print ("save categories data");
+
+    _categories = [];
+    Category tCategory;
+
+    for (var record in categoriesData) {
+      tCategory = Category.fromJson(record);
+      //print(tCategory.name);
+      _categories.add(tCategory);
+    }
+
+    setState(() {
+      is_loading = false;
+    });
+  }
+
   List<SubCategory> _getSubCats(int cat_id, List<Category> catList) {
     for (Category cat in catList) if (cat.id == cat_id) return cat.subCatList;
   }
@@ -74,6 +162,11 @@ class _SearchCardState extends State<SearchCard> {
     for (RCity cit in citList) if (cit.id == cit_id) return cit.regions;
   }
 
+  void up_widget(){
+    setState(() {
+
+    });
+  }
   void _showCitiesDialog(context, List<RCity> cities) {
     showDialog(
         context: context,
@@ -126,7 +219,7 @@ class _SearchCardState extends State<SearchCard> {
 
                                   _regions = List.from(
                                       _getRegions(cityValue, _rCities));
-                                  print(cityValue);
+                                  //print(cityValue);
 
                                   _regionsFirstTime = true;
                                   _isAllRSelected = true;
@@ -138,6 +231,8 @@ class _SearchCardState extends State<SearchCard> {
                                 setState(() {
                                   cityHint = cities[index].name;
                                 });
+
+                                up_widget();
                               },
                             ),
                           );
@@ -202,7 +297,7 @@ class _SearchCardState extends State<SearchCard> {
 
                                   _subCategories = List.from(
                                       _getSubCats(catValue, _rCategories));
-                                  print(catValue);
+                                  //print(catValue);
                                   _isAllSSelected = true;
                                   _subsFirstTime = true;
                                 });
@@ -213,6 +308,7 @@ class _SearchCardState extends State<SearchCard> {
                                 setState(() {
                                   catHint = categories[index].name;
                                 });
+                                up_widget();
                               },
                             ),
                           );
@@ -235,9 +331,9 @@ class _SearchCardState extends State<SearchCard> {
       });
     }
     _updateSelectedSubCats();
-    print(_isAllSSelected);
-    print(
-        _subCategories.length.toString() + '--' + selectedSCounter.toString());
+    //print(_isAllSSelected);
+    //print(
+        //_subCategories.length.toString() + '--' + selectedSCounter.toString());
 
     showDialog(
         context: context,
@@ -345,9 +441,9 @@ class _SearchCardState extends State<SearchCard> {
                                   _updateSelectedSubCats();
                                 }
 
-                                print(_subCategories.length.toString() +
+                                /*print(_subCategories.length.toString() +
                                     '--' +
-                                    selectedSCounter.toString());
+                                    selectedSCounter.toString());*/
                               },
                             ),
                           );
@@ -370,8 +466,8 @@ class _SearchCardState extends State<SearchCard> {
       });
     }
     _updateSelectedRegions();
-    print(_isAllRSelected);
-    print(_regions.length.toString() + '--' + selectedRCounter.toString());
+    //print(_isAllRSelected);
+    //print(_regions.length.toString() + '--' + selectedRCounter.toString());
 
     showDialog(
         context: context,
@@ -477,9 +573,9 @@ class _SearchCardState extends State<SearchCard> {
                                   _updateSelectedRegions();
                                 }
 
-                                print(_regions.length.toString() +
+                                /*print(_regions.length.toString() +
                                     '--' +
-                                    selectedRCounter.toString());
+                                    selectedRCounter.toString());*/
                               },
                             ),
                           );
@@ -496,7 +592,7 @@ class _SearchCardState extends State<SearchCard> {
 
   Future _getBaghdadId() async {
     var response =
-        await http.get('https://iraqibayt.com/api/cities/Baghdad/get_id');
+        await http.get(Uri.parse('https://iraqibayt.com/api/cities/Baghdad/get_id'));
     var data = json.decode(response.body);
 
     City baghdad;
@@ -530,6 +626,8 @@ class _SearchCardState extends State<SearchCard> {
   @override
   void initState() {
     super.initState();
+    getCachedData();
+
     catHint = 'جميع الأقسام الرئيسية';
     cityHint = 'جميع المدن';
     _isAllRSelected = true;
@@ -539,31 +637,47 @@ class _SearchCardState extends State<SearchCard> {
     selectedRCounter = 0;
     selectedSCounter = 0;
 
-    catValue = 1;
-    _getBaghdadId().then((value) {
+    catValue = 0;
+    cityValue = 0;
+    /*_getBaghdadId().then((value) {
       setState(() {
         cityValue = value;
       });
-    });
+    });*/
+
 
     _subsIds = new List<int>();
+
     _regionsIds = new List<int>();
+
+    _getData();
   }
 
   @override
   void dispose() {
-    print('Enter Dispose section => ');
-    setState(() {
-      _subsFirstTime = true;
-    });
-    super.dispose();
+
+    //super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (ctx, constraints) {
-        return Row(
+    if(is_loading == false)
+      {
+        _rCategories = _categories;
+        _rCities = _cities;
+
+        _subCategories =
+            _getSubCats(catValue, _categories);
+
+        _regions =
+            _getRegions(cityValue, _cities);
+      }
+
+
+    //catValue = _rCategories[0].id;
+
+
+    return Row(
           children: [
             Expanded(
               child: InkWell(
@@ -605,47 +719,16 @@ class _SearchCardState extends State<SearchCard> {
                           children: <Widget>[
                             Expanded(
                               child: Container(
-                                child: FutureBuilder(
-                                  future: _getSearchData(),
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot snapshot) {
-//                if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-//                switch (snapshot.connectionState) {
-//                  case ConnectionState.none:
-//                    return Text('Select lot');
-//                  case ConnectionState.waiting:
-//                    return Text('Awaiting bids...');
-//                  case ConnectionState.active:
-//                    return Text('\$${snapshot.data}');
-//                  case ConnectionState.done:
-//                    return Text('\$${snapshot.data} (closed)');
-//                }
-                                    if (snapshot.data == null) {
-                                      return Container(
+                                child:
+//
+                                    is_loading? Container(
                                         height: 50,
                                         child: Center(
                                           child:
                                               new CircularProgressIndicator(),
                                         ),
-                                      );
-                                    } else {
-                                      try {
-                                        Map<String, List<Object>> receivedMap =
-                                            Map.from(snapshot.data);
-                                        var keysList =
-                                            receivedMap.keys.toList();
-                                        _rCategories = receivedMap[keysList[0]];
-                                        _rCities = receivedMap[keysList[1]];
-
-                                        //catValue = _rCategories[0].id;
-                                        _subCategories =
-                                            _getSubCats(catValue, _rCategories);
-                                        //subCatValue = _subCategories[0].id;
-                                        //cityValue = _rCities[0].id;
-                                        _regions =
-                                            _getRegions(cityValue, _rCities);
-
-                                        return Column(
+                                      )
+                                    : Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: <Widget>[
@@ -869,6 +952,9 @@ class _SearchCardState extends State<SearchCard> {
                                                           _showRegionsDialog(
                                                               context,
                                                               _regions);
+                                                          setState(() {
+
+                                                          });
                                                         },
                                                         child: Row(
                                                           mainAxisAlignment:
@@ -902,20 +988,31 @@ class _SearchCardState extends State<SearchCard> {
                                                   top: 5.0),
                                               child: FlatButton(
                                                 onPressed: () {
+                                                  _subsIds.clear();
+                                                  _regionsIds.clear();
                                                   //print('cat:' +catValue.toString());
-                                                  _subCategories
-                                                      .forEach((element) {
-                                                    if (element.checked == 1)
-                                                      _subsIds.add(element.id);
-                                                    //print('scat:' +element.toString());
-                                                  });
+                                                  if(catValue !=0) {
+                                                    _subCategories
+                                                        .forEach((element) {
+                                                      if (element.checked == 1)
+                                                        _subsIds.add(
+                                                            element.id);
+                                                      //print('scat:' +element.checked.toString());
+                                                    });
+                                                  }
                                                   //print('cit:' + cityValue.toString());
-                                                  _regions.forEach((element) {
-                                                    if (element.checked == 1)
-                                                      _regionsIds
-                                                          .add(element.id);
-                                                    //print('reg:' +element.toString());
-                                                  });
+                                                  if(cityValue != 0) {
+                                                    _regions.forEach((element) {
+                                                      if (element.checked == 1)
+                                                        _regionsIds
+                                                            .add(element.id);
+                                                      //print('reg:' +element.checked.toString());
+                                                    });
+                                                  }
+                                                 /* print("categoryId"+catValue.toString());
+                                                  print("subCategories"+_subsIds.toString());
+                                                  print("cityId"+cityValue.toString());
+                                                  print("regions"+_regionsIds.toString());*/
 
                                                   Navigator.of(context).push(
                                                     new MaterialPageRoute(
@@ -923,8 +1020,10 @@ class _SearchCardState extends State<SearchCard> {
                                                               context) =>
                                                           new AdvancedSearch(
                                                         categoryId: catValue,
+                                                        catHint: catHint,
                                                         subCategories: _subsIds,
                                                         cityId: cityValue,
+                                                        cityHint: cityHint,
                                                         regions: _regionsIds,
                                                         sortBy: 1,
                                                       ),
@@ -955,23 +1054,9 @@ class _SearchCardState extends State<SearchCard> {
                                               ),
                                             )
                                           ],
-                                        );
-                                      } catch (e) {
-                                        print(e.toString());
-                                        return Container(
-                                          child: Center(
-                                            child: Text(
-                                              'لا يوجد معلومات عن محرك البحث حالياً',
-                                              style: TextStyle(
-                                                fontFamily: "CustomIcons",
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      }
-                                    }
-                                  },
-                                ),
+                                        )
+
+
                               ),
                             ),
                           ],
@@ -984,7 +1069,6 @@ class _SearchCardState extends State<SearchCard> {
             ),
           ],
         );
-      },
-    );
+
   }
 }

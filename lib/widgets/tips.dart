@@ -27,7 +27,7 @@ class _TipsState extends State<Tips> {
   List<System> tips;
 
   Future<List<System>> _getTips() async {
-    var tipsResponse = await http.get('https://iraqibayt.com/api/tips');
+    var tipsResponse = await http.get(Uri.parse('https://iraqibayt.com/api/tips'));
     var tipsData = json.decode(tipsResponse.body);
     System tSystem;
     tips = [];

@@ -626,18 +626,12 @@ class _ProfileState extends State<Profile> {
             icon: Icon(Icons.menu_book),
             label: 'الإعلانات',
           ),
-          new BottomNavigationBarItem(
-              icon: Icon(Icons.post_add),
-              label: 'أضف إعلان'
-          ),
+
           new BottomNavigationBarItem(
               icon: Icon(MyIcons.user),
               label: 'حسابي'
           ),
-          new BottomNavigationBarItem(
-              icon: Icon(Icons.mail),
-              label: 'ملاحظات'
-          ),
+
           new BottomNavigationBarItem(
               icon: Icon(Icons.message),
               label: 'الرسائل'
@@ -658,24 +652,16 @@ class _ProfileState extends State<Profile> {
         new MaterialPageRoute(
             builder: (BuildContext context) => new Posts_Home()),
       );
-    }else if(index == 2){
-      Navigator.of(context).push(
-        new MaterialPageRoute(
-            builder: (BuildContext context) => new Add_Post()),
-      );
     }else if(index == 0){
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Home()));
-    }else if(index == 3){
+    }else if(index == 2){
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new MyAccount()));
-    }else if(index == 4){
-      Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new ContactUs()));
-    }else if (index == 5) {
+    }else if (index == 3) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Chats()));
-    } else if (index == 6) {
+    } else if (index == 4) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Notifications()));
     }

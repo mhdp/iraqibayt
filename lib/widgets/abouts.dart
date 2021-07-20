@@ -27,7 +27,7 @@ class _AboutsState extends State<Abouts> {
   List<About> abouts;
 
   Future<List<About>> _getAbouts() async {
-    var aboutsResponse = await http.get('https://iraqibayt.com/getAbouts');
+    var aboutsResponse = await http.get(Uri.parse('https://iraqibayt.com/getAbouts'));
     var aboutsData = json.decode(aboutsResponse.body);
     About tAbout;
     abouts = [];

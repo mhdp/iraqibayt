@@ -29,7 +29,7 @@ class _Privcy extends State<Privcy> {
   List pages_list = List();
 
   Future<List<Statistic>> _getdata() async {
-    var statisticsResponse = await http.get('https://iraqibayt.com/api/pages_api');
+    var statisticsResponse = await http.get(Uri.parse('https://iraqibayt.com/api/pages_api'));
     var responce = json.decode(statisticsResponse.body);
     setState(() {
       pages_list = responce;

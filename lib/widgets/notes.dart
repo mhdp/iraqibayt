@@ -22,7 +22,7 @@ class _NotesState extends State<Notes> {
   List<Note> notes = [];
 
   Future<List<Note>> _getNotes() async {
-    var notesResponse = await http.get('https://iraqibayt.com/Info');
+    var notesResponse = await http.get(Uri.parse('https://iraqibayt.com/Info'));
     var notesData = json.decode(notesResponse.body);
     Note tNote;
     notes = [];

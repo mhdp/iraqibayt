@@ -105,6 +105,8 @@ PODS:
     - Flutter
   - flutter_open_whatsapp (0.0.1):
     - Flutter
+  - flutter_share_me (0.0.1):
+    - Flutter
   - google_sign_in (0.0.1):
     - Flutter
     - GoogleSignIn (~> 5.0)
@@ -161,7 +163,7 @@ PODS:
   - Mantle (2.1.6):
     - Mantle/extobjc (= 2.1.6)
   - Mantle/extobjc (2.1.6)
-  - multi_image_picker (4.7.14):
+  - multi_image_picker (4.7.15):
     - BSImagePicker (~> 2.10.3)
     - Flutter
   - nanopb (1.30906.0):
@@ -204,6 +206,7 @@ DEPENDENCIES:
   - flutter_image_compress (from `.symlinks/plugins/flutter_image_compress/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_open_whatsapp (from `.symlinks/plugins/flutter_open_whatsapp/ios`)
+  - flutter_share_me (from `.symlinks/plugins/flutter_share_me/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - image_viewer (from `.symlinks/plugins/image_viewer/ios`)
   - multi_image_picker (from `.symlinks/plugins/multi_image_picker/ios`)
@@ -268,6 +271,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_open_whatsapp:
     :path: ".symlinks/plugins/flutter_open_whatsapp/ios"
+  flutter_share_me:
+    :path: ".symlinks/plugins/flutter_share_me/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
   image_viewer:
@@ -315,6 +320,7 @@ SPEC CHECKSUMS:
   flutter_image_compress: 082f8daaf6c1b0c9fe798251c750ef0ecd98d7ae
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_open_whatsapp: 4b54cd5403cfe53414e4252fd52fc27f79635f58
+  flutter_share_me: dd04bcb65a595f76bd2fa0537df08fffc5a04903
   google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
   GoogleAppMeasurement: 966e88df9d19c15715137bb2ddaf52373f111436
   GoogleDataTransport: f56af7caa4ed338dc8e138a5d7c5973e66440833
@@ -325,7 +331,7 @@ SPEC CHECKSUMS:
   image_viewer: 3ff6248139d02dd4e15d4329bb36c69f00e615e2
   libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
   Mantle: 4c0ed6ce47c96eccc4dc3bb071deb3def0e2c3be
-  multi_image_picker: c068931d08240565e0615fb01437d16984909183
+  multi_image_picker: 58577ab96d99b35c82d626db7d81906d14c2b667
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f

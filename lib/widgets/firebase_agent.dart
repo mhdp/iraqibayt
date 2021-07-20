@@ -15,7 +15,7 @@ class FirebaseAgent extends StatefulWidget {
 
 class _FirebaseAgentState extends State<FirebaseAgent> {
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   DatabaseHelper databaseHelper = new DatabaseHelper();
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =

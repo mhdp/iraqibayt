@@ -27,7 +27,7 @@ class _SystemsState extends State<Systems> {
   List<System> systems;
 
   Future<List<System>> _getSystems() async {
-    var systemsResponse = await http.get('https://iraqibayt.com/api/systems');
+    var systemsResponse = await http.get(Uri.parse('https://iraqibayt.com/api/systems'));
     var systemsData = json.decode(systemsResponse.body);
     System tSystem;
     systems = [];

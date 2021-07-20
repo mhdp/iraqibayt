@@ -84,7 +84,7 @@ class _UpdatePost extends State<UpdatePost> {
     String url = "https://iraqibayt.com/getCategories";
 
     var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+        .get(Uri.parse(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
 
     setState(() {
@@ -100,7 +100,7 @@ class _UpdatePost extends State<UpdatePost> {
     String url = "https://iraqibayt.com/subcategories/$cat_id/fromCat";
 
     var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+        .get(Uri.parse(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
 
     setState(() {
@@ -117,7 +117,7 @@ class _UpdatePost extends State<UpdatePost> {
     String url = "https://iraqibayt.com/getCities";
 
     var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+        .get(Uri.parse(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
 
     setState(() {
@@ -133,7 +133,7 @@ class _UpdatePost extends State<UpdatePost> {
     String url = "https://iraqibayt.com/city/region/$city_id/all_list";
 
     var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+        .get(Uri.parse(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
 
     setState(() {
@@ -149,7 +149,7 @@ class _UpdatePost extends State<UpdatePost> {
     String url = "https://iraqibayt.com/getUnits";
 
     var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+        .get(Uri.parse(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
 
     setState(() {
@@ -165,7 +165,7 @@ class _UpdatePost extends State<UpdatePost> {
     String url = "https://iraqibayt.com/getCurrancies";
 
     var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+        .get(Uri.parse(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
 
     setState(() {
@@ -442,7 +442,7 @@ class _UpdatePost extends State<UpdatePost> {
 // create a new file in temporary path with random file name.
     File file = new File('$tempPath'+ (rng.nextInt(100)).toString() +'.jpg');
 // call http.get method and pass imageUrl into it to get response.
-    http.Response response = await http.get("https://iraqibayt.com/storage/app/public/posts/$imageUrl");
+    http.Response response = await http.get(Uri.parse("https://iraqibayt.com/storage/app/public/posts/$imageUrl"));
 // write bodyBytes received in response to file.
     await file.writeAsBytes(response.bodyBytes);
 // now return the file which is created with random name in

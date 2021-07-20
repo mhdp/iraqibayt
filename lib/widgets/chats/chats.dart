@@ -15,6 +15,8 @@ import 'package:iraqibayt/widgets/posts/posts_home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+import '../my_account.dart';
+
 class Chats extends StatefulWidget {
   @override
   _ChatsState createState() => _ChatsState();
@@ -49,7 +51,7 @@ class _ChatsState extends State<Chats> {
       User tUser;
 
       var res = await http.post(
-          'https://iraqibayt.com/api/chats/users/get_interseted_users',
+          Uri.parse('https://iraqibayt.com/api/chats/users/get_interseted_users'),
           body: data);
       var body = json.decode(res.body);
       print(body);
@@ -80,9 +82,9 @@ class _ChatsState extends State<Chats> {
 
     try {
       var res = await http.post(
-          'https://iraqibayt.com/api/chats/users/' +
+          Uri.parse('https://iraqibayt.com/api/chats/users/' +
               uid +
-              '/get_unread_msgs_count',
+              '/get_unread_msgs_count'),
           body: data);
       //print(res.body);
       //print('sending...');
@@ -339,7 +341,7 @@ class _ChatsState extends State<Chats> {
         unselectedItemColor: Colors.white,
         selectedItemColor: Color(0xFFdd685f),
         onTap: onTabTapped, // new
-        currentIndex: 5,
+        currentIndex: 3,
         type: BottomNavigationBarType.fixed, // new
         items: [
           new BottomNavigationBarItem(
@@ -350,10 +352,8 @@ class _ChatsState extends State<Chats> {
             icon: Icon(Icons.menu_book),
             label: 'الإعلانات',
           ),
-          new BottomNavigationBarItem(
-              icon: Icon(Icons.post_add), label: 'أضف إعلان'),
+
           new BottomNavigationBarItem(icon: Icon(MyIcons.user), label: 'حسابي'),
-          new BottomNavigationBarItem(icon: Icon(Icons.mail), label: 'ملاحظات'),
           new BottomNavigationBarItem(
               icon: Icon(Icons.message), label: 'الرسائل'),
           new BottomNavigationBarItem(
@@ -369,21 +369,13 @@ class _ChatsState extends State<Chats> {
         new MaterialPageRoute(
             builder: (BuildContext context) => new Posts_Home()),
       );
-    } else if (index == 2) {
-      Navigator.of(context).push(
-        new MaterialPageRoute(
-            builder: (BuildContext context) => new Add_Post()),
-      );
     } else if (index == 0) {
       Navigator.of(context).push(
           new MaterialPageRoute(builder: (BuildContext context) => new Home()));
+    } else if (index == 2) {
+      Navigator.of(context).push(new MaterialPageRoute(
+          builder: (BuildContext context) => new MyAccount()));
     } else if (index == 4) {
-      Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new ContactUs()));
-    } else if (index == 5) {
-      Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new Chats()));
-    } else if (index == 6) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Notifications()));
     }

@@ -49,7 +49,7 @@ class _AdvancedSearchCardState extends State<AdvancedSearchCard> {
 
   Future<Map<String, List<Object>>> _getSearchData() async {
     //Fetching Cities Data
-    var citiesResponse = await http.get('https://iraqibayt.com/getCities');
+    var citiesResponse = await http.get(Uri.parse('https://iraqibayt.com/getCities'));
     var citiesData = json.decode(citiesResponse.body);
     Map<String, List<Object>> searchDataMap = new Map<String, List<Object>>();
     _cities = [];
@@ -64,7 +64,7 @@ class _AdvancedSearchCardState extends State<AdvancedSearchCard> {
 
     //Fetching Categories Data
     var categoriesResponse =
-        await http.get('https://iraqibayt.com/getCategories');
+        await http.get(Uri.parse('https://iraqibayt.com/getCategories'));
     var categoriesData = json.decode(categoriesResponse.body);
     _categories = [];
     Category tCategory;

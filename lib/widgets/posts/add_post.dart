@@ -21,6 +21,7 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../ContactUs.dart';
 import '../my_icons_icons.dart';
 import '../profile.dart';
@@ -97,7 +98,7 @@ class _Add_Post extends State<Add_Post> {
     String url = "https://iraqibayt.com/getCategories";
 
     var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+        .get(Uri.parse(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
 
     setState(() {
@@ -113,7 +114,7 @@ class _Add_Post extends State<Add_Post> {
     String url = "https://iraqibayt.com/subcategories/$cat_id/fromCat";
 
     var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+        .get(Uri.parse(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
 
     setState(() {
@@ -130,7 +131,7 @@ class _Add_Post extends State<Add_Post> {
     String url = "https://iraqibayt.com/getCities";
 
     var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+        .get(Uri.parse(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
 
     setState(() {
@@ -146,7 +147,7 @@ class _Add_Post extends State<Add_Post> {
     String url = "https://iraqibayt.com/city/region/$city_id/all_list";
 
     var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+        .get(Uri.parse(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
 
     setState(() {
@@ -162,7 +163,7 @@ class _Add_Post extends State<Add_Post> {
     String url = "https://iraqibayt.com/getUnits";
 
     var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+        .get(Uri.parse(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
 
     setState(() {
@@ -178,7 +179,7 @@ class _Add_Post extends State<Add_Post> {
     String url = "https://iraqibayt.com/getCurrancies";
 
     var res = await http
-        .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
+        .get(Uri.parse(url), headers: {"Accept": "application/json"});
     var resBody = json.decode(res.body);
 
     setState(() {
@@ -1820,7 +1821,7 @@ class _Add_Post extends State<Add_Post> {
                                               hintText: "رقم الاتصال"),
                                         ),
                                       ),
-                                      Padding(
+                                      /*Padding(
                                         padding: const EdgeInsets.all(10.0),
                                         child: Text('يمكن التواصل عن طريق'),
                                       ),
@@ -1946,7 +1947,7 @@ class _Add_Post extends State<Add_Post> {
                                                     ],
                                                   ),
                                                 ),
-                                              ])),
+                                              ])),*/
                                     ])),
 
                             _submit_signup_Button(),
@@ -1957,7 +1958,7 @@ class _Add_Post extends State<Add_Post> {
         unselectedItemColor: Colors.white,
         selectedItemColor: Color(0xFFdd685f),
         onTap: onTabTapped, // new
-        currentIndex: 2,
+        //currentIndex: 2,
         type: BottomNavigationBarType.fixed, // new
         items: [
           new BottomNavigationBarItem(
@@ -1968,10 +1969,8 @@ class _Add_Post extends State<Add_Post> {
             icon: Icon(Icons.menu_book),
             label: 'الإعلانات',
           ),
-          new BottomNavigationBarItem(
-              icon: Icon(Icons.post_add), label: 'أضف إعلان'),
+
           new BottomNavigationBarItem(icon: Icon(MyIcons.user), label: 'حسابي'),
-          new BottomNavigationBarItem(icon: Icon(Icons.mail), label: 'ملاحظات'),
           new BottomNavigationBarItem(
               icon: Icon(Icons.message),
               label: 'الرسائل'
@@ -1981,6 +1980,17 @@ class _Add_Post extends State<Add_Post> {
               label: 'الإشعارات'
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          String _url = 'https://api.whatsapp.com/send?phone=9647802722141&text=IB';
+
+
+          await canLaunch(_url) ? await launch(_url) : throw 'Could not launch $_url';
+
+        },
+        child: const Icon(MyIcons.whatsapp),
+        backgroundColor: Colors.green,
       ),
     );
   }
@@ -1995,16 +2005,13 @@ class _Add_Post extends State<Add_Post> {
         new MaterialPageRoute(
             builder: (BuildContext context) => new Posts_Home()),
       );
-    } else if (index == 3) {
+    } else if (index == 2) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new MyAccount()));
-    } else if (index == 4) {
-      Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new ContactUs()));
-    }else if (index == 5) {
+    } else if (index == 3) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Chats()));
-    } else if (index == 6) {
+    } else if (index == 4) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Notifications()));
     }
@@ -2467,7 +2474,7 @@ class _Add_Post extends State<Add_Post> {
       ..add(MapEntry("level", "0"))
       ..add(MapEntry("type", "سكني"))
       ..add(MapEntry("img", ""))
-      ..add(MapEntry("call", '${phone.toString()}'))
+      ..add(MapEntry("call", 'true'))
       ..add(MapEntry("whatsapp", '${whatsapp.toString()}'))
       ..add(MapEntry("telegram", '${telegram.toString()}'))
       ..add(MapEntry("viber", '${viber.toString()}'));

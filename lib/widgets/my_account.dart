@@ -244,7 +244,7 @@ class _MyAccountState extends State<MyAccount> {
         unselectedItemColor: Colors.white,
         selectedItemColor: Color(0xFFdd685f),
         onTap: onTabTapped, // new
-        currentIndex: 3,
+        currentIndex: 2,
         type: BottomNavigationBarType.fixed, // new
         items: [
           new BottomNavigationBarItem(
@@ -255,10 +255,8 @@ class _MyAccountState extends State<MyAccount> {
             icon: Icon(Icons.menu_book),
             label: 'الإعلانات',
           ),
-          new BottomNavigationBarItem(
-              icon: Icon(Icons.post_add), label: 'أضف إعلان'),
+
           new BottomNavigationBarItem(icon: Icon(MyIcons.user), label: 'حسابي'),
-          new BottomNavigationBarItem(icon: Icon(Icons.mail), label: 'ملاحظات'),
           new BottomNavigationBarItem(
               icon: Icon(Icons.message),
               label: 'الرسائل'
@@ -279,21 +277,13 @@ class _MyAccountState extends State<MyAccount> {
         new MaterialPageRoute(
             builder: (BuildContext context) => new Posts_Home()),
       );
-    } else if (index == 2) {
-      Navigator.of(context).push(
-        new MaterialPageRoute(
-            builder: (BuildContext context) => new Add_Post()),
-      );
     } else if (index == 0) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Home()));
-    } else if (index == 4) {
-      Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new ContactUs()));
-    }else if (index == 5) {
+    } else if (index == 3) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Chats()));
-    } else if (index == 6) {
+    } else if (index == 4) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Notifications()));
     }

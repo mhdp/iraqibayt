@@ -120,7 +120,7 @@ class _Welcome extends State<Welcome> {
     print(result.accessToken);
     final String token = result.accessToken.token;
     final response = await http.get(
-        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
+        Uri.parse('https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}'));
     final profile = jsonDecode(response.body);
     print(profile);
 

@@ -30,9 +30,13 @@ class _CurrenciesState extends State<Currencies> {
   List<ICurrency> _icurrencies, _rICurs;
   List<Exchange> _localExchanges = [];
 
+  var is_load = true;
+
   Future<Map<String, List<Object>>> _getInterExc() async {
-    var iExcResponse = await http.get('https://iraqibayt.com/api/openExchange');
+
+    var iExcResponse = await http.get(Uri.parse('https://iraqibayt.com/api/openExchange'));
     var iExcData = json.decode(iExcResponse.body);
+    print(iExcResponse.body);
     Map<String, List<Object>> dataMap = new Map<String, List<Object>>();
     Currency tCurrency;
     ICurrency tiCurrency;
@@ -40,30 +44,39 @@ class _CurrenciesState extends State<Currencies> {
     _currencies = [];
     int index = 0;
 
-    iExcData['result'].forEach((key, value) {
-      tiCurrency =
-          ICurrency(id: index, shortName: key, forOneDollar: value.toDouble());
-      //print(tiCurrency.forOneDollar);
-      _icurrencies.add(tiCurrency);
-    });
+
 
     for (var cur in iExcData['curs']) {
       tCurrency = Currency.fromJson(cur);
       //print(tCurrency.shortName);
       _currencies.add(tCurrency);
     }
+    iExcData['result'].forEach((key, value) {
+      tiCurrency =
+          ICurrency(id: index, shortName: key, forOneDollar: value.toDouble());
+      //print(tiCurrency.forOneDollar);
+      if(_getCurName(tiCurrency,_currencies) != null && _getCurName(tiCurrency,_currencies) != '' && _getCurName(tiCurrency,_currencies).isNotEmpty)
+      {
+        _icurrencies.add(tiCurrency);
+      }
+
+    });
     //print('icurrencies length is : ' + _icurrencies.length.toString());
     //print('currencies length is : ' + _currencies.length.toString());
 
-    dataMap.putIfAbsent('ic_list', () => _icurrencies);
-    dataMap.putIfAbsent('c_list', () => _currencies);
+    //dataMap.putIfAbsent('ic_list', () => _icurrencies);
+    //dataMap.putIfAbsent('c_list', () => _currencies);
 
-    return dataMap;
+    //return dataMap;
+
+    setState(() {
+      is_load = false;
+    });
   }
 
   Future<String> _getExcHeader() async {
     String headerData;
-    var response = await http.get('https://iraqibayt.com/api/excHeader');
+    var response = await http.get(Uri.parse('https://iraqibayt.com/api/excHeader'));
     var data = json.decode(response.body);
     headerData = json.encode(data);
 
@@ -76,7 +89,7 @@ class _CurrenciesState extends State<Currencies> {
   }
 
   Future<List<Exchange>> _getLocalExc() async {
-    var excResponse = await http.get('https://iraqibayt.com/api/localExchange');
+    var excResponse = await http.get(Uri.parse('https://iraqibayt.com/api/localExchange'));
     var excData = json.decode(excResponse.body);
 
     Exchange tExc;
@@ -115,7 +128,7 @@ class _CurrenciesState extends State<Currencies> {
   void initState() {
     super.initState();
 
-    //_getCurrencies();
+    _getInterExc();
   }
 
   @override
@@ -177,7 +190,7 @@ class _CurrenciesState extends State<Currencies> {
                         children: <Widget>[
                           Expanded(
                             child: Html(
-                              data: snapshot.data,
+                              data: snapshot.data.toString().replaceAll("t\\", "").replaceAll("\\t", ""),
                               style: {
                                 'body': Style(
                                   fontSize: FontSize(16.0),
@@ -317,40 +330,15 @@ class _CurrenciesState extends State<Currencies> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                content: FutureBuilder(
-                    future: _getInterExc(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<Map<String, List<Object>>> snapshot) {
-                      if (snapshot.data == null) {
-                        return Container(
+                content: SingleChildScrollView(
+    child: is_load?
+                         Container(
                           height: 100,
                           child: Center(
                             child: new CircularProgressIndicator(),
                           ),
-                        );
-                      } else {
-                        Map<String, List<Object>> receivedMap =
-                            Map.from(snapshot.data);
-                        var keysList = receivedMap.keys.toList();
-                        _rICurs = receivedMap[keysList[0]];
-                        _rCurs = receivedMap[keysList[1]];
-
-                        var toRemove = [];
-                        //Filtering _rICurs :
-                        _rICurs.forEach((icur) {
-                          if (!_isInCurs(icur, _rCurs)) toRemove.add(icur);
-                        });
-                        _rICurs.removeWhere(
-                            (element) => toRemove.contains(element));
-                        _rICurs.removeWhere(
-                            (element) => element.shortName == 'USD');
-
-                        //Replace shortName with fullName :
-                        _rICurs.forEach((icur) {
-                          icur.shortName = _getCurName(icur, _rCurs);
-                        });
-
-                        return DataTable(
+                        ):
+                        DataTable(
                           columns: <DataColumn>[
                             DataColumn(
                               label: Text(
@@ -375,13 +363,15 @@ class _CurrenciesState extends State<Currencies> {
                               ),
                             ),
                           ],
-                          rows: _rICurs.map(
+                          rows: _icurrencies.map(
                             (icur) {
+
                               return DataRow(
                                 cells: <DataCell>[
                                   DataCell(
                                     Text(
-                                      icur.shortName,
+                                      _getCurName(icur,_currencies),
+
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontFamily: "CustomIcons",
@@ -403,9 +393,9 @@ class _CurrenciesState extends State<Currencies> {
                               );
                             },
                           ).toList(),
-                        );
-                      }
-                    }),
+                        )
+
+                    ),
               ),
             )
           ],

@@ -58,9 +58,9 @@ class _CommentsState extends State<Comments> {
   }
 
   Future _getPostComments() async {
-    var commentsResponse = await http.get('https://iraqibayt.com/api/posts/' +
+    var commentsResponse = await http.get(Uri.parse('https://iraqibayt.com/api/posts/' +
         widget.postId.toString() +
-        '/comments/all');
+        '/comments/all'));
     var commentsData = json.decode(commentsResponse.body);
     Comment tComment;
     _comments = [];

@@ -19,6 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../ContactUs.dart';
+import '../my_account.dart';
 import '../profile.dart';
 import 'add_post.dart';
 
@@ -120,7 +121,7 @@ class _Spical_page extends State<Spical_page> {
         unselectedItemColor: Colors.white,
         selectedItemColor: Colors.white,
         onTap: onTabTapped, // new
-        currentIndex: 1,
+        //currentIndex: 1,
         type: BottomNavigationBarType.fixed, // new
         items: [
           new BottomNavigationBarItem(
@@ -131,10 +132,8 @@ class _Spical_page extends State<Spical_page> {
             icon: Icon(Icons.menu_book),
             label: 'الإعلانات',
           ),
-          new BottomNavigationBarItem(
-              icon: Icon(Icons.post_add), label: 'أضف إعلان'),
+
           new BottomNavigationBarItem(icon: Icon(MyIcons.user), label: 'حسابي'),
-          new BottomNavigationBarItem(icon: Icon(Icons.mail), label: 'ملاحظات'),
           new BottomNavigationBarItem(
               icon: Icon(Icons.message),
               label: 'الرسائل'
@@ -159,20 +158,12 @@ class _Spical_page extends State<Spical_page> {
             builder: (BuildContext context) => new Posts_Home()),
       );
     }else if (index == 2) {
-      Navigator.of(context).push(
-        new MaterialPageRoute(
-            builder: (BuildContext context) => new Add_Post()),
-      );
-    } else if (index == 3) {
       Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new Profile()));
-    } else if (index == 4) {
-      Navigator.of(context).push(new MaterialPageRoute(
-          builder: (BuildContext context) => new ContactUs()));
-    }else if (index == 5) {
+          builder: (BuildContext context) => new MyAccount()));
+    }else if (index == 3) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Chats()));
-    } else if (index == 6) {
+    } else if (index == 4) {
       Navigator.of(context).push(new MaterialPageRoute(
           builder: (BuildContext context) => new Notifications()));
     }

@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:iraqibayt/modules/Exchange.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ExchangeCard extends StatefulWidget {
   @override
@@ -17,11 +18,35 @@ class _ExchangeCardState extends State<ExchangeCard> {
   TextEditingController _toController;
   double _priceFactor;
 
+  getCachedData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'Exchange';
+    final is_cities = prefs.get(key) ?? 0;
+
+
+
+    if (is_cities != 0) {
+
+      print ("get saved Exchange data");
+
+      var exc = json.decode(is_cities);
+
+      _exchange = Exchange.fromJson(exc);
+
+      return _exchange;
+    }
+  }
+
   Future<Exchange> _getExchange() async {
-    var excResponse = await http.get('https://iraqibayt.com/getExchange');
+    var excResponse = await http.get(Uri.parse('https://iraqibayt.com/getExchange'));
     var exc = json.decode(excResponse.body);
 
     _exchange = Exchange.fromJson(exc);
+
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'Exchange';
+
+    prefs.setString(key, excResponse.body);
 
     return _exchange;
   }
@@ -31,6 +56,8 @@ class _ExchangeCardState extends State<ExchangeCard> {
     super.initState();
     _fromController = TextEditingController();
     _toController = TextEditingController();
+
+    _getExchange();
   }
 
   @override
@@ -87,7 +114,7 @@ class _ExchangeCardState extends State<ExchangeCard> {
                             Expanded(
                               child: Container(
                                 child: FutureBuilder(
-                                  future: _getExchange(),
+                                  future: getCachedData(),
                                   builder: (BuildContext context,
                                       AsyncSnapshot snapshot) {
 //                if (snapshot.hasError) return Text('Error: ${snapshot.error}');
