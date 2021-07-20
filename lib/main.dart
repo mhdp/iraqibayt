@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,11 +30,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:iraqibayt/widgets/notes.dart';
 import 'package:iraqibayt/widgets/currencies.dart';
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((value) => runApp(MyApp()));
+  Firebase.initializeApp().whenComplete((){
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+        .then((value) => runApp(MyApp()));
+  });
+
 }
 
 class MyApp extends StatelessWidget {

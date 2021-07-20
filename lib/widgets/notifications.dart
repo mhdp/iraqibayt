@@ -283,7 +283,7 @@ class _NotificationsState extends State<Notifications> {
                                                 leading: CircleAvatar(
                                                   radius: 30,
                                                   backgroundImage: NetworkImage(
-                                                      'https://iraqibayt.com/storage/app/public/posts/5fb68c6700069.jpeg'),
+                                                      'https://iraqibayt.com/storage/app/public/posts/60b32311daad4.webp'),
                                                 ),
                                                 title: Text(
                                                   _rNotifications[index]

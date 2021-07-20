@@ -16,6 +16,9 @@ class FirebaseAgent extends StatefulWidget {
 class _FirebaseAgentState extends State<FirebaseAgent> {
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
+  NotificationSettings fcmSettings;
+
   DatabaseHelper databaseHelper = new DatabaseHelper();
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -220,7 +223,7 @@ class _FirebaseAgentState extends State<FirebaseAgent> {
     prefs.setString(key, receivedId);
   }
 
-  void initializeNotificationsConfigs() {
+  void initializeNotificationsConfigs() async{
     var initializationSettingsAndroid =
     new AndroidInitializationSettings('@mipmap/logo');
     var initializationSettingsIOS = new IOSInitializationSettings();
@@ -230,135 +233,88 @@ class _FirebaseAgentState extends State<FirebaseAgent> {
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: onSelectNotification);
 
-    _firebaseMessaging.configure(
-      onMessage: (Map<String , dynamic> message) async {
-
-        showNotification(
-            message['notification']['title'], message['notification']['body']);
-
-        print("onMessage: $message");
-
-        setState(() {
-          notificationRouteType = message['data']['type'];
-          notificationID = message['data']['notification_id'];
-
-          switch(message['data']['type'])
-          {
-            case 'local': if(message['data']['url'] != '#')
-            {
-              print('this a private notification from iraqiBayt website');
-
-              setState(() {
-                notificationUrl = message['data']['url'];
-              });
-            }
-            break;
-
-            case 'global': if(message['data']['url'] != '#')
-            {
-              setState(() {
-                notificationUrl = message['data']['url'];
-              });
-            }
-            break;
-
-            case 'comment': if(message['data']['post_id'] != null)
-            {
-              setState(() {
-                notificationPostID = message['data']['post_id'];
-              });
-            }
-            break;
-
-            case 'favourite': if(message['data']['post_id'] != null)
-            {
-              setState(() {
-                notificationPostID = message['data']['post_id'];
-              });
-            }
-            break;
-
-            case 'chat': if(message['data']['message_id'] != null)
-            {
-              print(context.widget.toStringShort());
-
-              setState(() {
-                notificationMessageID = message['data']['message_id'];
-                notificationUserID = message['data']['sender_id'];
-                notificationSenderName = message['data']['sender_name'];
-              });
-            }
-            break;
-          }
-        });
-
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-
-        print('on Launch section entered !!!!');
-
-        if(message['data']['type'] != 'chat' && !await checkIfDuplicatedNotification('last_notification_id' , message['data']['notification_id'])
-            || message['data']['type'] == 'chat' && !await checkIfDuplicatedNotification('last_message_id' , message['data']['message_id']))
-        {
-          if(message['data']['type'] == 'chat')
-          {
-            setLastNotificationId('last_message_id' , message['data']['message_id']).whenComplete(() {
-              print("onResume: $message");
-              setState(() {
-                // notificationID = message['data']['notification_id'];
-                _backgroundNotificationRouter(message);
-              });
-
-            });
-          }
-          else
-          {
-            setLastNotificationId('last_notification_id' , message['data']['notification_id']).whenComplete(() {
-              print("onResume: $message");
-              setState(() {
-                // notificationID = message['data']['notification_id'];
-                _backgroundNotificationRouter(message);
-              });
-
-            });
-          }
-
-        }
-      },
-      onResume: (Map<String, dynamic> message) async {
-
-        print('on Resume section entered !!!!');
-
-        if(message['data']['type'] != 'chat' && !await checkIfDuplicatedNotification('last_notification_id' , message['data']['notification_id'])
-            || message['data']['type'] == 'chat' && !await checkIfDuplicatedNotification('last_message_id' , message['data']['message_id']))
-        {
-          if(message['data']['type'] == 'chat')
-          {
-            setLastNotificationId('last_message_id' , message['data']['message_id']).whenComplete(() {
-              print("onResume: $message");
-              setState(() {
-                // notificationID = message['data']['notification_id'];
-                _backgroundNotificationRouter(message);
-              });
-
-            });
-          }
-          else
-          {
-            setLastNotificationId('last_notification_id' , message['data']['notification_id']).whenComplete(() {
-              print("onResume: $message");
-              setState(() {
-                // notificationID = message['data']['notification_id'];
-                _backgroundNotificationRouter(message);
-              });
-
-            });
-          }
-
-        }
-
-      },
+    fcmSettings = await _firebaseMessaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
     );
+
+    print('User granted permission: ${fcmSettings.authorizationStatus}');
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
+
+      showNotification(
+          message.notification.title, message.notification.body);
+
+      print("onMessage: $message");
+
+      setState(() {
+        notificationRouteType = message.data['type'];
+        notificationID = message.data['notification_id'];
+
+        switch(message.data['type'])
+        {
+          case 'local': if(message.data['url'] != '#')
+          {
+            print('this a private notification from iraqiBayt website');
+
+            setState(() {
+              notificationUrl = message.data['url'];
+            });
+          }
+          break;
+
+          case 'global': if(message.data['url'] != '#')
+          {
+            setState(() {
+              notificationUrl = message.data['url'];
+            });
+          }
+          break;
+
+          case 'comment': if(message.data['post_id'] != null)
+          {
+            setState(() {
+              notificationPostID = message.data['post_id'];
+            });
+          }
+          break;
+
+          case 'favourite': if(message.data['post_id'] != null)
+          {
+            setState(() {
+              notificationPostID = message.data['post_id'];
+            });
+          }
+          break;
+
+          case 'chat': if(message.data['message_id'] != null)
+          {
+            print(context.widget.toStringShort());
+
+            setState(() {
+              notificationMessageID = message.data['message_id'];
+              notificationUserID = message.data['sender_id'];
+              notificationSenderName = message.data['sender_name'];
+            });
+          }
+          break;
+        }
+      });
+
+
+      if (message.notification != null) {
+        print('Message also contained a notification: ${message.notification}');
+      }
+    });
+
+
 
   }
 

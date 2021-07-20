@@ -251,151 +251,224 @@ class UserChatState extends State<UserChat> {
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: onSelectNotification);
 
-    _firebaseMessaging.configure(
-      onMessage: (Map<String , dynamic> message) async {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Got a message whilst in the foreground!');
+      print('Message data: ${message.data}');
 
-        if(message['data']['type'] != 'chat')
-          {
-            showNotification(
-                message['notification']['title'], message['notification']['body']);
-          }
+      showNotification(
+          message.notification.title, message.notification.body);
 
-        print("onMessage: $message");
+      print("onMessage: $message");
 
-        setState(() {
-          notificationRouteType = message['data']['type'];
-          notificationID = message['data']['notification_id'];
+      setState(() {
+        notificationRouteType = message.data['type'];
+        notificationID = message.data['notification_id'];
 
-          switch(message['data']['type'])
-          {
-            case 'local': if(message['data']['url'] != '#')
-            {
-              print('this a private notification from iraqiBayt website');
-
-              setState(() {
-                notificationUrl = message['data']['url'];
-              });
-            }
-            break;
-
-            case 'global': if(message['data']['url'] != '#')
-            {
-              setState(() {
-                notificationUrl = message['data']['url'];
-              });
-            }
-            break;
-
-            case 'comment': if(message['data']['post_id'] != null)
-            {
-              setState(() {
-                notificationPostID = message['data']['post_id'];
-              });
-            }
-            break;
-
-            case 'favourite': if(message['data']['post_id'] != null)
-            {
-              setState(() {
-                notificationPostID = message['data']['post_id'];
-              });
-            }
-            break;
-
-            case 'chat': if(message['data']['message_id'] != null)
-            {
-              print(context.widget.toStringShort());
-
-              setState(() {
-                notificationMessageID = message['data']['message_id'];
-                notificationUserID = message['data']['sender_id'];
-                notificationSenderName = message['data']['sender_name'];
-              });
-
-                refreshChat();
-
-            }
-            break;
-          }
-        });
-
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-
-        print('on Launch section entered !!!!');
-
-        if(message['data']['type'] != 'chat' && !await checkIfDuplicatedNotification('last_notification_id' , message['data']['notification_id'])
-            || message['data']['type'] == 'chat' && !await checkIfDuplicatedNotification('last_message_id' , message['data']['message_id']))
+        switch(message.data['type'])
         {
-          if(message['data']['type'] == 'chat')
+          case 'local': if(message.data['url'] != '#')
           {
-            setLastNotificationId('last_message_id' , message['data']['message_id']).whenComplete(() {
-              print("onResume: $message");
-              setState(() {
-                // notificationID = message['data']['notification_id'];
-                _backgroundNotificationRouter(message);
-              });
+            print('this a private notification from iraqiBayt website');
 
+            setState(() {
+              notificationUrl = message.data['url'];
             });
           }
-          else
-          {
-            setLastNotificationId('last_notification_id' , message['data']['notification_id']).whenComplete(() {
-              print("onResume: $message");
-              setState(() {
-                // notificationID = message['data']['notification_id'];
-                _backgroundNotificationRouter(message);
-              });
+          break;
 
+          case 'global': if(message.data['url'] != '#')
+          {
+            setState(() {
+              notificationUrl = message.data['url'];
             });
           }
+          break;
 
+          case 'comment': if(message.data['post_id'] != null)
+          {
+            setState(() {
+              notificationPostID = message.data['post_id'];
+            });
+          }
+          break;
+
+          case 'favourite': if(message.data['post_id'] != null)
+          {
+            setState(() {
+              notificationPostID = message.data['post_id'];
+            });
+          }
+          break;
+
+          case 'chat': if(message.data['message_id'] != null)
+          {
+            print(context.widget.toStringShort());
+
+            setState(() {
+              notificationMessageID = message.data['message_id'];
+              notificationUserID = message.data['sender_id'];
+              notificationSenderName = message.data['sender_name'];
+            });
+
+            refreshChat();
+          }
+          break;
         }
+      });
 
-        // if(!await checkIfDuplicatedNotification('last_notification_id' , message['data']['notification_id']))
-        // {
-        //   setLastNotificationId('last_notification_id' , message['data']['notification_id']).whenComplete(() {
-        //
-        //     print("onLaunch: $message");
-        //     setState(() {
-        //       notificationID = message['data']['notification_id'];
-        //       _backgroundNotificationRouter(message);
-        //     });
-        //
-        //   });
-        // }
-      },
-      onResume: (Map<String, dynamic> message) async {
 
-        print('on Resume section entered !!!!');
+      if (message.notification != null) {
+        print('Message also contained a notification: ${message.notification}');
+      }
+    });
 
-        if(message['data']['type'] != 'chat' && !await checkIfDuplicatedNotification('last_notification_id' , message['data']['notification_id'])
-         || message['data']['type'] == 'chat' && !await checkIfDuplicatedNotification('last_message_id' , message['data']['message_id']))
-        {
-          if(message['data']['type'] == 'chat')
-            {
-              setLastNotificationId('last_message_id' , message['data']['message_id']).whenComplete(() {
-                print("onResume: $message");
-                  _backgroundNotificationRouter(message);
-
-              });
-            }
-          else
-            {
-              setLastNotificationId('last_notification_id' , message['data']['notification_id']).whenComplete(() {
-                print("onResume: $message");
-                setState(() {
-                  // notificationID = message['data']['notification_id'];
-                  _backgroundNotificationRouter(message);
-                });
-
-              });
-            }
-
-        }
-
-      },
-    );
+    // FirebaseMessaging.onMessageOpenedApp.listen((event) { })
+    //
+    // _firebaseMessaging.configure(
+    //   onMessage: (Map<String , dynamic> message) async {
+    //
+    //     if(message['data']['type'] != 'chat')
+    //       {
+    //         showNotification(
+    //             message['notification']['title'], message['notification']['body']);
+    //       }
+    //
+    //     print("onMessage: $message");
+    //
+    //     setState(() {
+    //       notificationRouteType = message['data']['type'];
+    //       notificationID = message['data']['notification_id'];
+    //
+    //       switch(message['data']['type'])
+    //       {
+    //         case 'local': if(message['data']['url'] != '#')
+    //         {
+    //           print('this a private notification from iraqiBayt website');
+    //
+    //           setState(() {
+    //             notificationUrl = message['data']['url'];
+    //           });
+    //         }
+    //         break;
+    //
+    //         case 'global': if(message['data']['url'] != '#')
+    //         {
+    //           setState(() {
+    //             notificationUrl = message['data']['url'];
+    //           });
+    //         }
+    //         break;
+    //
+    //         case 'comment': if(message['data']['post_id'] != null)
+    //         {
+    //           setState(() {
+    //             notificationPostID = message['data']['post_id'];
+    //           });
+    //         }
+    //         break;
+    //
+    //         case 'favourite': if(message['data']['post_id'] != null)
+    //         {
+    //           setState(() {
+    //             notificationPostID = message['data']['post_id'];
+    //           });
+    //         }
+    //         break;
+    //
+    //         case 'chat': if(message['data']['message_id'] != null)
+    //         {
+    //           print(context.widget.toStringShort());
+    //
+    //           setState(() {
+    //             notificationMessageID = message['data']['message_id'];
+    //             notificationUserID = message['data']['sender_id'];
+    //             notificationSenderName = message['data']['sender_name'];
+    //           });
+    //
+    //             refreshChat();
+    //
+    //         }
+    //         break;
+    //       }
+    //     });
+    //
+    //   },
+    //   onLaunch: (Map<String, dynamic> message) async {
+    //
+    //     print('on Launch section entered !!!!');
+    //
+    //     if(message['data']['type'] != 'chat' && !await checkIfDuplicatedNotification('last_notification_id' , message['data']['notification_id'])
+    //         || message['data']['type'] == 'chat' && !await checkIfDuplicatedNotification('last_message_id' , message['data']['message_id']))
+    //     {
+    //       if(message['data']['type'] == 'chat')
+    //       {
+    //         setLastNotificationId('last_message_id' , message['data']['message_id']).whenComplete(() {
+    //           print("onResume: $message");
+    //           setState(() {
+    //             // notificationID = message['data']['notification_id'];
+    //             _backgroundNotificationRouter(message);
+    //           });
+    //
+    //         });
+    //       }
+    //       else
+    //       {
+    //         setLastNotificationId('last_notification_id' , message['data']['notification_id']).whenComplete(() {
+    //           print("onResume: $message");
+    //           setState(() {
+    //             // notificationID = message['data']['notification_id'];
+    //             _backgroundNotificationRouter(message);
+    //           });
+    //
+    //         });
+    //       }
+    //
+    //     }
+    //
+    //     // if(!await checkIfDuplicatedNotification('last_notification_id' , message['data']['notification_id']))
+    //     // {
+    //     //   setLastNotificationId('last_notification_id' , message['data']['notification_id']).whenComplete(() {
+    //     //
+    //     //     print("onLaunch: $message");
+    //     //     setState(() {
+    //     //       notificationID = message['data']['notification_id'];
+    //     //       _backgroundNotificationRouter(message);
+    //     //     });
+    //     //
+    //     //   });
+    //     // }
+    //   },
+    //   onResume: (Map<String, dynamic> message) async {
+    //
+    //     print('on Resume section entered !!!!');
+    //
+    //     if(message['data']['type'] != 'chat' && !await checkIfDuplicatedNotification('last_notification_id' , message['data']['notification_id'])
+    //      || message['data']['type'] == 'chat' && !await checkIfDuplicatedNotification('last_message_id' , message['data']['message_id']))
+    //     {
+    //       if(message['data']['type'] == 'chat')
+    //         {
+    //           setLastNotificationId('last_message_id' , message['data']['message_id']).whenComplete(() {
+    //             print("onResume: $message");
+    //               _backgroundNotificationRouter(message);
+    //
+    //           });
+    //         }
+    //       else
+    //         {
+    //           setLastNotificationId('last_notification_id' , message['data']['notification_id']).whenComplete(() {
+    //             print("onResume: $message");
+    //             setState(() {
+    //               // notificationID = message['data']['notification_id'];
+    //               _backgroundNotificationRouter(message);
+    //             });
+    //
+    //           });
+    //         }
+    //
+    //     }
+    //
+    //   },
+    // );
 
   }
 
@@ -608,7 +681,7 @@ class UserChatState extends State<UserChat> {
                                         CircleAvatar(
                                           radius: 30,
                                           backgroundImage: NetworkImage(
-                                              'https://iraqibayt.com/storage/app/public/posts/5fb68c6700069.jpeg'),
+                                              'https://iraqibayt.com/storage/app/public/posts/60b32311daad4.webp'),
                                         ),
                                         Text(
                                           'البيت العراقي',
